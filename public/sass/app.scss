@@ -1,0 +1,89 @@
+// Variables
+@import "variables";
+
+// Fonts
+//@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box-sizing($option) {
+  -webkit-box-sizing: $option;
+  -moz-box-sizing: $option;
+  -ms-box-sizing: $option;
+  box-sizing: $option;
+}
+
+@mixin transition($transitions...) {
+  -webkit-transition: $transitions;
+  -moz-transition: $transitions;
+  -o-transition: $transitions;
+  transition: $transitions;
+}
+
+@mixin box-shadow($shadows...) {
+  -webkit-box-shadow: $shadows;
+  -moz-box-shadow: $shadows;
+  -ms-box-shadow: $shadows;
+  box-shadow: $shadows;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+body, html {
+  height: 100vh;
+  width: 100%;
+  font-family: $font-default;
+  color: $black;
+  background: $white;
+  line-height: 1.5;
+}
+body {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+ul,
+ol {
+  list-style: none;
+
+  ul,
+  ol {
+    list-style: none;
+  }
+}
+
+#app {
+  height: 100vh;
+  width: 100%;
+
+  > div {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+  }
+}
+
+@import "fonts.scss";
+@import "icons.scss";
+@import "manager.scss";
+@import "welcome.scss";
+@import "bootstrap.scss";
+@import "responsive.scss";
+

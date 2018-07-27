@@ -1,0 +1,390 @@
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    
+    padding: 5px 0;
+    @include box-sizing(border-box);
+
+    input {
+        width: 100%;
+        padding: 5px 10px;
+        background: $white;
+        border: 1px solid $gray;
+    }
+
+    .input-title {
+        line-height: 2.5;
+        font-weight: 400;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 5px 10px;
+        background: $white;
+        border: 1px solid $gray;
+        resize: none;
+    }
+
+    // button {
+    //     width: 100%;
+    // }
+}
+
+.btn {
+    line-height: 1.5;
+    border: 1px solid $dark-gray;
+    background: $gray;
+    @include border-radius(0);
+    @include transition(background .3s ease-out);
+    padding: 5px 10px;
+
+    &:hover,
+    &:focus {
+        background: $dark-gray;
+        border: 1px solid $dark-gray;
+    }
+
+    &.btn-primary {
+        background: $blue;
+        border: 1px solid $dark-blue;
+
+        &:hover,
+        &:focus {
+            background: $dark-blue;
+        }
+    }
+
+    &.btn-success {
+        background: $green;
+        border: 1px solid $dark-green;
+
+        &:hover,
+        &:focus {
+            background: $dark-green;
+        }
+    }
+
+    &.btn-info {
+        background: $blue;
+        border: 1px solid $dark-blue;
+
+        &:hover,
+        &:focus {
+            background: $dark-blue;
+        }
+    }
+
+    &.btn-warning {
+        background: $yellow;
+        border: 1px solid $dark-yellow;
+
+        &:hover,
+        &:focus {
+            background: $dark-yellow;
+        }
+    }
+
+    &.btn-danger {
+        background: $red;
+        border: 1px solid $dark-red;
+
+        &:hover,
+        &:focus {
+            background: $dark-red;
+        }
+    }
+}
+
+button {
+    &.close {
+        padding: 5px;
+        width: 24px;
+        text-align: center;
+    }
+}
+
+.form-control {
+    line-height: 1.5;
+    color: $black;
+    @include border-radius(0);
+}
+
+.modal {
+    overflow-y: auto !important;
+
+    .modal-content {
+        @include border-radius(0);
+    }
+}
+
+.row {
+    margin: 0;
+
+    .btn.btn-full {
+        width: 100%;
+        text-align: left;
+
+        .icon-right {
+            float: right;
+        }
+    }
+}
+
+//datatable
+.table {
+    margin-bottom: 0px;
+
+    .actions {
+        text-align: right;
+        white-space: nowrap;
+
+        button {
+            display: inline;
+        }
+    }
+
+    .state-icon {
+        
+        font-size: 20px;
+        color: $white;
+        background: $blue;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        text-align: center;
+        padding: 3px 0;
+
+        &.error {
+            color: $white;
+            background: $red;
+        }
+    }
+
+    .state-row {
+        color: $white;
+        background: $blue;
+
+        &.error {
+            color: $white;
+            background: $red;
+        }
+    }
+}
+.table-above {
+
+    margin: 0 0 24px 0;
+    padding: 0px !important;
+    
+    .form-group {
+        width: 100%;
+
+        .form-control {
+            width: 100%;
+        }
+    }
+}
+.table-below {
+
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: #fcfcfe;
+    -ms-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3), 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px 0px rgba(255, 255, 255, 0.25), inset 0px -1px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3), 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px 0px rgba(255, 255, 255, 0.25), inset 0px -1px 0px rgba(0, 0, 0, 0.15);
+    padding: 5px 15px 6px !important;
+    
+    .form-group {
+        
+        label {
+            margin: 0 10px 0 0;
+        }
+    }
+}
+
+
+//modals
+.form-group {
+
+    .checkbox-include-item {
+        display: inline-block;
+    }
+
+    .checkbox-include-item-full {
+
+        .btn-group {
+            width: 100%;
+        }
+
+        .btn-checkbox-icon {
+            position: relative;
+            margin: 0 -34px 0 0;
+            z-index: 2;
+            padding: 6px;
+        }
+
+        .btn-checkbox-text {
+            position: relative;
+            width: 100%;
+            padding: 6px 12px 6px 44px;
+            z-index: 1;
+            text-align: left;
+
+            label {
+                margin: 0;
+                font-weight: 400;
+            }
+        }
+
+        .btn-short-group {
+            width: auto;
+            margin: 0;
+
+            .btn-checkbox-icon {
+                padding: 6px 7px 6px 6px;
+                margin: 0;
+            }
+            .btn-checkbox-text {
+                width: 35px;
+                padding: 6px 0;
+                text-align: center;
+            }
+        }
+    }
+
+    .checkbox-attribs {
+        text-align: right;
+        margin: 0 0 20px 0;
+
+        .checkbox-attrib-item {
+            display: inline-block;
+        }
+    }
+
+    .checkbox-include-btn {
+        height: 33px;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        display: none;
+
+        & + .btn-group {
+
+            & > .btn-checkbox-icon {
+                
+                span {
+                    width: 20px;
+                    height: 20px;
+
+                    &:first-child {
+                        display: none;
+                    }
+
+                    &:last-child {
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+
+        &:checked {
+
+            & + .btn-group {
+
+                & > .btn-checkbox-icon {
+
+                    span {
+
+                        &:first-child {
+                            display: inline-block;
+                        }
+
+                        &:last-child {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .btn-group {
+        margin: 0 10px 10px 0;
+    }
+}
+
+.checkbox-modal {
+
+    .search-form {
+        margin: 0 0 15px 0;
+        position: relative;
+
+        .clean {
+            position: absolute;
+            top: 5px;
+            right: 0;
+            padding: 9px 9px 10px 10px;
+            color: $white;
+            background: $gray;
+        }
+
+        .glyphicon-search {
+            position: absolute;
+            top: 5px;
+            right: 0;
+            padding: 9px 9px 10px 10px;
+            color: $white;
+            background: $green;
+        }
+    }
+}
+
+//pagination
+
+.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+    background-color: $blue;
+    border: 1px solid $dark-blue;
+    border-radius: 0 !important;
+    color: white;
+}
+
+//notifications
+
+.notifications {
+    right: 0px;
+    z-index: 10000 !important;
+    
+    .vue-notification {
+        background: $light-gray;
+        border-top: 1px solid $dark-blue;
+        border-bottom: 1px solid $dark-blue;
+        border-left: 5px solid $dark-blue;
+        margin: 5px 0 0 0;
+        @include box-shadow(0px 2px 10px rgba(0, 0, 0, .3), 0px 0px 1px rgba(0, 0, 0, .1), inset 0px 1px 0px rgba(255, 255, 255, .25), inset 0px -1px 0px rgba(0, 0, 0, .15));
+        color: $black;
+    }
+}
+
+//jstree
+
+.jstree-title {
+    font-size: 16px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.tree-anchor {
+
+    padding: 0 10px;
+    
+    &.tree-selected {
+        background: $black;
+        color: $white;
+
+        &:hover {
+            color: $white;
+        }
+    }
+    
+    .tree-icon {
+        display: none;
+    }
+}
