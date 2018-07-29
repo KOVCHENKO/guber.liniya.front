@@ -1,4 +1,3 @@
-import Router from '@/router';
 import axios from 'axios';
 import { baseUrl } from '@/globals';
 import CabinetCollection from '@/domain/collections/common/CabinetCollection';
@@ -14,7 +13,7 @@ export const mutations = {
      */
     getCabinets(state, payload) {
         state.cabinets = payload;
-        Router.push(payload[0].modules[0].dir);
+        // Router.push(payload[0].modules[0].dir);
     },
 };
 export const actions = {

@@ -3,8 +3,10 @@
         <notifications></notifications>
         <TopMenu></TopMenu>
 
-        <div id="main-container">
-            <router-view></router-view>
+        <div id="main-desktop">
+            <div id="main-container">
+                <router-view></router-view>
+            </div>
         </div>
     </div>
 </template>

@@ -19,7 +19,7 @@ export const mutations: MutationTree<CabinetState> = {
      */
     getCabinets(state, payload: CabinetCollection) {
         state.cabinets = payload;
-        Router.push(payload[0].modules[0].dir);
+        // Router.push(payload[0].modules[0].dir);
     },
 };
 

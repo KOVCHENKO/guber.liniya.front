@@ -2,13 +2,12 @@
  * id - ид кабинета
  * name - название
  * icon - url иконки кабинета
- * modules - модули (вместе с url фронт-энда)
  */
 interface Cabinet {
     id: number;
     name: string;
     icon: string;
-    modules: Module[];
+    route: string;
 }
 
 export default Cabinet;

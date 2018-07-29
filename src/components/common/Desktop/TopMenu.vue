@@ -31,7 +31,7 @@
             id: 0,
             name: '',
             icon: '',
-            modules: [],
+            route: '',
         };
 
         protected logout() {
