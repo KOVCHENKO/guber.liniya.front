@@ -42,14 +42,14 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import axios from 'axios';
     import { baseUrl } from '../../globals';
-    import {State} from 'vuex-class';
-    import UserState from '../../store/common/user/types';
+    import {Action, State} from 'vuex-class';
     import User from '../../domain/entities/common/interfaces/User';
+    import UserState from '../../store/common/user/types';
 
     @Component
     export default class Login extends Vue {
-        @State('user')
-        public userState!: UserState;
+        @Action('getUser')
+        public getUser;
 
         @Provide()
         public user: User = {
@@ -57,14 +57,18 @@
             password: '',
         };
 
+        @State('user')
+        private userState!: UserState;
+
         public login() {
             axios.post(baseUrl + 'login', this.user).then((response) => {
-                this.userState.user = response.data;
-                this.$router.push({ name: 'menu'});
+                this.userState.token = 'Bearer ' + response.data.token;
+                this.getUser();
             }).catch((error) => {
                 alert(error);
             });
         }
+
     }
 
 </script>
