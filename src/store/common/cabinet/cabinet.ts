@@ -32,9 +32,7 @@ export const actions: ActionTree<CabinetState, RootState> = {
      * @returns {any}
      */
     getCabinets({ commit, rootState }): any {
-        axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id,
-            {headers: { Authorization: rootState.user.token }})
-            .then((response) => {
+        axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id).then((response) => {
             const payload: CabinetCollection = response.data;
             commit('getCabinets', payload);
         }, () => {

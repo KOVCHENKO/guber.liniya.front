@@ -10,7 +10,7 @@ export const state = {
 export const mutations = {
     getUser(state, payload) {
         state.user = payload;
-        Router.push({ name: 'desktop' });
+        Router.push({ name: 'menu' });
     },
 };
 export const actions = {
@@ -21,7 +21,7 @@ export const actions = {
      * @returns {any}
      */
     getUser({ commit, state }) {
-        axios.get(baseUrl + 'get_user', { headers: { Authorization: state.token } }).then((response) => {
+        axios.get(baseUrl + 'get_user').then((response) => {
             commit('getUser', response.data);
         }, () => {
             ErrorNotifier.notify();

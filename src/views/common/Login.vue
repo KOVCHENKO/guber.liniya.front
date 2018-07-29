@@ -41,6 +41,7 @@
 <script lang="ts">
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import axios from 'axios';
+    import { addAuthorizationHeader } from '../../domain/util/libraries/AxiosConfig';
     import { baseUrl } from '../../globals';
     import {Action, State} from 'vuex-class';
     import User from '../../domain/entities/common/interfaces/User';
@@ -60,9 +61,15 @@
         @State('user')
         private userState!: UserState;
 
+        /**
+         * 1. Залогиниться пользователем
+         * 2. Получить токен и внести его в headers axios'a
+         * 3. Получить залогиненного пользователя
+         */
         public login() {
             axios.post(baseUrl + 'login', this.user).then((response) => {
                 this.userState.token = 'Bearer ' + response.data.token;
+                addAuthorizationHeader(this.userState);
                 this.getUser();
             }).catch((error) => {
                 alert(error);

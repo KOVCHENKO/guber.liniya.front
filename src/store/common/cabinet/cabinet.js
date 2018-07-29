@@ -24,8 +24,7 @@ export const actions = {
      * @returns {any}
      */
     getCabinets({ commit, rootState }) {
-        axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id, { headers: { Authorization: rootState.user.token } })
-            .then((response) => {
+        axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id).then((response) => {
             const payload = response.data;
             commit('getCabinets', payload);
         }, () => {

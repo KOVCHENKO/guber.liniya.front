@@ -5,12 +5,6 @@ import axios from 'axios';
 import VueI18n from 'vue-i18n';
 Vue.use(VueI18n);
 
-/* CSRF token для laravel */
-
-axios.get('http://psycho.localhost/get_csrf').then((response) => {
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = response;
-});
-
 /* Loading Jquery */
 try {
     window.$ = window.jQuery = require('jquery');

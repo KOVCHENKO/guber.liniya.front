@@ -15,7 +15,7 @@ export const state: UserState = {
 export const mutations: MutationTree<UserState> = {
     getUser(state, payload): any {
         state.user = payload;
-        Router.push({ name: 'desktop'});
+        Router.push({ name: 'menu'});
     },
 };
 
@@ -27,8 +27,7 @@ export const actions: ActionTree<UserState, RootState> = {
      * @returns {any}
      */
     getUser({commit, state}): any {
-        axios.get(baseUrl + 'get_user',
-            {headers: { Authorization: state.token }}).then((response) => {
+        axios.get(baseUrl + 'get_user').then((response) => {
                commit('getUser', response.data);
             }, () => {
                 ErrorNotifier.notify();
