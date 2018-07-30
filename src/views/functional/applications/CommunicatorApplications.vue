@@ -1,5 +1,5 @@
 <template>
-    
+    <div>Заявки коммуникатора</div>
 </template>
 
 <script lang="ts">

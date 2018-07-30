@@ -3,7 +3,7 @@
         <span v-for="cabinet in cabinetState.cabinets" :key="cabinet.id">
             <button class="cabinet-item"
                 @click="selectMenuItem(cabinet)">
-                    <img src="/public/images/cabinets/5.png"/>
+                    <img :src="'/images/cabinets/' + cabinet.icon + '.png'"/>
                     <label class="cabinet-title">{{ cabinet.name }}</label>
             </button>
         </span>
@@ -17,6 +17,9 @@
 
     @Component
     export default class Menu extends Vue {
+        /**
+         * Кабинет
+         */
         @State('cabinet')
         public cabinetState!: CabinetState;
 

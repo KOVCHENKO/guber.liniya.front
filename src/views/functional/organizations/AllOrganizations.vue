@@ -1,5 +1,5 @@
 <template>
-    
+    <div>Все организации</div>
 </template>
 
 <script lang="ts">
@@ -8,6 +8,10 @@
 
     @Component
     export default class AllOrganizations extends Vue {
+        public showSomething() {
+            // Double inheritance is not working here
+        }
+
     }
 </script>
 

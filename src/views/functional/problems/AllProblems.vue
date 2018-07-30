@@ -1,5 +1,5 @@
 <template>
-    
+    <div>Все проблемы</div>
 </template>
 
 <script lang="ts">

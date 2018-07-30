@@ -3,6 +3,13 @@ import Router from 'vue-router';
 import Login from './views/common/Login.vue';
 import Desktop from './views/common/Desktop.vue';
 import Menu from './views/common/Menu.vue';
+import Analytics from './views/functional/analytics/Analytics.vue';
+import CommunicatorApplications from './views/functional/applications/CommunicatorApplications.vue';
+import DispatcherApplications from './views/functional/applications/DispatcherApplications.vue';
+import SpecialistApplications from './views/functional/applications/SpecialistApplications.vue';
+import AllOrganizations from './views/functional/organizations/AllOrganizations.vue';
+import SpecialistOrganizations from './views/functional/organizations/SpecialistOrganizations.vue';
+import AllProblems from './views/functional/problems/AllProblems.vue';
 
 Vue.use(Router);
 
@@ -17,9 +24,36 @@ export default new Router({
         component: Desktop,
         children: [
             {
-                path: '/menu',
-                name: 'menu',
+                path: '/menu', name: 'menu',
                 component: Menu,
+            },
+            {
+                path: '/analytics', name: 'analytics',
+                component: Analytics,
+            },
+            {
+                path: '/communicator_applications', name: 'communicator_applications',
+                component: CommunicatorApplications,
+            },
+            {
+                path: '/dispatcher_applications', name: 'dispatcher_applications',
+                component: DispatcherApplications,
+            },
+            {
+                path: '/specialist_applications', name: 'specialist_applications',
+                component: SpecialistApplications,
+            },
+            {
+                path: '/all_organizations', name: 'all_organizations',
+                component: AllOrganizations,
+            },
+            {
+                path: '/specialist_organizations', name: 'specialist_organizations',
+                component: SpecialistOrganizations,
+            },
+            {
+                path: '/all_problems', name: 'all_problems',
+                component: AllProblems,
             },
         ],
     },

@@ -1,5 +1,5 @@
 <template>
-    
+    <div>Заявки диспетчера</div>
 </template>
 
 <script lang="ts">

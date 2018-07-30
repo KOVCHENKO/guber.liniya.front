@@ -1,5 +1,5 @@
 <template>
-    
+    <div>Заявки специалиста</div>
 </template>
 
 <script lang="ts">
