@@ -15,7 +15,7 @@ export const mutations = {
 export const actions = {
     getAllOrganizations({ commit }) {
         axios.get(baseUrl + 'organizations/all').then((response) => {
-            commit('getAllOrganizations', response.data);
+            commit('getAllOrganizations ', response.data);
         }, () => {
             ErrorNotifier.notify();
         });
