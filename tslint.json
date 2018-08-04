@@ -6,7 +6,12 @@
   "linterOptions": {
     "exclude": [
       "node_modules/**",
-      "src/domain/util/libraries/**"
+      "src/domain/util/libraries/**",
+      "src/components/util/VueJsDatatable/src/vue-datatable.vue",
+      "src/components/util/VueJsDatatable/src/vue-datatable-pager.vue",
+      "src/components/util/VueJsDatatable/src/vue-datatable-pager-button.vue",
+      "src/components/util/VueJsDatatable/src/vue-datatable-header.vue",
+      "src/components/util/VueJsDatatable/src/vue-datatable-cell.vue"
     ]
   },
   "rules": {
