@@ -1,8 +1,8 @@
 <template>
     <div>
         <!-- Modal - create problem type -->
-        <div class="modal fade bs-example-modal-lg" id="createProblemTypeModal" tabindex="-1" role="dialog"
-             aria-labelledby="createProblemTypeModal">
+        <div class="modal fade" id="createProblemTypeModal" tabindex="-1" role="dialog"
+             aria-labelledby="createProblemTypeModalLabel">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" @click="save">{{ $t("common.save") }}</button>
+                        <button type="button" class="btn btn-success" @click="createProblemType">{{ $t("common.save") }}</button>
                         <button type="button" class="btn btn-warning" data-dismiss="modal">{{ $t("common.close") }}</button>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import {State} from 'vuex-class';
+    import {Action, State} from 'vuex-class';
     import ProblemTypeState from '../../../../store/functional/problemType/types';
 
     @Component
@@ -58,9 +58,8 @@
         @State('problemType')
         public problemTypeState!: ProblemTypeState;
 
-        public save() {
-            // save new problem type
-        }
+        @Action('createProblemType')
+        public createProblemType;
     }
 </script>
 

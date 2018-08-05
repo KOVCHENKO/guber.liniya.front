@@ -8,6 +8,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+$font-default: PTSans, Calibri, Ubuntu, Tahoma, LucidaGrande;
+$font-n: PTSansN;
+$font-welcome: 'evolventaregular', PTSans, Calibri, Ubuntu, Tahoma, LucidaGrande;
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -84,6 +87,6 @@ ol {
 @import "icons.scss";
 @import "manager.scss";
 @import "welcome.scss";
-@import "bootstrap.scss";
+//@import "bootstrap.scss";
 @import "responsive.scss";
 

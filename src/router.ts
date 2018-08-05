@@ -10,6 +10,7 @@ import SpecialistApplications from './views/functional/applications/SpecialistAp
 import AllOrganizations from './views/functional/organizations/AllOrganizations.vue';
 import SpecialistOrganizations from './views/functional/organizations/SpecialistOrganizations.vue';
 import AllProblemTypes from './views/functional/problems/AllProblemTypes.vue';
+import SingleProblemType from './views/functional/problems/SingleProblemType.vue';
 
 Vue.use(Router);
 
@@ -54,6 +55,10 @@ export default new Router({
             {
                 path: '/all_problems', name: 'all_problems',
                 component: AllProblemTypes,
+            },
+            {
+                path: '/single_problem/:id', name: 'single_problem',
+                component: SingleProblemType,
             },
         ],
     },

@@ -31,5 +31,5 @@ export default new Vuex.Store<RootState>({
         problemType,
     },
 
-    plugins: [createPersistedState()],
+    // plugins: [createPersistedState()],
 });

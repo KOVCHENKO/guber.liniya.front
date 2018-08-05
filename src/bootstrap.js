@@ -18,8 +18,9 @@ Vue.use(VeeValidate, {
 /* Loading Jquery */
 try {
     window.$ = window.jQuery = require('jquery');
-    require('bootstrap-sass');
+    require('bootstrap');
 } catch (e) {}
+
 
 /* Компонент для уведомлений (шаблон <notifications></notifications> находится в TopMenu.vue) */
 import Notifications from 'vue-notification';

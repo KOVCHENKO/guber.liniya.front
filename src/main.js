@@ -1,11 +1,11 @@
-import Vue from 'vue';
-import './bootstrap';
-import App from './App.vue';
-import router from './router';
-import store from './store/store';
-import './registerServiceWorker';
-import './globals';
-import i18n from './i18n';
+import Vue from 'vue'; // собственно сам фреймворк
+import './bootstrap'; // раличные плагины и пакеты для vuejs
+import App from './App.vue'; // компонент - точка входа
+import router from './router'; // роутер
+import store from './store/store'; // хранилище vuex
+import './registerServiceWorker'; // ???
+import './globals'; // глобальные настройки
+import i18n from './i18n'; // языковой файл
 Vue.config.productionTip = false;
 const vueInstance = new Vue({
     router,
