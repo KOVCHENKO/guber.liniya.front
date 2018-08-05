@@ -13,6 +13,8 @@
     import DatatableCustomized from '../../../components/util/DatatableCustomized.vue';
     import {Action, State} from 'vuex-class';
     import OrganizationState from '../../../store/functional/organization/types';
+    import CabinetState from '../../../store/common/cabinet/types';
+    import {plusButton} from '../../../domain/util/interface/CommonInterface';
 
     @Component({
         components: {DatatableCustomized},
@@ -26,18 +28,21 @@
             {label: 'Описание', field: 'description'},
         ];
 
+        @State('cabinet')
+        public cabinetState!: CabinetState;
+
         @State('organization')
         public organizationState!: OrganizationState;
 
         @Action('getAllOrganizations')
         public getAllOrganizations;
 
-        public created() {
-            this.getAllOrganizations();
-        }
 
-        public showSomething() {
-            // Double inheritance is not working here
+        constructor() {
+            super();
+            this.getAllOrganizations();
+            plusButton.title = 'Организации';
+            plusButton.disabled = true;
         }
 
     }

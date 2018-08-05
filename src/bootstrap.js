@@ -7,6 +7,14 @@ Vue.use(VueI18n);
 import DatatableFactory from './components/util/VueJsDatatable/index';
 Vue.use(DatatableFactory);
 
+/* Vue validation */
+import VeeValidate, { Validator } from 'vee-validate';
+import ru from 'vee-validate/dist/locale/ru';
+Validator.localize('ru', ru);
+Vue.use(VeeValidate, {
+    fieldsBagName: 'formFields'
+});
+
 /* Loading Jquery */
 try {
     window.$ = window.jQuery = require('jquery');

@@ -9,7 +9,7 @@ import DispatcherApplications from './views/functional/applications/DispatcherAp
 import SpecialistApplications from './views/functional/applications/SpecialistApplications.vue';
 import AllOrganizations from './views/functional/organizations/AllOrganizations.vue';
 import SpecialistOrganizations from './views/functional/organizations/SpecialistOrganizations.vue';
-import AllProblems from './views/functional/problems/AllProblems.vue';
+import AllProblemTypes from './views/functional/problems/AllProblemTypes.vue';
 
 Vue.use(Router);
 
@@ -53,7 +53,7 @@ export default new Router({
             },
             {
                 path: '/all_problems', name: 'all_problems',
-                component: AllProblems,
+                component: AllProblemTypes,
             },
         ],
     },

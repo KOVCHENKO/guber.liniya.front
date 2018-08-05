@@ -8,11 +8,19 @@
                 <router-view></router-view>
             </div>
         </div>
+
+        <button id="button-add" class="circular red" data-toggle="modal"
+                :disabled="plusButton.disabled"
+                :title="plusButton.title"
+                @click="plusButton.clickAction">
+            <i class="fa fa-plus"></i>
+        </button>
     </div>
 </template>
 
 <script lang ="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {plusButton} from '../../domain/util/interface/CommonInterface';
+    import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
     import TopMenu from '@/components/common/Desktop/TopMenu.vue';
@@ -27,8 +35,15 @@
         @Action('getCabinets')
         public getCabinets: any;
 
-        private created() {
+        @Provide()
+        public plusButton = plusButton;
+
+        constructor() {
+            super();
             this.getCabinets();
+            plusButton.title = 'Добавить';
+            plusButton.disabled = true;
         }
+
     }
 </script>

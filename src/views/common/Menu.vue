@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts">
+    import {plusButton} from '../../domain/util/interface/CommonInterface';
     import {Component, Vue} from 'vue-property-decorator';
     import {State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
@@ -23,9 +24,16 @@
         @State('cabinet')
         public cabinetState!: CabinetState;
 
+        public created() {
+            plusButton.title = 'Добавить';
+            plusButton.disabled = true;
+        }
+
         private selectMenuItem(cabinet) {
             this.$router.push({ name: cabinet.route });
         }
+
+
 
     }
 </script>

@@ -21,7 +21,7 @@ export const mutations: MutationTree<OrganizationState> = {
 export const actions: ActionTree<OrganizationState, RootState> = {
     getAllOrganizations({commit}) {
         axios.get(baseUrl + 'organizations/all').then((response) => {
-            commit('getAllOrganizations ', response.data);
+            commit('getAllOrganizations', response.data);
         }, () => {
             ErrorNotifier.notify();
         });
