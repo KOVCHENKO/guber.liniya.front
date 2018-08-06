@@ -30,10 +30,13 @@ export const actions: ActionTree<ProblemTypeState, RootState> = {
     },
 
     getSingleProblemType(context, payload) {
-        axios.get(baseUrl + 'problem_types/get_by_id/' + payload.id).then((response) => {
-            state.problemType = response.data;
-        }, () => {
-            ErrorNotifier.notify();
+        return new Promise((resolve, reject) => {
+            axios.get(baseUrl + 'problem_types/get_by_id/' + payload.id).then((response) => {
+                state.problemType = response.data;
+                resolve(response);
+            }, () => {
+                reject(ErrorNotifier.notify());
+            });
         });
     },
 };

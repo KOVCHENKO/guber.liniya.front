@@ -5,4 +5,8 @@ export const plusButton = {
         // dummy function
     },
 };
+export const headings = {
+    title: '',
+    subtitle: '',
+};
 //# sourceMappingURL=CommonInterface.js.map

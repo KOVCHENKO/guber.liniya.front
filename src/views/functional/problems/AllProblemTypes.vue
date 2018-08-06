@@ -1,10 +1,10 @@
 <template>
     <div>
-        <span v-for="problem in problemTypeState.problemTypes.problemTypes" :key="problem.id">
+        <span v-for="problemType in problemTypeState.problemTypes.problemTypes" :key="problemType.id">
             <button class="cabinet-item"
-                    @click="showProblemType(problem)">
+                    @click="showProblemType(problemType)">
                     <img :src="'/images/cabinets/analytics.png'"/>
-                    <label class="cabinet-title">{{ problem.name }}</label>
+                    <label class="cabinet-title">{{ problemType.name }}</label>
             </button>
         </span>
 
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-    import {plusButton} from '../../../domain/util/interface/CommonInterface';
+    import {plusButton, headings} from '../../../domain/util/interface/CommonInterface';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import ProblemTypeState from '../../../store/functional/problemType/types';
@@ -34,13 +34,15 @@
         @Action('getAllProblemTypes')
         public getProblemTypes;
 
-            constructor() {
+        constructor() {
             super();
             this.getProblemTypes();
 
             plusButton.title = 'Проблемы';
             plusButton.disabled = false;
             plusButton.clickAction = this.createProblemType;
+            headings.title = 'Все типы проблем';
+            headings.subtitle = 'Выберите проблему';
         }
 
         public showProblemType(problem) {

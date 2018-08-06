@@ -108,6 +108,11 @@ const messages = {
             problem_type_name: 'Наименование категории',
             problem_type_description: 'Описание категории',
         },
+        problem: {
+            create_modal_name: 'Создать новую проблему',
+            problem_name: 'Наименование проблемы',
+            problem_description: 'Описание проблемы',
+        },
     },
 };
 const i18n = new VueI18n({

@@ -19,7 +19,7 @@
 </template>
 
 <script lang ="ts">
-    import {plusButton} from '../../domain/util/interface/CommonInterface';
+    import {plusButton, headings} from '../../domain/util/interface/CommonInterface';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
@@ -43,6 +43,8 @@
             this.getCabinets();
             plusButton.title = 'Добавить';
             plusButton.disabled = true;
+            headings.title = 'Рабочий стол';
+            headings.subtitle = '';
         }
 
     }

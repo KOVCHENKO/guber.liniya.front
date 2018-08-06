@@ -1,7 +1,7 @@
-import ProblemType from '@/domain/entities/functional/interfaces/ProblemType';
+import IProblemType from '@/domain/entities/functional/interfaces/IProblemType';
 
 interface IProblemTypeCollection {
-    problemTypes: ProblemType[];
+    problemTypes: IProblemType[];
     addNew(problemType);
     addBunchOfProblemTypes(problemTypes);
 }

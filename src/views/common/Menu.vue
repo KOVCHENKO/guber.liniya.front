@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-    import {plusButton} from '../../domain/util/interface/CommonInterface';
+    import {plusButton, headings} from '../../domain/util/interface/CommonInterface';
     import {Component, Vue} from 'vue-property-decorator';
     import {State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
@@ -27,6 +27,8 @@
         public created() {
             plusButton.title = 'Добавить';
             plusButton.disabled = true;
+            headings.title = 'Меню';
+            headings.subtitle = 'Выбор кабинета';
         }
 
         private selectMenuItem(cabinet) {

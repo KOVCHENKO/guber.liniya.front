@@ -14,7 +14,7 @@
     import {Action, State} from 'vuex-class';
     import OrganizationState from '../../../store/functional/organization/types';
     import CabinetState from '../../../store/common/cabinet/types';
-    import {plusButton} from '../../../domain/util/interface/CommonInterface';
+    import {plusButton, headings} from '../../../domain/util/interface/CommonInterface';
 
     @Component({
         components: {DatatableCustomized},
@@ -43,6 +43,8 @@
             this.getAllOrganizations();
             plusButton.title = 'Организации';
             plusButton.disabled = true;
+            headings.title = 'Все организации';
+            headings.subtitle = '';
         }
 
     }
