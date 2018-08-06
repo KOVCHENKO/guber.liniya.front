@@ -15,6 +15,8 @@
     import OrganizationState from '../../../store/functional/organization/types';
     import CabinetState from '../../../store/common/cabinet/types';
     import {plusButton, headings} from '../../../domain/util/interface/CommonInterface';
+    import Organization from '../../../domain/entities/functional/Organization';
+    import OrganizationCollection from '../../../domain/collections/functional/OrganizationCollection';
 
     @Component({
         components: {DatatableCustomized},
@@ -37,14 +39,16 @@
         @Action('getAllOrganizations')
         public getAllOrganizations;
 
-
         constructor() {
             super();
-            this.getAllOrganizations();
             plusButton.title = 'Организации';
             plusButton.disabled = true;
             headings.title = 'Все организации';
             headings.subtitle = '';
+        }
+
+        public created() {
+            this.getAllOrganizations();
         }
 
     }

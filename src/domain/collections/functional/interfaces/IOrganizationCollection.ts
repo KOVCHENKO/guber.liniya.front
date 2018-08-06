@@ -1,7 +1,8 @@
 import Organization from '@/domain/entities/functional/interfaces/Organization';
 
-interface OrganizationCollection {
+interface IOrganizationCollection {
     organizations: Organization[];
+    addNew(organization);
 }
 
-export default OrganizationCollection;
+export default IOrganizationCollection;

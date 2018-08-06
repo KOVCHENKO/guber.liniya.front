@@ -9,19 +9,13 @@ import OrganizationCollection from '@/domain/collections/functional/Organization
 
 export const state: OrganizationState = {
     organization: new Organization(0, '', '', 0),
-    organizations: new OrganizationCollection(),
-};
-
-export const mutations: MutationTree<OrganizationState> = {
-    getAllOrganizations(state, payload) {
-        state.organizations = payload;
-    },
+    organizations: [{}],
 };
 
 export const actions: ActionTree<OrganizationState, RootState> = {
     getAllOrganizations({commit}) {
         axios.get(baseUrl + 'organizations/all').then((response) => {
-            commit('getAllOrganizations', response.data);
+            state.organizations = response.data;
         }, () => {
             ErrorNotifier.notify();
         });
@@ -29,6 +23,6 @@ export const actions: ActionTree<OrganizationState, RootState> = {
 };
 
 export const organization: Module<OrganizationState, RootState> = {
-    state, mutations, actions,
+    state, actions,
 };
 

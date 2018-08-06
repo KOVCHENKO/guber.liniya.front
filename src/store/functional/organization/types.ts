@@ -1,7 +1,7 @@
 import Organization from '@/domain/entities/functional/interfaces/Organization';
-import OrganizationCollection from '@/domain/collections/functional/interfaces/OrganizationCollection';
+import IOrganizationCollection from '@/domain/collections/functional/interfaces/IOrganizationCollection';
 
 export default interface OrganizationState {
-    organization: Organization | undefined;
-    organizations: OrganizationCollection | undefined;
+    organization: Organization;
+    organizations: IOrganizationCollection | [{}];
 }
