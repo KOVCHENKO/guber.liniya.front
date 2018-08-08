@@ -1,38 +1,52 @@
 <template>
     <div>
-        <datatable-customized
-                :columns="tableColumns"
-                :data="organizationState.organizations"
-        ></datatable-customized>
+        <p @click="newOrganization(0)">Добавить новую организацию</p>
+        <v-jstree
+                :data="organizationState.organizationTree"
+                multiple
+                allow-batch
+                whole-row
+                allow-transition
+                size="large">
+            <template slot-scope="_">
+                <div style="display: inherit; width: 10px">
+                    <i :class="_.vm.themeIconClasses" role="presentation" v-if="!_.model.loading"></i>
+                    {{ _.model.text }}
+                    <button @click="showOrganization(_.model)" style="border: 0px; background-color: transparent; cursor: pointer;">
+                        <i class="fa fa-remove">Посмотреть</i>
+                    </button>
+                    <button @click="newOrganization(_.model.id)" style="border: 0px; background-color: transparent; cursor: pointer;">
+                        <i class="fa fa-remove">Добавить</i>
+                    </button>
+                    <button @click="editOrganization(_.model.id)" style="border: 0px; background-color: transparent; cursor: pointer;">
+                        <i class="fa fa-remove">Редактировать</i>
+                    </button>
+                    <button @click="deleteOrganization(_.model.id)" style="border: 0px; background-color: transparent; cursor: pointer;">
+                        <i class="fa fa-remove">Удалить</i>
+                    </button>
+                </div>
+            </template>
+        </v-jstree>
+
+        <create-organization></create-organization>
     </div>
 </template>
 
 <script lang="ts">
 
     import {Component, Provide, Vue} from 'vue-property-decorator';
-    import DatatableCustomized from '../../../components/util/DatatableCustomized.vue';
     import {Action, State} from 'vuex-class';
     import OrganizationState from '../../../store/functional/organization/types';
-    import CabinetState from '../../../store/common/cabinet/types';
     import {plusButton, headings} from '../../../domain/util/interface/CommonInterface';
-    import Organization from '../../../domain/entities/functional/Organization';
-    import OrganizationCollection from '../../../domain/collections/functional/OrganizationCollection';
+    import CreateOrganization from '@/components/functional/organizations/AllOrganizations/CreateOrganization.vue';
+    // noinspection TypeScriptCheckImport
+    import VJstree from 'vue-jstree';
+
 
     @Component({
-        components: {DatatableCustomized},
+        components: {VJstree, CreateOrganization},
     })
     export default class AllOrganizations extends Vue {
-
-        @Provide()
-        public tableColumns = [
-            {label: 'id', field: 'id'},
-            {label: 'Наименование', field: 'name'},
-            {label: 'Описание', field: 'description'},
-        ];
-
-        @State('cabinet')
-        public cabinetState!: CabinetState;
-
         @State('organization')
         public organizationState!: OrganizationState;
 
@@ -49,6 +63,23 @@
 
         public created() {
             this.getAllOrganizations();
+        }
+
+        public showOrganization(organization) {
+            this.$router.push({ name: 'single_organization', params: { id: organization.id }});
+        }
+
+        public newOrganization(pid) {
+            // console.log(pid);
+        }
+
+        public editOrganization(pid) {
+            // console.log(pid);
+        }
+
+        public deleteOrganization(pid) {
+            $('#createOrganizationModal').modal('show');
+            // console.log(pid);
         }
 
     }

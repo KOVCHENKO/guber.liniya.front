@@ -6,6 +6,7 @@ import ErrorNotifier from '@/domain/util/ErrorNotifier';
 export const state = {
     problemType: new ProblemType(0, '', ''),
     problemTypes: new ProblemTypeCollection([]),
+    problemTypesTree: [{}],
 };
 export const actions = {
     getAllProblemTypes({ commit, state }) {
@@ -30,6 +31,14 @@ export const actions = {
             }, () => {
                 reject(ErrorNotifier.notify());
             });
+        });
+    },
+    getAllProblemTypesWithProblems({ state }) {
+        axios.get(baseUrl + 'problem_types/all_with_problems').then((response) => {
+            const problemTypes = new ProblemTypeCollection([]);
+            state.problemTypesTree = problemTypes.makeProblemTypesTree(response.data);
+        }, () => {
+            ErrorNotifier.notify();
         });
     },
 };

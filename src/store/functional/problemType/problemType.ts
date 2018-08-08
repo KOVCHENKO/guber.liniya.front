@@ -10,6 +10,7 @@ import ErrorNotifier from '@/domain/util/ErrorNotifier';
 export const state: ProblemTypeState = {
     problemType: new ProblemType(0, '', ''),
     problemTypes: new ProblemTypeCollection([]),
+    problemTypesTree: [{}],     // vuejs-tree плагин работает только с массивами
 };
 
 export const actions: ActionTree<ProblemTypeState, RootState> = {
@@ -37,6 +38,15 @@ export const actions: ActionTree<ProblemTypeState, RootState> = {
             }, () => {
                 reject(ErrorNotifier.notify());
             });
+        });
+    },
+
+    getAllProblemTypesWithProblems({state}) {
+        axios.get(baseUrl + 'problem_types/all_with_problems').then((response) => {
+            const problemTypes = new ProblemTypeCollection([]);
+            state.problemTypesTree = problemTypes.makeProblemTypesTree(response.data);
+        }, () => {
+            ErrorNotifier.notify();
         });
     },
 };

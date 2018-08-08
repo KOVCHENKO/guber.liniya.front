@@ -4,6 +4,7 @@ interface IProblemTypeCollection {
     problemTypes: IProblemType[];
     addNew(problemType);
     addBunchOfProblemTypes(problemTypes);
+    makeProblemTypesTree(problemTypes);
 }
 
 export default IProblemTypeCollection;

@@ -113,6 +113,11 @@ const messages = {
             problem_name: 'Наименование проблемы',
             problem_description: 'Описание проблемы',
         },
+        organization: {
+            create_modal_name: 'Создать ноую организацию',
+            organization_name: 'Наименование организации',
+            organization_description: 'Описание организации',
+        },
     },
 };
 const i18n = new VueI18n({
