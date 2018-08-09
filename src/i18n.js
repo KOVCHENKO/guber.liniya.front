@@ -117,6 +117,7 @@ const messages = {
             create_modal_name: 'Создать ноую организацию',
             organization_name: 'Наименование организации',
             organization_description: 'Описание организации',
+            update_modal_name: 'Редактировать организацию',
         },
     },
 };

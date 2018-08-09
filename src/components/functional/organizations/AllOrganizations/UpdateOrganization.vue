@@ -1,14 +1,14 @@
 <template>
     <div>
-        <!-- Modal - create organization -->
-        <div class="modal fade" id="createOrganizationModal" tabindex="-1" role="dialog"
-             aria-labelledby="createOrganizationModalLabel">
+        <!-- Modal - update organization -->
+        <div class="modal fade" id="updateOrganizationModal" tabindex="-1" role="dialog"
+             aria-labelledby="updateOrganizationModalLabel">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="createOrganizationModalLabel">{{ $t("organization.create_modal_name") }}</h4>
+                        <h4 class="modal-title" id="updateOrganizationModalLabel">{{ $t("organization.update_modal_name") }}</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" @click="createOrganization">{{ $t("common.save") }}</button>
+                        <button type="button" class="btn btn-success" @click="dispatchOrganizationUpdate">{{ $t("common.save") }}</button>
                         <button type="button" class="btn btn-warning" data-dismiss="modal">{{ $t("common.close") }}</button>
                     </div>
                 </div>
@@ -59,8 +59,14 @@
         @State('organization')
         public organizationState!: OrganizationState;
 
-        @Action('createOrganization')
-        public createOrganization;
+        @Action('updateOrganization')
+        public updateOrganization;
+
+        public dispatchOrganizationUpdate() {
+            this.updateOrganization().then(() => {
+                $('#updateOrganizationModal').modal('hide');
+            });
+        }
 
     }
 </script>

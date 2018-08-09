@@ -29,6 +29,7 @@
         </v-jstree>
 
         <create-organization></create-organization>
+        <update-organization></update-organization>
     </div>
 </template>
 
@@ -39,12 +40,13 @@
     import OrganizationState from '../../../store/functional/organization/types';
     import {plusButton, headings} from '../../../domain/util/interface/CommonInterface';
     import CreateOrganization from '@/components/functional/organizations/AllOrganizations/CreateOrganization.vue';
+    import UpdateOrganization from '@/components/functional/organizations/AllOrganizations/UpdateOrganization.vue';
     // noinspection TypeScriptCheckImport
     import VJstree from 'vue-jstree';
 
 
     @Component({
-        components: {VJstree, CreateOrganization},
+        components: {VJstree, CreateOrganization, UpdateOrganization},
     })
     export default class AllOrganizations extends Vue {
         @State('organization')
@@ -52,6 +54,9 @@
 
         @Action('getAllOrganizations')
         public getAllOrganizations;
+
+        @Action('getOrganization')
+        public getOrganization;
 
         constructor() {
             super();
@@ -70,15 +75,17 @@
         }
 
         public newOrganization(pid) {
-            // console.log(pid);
+            this.organizationState.organization.pid = pid;
+            $('#createOrganizationModal').modal('show');
         }
 
-        public editOrganization(pid) {
-            // console.log(pid);
+        public editOrganization(id) {
+            this.getOrganization({id}).then(() => {
+                $('#updateOrganizationModal').modal('show');
+            });
         }
 
         public deleteOrganization(pid) {
-            $('#createOrganizationModal').modal('show');
             // console.log(pid);
         }
 
