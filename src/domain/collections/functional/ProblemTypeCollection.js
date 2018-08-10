@@ -1,4 +1,5 @@
-class ProblemTypeCollection {
+import { getSelectedNodes } from '@/domain/util/interface/TreeMaker';
+export class ProblemTypeCollection {
     constructor(problemTypes) {
         this.problemTypes = problemTypes;
     }
@@ -8,17 +9,23 @@ class ProblemTypeCollection {
     addBunchOfProblemTypes(problemTypes) {
         this.problemTypes = problemTypes;
     }
-    makeProblemTypesTree(problemTypes) {
+    /**
+     * @param problemTypes - типы проблемы
+     * @param checkedProblems - массив ид - проблемы, которые уже отмечены для организаций
+     * @returns {any}
+     */
+    makeProblemTypesTree(problemTypes, checkedProblems) {
         for (const problemType of problemTypes) {
             problemType.text = problemType.name;
             problemType.opened = true;
+            problemType.disabled = true;
             for (const problem of problemType.children) {
                 problem.text = problem.name;
                 problem.opened = true;
+                problem.selected = false;
             }
         }
-        return problemTypes;
+        return getSelectedNodes(problemTypes, checkedProblems);
     }
 }
-export default ProblemTypeCollection;
 //# sourceMappingURL=ProblemTypeCollection.js.map

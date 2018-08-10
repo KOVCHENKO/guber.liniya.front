@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { baseUrl } from '@/globals';
-import ErrorNotifier from '@/domain/util/ErrorNotifier';
+import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 import Problem from '@/domain/entities/functional/Problem';
 import ProblemCollection from '@/domain/collections/functional/ProblemCollection';
 export const state = {

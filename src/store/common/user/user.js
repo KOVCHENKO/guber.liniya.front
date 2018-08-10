@@ -2,7 +2,7 @@ import Router from '@/router';
 import axios from 'axios';
 import { baseUrl } from '@/globals';
 import User from '@/domain/entities/common/User';
-import ErrorNotifier from '@/domain/util/ErrorNotifier';
+import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 export const state = {
     user: new User(0, '', ''),
     token: '',

@@ -1,11 +1,11 @@
 import ProblemTypeState from '@/store/functional/problemType/types';
 import ProblemType from '@/domain/entities/functional/ProblemType';
-import ProblemTypeCollection from '@/domain/collections/functional/ProblemTypeCollection';
-import {ActionTree, Module, MutationTree} from 'vuex';
+import { ProblemTypeCollection } from '@/domain/collections/functional/ProblemTypeCollection';
+import {ActionTree, Module} from 'vuex';
 import RootState from '@/store/types';
 import axios from 'axios';
 import {baseUrl} from '@/globals';
-import ErrorNotifier from '@/domain/util/ErrorNotifier';
+import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 
 export const state: ProblemTypeState = {
     problemType: new ProblemType(0, '', ''),
@@ -30,6 +30,11 @@ export const actions: ActionTree<ProblemTypeState, RootState> = {
         });
     },
 
+    /**
+     * @param context
+     * @param payload - id - ProblemTypeId
+     * @returns {Promise<any>}
+     */
     getSingleProblemType(context, payload) {
         return new Promise((resolve, reject) => {
             axios.get(baseUrl + 'problem_types/get_by_id/' + payload.id).then((response) => {
@@ -41,14 +46,21 @@ export const actions: ActionTree<ProblemTypeState, RootState> = {
         });
     },
 
-    getAllProblemTypesWithProblems({state}) {
-        axios.get(baseUrl + 'problem_types/all_with_problems').then((response) => {
+    /**
+     * @param context
+     * @param payload - id - OrganizationId
+     */
+    getAllProblemTypesWithProblems(context, payload) {
+        axios.get(baseUrl + 'problem_types/all_with_problems/' + payload.id).then((response) => {
             const problemTypes = new ProblemTypeCollection([]);
-            state.problemTypesTree = problemTypes.makeProblemTypesTree(response.data);
+            state.problemTypesTree = problemTypes.makeProblemTypesTree(
+                response.data.problems, response.data.checked_problems_ids,
+            );
         }, () => {
             ErrorNotifier.notify();
         });
     },
+
 };
 
 export const problemType: Module<ProblemTypeState, RootState> = {

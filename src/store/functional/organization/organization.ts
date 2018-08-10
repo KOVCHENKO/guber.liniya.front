@@ -2,10 +2,10 @@ import {ActionTree, Module, MutationTree} from 'vuex';
 import RootState from '@/store/types';
 import OrganizationState from '@/store/functional/organization/types';
 import {baseUrl} from '@/globals';
-import ErrorNotifier from '@/domain/util/ErrorNotifier';
+import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
+import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 import axios from 'axios';
 import Organization from '@/domain/entities/functional/Organization';
-import OrganizationCollection from '@/domain/collections/functional/OrganizationCollection';
 import {makeTree} from '@/domain/util/interface/TreeMaker';
 
 export const state: OrganizationState = {
@@ -52,6 +52,33 @@ export const actions: ActionTree<OrganizationState, RootState> = {
             });
         });
     },
+
+    deleteOrganization({ state, dispatch }) {
+        axios.get(baseUrl + 'organizations/delete/' + state.organization.id).then(() => {
+            dispatch('getAllOrganizations');    // Обновить список организаций после создания
+        }, () => {
+            ErrorNotifier.notify();
+        });
+    },
+
+    /**
+     * @param context
+     * @param payload - problem_type_id - ProblemTypeId, organization_id - OrganizationId
+     * @returns {Promise<any>}
+     */
+    bindProblemTypeToOrganization(context, payload) {
+        const problemId = payload.problem_id;
+        const status = payload.status;
+        const organizationId = payload.organization_id;
+        axios.get(baseUrl + 'organizations/bind_problem_type_to_organization/'
+                + organizationId + '/' + problemId + '/' + status)
+            .then(() => {
+                SuccessNotifier.notify('Инфо', 'Проблема привязана к организации');
+            }).catch(() => {
+                ErrorNotifier.notify();
+        });
+    },
+
 };
 
 export const organization: Module<OrganizationState, RootState> = {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { baseUrl } from '@/globals';
 import CabinetCollection from '@/domain/collections/common/CabinetCollection';
-import ErrorNotifier from '@/domain/util/ErrorNotifier';
+import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 export const state = {
     cabinets: new CabinetCollection(),
 };

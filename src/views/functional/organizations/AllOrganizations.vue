@@ -21,7 +21,7 @@
                     <button @click="editOrganization(_.model.id)" style="border: 0px; background-color: transparent; cursor: pointer;">
                         <i class="fa fa-remove">Редактировать</i>
                     </button>
-                    <button @click="deleteOrganization(_.model.id)" style="border: 0px; background-color: transparent; cursor: pointer;">
+                    <button @click="dispatchOrganizationDelete(_.model.id)" style="border: 0px; background-color: transparent; cursor: pointer;">
                         <i class="fa fa-remove">Удалить</i>
                     </button>
                 </div>
@@ -43,6 +43,7 @@
     import UpdateOrganization from '@/components/functional/organizations/AllOrganizations/UpdateOrganization.vue';
     // noinspection TypeScriptCheckImport
     import VJstree from 'vue-jstree';
+    import Organization from '../../../domain/entities/functional/Organization';
 
 
     @Component({
@@ -57,6 +58,9 @@
 
         @Action('getOrganization')
         public getOrganization;
+
+        @Action('deleteOrganization')
+        public deleteOrganization;
 
         constructor() {
             super();
@@ -75,18 +79,18 @@
         }
 
         public newOrganization(pid) {
-            this.organizationState.organization.pid = pid;
+            this.organizationState.organization = new Organization(0, '', '', pid);
             $('#createOrganizationModal').modal('show');
         }
 
-        public editOrganization(id) {
-            this.getOrganization({id}).then(() => {
-                $('#updateOrganizationModal').modal('show');
-            });
+        public async editOrganization(id) {
+            await this.getOrganization({id});
+            $('#updateOrganizationModal').modal('show');
         }
 
-        public deleteOrganization(pid) {
-            // console.log(pid);
+        public dispatchOrganizationDelete(id) {
+            this.organizationState.organization.id = id;
+            this.deleteOrganization();
         }
 
     }

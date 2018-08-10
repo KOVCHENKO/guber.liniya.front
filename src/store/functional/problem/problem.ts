@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {baseUrl} from '@/globals';
-import ErrorNotifier from '@/domain/util/ErrorNotifier';
+import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 import IProblemState from '@/store/functional/problem/types';
 import {ActionTree, Module} from 'vuex';
 import RootState from '@/store/types';

@@ -25,5 +25,18 @@ const makeTree = (elements) => {
     }
     return cleanedTree;
 };
-export { makeTree };
+const getSelectedNodes = (elements, selectedIds) => {
+    for (const singleElement of elements) {
+        singleElement.selected = false;
+        for (const singleChildElement of singleElement.children) {
+            for (const singleId of selectedIds) {
+                if (singleId === singleChildElement.id) {
+                    singleChildElement.selected = true;
+                }
+            }
+        }
+    }
+    return elements;
+};
+export { makeTree, getSelectedNodes };
 //# sourceMappingURL=TreeMaker.js.map

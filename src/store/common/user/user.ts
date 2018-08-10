@@ -5,7 +5,7 @@ import { baseUrl } from '@/globals';
 import UserState from '@/store/common/user/types';
 import User from '@/domain/entities/common/User';
 import RootState from '@/store/types';
-import ErrorNotifier from '@/domain/util/ErrorNotifier';
+import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 
 export const state: UserState = {
     user: new User(0, '', ''),
