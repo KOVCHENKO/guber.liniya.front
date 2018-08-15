@@ -63,7 +63,7 @@ export const actions = {
         axios.get(baseUrl + 'organizations/bind_problem_type_to_organization/'
             + organizationId + '/' + problemId + '/' + status)
             .then(() => {
-            SuccessNotifier.notify('Инфо', 'Проблема привязана к организации');
+            SuccessNotifier.notify('Инфо', 'Статус привязки проблемы к организации изменен');
         }).catch(() => {
             ErrorNotifier.notify();
         });

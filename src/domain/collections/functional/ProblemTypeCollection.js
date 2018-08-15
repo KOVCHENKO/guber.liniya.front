@@ -7,7 +7,7 @@ export class ProblemTypeCollection {
         this.problemTypes.push(problemType);
     }
     addBunchOfProblemTypes(problemTypes) {
-        this.problemTypes = problemTypes;
+        return problemTypes;
     }
     /**
      * @param problemTypes - типы проблемы

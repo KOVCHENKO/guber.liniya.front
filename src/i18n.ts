@@ -120,6 +120,20 @@ const messages = {
             organization_description: 'Описание организации',
             update_modal_name: 'Редактировать организацию',
         },
+        claims: {
+            claim_name: 'Краткое описание',
+            claim_description: 'Описание заявки',
+            create_claim_modal_title: 'Создать заявку',
+            problems: 'Проблемы',
+            problem_types: 'Виды проблем',
+            claimer_firstname: 'Имя',
+            claimer_middlename: 'Отчетство',
+            claimer_lastname: 'Фамилия',
+            claimer_address: 'Адрес',
+            claimer_phone: 'Телефон',
+            claimer_email: 'Email',
+            claimer_info: 'ФИО',
+        },
     },
 };
 

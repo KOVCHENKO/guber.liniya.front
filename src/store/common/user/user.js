@@ -5,6 +5,7 @@ import User from '@/domain/entities/common/User';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 export const state = {
     user: new User(0, '', ''),
+    users: [{}],
     token: '',
 };
 export const mutations = {
@@ -26,6 +27,15 @@ export const actions = {
         }, () => {
             ErrorNotifier.notify();
         });
+    },
+    async getSpecialistsOfOrganization(context, payload) {
+        try {
+            const result = await axios.get(`${baseUrl}users/get_specialists/${payload.organization_id}`);
+            state.users = result.data;
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
     },
 };
 export const user = {

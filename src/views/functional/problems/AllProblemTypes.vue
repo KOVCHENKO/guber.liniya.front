@@ -1,6 +1,6 @@
 <template>
     <div>
-        <span v-for="problemType in problemTypeState.problemTypes.problemTypes" :key="problemType.id">
+        <span v-for="problemType in problemTypeState.problemTypes" :key="problemType.id">
             <button class="cabinet-item"
                     @click="showProblemType(problemType)">
                     <img :src="'/images/cabinets/analytics.png'"/>

@@ -7,6 +7,7 @@ import {user} from '@/store/common/user/user';
 import {organization} from '@/store/functional/organization/organization';
 import {problemType} from '@/store/functional/problemType/problemType';
 import {problem} from '@/store/functional/problem/problem';
+import {claim} from '@/store/functional/claim/claim';
 
 
 Vue.use(Vuex);
@@ -31,6 +32,7 @@ export default new Vuex.Store<RootState>({
         organization,
         problemType,
         problem,
+        claim,
     },
 
     // plugins: [createPersistedState()],

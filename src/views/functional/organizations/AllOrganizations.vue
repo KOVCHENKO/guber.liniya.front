@@ -12,8 +12,11 @@
                 <div style="display: inherit; width: 10px">
                     <i :class="_.vm.themeIconClasses" role="presentation" v-if="!_.model.loading"></i>
                     {{ _.model.text }}
-                    <button @click="showOrganization(_.model)" style="border: 0px; background-color: transparent; cursor: pointer;">
-                        <i class="fa fa-remove">Посмотреть</i>
+                    <button @click="showProblems(_.model)" style="border: 0px; background-color: transparent; cursor: pointer;">
+                        <i class="fa fa-remove">Проблемы</i>
+                    </button>
+                    <button @click="showUsers(_.model)" style="border: 0px; background-color: transparent; cursor: pointer;">
+                        <i class="fa fa-remove">Аккаунты</i>
                     </button>
                     <button @click="newOrganization(_.model.id)" style="border: 0px; background-color: transparent; cursor: pointer;">
                         <i class="fa fa-remove">Добавить</i>
@@ -74,8 +77,12 @@
             this.getAllOrganizations();
         }
 
-        public showOrganization(organization) {
-            this.$router.push({ name: 'single_organization', params: { id: organization.id }});
+        public showProblems(organization) {
+            this.$router.push({ name: 'single_organization_problems', params: { id: organization.id }});
+        }
+
+        public showUsers(organization) {
+            this.$router.push({ name: 'single_organization_users', params: { id: organization.id }});
         }
 
         public newOrganization(pid) {

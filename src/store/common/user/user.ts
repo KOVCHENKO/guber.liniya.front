@@ -9,6 +9,7 @@ import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 
 export const state: UserState = {
     user: new User(0, '', ''),
+    users: [{}],
     token: '',
 };
 
@@ -32,6 +33,15 @@ export const actions: ActionTree<UserState, RootState> = {
             }, () => {
                 ErrorNotifier.notify();
             });
+    },
+
+    async getSpecialistsOfOrganization(context, payload) {
+        try {
+            const result = await axios.get(`${baseUrl}users/get_specialists/${payload.organization_id}`);
+            state.users = result.data;
+        } catch {
+            ErrorNotifier.notify();
+        }
     },
 };
 

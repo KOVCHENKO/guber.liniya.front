@@ -23,7 +23,7 @@
     @Component({
         components: {VJstree},
     })
-    export default class SingleOrganization extends Vue implements IWithRouter {
+    export default class SingleOrganizationProblems extends Vue implements IWithRouter {
 
         @State('problemType')
         public problemTypeState!: ProblemTypeState;

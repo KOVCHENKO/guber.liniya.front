@@ -11,7 +11,8 @@ export const state = {
 export const actions = {
     getAllProblemTypes({ commit, state }) {
         axios.get(baseUrl + 'problem_types/all').then((response) => {
-            state.problemTypes.addBunchOfProblemTypes(response.data);
+            const problemTypes = new ProblemTypeCollection([]);
+            state.problemTypes = problemTypes.addBunchOfProblemTypes(response.data);
         }, () => {
             ErrorNotifier.notify();
         });

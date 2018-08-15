@@ -5,6 +5,7 @@ import { user } from '@/store/common/user/user';
 import { organization } from '@/store/functional/organization/organization';
 import { problemType } from '@/store/functional/problemType/problemType';
 import { problem } from '@/store/functional/problem/problem';
+import { claim } from '@/store/functional/claim/claim';
 Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
@@ -19,6 +20,7 @@ export default new Vuex.Store({
         organization,
         problemType,
         problem,
+        claim,
     },
 });
 //# sourceMappingURL=store.js.map

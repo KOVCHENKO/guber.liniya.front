@@ -14,7 +14,7 @@ export class ProblemTypeCollection implements IProblemTypeCollection {
     }
 
     public addBunchOfProblemTypes(problemTypes) {
-        this.problemTypes = problemTypes;
+        return problemTypes;
     }
 
     /**
