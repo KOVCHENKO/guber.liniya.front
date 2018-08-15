@@ -99,6 +99,8 @@ const messages = {
             cost: 'стоимость',
             field_month_count: 'кол-во месяцев',
             rate_services_quantity: 'кол-во посещений',
+            login: 'логин',
+            password: 'пароль',
         },
         desktop: {
             cabinet_label_user: 'Пользователь',
@@ -133,6 +135,11 @@ const messages = {
             claimer_phone: 'Телефон',
             claimer_email: 'Email',
             claimer_info: 'ФИО',
+        },
+        specialist: {
+            create_specialist_modal: 'Добавить аккаунт специалиста',
+            login: 'Логин (email)',
+            password: 'Пароль',
         },
     },
 };
