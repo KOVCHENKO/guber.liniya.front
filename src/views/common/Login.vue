@@ -2,39 +2,46 @@
 <template>
     <div class="welcome">
 
-		<!-- Форма -->
-        <div class="form">
-			<h1>Логин!</h1>
-            <div id="user-form">
-
-                <!-- Логин -->
-                <div class="row">
-                    <div class="col-sm-12 clearfix">
-                        <i class="fa fa-user"></i>
-                        <input type="text" name="email" v-model="user.email"/>
-                    </div>
-                </div>
-
-                <!-- Пароль -->
-                <div class="row">
-                    <div class="col-sm-12 clearfix">
-                        <i class="fa fa-user"></i>
-                        <input type="password" name="password" v-model="user.password"/>
-                    </div>
-                </div>
-            </div>
-
+        <div>
+			
+			<header-component></header-component>
+			
+			<div class="global-overlay">
+				<div class="overlay">
+					<div class="overlay-wrapper">
+						<div class="overlay-inner"></div>
+						<div class="overlay-background-dark"></div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="overlay-frame">
+				<div class="of-top"></div>
+				<div class="of-bottom"></div>
+				<div class="of-right"></div>
+			</div>
+			
+			<div class="ed-homeblock">
+				<div class="homeblock-container">
+					<div class="homeblock-container-wrapper">
+						<div class="homeblock-container-content">
+							<div>
+								<h1 class="homeblock-title">Авторизация</h1>
+								<p class="homeblock-container-input"><input class="homeblock-input" type="text" placeholder="Логин" v-model="user.email" /></p>
+								<p class="homeblock-container-input"><input class="homeblock-input" type="password" placeholder="Пароль" v-model="user.password" /></p>
+								<div class="homeblock-container-button">
+									<div class="homeblock-button" @click="login">Войти</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+            <footer-component></footer-component>
+			
 		</div>
 
-        <!-- Кнопка входа -->
-        <div class="row">
-            <div class="col-sm-12 clearfix get-activate">
-                <button id="login-btn" @click="login">
-                    Войти
-                </button>
-            </div>
-        </div>
-		
 	</div>
 </template>
 
@@ -46,8 +53,12 @@
     import {Action, State} from 'vuex-class';
     import User from '../../domain/entities/common/interfaces/User';
     import UserState from '../../store/common/user/types';
+    import FooterComponent from '@/components/common/Desktop/Footer.vue';
+    import HeaderComponent from '@/components/common/Desktop/Header.vue';
 
-    @Component
+    @Component({
+        components: {FooterComponent, HeaderComponent},
+    })
     export default class Login extends Vue {
         @Action('getUser')
         public getUser;

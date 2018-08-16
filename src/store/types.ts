@@ -5,4 +5,5 @@ export default interface RootState {
     user: any;
     problemType?: any;
     problem?: IProblem;
+    cabinet?: any;
 }
