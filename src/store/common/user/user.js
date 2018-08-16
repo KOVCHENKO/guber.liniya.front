@@ -3,6 +3,7 @@ import axios from 'axios';
 import { baseUrl } from '@/globals';
 import User from '@/domain/entities/common/User';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
+import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 export const state = {
     user: new User(0, '', ''),
     users: [{}],
@@ -30,12 +31,25 @@ export const actions = {
     },
     async getSpecialistsOfOrganization(context, payload) {
         try {
-            const result = await axios.get(`${baseUrl}users/get_specialists/${payload.organization_id}`);
+            const url = `${baseUrl}specialists/get_specialists_of_organization/${payload.organization_id}`;
+            const result = await axios.get(url);
             state.users = result.data;
         }
         catch {
             ErrorNotifier.notify();
         }
+    },
+    async addSpecialist(context, payload) {
+        try {
+            const url = `${baseUrl}specialists/create_specialist/${payload.organization_id}`;
+            const result = await axios.post(url, state.user);
+            state.users.push(result.data);
+            SuccessNotifier.notify('Специалист', 'Добавлен новый специалист');
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
+        // create specialist
     },
 };
 export const user = {
