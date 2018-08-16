@@ -21,6 +21,13 @@
     })
     export default class SingleOrganizationUsers extends Vue implements IWithRouter {
 
+        @Provide()
+        public tableColumns = [
+            {label: 'id', field: 'id'},
+            {label: 'Логин', field: 'email'},
+            {label: 'Пароль', field: 'password'},
+        ];
+
         constructor() {
             super();
 
@@ -28,13 +35,6 @@
             headings.title = 'Пользователи организации';
             headings.subtitle = '';
         }
-
-        @Provide()
-        public tableColumns = [
-            {label: 'id', field: 'id'},
-            {label: 'Логин', field: 'email'},
-            {label: 'Пароль', field: 'password'},
-        ];
 
         public created() {
             // noinspection TypeScriptUnresolvedVariable
