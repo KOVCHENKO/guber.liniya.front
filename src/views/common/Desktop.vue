@@ -1,20 +1,62 @@
 <template>
-    <div>
-        <notifications></notifications>
-        <TopMenu></TopMenu>
 
-        <div id="main-desktop">
-            <div id="main-container">
-                <router-view></router-view>
+    <div class="content">
+
+        <notifications></notifications>
+
+        <header class="main-header">
+            <div class="header-container">
+                <div class="header-content">
+                    <div class="header-el">
+                        <div class="topline"></div>
+                        <nav>
+                            <p class="title">
+                                <b>П</b>РЯМАЯ<br><b>Л</b>ИНИЯ<br><b>Г</b>УБЕРНАТОРА
+                            </p>
+                        </nav>
+                        
+                        <nav class="header-nav">
+                            <ul class="nav">
+                                <span v-for="cabinet in cabinetState.cabinets" :key="cabinet.id">
+                                    <li class="active"><a  @click="selectMenuItem(cabinet)">{{ cabinet.name }}</a></li>
+                                </span>
+
+                                <li><a>Профиль</a></li>
+                                <li><a>Выйти</a></li>
+                            </ul>
+                        </nav>
+                        
+                        <div class="bottomline"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="overlay-frame">
+            <div class="of-top"></div>
+            <div class="of-bottom"></div>
+            <div class="of-right"></div>
+        </div>
+        
+        <div class="ed-homeblock">
+            <div class="homeblock-container">
+                <div class="homeblock-container-wrapper">
+                    <div id="main-desktop">
+                        <div id="main-container">
+                            <router-view></router-view>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <button id="button-add" class="circular red" data-toggle="modal"
+        <button id="button-add" class="circular grey" data-toggle="modal"
                 :disabled="plusButton.disabled"
                 :title="plusButton.title"
                 @click="plusButton.clickAction">
             <i class="fa fa-plus"></i>
         </button>
+
     </div>
 </template>
 
@@ -23,14 +65,11 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
-    import TopMenu from '@/components/common/Desktop/TopMenu.vue';
 
-    @Component({
-        components: {TopMenu},
-    })
+    @Component
     export default class Desktop extends Vue {
         @State('cabinet')
-        public cabinet!: CabinetState;
+        public cabinetState!: CabinetState;
 
         @Action('getCabinets')
         public getCabinets: any;
@@ -45,6 +84,10 @@
             plusButton.disabled = true;
             headings.title = 'Рабочий стол';
             headings.subtitle = '';
+        }
+
+        private selectMenuItem(cabinet) {
+            this.$router.push({ name: cabinet.route });
         }
 
     }

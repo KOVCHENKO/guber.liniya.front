@@ -14,12 +14,6 @@ export const state: UserState = {
     token: '',
 };
 
-export const mutations: MutationTree<UserState> = {
-    getUser(state, payload): any {
-        state.user = payload;
-        Router.push({ name: 'menu'});
-    },
-};
 
 export const actions: ActionTree<UserState, RootState> = {
     /**
@@ -28,9 +22,17 @@ export const actions: ActionTree<UserState, RootState> = {
      * @param state
      * @returns {any}
      */
-    getUser({commit, state}): any {
+    getUser({commit, state, rootState}): any {
         axios.get(baseUrl + 'get_user').then((response) => {
-               commit('getUser', response.data);
+                state.user = response.data;
+                
+                axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id).then((response) => {
+                    rootState.cabinet.cabinets = response.data;
+                    Router.push({ name: rootState.cabinet.cabinets[0].route });
+                }, () => {
+                    ErrorNotifier.notify();
+                });
+
             }, () => {
                 ErrorNotifier.notify();
             });
@@ -63,6 +65,5 @@ export const actions: ActionTree<UserState, RootState> = {
 
 export const user: Module<UserState, RootState> = {
     state,
-    mutations,
     actions,
 };

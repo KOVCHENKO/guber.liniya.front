@@ -9,12 +9,6 @@ export const state = {
     users: [{}],
     token: '',
 };
-export const mutations = {
-    getUser(state, payload) {
-        state.user = payload;
-        Router.push({ name: 'menu' });
-    },
-};
 export const actions = {
     /**
      * Получение залогиненного пользователя с сервера
@@ -22,9 +16,15 @@ export const actions = {
      * @param state
      * @returns {any}
      */
-    getUser({ commit, state }) {
+    getUser({ commit, state, rootState }) {
         axios.get(baseUrl + 'get_user').then((response) => {
-            commit('getUser', response.data);
+            state.user = response.data;
+            axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id).then((response) => {
+                rootState.cabinet.cabinets = response.data;
+                Router.push({ name: rootState.cabinet.cabinets[0].route });
+            }, () => {
+                ErrorNotifier.notify();
+            });
         }, () => {
             ErrorNotifier.notify();
         });
@@ -54,7 +54,6 @@ export const actions = {
 };
 export const user = {
     state,
-    mutations,
     actions,
 };
 //# sourceMappingURL=user.js.map
