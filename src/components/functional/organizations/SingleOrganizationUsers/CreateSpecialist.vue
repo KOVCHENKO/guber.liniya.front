@@ -50,7 +50,7 @@
     import {Component, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import UserState from '../../../../store/common/user/types';
-    import IWithRoute from '../../../../domain/util/interface/IWithRoute';
+    import IWithRoute from '@/domain/util/interface/IWithRoute';
 
     @Component
     export default class CreateSpecialist extends Vue implements IWithRoute {
@@ -62,12 +62,9 @@
         public addSpecialist;
 
         protected createSpecialist() {
+            // noinspection TypeScriptUnresolvedVariable
             this.addSpecialist({ organization_id: this.$route.params.id });
         }
 
     }
 </script>
-
-<style scoped>
-
-</style>

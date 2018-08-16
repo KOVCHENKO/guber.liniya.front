@@ -20,9 +20,9 @@
                                                                   v-model="problemState.problem.name"
                                                                   v-validate="'required|max:255'">
                             </div>
-                            <!--<span class="validation-error" v-show="errors.has($t('validation.name'))">
+                            <span class="validation-error" v-show="errors.has($t('validation.name'))">
                                 {{ errors.first($t('validation.name')) }}
-                            </span>-->
+                            </span>
                         </div>
                         <div class="row">
                             <div class="col-sm-4 clearfix">
@@ -34,11 +34,11 @@
                                           v-validate="'required'">
                                 </textarea>
                             </div>
-                            <!--<span class="validation-error" v-show="errors.has($t('validation.description'))">{{ errors.first($t('validation.description')) }}</span>-->
+                            <span class="validation-error" v-show="errors.has($t('validation.description'))">{{ errors.first($t('validation.description')) }}</span>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" @click="createProblem">{{ $t("common.save") }}</button>
+                        <button type="button" class="btn btn-success" :disabled="checkCreateButtonDisability([problemState.problem.description, problemState.problem.name])" @click="createProblem">{{ $t("common.save") }}</button>
                         <button type="button" class="btn btn-warning" data-dismiss="modal">{{ $t("common.close") }}</button>
                     </div>
                 </div>
@@ -49,9 +49,10 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import ProblemState from '../../../../store/functional/problem/types';
+    import {checkButtonDisability} from '../../../../domain/util/interface/ButtonDisability';
 
     @Component
     export default class CreateProblem extends Vue {
@@ -60,5 +61,8 @@
 
         @Action('createProblem')
         public createProblem;
+
+        @Provide()
+        protected checkCreateButtonDisability = checkButtonDisability;
     }
 </script>

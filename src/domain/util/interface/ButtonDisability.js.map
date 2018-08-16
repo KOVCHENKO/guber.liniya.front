@@ -1,0 +1,1 @@
+{"version":3,"file":"ButtonDisability.js","sourceRoot":"","sources":["ButtonDisability.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,qBAAqB,GAAG,CAAC,MAAgB,EAAW,EAAE;IAC/D,KAAK,MAAM,KAAK,IAAI,MAAM,EAAE;QACxB,IAAI,KAAK,KAAK,EAAE,EAAE;YACd,OAAO,KAAK,CAAC;SAChB;KACJ;IAED,OAAO,KAAK,CAAC;AACjB,CAAC,CAAC"}
