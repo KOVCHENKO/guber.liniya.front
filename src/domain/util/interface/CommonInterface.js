@@ -9,4 +9,7 @@ export const headings = {
     title: '',
     subtitle: '',
 };
+export const mainToolbar = {
+    shown: true,
+};
 //# sourceMappingURL=CommonInterface.js.map

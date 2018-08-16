@@ -1,4 +1,3 @@
-import Router from '@/router';
 import axios from 'axios';
 import { baseUrl } from '@/globals';
 import User from '@/domain/entities/common/User';
@@ -16,15 +15,10 @@ export const actions = {
      * @param state
      * @returns {any}
      */
-    getUser({ commit, state, rootState }) {
+    getUser({ commit, state, rootState, dispatch }) {
         axios.get(baseUrl + 'get_user').then((response) => {
             state.user = response.data;
-            axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id).then((response) => {
-                rootState.cabinet.cabinets = response.data;
-                Router.push({ name: rootState.cabinet.cabinets[0].route });
-            }, () => {
-                ErrorNotifier.notify();
-            });
+            dispatch('getCabinets'); // Обновить список организаций после создания
         }, () => {
             ErrorNotifier.notify();
         });

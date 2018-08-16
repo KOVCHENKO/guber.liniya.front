@@ -1,20 +1,10 @@
+import Router from '@/router';
 import axios from 'axios';
 import { baseUrl } from '@/globals';
 import CabinetCollection from '@/domain/collections/common/CabinetCollection';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 export const state = {
-    cabinets: new CabinetCollection(),
-};
-export const mutations = {
-    /**
-     * Получение кабинетов с сервера
-     * @param state
-     * @param {CabinetCollection} payload
-     */
-    getCabinets(state, payload) {
-        state.cabinets = payload;
-        // Router.push(payload[0].modules[0].dir);
-    },
+    cabinets: new CabinetCollection([{ id: 0, route: '', name: '', icon: '' }]),
 };
 export const actions = {
     /**
@@ -25,8 +15,8 @@ export const actions = {
      */
     getCabinets({ commit, rootState }) {
         axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id).then((response) => {
-            const payload = response.data;
-            commit('getCabinets', payload);
+            state.cabinets = response.data;
+            Router.push({ name: response.data[0].route });
         }, () => {
             ErrorNotifier.notify();
         });
@@ -35,6 +25,5 @@ export const actions = {
 export const cabinet = {
     state,
     actions,
-    mutations,
 };
 //# sourceMappingURL=cabinet.js.map

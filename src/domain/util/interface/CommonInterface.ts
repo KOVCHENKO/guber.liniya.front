@@ -10,3 +10,7 @@ export const headings = {
     title: '',
     subtitle: '',
 };
+
+export const mainToolbar = {
+    shown: true,
+};

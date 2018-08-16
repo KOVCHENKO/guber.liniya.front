@@ -38,7 +38,7 @@
                 tableOptions: {
                     page: 1,
                     filter: '',
-                    perPage: 10,
+                    perPage: 7,
                 },
             };
         },

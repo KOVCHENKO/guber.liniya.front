@@ -22,17 +22,10 @@ export const actions: ActionTree<UserState, RootState> = {
      * @param state
      * @returns {any}
      */
-    getUser({commit, state, rootState}): any {
+    getUser({commit, state, rootState, dispatch}): any {
         axios.get(baseUrl + 'get_user').then((response) => {
                 state.user = response.data;
-                
-                axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id).then((response) => {
-                    rootState.cabinet.cabinets = response.data;
-                    Router.push({ name: rootState.cabinet.cabinets[0].route });
-                }, () => {
-                    ErrorNotifier.notify();
-                });
-
+                dispatch('getCabinets');    // Обновить список организаций после создания
             }, () => {
                 ErrorNotifier.notify();
             });

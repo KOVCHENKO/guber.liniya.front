@@ -4,13 +4,13 @@
 
         <notifications></notifications>
 
-        <header class="main-header">
+        <header class="main-header" v-if="toolBarVisibility">
             <div class="header-container">
                 <div class="header-content">
                     <div class="header-el">
                         <div class="topline"></div>
                         <nav>
-                            <p class="title">
+                            <p class="title" id="main-title" @click="toolBarVisibility = false">
                                 <b>П</b>РЯМАЯ<br><b>Л</b>ИНИЯ<br><b>Г</b>УБЕРНАТОРА
                             </p>
                         </nav>
@@ -61,7 +61,7 @@
 </template>
 
 <script lang ="ts">
-    import {plusButton, headings} from '../../domain/util/interface/CommonInterface';
+    import {plusButton, headings, mainToolbar} from '../../domain/util/interface/CommonInterface';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
@@ -77,6 +77,9 @@
         @Provide()
         public plusButton = plusButton;
 
+        @Provide()
+        public toolBarVisibility = mainToolbar.shown;
+
         constructor() {
             super();
             this.getCabinets();
@@ -89,6 +92,5 @@
         private selectMenuItem(cabinet) {
             this.$router.push({ name: cabinet.route });
         }
-
     }
 </script>

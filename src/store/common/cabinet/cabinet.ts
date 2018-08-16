@@ -7,22 +7,10 @@ import {baseUrl} from '@/globals';
 import CabinetCollection from '@/domain/collections/common/CabinetCollection';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 
+
 export const state: CabinetState = {
-    cabinets: new CabinetCollection(),
+    cabinets: new CabinetCollection([{ id: 0, route: '', name: '', icon: '' }]),
 };
-
-export const mutations: MutationTree<CabinetState> = {
-    /**
-     * Получение кабинетов с сервера
-     * @param state
-     * @param {CabinetCollection} payload
-     */
-    getCabinets(state, payload: CabinetCollection) {
-        state.cabinets = payload;
-        // Router.push(payload[0].modules[0].dir);
-    },
-};
-
 
 export const actions: ActionTree<CabinetState, RootState> = {
     /**
@@ -33,8 +21,8 @@ export const actions: ActionTree<CabinetState, RootState> = {
      */
     getCabinets({ commit, rootState }): any {
         axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id).then((response) => {
-            const payload: CabinetCollection = response.data;
-            commit('getCabinets', payload);
+            state.cabinets = response.data;
+            Router.push({ name: response.data[0].route });
         }, () => {
             ErrorNotifier.notify();
         });
@@ -44,6 +32,5 @@ export const actions: ActionTree<CabinetState, RootState> = {
 export const cabinet: Module<CabinetState, RootState> = {
     state,
     actions,
-    mutations,
 };
 
