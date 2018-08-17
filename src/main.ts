@@ -8,13 +8,20 @@ import './globals';                     // глобальные настройк
 import i18n from './i18n';              // языковой файл
 import * as bootstrap from 'bootstrap'; // typings - bootstrap
 import $ from 'jquery';                 // typings - javascript
+import {addAuthorizationHeaderFromLocalStorage} from '@/domain/util/libraries/AxiosConfig';
 
 
 Vue.config.productionTip = false;
 
 const vueInstance = new Vue({
-  router,
-  store,
-  i18n,
-  render: (h) => h(App),
+    router,
+    store,
+    i18n,
+    render: (h) => h(App),
+
+    created() {
+        if (localStorage.getItem('vuex')) {
+            addAuthorizationHeaderFromLocalStorage(localStorage.getItem('vuex'));
+        }
+    },
 }).$mount('#app');

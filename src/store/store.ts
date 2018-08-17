@@ -35,5 +35,7 @@ export default new Vuex.Store<RootState>({
         claim,
     },
 
-    // plugins: [createPersistedState()],
+    plugins: [createPersistedState({
+        paths: ['cabinet', 'user'],
+    })],
 });

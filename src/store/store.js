@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 import { cabinet } from './common/cabinet/cabinet';
 import { user } from '@/store/common/user/user';
 import { organization } from '@/store/functional/organization/organization';
@@ -22,5 +23,8 @@ export default new Vuex.Store({
         problem,
         claim,
     },
+    plugins: [createPersistedState({
+            paths: ['cabinet', 'user'],
+        })],
 });
 //# sourceMappingURL=store.js.map
