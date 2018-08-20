@@ -2,6 +2,8 @@ import ProblemType from '@/domain/entities/functional/ProblemType';
 import IProblemTypeCollection from '@/domain/collections/functional/interfaces/IProblemTypeCollection';
 import {getSelectedNodes} from '@/domain/util/interface/TreeMaker';
 
+
+
 export class ProblemTypeCollection implements IProblemTypeCollection {
     public problemTypes!: ProblemType[];
 
@@ -14,6 +16,18 @@ export class ProblemTypeCollection implements IProblemTypeCollection {
     }
 
     public addBunchOfProblemTypes(problemTypes) {
+        for (const problemType of problemTypes) {
+            problemType.text = problemType.name;
+            problemType.data = {};
+            problemType.data.icon = '/images/test_problem/008-light-bulb.png';
+
+            for (const problem of problemType.children) {
+                problem.text = problem.name;
+                problem.data = {};
+                problem.data.icon = '/images/test_problem/008-light-bulb.png';
+            }
+        }
+
         return problemTypes;
     }
 

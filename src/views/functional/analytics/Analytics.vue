@@ -1,5 +1,8 @@
 <template>
-    <div>Аналитика</div>
+    <div>
+        Аналитика
+
+    </div>
 </template>
 
 <script lang="ts">
@@ -8,9 +11,6 @@
 
     @Component
     export default class Analytics extends Vue {
+
     }
 </script>
-
-<style scoped>
-
-</style>
