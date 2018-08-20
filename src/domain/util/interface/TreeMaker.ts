@@ -3,6 +3,7 @@ const makeTree = (elements) =>  {
         singleElement.text = singleElement.name;
         singleElement.opened = true;
         singleElement.children = [];
+        singleElement.disabled = true;
 
         /**
          * Сформировать дерево элементов

@@ -1,9 +1,9 @@
+<!--suppress TypeScriptCheckImport -->
 <template>
     <div>
         <p @click="newOrganization(0)">Добавить новую организацию</p>
         <v-jstree
                 :data="organizationState.organizationTree"
-                multiple
                 allow-batch
                 whole-row
                 allow-transition
@@ -12,20 +12,25 @@
                 <div style="display: inherit; width: 10px">
                     <i :class="_.vm.themeIconClasses" role="presentation" v-if="!_.model.loading"></i>
                     {{ _.model.text }}
-                    <button @click="showProblems(_.model)" style="border: 0px; background-color: transparent; cursor: pointer;">
+                    &nbsp
+                    <button @click="showProblems(_.model)" class="template-tree">
                         <i class="fa fa-remove">Проблемы</i>
                     </button>
-                    <button @click="showUsers(_.model)" style="border: 0px; background-color: transparent; cursor: pointer;">
+                    &nbsp
+                    <button @click="showUsers(_.model)" class="template-tree">
                         <i class="fa fa-remove">Аккаунты</i>
                     </button>
-                    <button @click="newOrganization(_.model.id)" style="border: 0px; background-color: transparent; cursor: pointer;">
-                        <i class="fa fa-remove">Добавить</i>
+                    &nbsp
+                    <button @click="newOrganization(_.model.id)" class="template-tree">
+                        <icon name="add" style="color: #333;"></icon>
                     </button>
-                    <button @click="editOrganization(_.model.id)" style="border: 0px; background-color: transparent; cursor: pointer;">
-                        <i class="fa fa-remove">Редактировать</i>
+                    &nbsp
+                    <button @click="editOrganization(_.model.id)" class="template-tree">
+                        <icon name="edit" style="color: #333;"></icon>
                     </button>
-                    <button @click="dispatchOrganizationDelete(_.model.id)" style="border: 0px; background-color: transparent; cursor: pointer;">
-                        <i class="fa fa-remove">Удалить</i>
+                    &nbsp
+                    <button @click="dispatchOrganizationDelete(_.model.id)" class="template-tree">
+                        <icon name="remove" style="color: #333;"></icon>
                     </button>
                 </div>
             </template>
@@ -44,13 +49,16 @@
     import {plusButton, headings} from '../../../domain/util/interface/CommonInterface';
     import CreateOrganization from '@/components/functional/organizations/AllOrganizations/CreateOrganization.vue';
     import UpdateOrganization from '@/components/functional/organizations/AllOrganizations/UpdateOrganization.vue';
-    // noinspection TypeScriptCheckImport
     import VJstree from 'vue-jstree';
     import Organization from '../../../domain/entities/functional/Organization';
+    import Icon from 'vue-awesome';
+    import { registerAllIcons } from '../../../domain/util/interface/Icons';
+
+    registerAllIcons();
 
 
     @Component({
-        components: {VJstree, CreateOrganization, UpdateOrganization},
+        components: {VJstree, CreateOrganization, UpdateOrganization, Icon},
     })
     export default class AllOrganizations extends Vue {
         @State('organization')
@@ -104,5 +112,9 @@
 </script>
 
 <style scoped>
-
+    .template-tree {
+        border: 0;
+        background-color: transparent;
+        cursor: pointer;
+    }
 </style>
