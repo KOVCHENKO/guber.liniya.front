@@ -7,7 +7,6 @@ import User from '@/domain/entities/common/User';
 import RootState from '@/store/types';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
-import CabinetState from '@/store/common/cabinet/types';
 import CabinetCollection from '@/domain/collections/common/CabinetCollection';
 import Role from '@/domain/entities/common/Role';
 

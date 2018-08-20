@@ -21,7 +21,7 @@
 				<div class="of-right"></div>
 			</div>
 			
-			<div class="ed-homeblock">
+			<div class="ed-homeblock" v-if="!loginedCmptd">
 				<div class="homeblock-container">
 					<div class="homeblock-container-wrapper">
 						<div class="homeblock-container-content">
@@ -31,6 +31,20 @@
 								<p class="homeblock-container-input"><input class="homeblock-input" type="password" placeholder="Пароль" v-model="user.password" /></p>
 								<div class="homeblock-container-button">
 									<div class="homeblock-button" @click="login">Войти</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="ed-homeblock" v-if="loginedCmptd">
+				<div class="homeblock-container">
+					<div class="homeblock-container-wrapper">
+						<div class="homeblock-container-content">
+							<div>
+								<div class="homeblock-container-button">
+									<div class="homeblock-button" @click="toDesktop">Рабочий стол</div>
 								</div>
 							</div>
 						</div>
@@ -55,6 +69,7 @@
     import UserState from '../../store/common/user/types';
     import FooterComponent from '@/components/common/Desktop/Footer.vue';
     import HeaderComponent from '@/components/common/Desktop/Header.vue';
+    import CabinetState from '../../store/common/cabinet/types';
 
     @Component({
         components: {FooterComponent, HeaderComponent},
@@ -69,8 +84,13 @@
             password: '',
         };
 
+  public logined!: boolean;
+
         @State('user')
         private userState!: UserState;
+
+        @State('cabinet')
+        private cabinetState!: CabinetState;
 
         /**
          * 1. Залогиниться пользователем
@@ -85,6 +105,14 @@
             }).catch((error) => {
                 alert(error);
             });
+        }
+
+        public toDesktop() {
+            this.$router.push({ name: 'desktop' });
+        }
+
+        get loginedCmptd() {
+            return this.userState.token !== '';
         }
 
     }

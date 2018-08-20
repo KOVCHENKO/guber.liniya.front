@@ -65,11 +65,15 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
+    import UserState from '../../store/common/user/types';
 
     @Component
     export default class Desktop extends Vue {
         @State('cabinet')
         public cabinetState!: CabinetState;
+
+        @State('user')
+        public userState!: UserState;
 
         @Action('getCabinets')
         public getCabinets: any;
@@ -88,10 +92,6 @@
             headings.title = 'Рабочий стол';
             headings.subtitle = '';
         }
-
-        // public mounted() {
-        //     this.selectMenuItem(this.cabinetState.cabinets[0].route);
-        // }
 
         protected logout() {
             localStorage.removeItem('vuex');
