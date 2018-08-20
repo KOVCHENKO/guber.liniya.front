@@ -4,7 +4,7 @@
 
         <notifications></notifications>
 
-        <!-- <header class="main-header" v-if="toolBarVisibility">
+        <header class="main-header" v-if="toolBarVisibility">
             <div class="header-container">
                 <div class="header-content">
                     <div class="header-el">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-        </header> -->
+        </header>
         
         <div class="ed-homeblock">
             <div class="homeblock-container">
@@ -53,6 +53,9 @@
             <icon name="plus"></icon>
         </button>
 
+        <!-- TODO: относится к компоненту DispatcherApplications.vue-->
+        <create-application></create-application>
+
     </div>
 </template>
 
@@ -62,6 +65,7 @@
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
     import Icon from 'vue-awesome';
+    import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
 
     // TODO: узнать у Ильи!
     Icon.register({
@@ -73,7 +77,7 @@
     });
 
     @Component({
-        components: {Icon},
+        components: {Icon, CreateApplication},
     })
     export default class Desktop extends Vue {
         @State('cabinet')

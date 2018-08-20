@@ -1,11 +1,17 @@
 <template>
     <div>
-        <datatable-customized
-                :columns="tableColumns"
-                :data="claimState.claims"
-        ></datatable-customized>
+        <div class="heading-page">
+            <h2 class="caption-text-center">Заявки</h2>
+            <div class="divider"></div>
+        </div>
 
-        <create-application></create-application>
+        <div class="main-page">
+            <datatable-customized
+                    :columns="tableColumns"
+                    :data="claimState.claims"
+            ></datatable-customized>
+        </div>
+
     </div>
 </template>
 
@@ -13,7 +19,7 @@
 
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import DatatableCustomized from '../../../components/util/DatatableCustomized.vue';
-    import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
+    // import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../store/functional/claim/types';
     import {headings, plusButton} from '../../../domain/util/interface/CommonInterface';
@@ -21,7 +27,7 @@
     @Component({
         components: {
             DatatableCustomized,
-            CreateApplication,
+            // CreateApplication,
         },
     })
     export default class DispatcherApplications extends Vue {
