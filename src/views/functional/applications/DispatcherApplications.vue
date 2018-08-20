@@ -12,7 +12,7 @@
             ></datatable-customized>
         </div>
 
-        <create-application></create-application>
+        <!-- <create-application></create-application> -->
 
     </div>
 </template>
@@ -24,7 +24,7 @@
     import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../store/functional/claim/types';
-    import {headings, plusButton} from '../../../domain/util/interface/CommonInterface';
+    import {headings} from '../../../domain/util/interface/CommonInterface';
 
     @Component({
         components: {
@@ -52,20 +52,12 @@
 
         constructor() {
             super();
-            plusButton.title = 'Добавить заявку';
-            plusButton.disabled = false;
-            plusButton.clickAction = this.createProblemType;
-
             headings.title = 'Все заявки';
             headings.subtitle = 'заявки диспетчера';
         }
 
         public created() {
             this.getAllClaims();
-        }
-
-        public createProblemType() {
-            $('#createClaimModal').modal('show');
         }
 
     }

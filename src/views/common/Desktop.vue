@@ -54,7 +54,7 @@
         </button>
 
         <!-- TODO: относится к компоненту DispatcherApplications.vue-->
-        <!--<create-application></create-application>-->
+        <create-application></create-application>
 
     </div>
 </template>
@@ -66,6 +66,7 @@
     import CabinetState from '../../store/common/cabinet/types';
     import UserState from '../../store/common/user/types';
     // noinspection TypeScriptCheckImport
+    // import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
     import Icon from 'vue-awesome';
     import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
     import { registerAllIcons } from '../../domain/util/interface/Icons';

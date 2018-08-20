@@ -13,7 +13,7 @@ body {
     left: 0;
     width: 330px;
     overflow: hidden;
-    z-index: 1000;
+    z-index: 3;
     background-color: #fff;
 }
 .header-container {
@@ -493,5 +493,12 @@ button.close {
     padding-left: 20px;
 }
 .form-padding .row > div {
-    padding: 10px 15px;
+    padding: 5px 15px;
+}
+.customer-dialog {
+    width: max-content !important;
+}
+.dialog-title {
+    padding-top: 15px !important;
+    padding-bottom: 0px !important;
 }
