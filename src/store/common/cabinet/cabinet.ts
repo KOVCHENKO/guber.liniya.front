@@ -12,6 +12,22 @@ export const state: CabinetState = {
     cabinets: new CabinetCollection([{ id: 0, route: '', name: '', icon: '' }]),
 };
 
+
+export const mutations: MutationTree<CabinetState> = {
+    /**
+     * Получение кабинетов с сервера
+     * @param state
+     * @param {CabinetCollection} payload
+     */
+    getCabinets(state, payload: CabinetCollection) {
+        state.cabinets = payload;
+        Router.push({ name: payload[0].route });
+        // Router.push({ name: 'desktop' });
+
+    },
+};
+
+
 export const actions: ActionTree<CabinetState, RootState> = {
     /**
      * Получение кабиентов с сервера
@@ -21,8 +37,8 @@ export const actions: ActionTree<CabinetState, RootState> = {
      */
     getCabinets({ commit, rootState }): any {
         axios.get(baseUrl + 'get_cabinets/' + rootState.user.user.id).then((response) => {
-            state.cabinets = response.data;
-            Router.push({ name: response.data[0].route });
+            const payload: CabinetCollection = response.data;
+            commit('getCabinets', payload);
         }, () => {
             ErrorNotifier.notify();
         });
@@ -32,5 +48,6 @@ export const actions: ActionTree<CabinetState, RootState> = {
 export const cabinet: Module<CabinetState, RootState> = {
     state,
     actions,
+    mutations,
 };
 

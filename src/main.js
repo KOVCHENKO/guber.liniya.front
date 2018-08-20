@@ -6,11 +6,17 @@ import store from './store/store'; // хранилище vuex
 import './registerServiceWorker'; // ???
 import './globals'; // глобальные настройки
 import i18n from './i18n'; // языковой файл
+import { addAuthorizationHeaderFromLocalStorage } from '@/domain/util/libraries/AxiosConfig';
 Vue.config.productionTip = false;
 const vueInstance = new Vue({
     router,
     store,
     i18n,
     render: (h) => h(App),
+    created() {
+        if (localStorage.getItem('vuex')) {
+            addAuthorizationHeaderFromLocalStorage(localStorage.getItem('vuex'));
+        }
+    },
 }).$mount('#app');
 //# sourceMappingURL=main.js.map

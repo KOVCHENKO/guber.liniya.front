@@ -24,7 +24,7 @@
                                 </span>
 
                                 <li><a>Профиль</a></li>
-                                <li><a>Выйти</a></li>
+                                <li @click="logout"><a>Выйти</a></li>
                             </ul>
                         </nav>
                         
@@ -95,6 +95,16 @@
             plusButton.disabled = true;
             headings.title = 'Рабочий стол';
             headings.subtitle = '';
+        }
+
+        // public mounted() {
+        //     this.selectMenuItem(this.cabinetState.cabinets[0].route);
+        // }
+
+        protected logout() {
+            localStorage.removeItem('vuex');
+            this.$router.push({ name: 'login' });
+            location.reload();
         }
 
         private selectMenuItem(cabinet) {

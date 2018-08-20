@@ -7,25 +7,42 @@ import User from '@/domain/entities/common/User';
 import RootState from '@/store/types';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
+import CabinetState from '@/store/common/cabinet/types';
+import CabinetCollection from '@/domain/collections/common/CabinetCollection';
+import Role from '@/domain/entities/common/Role';
 
 export const state: UserState = {
     user: new User(0, '', ''),
     users: [{}],
     token: '',
+    role: new Role(0, '', ''),
 };
 
+export const mutations: MutationTree<UserState> = {
+    /**
+     * Получение пользователя - и после этого редирект на рабочий стол
+     * @param state
+     * @param {CabinetCollection} payload
+     */
+    getUser(state, payload) {
+        state.user = payload;
+        state.role = payload.role;
+        Router.push({ name: 'desktop' });
+    },
+};
 
 export const actions: ActionTree<UserState, RootState> = {
     /**
      * Получение залогиненного пользователя с сервера
      * @param {any} commit
      * @param state
+     * @param dispatch
      * @returns {any}
      */
-    getUser({commit, state, rootState, dispatch}): any {
+    getUser({commit, state, dispatch}): any {
         axios.get(baseUrl + 'get_user').then((response) => {
-                state.user = response.data;
-                dispatch('getCabinets');    // Обновить список организаций после создания
+                const payload = response.data;
+                commit('getUser', payload);
             }, () => {
                 ErrorNotifier.notify();
             });
@@ -52,11 +69,21 @@ export const actions: ActionTree<UserState, RootState> = {
         } catch {
             ErrorNotifier.notify();
         }
-        // create specialist
+    },
+
+    async getNewToken(context, payload) {
+        try {
+            const url = `${baseUrl}refresh`;
+            const result = await axios.post(url, state.user);
+            state.token =  'Bearer ' + result.data.token;
+        } catch {
+            ErrorNotifier.notify();
+        }
     },
 };
 
 export const user: Module<UserState, RootState> = {
     state,
+    mutations,
     actions,
 };
