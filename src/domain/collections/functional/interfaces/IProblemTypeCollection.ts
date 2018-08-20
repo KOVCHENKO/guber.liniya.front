@@ -5,6 +5,7 @@ interface IProblemTypeCollection {
     addNew(problemType);
     addBunchOfProblemTypes(problemTypes);
     makeProblemTypesTree(problemTypes, checkedProblems);
+    getProblemTypeIndex(problemTypeId);
 }
 
-export default IProblemTypeCollection;
+export default  IProblemTypeCollection;

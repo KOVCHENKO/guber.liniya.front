@@ -51,4 +51,16 @@ export class ProblemTypeCollection implements IProblemTypeCollection {
 
         return getSelectedNodes(problemTypes, checkedProblems);
     }
+
+    /**
+     * Получить индекс problemTYpe
+     * @param problemTypeId
+     * @returns {number}
+     */
+    public getProblemTypeIndex(problemTypeId) {
+        return this.problemTypes.map((e) => {
+            return e.id;
+        }).indexOf(parseInt(problemTypeId, 10));
+    }
+
 }

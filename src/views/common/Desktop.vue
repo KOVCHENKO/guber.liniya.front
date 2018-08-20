@@ -53,6 +53,9 @@
             <icon name="plus"></icon>
         </button>
 
+        <!-- TODO: относится к компоненту DispatcherApplications.vue-->
+        <!--<create-application></create-application>-->
+
     </div>
 </template>
 
@@ -64,12 +67,13 @@
     import UserState from '../../store/common/user/types';
     // noinspection TypeScriptCheckImport
     import Icon from 'vue-awesome';
+    import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
     import { registerAllIcons } from '../../domain/util/interface/Icons';
 
     registerAllIcons();
 
     @Component({
-        components: {Icon},
+        components: {Icon, CreateApplication},
     })
     export default class Desktop extends Vue {
         @State('cabinet')
@@ -90,7 +94,7 @@
         constructor() {
             super();
             this.getCabinets();
-            plusButton.title = 'Добавить';
+            plusButton.title = 'Добавить!';
             plusButton.disabled = true;
             headings.title = 'Рабочий стол';
             headings.subtitle = '';

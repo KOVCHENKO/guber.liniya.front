@@ -37,5 +37,15 @@ export class ProblemTypeCollection {
         }
         return getSelectedNodes(problemTypes, checkedProblems);
     }
+    /**
+     * Получить индекс problemTYpe
+     * @param problemTypeId
+     * @returns {number}
+     */
+    getProblemTypeIndex(problemTypeId) {
+        return this.problemTypes.map((e) => {
+            return e.id;
+        }).indexOf(parseInt(problemTypeId, 10));
+    }
 }
 //# sourceMappingURL=ProblemTypeCollection.js.map

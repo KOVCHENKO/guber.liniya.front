@@ -4,10 +4,11 @@
             <div class="col-sm-4">
                 
                 <md-field>
-                    <label for="type_problem">Тип проблемы</label>
-                    <md-select name="type_problem" id="type_problem">
-                        <md-option v-for="(problemType, index) in problemTypeState.problemTypes" :key="index" :value="problemType.id"
-                            @click="chooseProblemType(problemType)">{{ problemType.name }}</md-option>
+                    <label>Тип проблемы</label>
+                    <md-select name="type_problem" id="type_problem" v-model="problemTypeId">
+                        <md-option v-for="(problemType, index) in problemTypeState.problemTypes" :key="index" :value="problemType.id">
+                            {{ problemType.name }}
+                        </md-option>
                     </md-select>
                 </md-field>
                 
@@ -15,7 +16,7 @@
             <div class="col-sm-4">
                 
                 <md-field>
-                    <label for="claimer_сity">Проблема</label>
+                    <label>Проблема</label>
                     <md-select name="claimer_сity" id="claimer_сity">
                         <md-option v-for="(problem, index) in problems" @click="chooseProblem(problem)" :key="index" :value="problem.id">{{ problem.name }}</md-option>
                     </md-select>
@@ -27,12 +28,9 @@
 </template>
 
 <script lang="ts">
-    import {Component, Provide, Vue} from 'vue-property-decorator';
+    import {Component, Provide, Vue, Watch} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
-    import ProblemCollection from '../../../../domain/collections/functional/ProblemCollection';
     import IProblem from '../../../../domain/entities/functional/interfaces/IProblem';
-    import IProblemType from '../../../../domain/entities/functional/interfaces/IProblemType';
-    import ProblemType from '../../../../domain/entities/functional/ProblemType';
 
     @Component
     export default class ClaimProblems extends Vue {
@@ -42,19 +40,31 @@
 
         @State('problemType') public problemTypeState;
         @State('claim') public claimState;
-        @Provide() public problems = new ProblemCollection([{}]);
-        @Provide() public problemType: IProblemType = new ProblemType(0, 'Выберите тип проблемы', '');
+        @Provide() public problems = [];
+        @Provide() public problemTypeId: number = 0;
 
-        public created() {
+        @Watch('problemTypeId')
+        private onChildChanged(val: string, oldVal: string) {
+            this.chooseProblemTypeById(val);
+        }
+
+        private created() {
             this.getAllProblemTypes();
         }
 
-        public chooseProblemType(problemType) {
-            this.problemType.name = problemType.name;
-            this.problems = problemType.problems;
+        /**
+         * Получить индекс problemType по ид, а затем список проблем для создания
+         * @param problemTypeId
+         */
+        private chooseProblemTypeById(problemTypeId) {
+            const problemTypeIndex = this.problemTypeState.problemTypes.map((e) => {
+                return e.id;
+            }).indexOf(parseInt(problemTypeId, 10));
+
+            this.problems = this.problemTypeState.problemTypes[problemTypeIndex].children;
         }
 
-        public chooseProblem(problem: IProblem) {
+        private chooseProblem(problem: IProblem) {
             this.claimState.claim.problem = problem;
         }
 

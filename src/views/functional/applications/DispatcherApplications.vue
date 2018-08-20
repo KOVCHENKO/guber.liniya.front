@@ -1,11 +1,19 @@
 <template>
     <div>
-        <datatable-customized
-                :columns="tableColumns"
-                :data="claimState.claims"
-        ></datatable-customized>
+        <div class="heading-page">
+            <h2 class="caption-text-center">Заявки</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="main-page">
+            <datatable-customized
+                    :columns="tableColumns"
+                    :data="claimState.claims"
+            ></datatable-customized>
+        </div>
 
         <create-application></create-application>
+
     </div>
 </template>
 
