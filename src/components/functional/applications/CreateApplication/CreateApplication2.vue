@@ -17,54 +17,47 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                <md-field>
-                                    <label for="claimer_info">{{$t('claims.claimer_firstname')}}</label>
-                                    <md-input :name="$t('validation.firstname')" id="claimer_info" v-model="claimState.claim.firstName" />
-                                </md-field>
+                                <input id="claimer_info" type="text" :name="$t('validation.firstname')" :placeholder="$t('claims.claimer_firstname')"
+                                       v-model="claimState.claim.firstName"
+                                       v-validate="'required|max:255'">
                             </div>
                             <div class="col-sm-4">
-                                <md-field>
-                                    <label for="claimer_middlename">{{$t('claims.claimer_middlename')}}</label>
-                                    <md-input :name="$t('validation.middlename')" id="claimer_middlename" v-model="claimState.claim.middleName" />
-                                </md-field>
+                                <input id="claimer_middlename" type="text" :name="$t('validation.middlename')" :placeholder="$t('claims.claimer_middlename')"
+                                       v-model="claimState.claim.middleName"
+                                       v-validate="'required|max:255'" title="Отчетство">
                             </div>
                             <div class="col-sm-4">
-                                <md-field>
-                                    <label for="claimer_lastname">{{$t('claims.claimer_lastname')}}</label>
-                                    <md-input :name="$t('validation.lastname')" id="claimer_lastname" v-model="claimState.claim.lastName" />
-                                </md-field>
+                                <input id="claimer_lastname" type="text" :name="$t('validation.lastname')" :placeholder="$t('claims.claimer_lastname')"
+                                       v-model="claimState.claim.lastName"
+                                       v-validate="'required|max:255'" title="Фамилия">
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-4">                                
-                                <md-field>
-                                    <label for="claimer_сity">Город</label>
-                                    <md-select name="сity" id="claimer_сity" v-model="claimState.claim.address.district">
-                                        <md-option v-for="(district, index) in districts" :key="index" :value="district">{{ district }}</md-option>
-                                    </md-select>
-                                </md-field>
+                            <div class="col-sm-4">
+                                
+                                <select class="custom-select" id="inputGroupSelect01" v-model="claimState.claim.address.district">
+                                    <option v-for="(district, index) in districts" :key="index">{{ district }}</option>
+                                </select>
+                                
                             </div>
                             <div class="col-sm-8">
-                                <md-field>
-                                    <label for="claim_address">{{$t('claims.claimer_address')}}</label>
-                                    <md-input :name="$t('validation.address')" id="claim_address" v-model="claimState.claim.address.location" />
-                                </md-field>
+                                <input id="claim_address" type="text" :name="$t('validation.address')" :placeholder="$t('claims.claimer_address')"
+                                       v-model="claimState.claim.address.location"
+                                       v-validate="'required|max:255'" title="Адрес">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <md-field>
-                                    <label for="claimer_phone">{{$t('claims.claimer_phone')}}</label>
-                                    <md-input :name="$t('validation.phone')" id="claimer_phone" v-model="claimState.claim.phone" />
-                                </md-field>
+                                <input id="claimer_phone" type="text" :name="$t('validation.phone')" :placeholder="$t('claims.claimer_phone')"
+                                       v-model="claimState.claim.phone"
+                                       v-validate="'required|max:255'" title="Телефон">
                             </div>
                             <div class="col-sm-6">
-                                <md-field>
-                                    <label for="claimer_email">{{$t('claims.claimer_email')}}</label>
-                                    <md-input :name="$t('validation.email')" id="claimer_email" v-model="claimState.claim.email" />
-                                </md-field>
+                                <input id="claimer_email" type="text" :name="$t('validation.email')" :placeholder="$t('claims.claimer_email')"
+                                       v-model="claimState.claim.email"
+                                       v-validate="'required|max:255'" title="Email">
                             </div>
                         </div>
 
@@ -78,11 +71,10 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <md-field>
-                                    <label for="claim_name">{{$t('claims.claim_name')}}</label>
-                                    <md-input :name="$t('validation.name')" id="claim_name" v-model="claimState.claim.name" />
-                                </md-field>
-                            </div>                            
+                                <input id="claim_name" type="text" :name="$t('validation.name')" :placeholder="$t('claims.claim_name')"
+                                        v-model="claimState.claim.name"
+                                        v-validate="'required|max:255'">
+                            </div>
                         </div>
 
                         <claim-problems></claim-problems>
@@ -95,6 +87,13 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="md-layout-item md-small-size-100">
+                        <md-field>
+                            <label for="first-name">First Name</label>
+                        <md-input name="first-name" id="first-name" autocomplete="given-name" />
+                    </md-field>
                 </div>
 
                     <div class="modal-footer">
@@ -114,7 +113,7 @@
     import ClaimState from '../../../../store/functional/claim/types';
     import ClaimProblems from '@/components/functional/applications/CreateApplication/ProblemsPartial.vue';
     import { districts } from '../../../../domain/entities/functional/Address';
-
+    
     @Component({
         components: {ClaimProblems},
     })

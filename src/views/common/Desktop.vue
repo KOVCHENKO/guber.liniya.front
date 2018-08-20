@@ -4,7 +4,7 @@
 
         <notifications></notifications>
 
-        <header class="main-header" v-if="toolBarVisibility">
+        <!-- <header class="main-header" v-if="toolBarVisibility">
             <div class="header-container">
                 <div class="header-content">
                     <div class="header-el">
@@ -18,7 +18,9 @@
                         <nav class="header-nav">
                             <ul class="nav">
                                 <span v-for="cabinet in cabinetState.cabinets" :key="cabinet.id">
-                                    <li class="active"><a  @click="selectMenuItem(cabinet)">{{ cabinet.name }}</a></li>
+                                    <li v-bind:class="{ active: cabinet.route == $route.name }">
+                                        <a  @click="selectMenuItem(cabinet)">{{ cabinet.name }}</a>
+                                    </li>
                                 </span>
 
                                 <li><a>Профиль</a></li>
@@ -30,13 +32,7 @@
                     </div>
                 </div>
             </div>
-        </header>
-
-        <div class="overlay-frame">
-            <div class="of-top"></div>
-            <div class="of-bottom"></div>
-            <div class="of-right"></div>
-        </div>
+        </header> -->
         
         <div class="ed-homeblock">
             <div class="homeblock-container">
@@ -50,11 +46,11 @@
             </div>
         </div>
 
-        <button id="button-add" class="circular grey" data-toggle="modal"
+        <button id="button-add" class="circular grey button-customer" data-toggle="modal"
                 :disabled="plusButton.disabled"
                 :title="plusButton.title"
                 @click="plusButton.clickAction">
-            <i class="fa fa-plus"></i>
+            <icon name="plus"></icon>
         </button>
 
     </div>
@@ -65,8 +61,20 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
+    import Icon from 'vue-awesome';
 
-    @Component
+    // TODO: узнать у Ильи!
+    Icon.register({
+        add: {
+            width: 448,
+            height: 512,
+            d: 'M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z'
+        }
+    });
+
+    @Component({
+        components: {Icon},
+    })
     export default class Desktop extends Vue {
         @State('cabinet')
         public cabinetState!: CabinetState;
