@@ -64,9 +64,9 @@
     import UserState from '../../store/common/user/types';
     // noinspection TypeScriptCheckImport
     import Icon from 'vue-awesome';
-    import {registerAddIcon} from '../../domain/util/interface/Icons';
+    import { registerAllIcons } from '../../domain/util/interface/Icons';
 
-    registerAddIcon();
+    registerAllIcons();
 
     @Component({
         components: {Icon},

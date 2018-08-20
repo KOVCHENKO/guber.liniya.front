@@ -1,4 +1,4 @@
-<!--suppress TypeScriptCheckImport -->
+<!--suppress TypeScriptCheckImport, XmlUnboundNsPrefix -->
 <template>
     <div>
         <div class="heading-page">
@@ -41,11 +41,9 @@
     import CreateProblemType from '@/components/functional/problems/AllProblemTypes/CreateProblemType.vue';
     import Tree from 'liquor-tree';
     import Icon from 'vue-awesome';
-    import {registerDeleteIcon, registerEditIcon} from '../../../domain/util/interface/Icons';
+    import { registerAllIcons } from '../../../domain/util/interface/Icons';
 
-    registerEditIcon();
-    registerDeleteIcon();
-
+    registerAllIcons();
 
     @Component({
         components: {CreateProblemType, Tree, Icon},

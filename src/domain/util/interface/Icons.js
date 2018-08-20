@@ -1,5 +1,5 @@
 import Icon from 'vue-awesome';
-export const registerEditIcon = () => {
+const registerEditIcon = () => {
     Icon.register({
         edit: {
             width: 512,
@@ -10,7 +10,7 @@ export const registerEditIcon = () => {
         },
     });
 };
-export const registerDeleteIcon = () => {
+const registerDeleteIcon = () => {
     Icon.register({
         remove: {
             width: 448,
@@ -27,7 +27,7 @@ export const registerDeleteIcon = () => {
         },
     });
 };
-export const registerAddIcon = () => {
+const registerAddIcon = () => {
     Icon.register({
         add: {
             width: 448,
@@ -37,5 +37,10 @@ export const registerAddIcon = () => {
                 '0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z',
         },
     });
+};
+export const registerAllIcons = () => {
+    registerAddIcon();
+    registerDeleteIcon();
+    registerEditIcon();
 };
 //# sourceMappingURL=Icons.js.map
