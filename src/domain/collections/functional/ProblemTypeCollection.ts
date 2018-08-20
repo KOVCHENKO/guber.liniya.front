@@ -20,11 +20,13 @@ export class ProblemTypeCollection implements IProblemTypeCollection {
             problemType.text = problemType.name;
             problemType.data = {};
             problemType.data.icon = '/images/test_problem/008-light-bulb.png';
+            problemType.data.type = 'problemType';
 
             for (const problem of problemType.children) {
                 problem.text = problem.name;
                 problem.data = {};
                 problem.data.icon = '/images/test_problem/008-light-bulb.png';
+                problem.data.type = 'problem';
             }
         }
 

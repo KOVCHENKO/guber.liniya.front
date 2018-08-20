@@ -3,23 +3,27 @@ import { ProblemTypeCollection } from '@/domain/collections/functional/ProblemTy
 import axios from 'axios';
 import { baseUrl } from '@/globals';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
+import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 export const state = {
     problemType: new ProblemType(0, '', ''),
     problemTypes: new ProblemTypeCollection([]),
     problemTypesTree: [{}],
 };
 export const actions = {
-    getAllProblemTypes({ commit, state }) {
-        axios.get(baseUrl + 'problem_types/all').then((response) => {
-            const problemTypes = new ProblemTypeCollection([]);
-            state.problemTypes = problemTypes.addBunchOfProblemTypes(response.data);
-        }, () => {
-            ErrorNotifier.notify();
+    getAllProblemTypes({ state }) {
+        return new Promise((resolve, reject) => {
+            axios.get(baseUrl + 'problem_types/all').then((response) => {
+                const problemTypes = new ProblemTypeCollection([]);
+                state.problemTypes = problemTypes.addBunchOfProblemTypes(response.data);
+                resolve(problemTypes.addBunchOfProblemTypes(response.data));
+            }, () => {
+                reject(ErrorNotifier.notify());
+            });
         });
     },
-    createProblemType({ commit, state }) {
+    createProblemType({ commit, state, dispatch }) {
         axios.post(baseUrl + 'problem_types/create', state.problemType).then((response) => {
-            state.problemTypes.addNew(response.data);
+            SuccessNotifier.notify('Тип проблемы', 'Добавлен новый тип проблемы');
         }, () => {
             ErrorNotifier.notify();
         });

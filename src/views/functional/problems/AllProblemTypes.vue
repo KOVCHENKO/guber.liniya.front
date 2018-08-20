@@ -10,7 +10,7 @@
             <div class="navigation-filter">
                 <input type="text" v-model="treeFilter" placeholder="Поиск..." class="tree-search">
             </div>
-            <tree @node:selected="onNodeSelected" :data="problemTypeState.problemTypes" :filter="treeFilter" ref="tree">
+            <tree @node:selected="onNodeSelected" :data="getProblemTypes()" :filter="treeFilter" ref="tree">
                 <div slot-scope="{ node }" class="node-container row">
                     <div class="node-text" style="padding: 10px 0;"> <!--class="col-9" -->
                         <span class="icon" style="float: left; position: relative;">
@@ -20,15 +20,16 @@
                         </div>
                     </div>
                     <div class="node-controls col-3">
-                        <div class="row"><a href="#" @mouseup.stop="editNode(node)"><icon name="edit" style="color: #333;"></icon></a></div>
-                        <div class="row"><a href="#" @mouseup.stop="removeNode(node)"><icon name="remove" style="color: #333;"></icon></a></div>
+                        <div v-if="node.data.type === 'problemType'" class="row"><a href="javascript:void(0)" @mouseup.stop="addProblem(node)"><icon name="add" style="color: #333;"></icon></a></div>
+                        <div class="row"><a href="javascript:void(0)" @mouseup.stop="editNode(node)"><icon name="edit" style="color: #333;"></icon></a></div>
+                        <div class="row"><a href="javascript:void(0)" @mouseup.stop="removeProblemType(node)"><icon name="remove" style="color: #333;"></icon></a></div>
                     </div>
                 </div>
             </tree>
         </div>
 
-
-        <create-problem-type></create-problem-type>
+        <create-problem-type v-on:onProblemTypeCreate="addProblemType"></create-problem-type>
+        <create-problem v-on:onProblemCreate="addProblemResolved"></create-problem>
     </div>
 </template>
 
@@ -39,14 +40,16 @@
     import ProblemTypeState from '../../../store/functional/problemType/types';
     import CabinetState from '../../../store/common/cabinet/types';
     import CreateProblemType from '@/components/functional/problems/AllProblemTypes/CreateProblemType.vue';
+    import CreateProblem from '@/components/functional/problems/SingleProblemType/CreateProblem.vue';
     import Tree from 'liquor-tree';
     import Icon from 'vue-awesome';
     import { registerAllIcons } from '../../../domain/util/interface/Icons';
+    import ProblemTypeService from '../../../domain/services/functional/ProblemTypeService';
 
     registerAllIcons();
 
     @Component({
-        components: {CreateProblemType, Tree, Icon},
+        components: {CreateProblemType, Tree, Icon, CreateProblem},
     })
     export default class ProblemTypes extends Vue {
 
@@ -64,7 +67,6 @@
 
         constructor() {
             super();
-            this.getProblemTypes();
 
             plusButton.title = 'Проблемы';
             plusButton.disabled = false;
@@ -82,13 +84,35 @@
         }
 
 
-        public onNodeSelected(node) {
+        public onNodeSelected(problemType) {
             // console.log(node.text);
         }
 
-        public editNode(node) {
+        public editNode(problemType) {
             // edit problemType
         }
+
+        public addProblem(problemType) {
+            this.problemTypeState.problemType.id = problemType.id;
+            $('#createProblemModal').modal('show');
+        }
+
+        public removeProblemType(problemType) {
+            // remove problem type
+        }
+
+        public addProblemType() {
+            ProblemTypeService.addProblemTypeToTree(
+                this.$refs,
+                this.problemTypeState.problemType.name,
+                '/images/test_problem/008-light-bulb.png',
+            );
+        }
+
+        public addProblemResolved() {
+            // emit and add problem to problem type
+        }
+
 
     }
 </script>

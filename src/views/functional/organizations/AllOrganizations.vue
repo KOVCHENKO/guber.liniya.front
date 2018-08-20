@@ -14,23 +14,23 @@
                     {{ _.model.text }}
                     &nbsp
                     <button @click="showProblems(_.model)" class="template-tree">
-                        <i class="fa fa-remove">Проблемы</i>
+                        <i>Проблемы</i>
                     </button>
                     &nbsp
                     <button @click="showUsers(_.model)" class="template-tree">
-                        <i class="fa fa-remove">Аккаунты</i>
+                        <i>Аккаунты</i>
                     </button>
-                    &nbsp
+                    &nbsp&nbsp
                     <button @click="newOrganization(_.model.id)" class="template-tree">
-                        <icon name="add" style="color: #333;"></icon>
+                        <i>Доб.</i>
                     </button>
                     &nbsp
                     <button @click="editOrganization(_.model.id)" class="template-tree">
-                        <icon name="edit" style="color: #333;"></icon>
+                        <i>Ред.</i>
                     </button>
                     &nbsp
                     <button @click="dispatchOrganizationDelete(_.model.id)" class="template-tree">
-                        <icon name="remove" style="color: #333;"></icon>
+                        <i>Удал.</i>
                     </button>
                 </div>
             </template>
@@ -51,14 +51,9 @@
     import UpdateOrganization from '@/components/functional/organizations/AllOrganizations/UpdateOrganization.vue';
     import VJstree from 'vue-jstree';
     import Organization from '../../../domain/entities/functional/Organization';
-    import Icon from 'vue-awesome';
-    import { registerAllIcons } from '../../../domain/util/interface/Icons';
-
-    registerAllIcons();
-
 
     @Component({
-        components: {VJstree, CreateOrganization, UpdateOrganization, Icon},
+        components: {VJstree, CreateOrganization, UpdateOrganization},
     })
     export default class AllOrganizations extends Vue {
         @State('organization')

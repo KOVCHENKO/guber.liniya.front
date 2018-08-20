@@ -11,7 +11,6 @@ export const actions = {
     createProblem({ commit, state, rootState }) {
         state.problem.problem_type_id = rootState.problemType.problemType.id;
         axios.post(baseUrl + 'problems/create', state.problem).then((response) => {
-            rootState.problemType.problemType.problems.push(response.data);
             state.problem = new Problem(0, '', '');
         }, () => {
             ErrorNotifier.notify();

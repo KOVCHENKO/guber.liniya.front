@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" :disabled="checkCreateButtonDisability([problemTypeState.problemType.description, problemTypeState.problemType.name])" @click="createProblemType">{{ $t("common.save") }}</button>
+                        <button type="button" class="btn btn-success" :disabled="checkCreateButtonDisability([problemTypeState.problemType.description, problemTypeState.problemType.name])" @click="emitCreateProblemType">{{ $t("common.save") }}</button>
                         <button type="button" class="btn btn-warning" data-dismiss="modal">{{ $t("common.close") }}</button>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-    import {Component, Provide, Vue} from 'vue-property-decorator';
+    import {Component, Emit, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import ProblemTypeState from '../../../../store/functional/problemType/types';
     import { checkButtonDisability } from '@/domain/util/interface/ButtonDisability';
@@ -64,6 +64,11 @@
 
         @Provide()
         protected checkCreateButtonDisability = checkButtonDisability;
+
+        @Emit('onProblemTypeCreate')
+        public emitCreateProblemType() {
+            this.createProblemType();
+        }
 
     }
 </script>
