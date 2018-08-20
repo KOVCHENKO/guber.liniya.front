@@ -1,35 +1,29 @@
 <template>
+    <div>
         <div class="row">
-            <div class="col-sm-3 clearfix">
-                <label class="input-title">{{ $t("claims.problem_types") }}:</label>
+            <div class="col-sm-4">
+                
+                <md-field>
+                    <label for="type_problem">Тип проблемы</label>
+                    <md-select name="type_problem" id="type_problem">
+                        <md-option v-for="(problemType, index) in problemTypeState.problemTypes" :key="index" :value="problemType.id"
+                            @click="chooseProblemType(problemType)">{{ problemType.name }}</md-option>
+                    </md-select>
+                </md-field>
+                
             </div>
-            <div class="col-sm-4 clearfix">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        {{ problemType.name }}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li v-for="problemType in problemTypeState.problemTypes" @click="chooseProblemType(problemType)">
-                            <a href="javascript:void(0);">{{ problemType.name }}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-5 clearfix">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="claim_sub_type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        {{ claimState.claim.problem.name }}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <li v-for="problem in problems" @click="chooseProblem(problem)">
-                            <a href="javascript:void(0);">{{ problem.name }}</a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-sm-4">
+                
+                <md-field>
+                    <label for="claimer_сity">Проблема</label>
+                    <md-select name="claimer_сity" id="claimer_сity">
+                        <md-option v-for="(problem, index) in problems" @click="chooseProblem(problem)" :key="index" :value="problem.id">{{ problem.name }}</md-option>
+                    </md-select>
+                </md-field>
+                
             </div>
         </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -63,5 +57,6 @@
         public chooseProblem(problem: IProblem) {
             this.claimState.claim.problem = problem;
         }
+
     }
 </script>

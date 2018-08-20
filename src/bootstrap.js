@@ -25,3 +25,8 @@ try {
 /* Компонент для уведомлений (шаблон <notifications></notifications> находится в TopMenu.vue) */
 import Notifications from 'vue-notification';
 Vue.use(Notifications);
+
+import VueMaterial from 'vue-material';
+import 'vue-material/dist/vue-material.min.css';
+import 'vue-material/dist/theme/default.css';
+Vue.use(VueMaterial);

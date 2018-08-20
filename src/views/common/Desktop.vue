@@ -14,29 +14,25 @@
                                 <b>П</b>РЯМАЯ<br><b>Л</b>ИНИЯ<br><b>Г</b>УБЕРНАТОРА
                             </p>
                         </nav>
-                        
+
                         <nav class="header-nav">
                             <ul class="nav">
                                 <span v-for="cabinet in cabinetState.cabinets" :key="cabinet.id">
-                                    <li class="active"><a  @click="selectMenuItem(cabinet)">{{ cabinet.name }}</a></li>
+                                    <li v-bind:class="{ active: cabinet.route === $route.name }">
+                                        <a  @click="selectMenuItem(cabinet)">{{ cabinet.name }}</a>
+                                    </li>
                                 </span>
 
                                 <li><a>Профиль</a></li>
                                 <li @click="logout"><a>Выйти</a></li>
                             </ul>
                         </nav>
-                        
+
                         <div class="bottomline"></div>
                     </div>
                 </div>
             </div>
         </header>
-
-        <div class="overlay-frame">
-            <div class="of-top"></div>
-            <div class="of-bottom"></div>
-            <div class="of-right"></div>
-        </div>
         
         <div class="ed-homeblock">
             <div class="homeblock-container">
@@ -50,11 +46,11 @@
             </div>
         </div>
 
-        <button id="button-add" class="circular grey" data-toggle="modal"
+        <button id="button-add" class="circular grey button-customer" data-toggle="modal"
                 :disabled="plusButton.disabled"
                 :title="plusButton.title"
                 @click="plusButton.clickAction">
-            <i class="fa fa-plus"></i>
+            <icon name="plus"></icon>
         </button>
 
     </div>
@@ -66,8 +62,15 @@
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
     import UserState from '../../store/common/user/types';
+    // noinspection TypeScriptCheckImport
+    import Icon from 'vue-awesome';
+    import {registerAddIcon} from '../../domain/util/interface/Icons';
 
-    @Component
+    registerAddIcon();
+
+    @Component({
+        components: {Icon},
+    })
     export default class Desktop extends Vue {
         @State('cabinet')
         public cabinetState!: CabinetState;

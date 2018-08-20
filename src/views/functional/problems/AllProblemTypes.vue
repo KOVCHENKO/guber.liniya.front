@@ -1,12 +1,32 @@
+<!--suppress TypeScriptCheckImport -->
 <template>
     <div>
-        <span v-for="problemType in problemTypeState.problemTypes" :key="problemType.id">
-            <button class="cabinet-item"
-                    @click="showProblemType(problemType)">
-                    <img :src="'/images/cabinets/analytics.png'"/>
-                    <label class="cabinet-title">{{ problemType.name }}</label>
-            </button>
-        </span>
+        <div class="heading-page">
+            <h2 class="caption-text-center">Проблемы</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="main-page">
+            <div class="navigation-filter">
+                <input type="text" v-model="treeFilter" placeholder="Поиск..." class="tree-search">
+            </div>
+            <tree @node:selected="onNodeSelected" :data="problemTypeState.problemTypes" :filter="treeFilter" ref="tree">
+                <div slot-scope="{ node }" class="node-container row">
+                    <div class="node-text" style="padding: 10px 0;"> <!--class="col-9" -->
+                        <span class="icon" style="float: left; position: relative;">
+                            <img :src="node.data.icon" style=" height: 48px; width: 48px;  " /></span>
+                        <div class="content" style="margin-top: 0px; margin-left: 60px;">
+                            <h4>{{ node.text }}</h4>
+                        </div>
+                    </div>
+                    <div class="node-controls col-3">
+                        <div class="row"><a href="#" @mouseup.stop="editNode(node)"><icon name="edit" style="color: #333;"></icon></a></div>
+                        <div class="row"><a href="#" @mouseup.stop="removeNode(node)"><icon name="remove" style="color: #333;"></icon></a></div>
+                    </div>
+                </div>
+            </tree>
+        </div>
+
 
         <create-problem-type></create-problem-type>
     </div>
@@ -19,9 +39,16 @@
     import ProblemTypeState from '../../../store/functional/problemType/types';
     import CabinetState from '../../../store/common/cabinet/types';
     import CreateProblemType from '@/components/functional/problems/AllProblemTypes/CreateProblemType.vue';
+    import Tree from 'liquor-tree';
+    import Icon from 'vue-awesome';
+    import {registerDeleteIcon, registerEditIcon} from '../../../domain/util/interface/Icons';
+
+    registerEditIcon();
+    registerDeleteIcon();
+
 
     @Component({
-        components: {CreateProblemType},
+        components: {CreateProblemType, Tree, Icon},
     })
     export default class ProblemTypes extends Vue {
 
@@ -33,6 +60,9 @@
 
         @Action('getAllProblemTypes')
         public getProblemTypes;
+
+        @Provide()
+        public treeFilter = '';
 
         constructor() {
             super();
@@ -51,6 +81,15 @@
 
         public createProblemType() {
             $('#createProblemTypeModal').modal('show');
+        }
+
+
+        public onNodeSelected(node) {
+            // console.log(node.text);
+        }
+
+        public editNode(node) {
+            // edit problemType
         }
 
     }

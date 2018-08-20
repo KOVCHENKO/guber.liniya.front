@@ -7,6 +7,16 @@ export class ProblemTypeCollection {
         this.problemTypes.push(problemType);
     }
     addBunchOfProblemTypes(problemTypes) {
+        for (const problemType of problemTypes) {
+            problemType.text = problemType.name;
+            problemType.data = {};
+            problemType.data.icon = '/images/test_problem/008-light-bulb.png';
+            for (const problem of problemType.children) {
+                problem.text = problem.name;
+                problem.data = {};
+                problem.data.icon = '/images/test_problem/008-light-bulb.png';
+            }
+        }
         return problemTypes;
     }
     /**

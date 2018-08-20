@@ -3,96 +3,99 @@
         <div class="modal fade bs-example-modal-lg" id="createClaimModal" tabindex="-1" role="dialog" aria-labelledby="createClaimModalLabel">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="modal-header">                        
                         <h4 class="modal-title" id="createClaimModalLabel">{{ $t("claims.create_claim_modal_title") }}</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <div class="modal-body">
+                <div class="modal-body">
 
+                    <div class="form-padding">
                         <div class="row">
-                            <div class="col-sm-3 clearfix">
-                                <label for="claim_name" class="input-title">{{ $t("claims.claim_name") }}:</label>
+                            <div class="col-sm-4-12">
+                                <h5>Информация об поступающего</h5>
                             </div>
-                            <div class="col-sm-9 clearfix">
-                                <input id="claim_name" type="text" :name="$t('validation.name')" :placeholder="$t('claims.claim_name')"
-                                       v-model="claimState.claim.name"
-                                       v-validate="'required|max:255'">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <md-field>
+                                    <label for="claimer_info">{{$t('claims.claimer_firstname')}}</label>
+                                    <md-input :name="$t('validation.firstname')" id="claimer_info" v-model="claimState.claim.firstName" />
+                                </md-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <md-field>
+                                    <label for="claimer_middlename">{{$t('claims.claimer_middlename')}}</label>
+                                    <md-input :name="$t('validation.middlename')" id="claimer_middlename" v-model="claimState.claim.middleName" />
+                                </md-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <md-field>
+                                    <label for="claimer_lastname">{{$t('claims.claimer_lastname')}}</label>
+                                    <md-input :name="$t('validation.lastname')" id="claimer_lastname" v-model="claimState.claim.lastName" />
+                                </md-field>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-3 clearfix">
-                                <label for="claimer_info" class="input-title">{{ $t("claims.claimer_info") }}:</label>
+                            <div class="col-sm-4">                                
+                                <md-field>
+                                    <label for="claimer_сity">Город</label>
+                                    <md-select name="сity" id="claimer_сity" v-model="claimState.claim.address.district">
+                                        <md-option v-for="(district, index) in districts" :key="index" :value="district">{{ district }}</md-option>
+                                    </md-select>
+                                </md-field>
                             </div>
-                            <div class="col-sm-3 clearfix">
-                                <input id="claimer_info" type="text" :name="$t('validation.firstname')" :placeholder="$t('claims.claimer_firstname')"
-                                       v-model="claimState.claim.firstName"
-                                       v-validate="'required|max:255'">
-                            </div>
-                            <div class="col-sm-3 clearfix">
-                                <input id="claimer_middlename" type="text" :name="$t('validation.middlename')" :placeholder="$t('claims.claimer_middlename')"
-                                       v-model="claimState.claim.middleName"
-                                       v-validate="'required|max:255'" title="Отчетство">
-                            </div>
-                            <div class="col-sm-3 clearfix">
-                                <input id="claimer_lastname" type="text" :name="$t('validation.lastname')" :placeholder="$t('claims.claimer_lastname')"
-                                       v-model="claimState.claim.lastName"
-                                       v-validate="'required|max:255'" title="Фамилия">
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="col-sm-3 clearfix"></div>
-                            <div class="col-sm-4 clearfix">
-                                <input id="claimer_phone" type="text" :name="$t('validation.phone')" :placeholder="$t('claims.claimer_phone')"
-                                       v-model="claimState.claim.phone"
-                                       v-validate="'required|max:255'" title="Телефон">
-                            </div>
-                            <div class="col-sm-5 clearfix">
-                                <input id="claimer_email" type="text" :name="$t('validation.email')" :placeholder="$t('claims.claimer_email')"
-                                       v-model="claimState.claim.email"
-                                       v-validate="'required|max:255'" title="Email">
+                            <div class="col-sm-8">
+                                <md-field>
+                                    <label for="claim_address">{{$t('claims.claimer_address')}}</label>
+                                    <md-input :name="$t('validation.address')" id="claim_address" v-model="claimState.claim.address.location" />
+                                </md-field>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-4 clearfix">
-                                <label for="claim_name" class="input-title">{{ $t("claims.claimer_address") }}:</label>
+                            <div class="col-sm-6">
+                                <md-field>
+                                    <label for="claimer_phone">{{$t('claims.claimer_phone')}}</label>
+                                    <md-input :name="$t('validation.phone')" id="claimer_phone" v-model="claimState.claim.phone" />
+                                </md-field>
                             </div>
-                            <div class="col-sm-2 clearfix">
-                                <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" id="claim_sub_type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        {{ claimState.claim.address.district }}
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        <li v-for="district in districts" @click="claimState.claim.address.district = district">
-                                            <a href="javascript:void(0);">{{ district }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="col-sm-6">
+                                <md-field>
+                                    <label for="claimer_email">{{$t('claims.claimer_email')}}</label>
+                                    <md-input :name="$t('validation.email')" id="claimer_email" v-model="claimState.claim.email" />
+                                </md-field>
                             </div>
-                            <div class="col-sm-6 clearfix">
-                                <input id="claim_address" type="text" :name="$t('validation.address')" :placeholder="$t('claims.claimer_address')"
-                                       v-model="claimState.claim.address.location"
-                                       v-validate="'required|max:255'" title="Адрес">
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="form-padding">
+                        <div class="row">
+                            <div class="col-sm-4-12">
+                                <h5>Информация о заявке</h5>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <md-field>
+                                    <label for="claim_name">{{$t('claims.claim_name')}}</label>
+                                    <md-input :name="$t('validation.name')" id="claim_name" v-model="claimState.claim.name" />
+                                </md-field>
+                            </div>                            
                         </div>
 
                         <claim-problems></claim-problems>
 
                         <div class="row">
-                            <div class="col-sm-3 clearfix">
-                                <label for="claim_description" class="input-title">{{ $t("claims.claim_description") }}:</label>
-                            </div>
-                            <div class="col-sm-9 clearfix">
+                            <div class="col-sm-12 clearfix">
                                 <textarea id="claim_description" name="description" cols="25" rows="5" v-model="claimState.claim.description"
                                     :placeholder="this.$t('claims.claim_description')">
                                 </textarea>
                             </div>
                         </div>
                     </div>
+                </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" @click="createClaim">{{ $t("common.create") }}</button>
