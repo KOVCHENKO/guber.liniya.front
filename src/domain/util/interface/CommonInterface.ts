@@ -14,3 +14,7 @@ export const headings = {
 export const mainToolbar = {
     shown: true,
 };
+
+export const statusDialog = {
+    show: false,
+};

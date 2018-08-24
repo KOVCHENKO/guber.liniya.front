@@ -79,7 +79,7 @@
         public getUser;
 
         @Provide()
-        public user: User = {
+        public user = {
             email: '',
             password: '',
         };

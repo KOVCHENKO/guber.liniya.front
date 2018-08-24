@@ -1,4 +1,7 @@
-class Organization {
+import IOrganization from '@/domain/entities/functional/interfaces/Organization';
+
+
+class Organization implements IOrganization {
     public id: number;
     public name: string;
     public description: string;

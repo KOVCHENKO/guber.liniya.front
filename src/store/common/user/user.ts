@@ -4,14 +4,16 @@ import axios from 'axios';
 import { baseUrl } from '@/globals';
 import UserState from '@/store/common/user/types';
 import User from '@/domain/entities/common/User';
+import Organizaion from '@/domain/entities/functional/Organization';
 import RootState from '@/store/types';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 import CabinetCollection from '@/domain/collections/common/CabinetCollection';
 import Role from '@/domain/entities/common/Role';
 
+
 export const state: UserState = {
-    user: new User(0, '', ''),
+    user: new User(0, '', '', new Organizaion(0, '', '',  0)),
     users: [{}],
     token: '',
     role: new Role(0, '', ''),

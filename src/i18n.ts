@@ -69,6 +69,7 @@ const messages = {
             prev: 'Назад',
             answer: 'Ответить',
             pay: 'Оплатить',
+            edit: 'Изменить',
         },
         errors: {
             query_error_title: 'ошибка',

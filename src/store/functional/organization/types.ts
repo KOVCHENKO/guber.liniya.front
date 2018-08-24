@@ -5,4 +5,5 @@ export default interface OrganizationState {
     organization: Organization;
     organizations: IOrganizationCollection | [{}];
     organizationTree: any;
+    claims?: any;
 }

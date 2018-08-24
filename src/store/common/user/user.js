@@ -2,11 +2,12 @@ import Router from '@/router';
 import axios from 'axios';
 import { baseUrl } from '@/globals';
 import User from '@/domain/entities/common/User';
+import Organizaion from '@/domain/entities/functional/Organization';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 import Role from '@/domain/entities/common/Role';
 export const state = {
-    user: new User(0, '', ''),
+    user: new User(0, '', '', new Organizaion(0, '', '', 0)),
     users: [{}],
     token: '',
     role: new Role(0, '', ''),

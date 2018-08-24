@@ -8,6 +8,7 @@ export const state = {
     organization: new Organization(0, '', '', 0),
     organizations: [{}],
     organizationTree: [{}],
+    claims: [{}],
 };
 export const actions = {
     getAllOrganizations({ commit }) {
@@ -67,6 +68,17 @@ export const actions = {
         }).catch(() => {
             ErrorNotifier.notify();
         });
+    },
+    async getAllClaimsOfOrganization(context, payload) {
+        try {
+            const organizationId = payload.organization_id;
+            const result = await axios.get(baseUrl + 'organizations/all_claims_of_organization/'
+                + organizationId);
+            state.claims = result.data;
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
     },
 };
 export const organization = {
