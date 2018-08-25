@@ -10,25 +10,26 @@ import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 
 export const state: ProblemTypeState = {
     problemType: new ProblemType(0, '', ''),
-    problemTypes: new ProblemTypeCollection([]),
+    problemTypes: [
+        new ProblemType(0, '', ''),
+    ],
     problemTypesTree: [{}],     // vuejs-tree плагин работает только с массивами
 };
 
+const problemTypes = new ProblemTypeCollection([]);
+
 export const actions: ActionTree<ProblemTypeState, RootState> = {
     getAllProblemTypes({ state }) {
-        return new Promise((resolve, reject) => {
-            axios.get(baseUrl + 'problem_types/all').then((response) => {
-                const problemTypes = new ProblemTypeCollection([]);
-                state.problemTypes = problemTypes.addBunchOfProblemTypes(response.data);
-                resolve(problemTypes.addBunchOfProblemTypes(response.data));
-            }, () => {
-                reject(ErrorNotifier.notify());
-            });
+        axios.get(baseUrl + 'problem_types/all').then((response) => {
+            state.problemTypes = problemTypes.addBunchOfProblemTypes(response.data);
+        }, () => {
+                ErrorNotifier.notify();
         });
     },
 
     createProblemType({commit, state, dispatch}) {
         axios.post(baseUrl + 'problem_types/create', state.problemType).then((response) => {
+            state.problemTypes = problemTypes.addNewProblemTypeToCollection(state.problemTypes, response.data);
             SuccessNotifier.notify('Тип проблемы', 'Добавлен новый тип проблемы');
         }, () => {
             ErrorNotifier.notify();
@@ -64,6 +65,17 @@ export const actions: ActionTree<ProblemTypeState, RootState> = {
         }, () => {
             ErrorNotifier.notify();
         });
+    },
+
+    async editProblemType({dispatch}) {
+        try {
+            await axios.post(`${baseUrl}problem_types/edit_problem_type/${state.problemType.id}`, state.problemType);
+            state.problemTypes = problemTypes.changeData(
+                state.problemTypes, state.problemType,
+            );
+        } catch {
+            ErrorNotifier.notify();
+        }
     },
 };
 

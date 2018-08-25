@@ -5,6 +5,7 @@ interface IProblemType {
     name: string;
     description: string;
     problems?: IProblem[];
+    text?: string;
 }
 
 export default IProblemType;
