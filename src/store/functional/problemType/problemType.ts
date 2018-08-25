@@ -77,6 +77,16 @@ export const actions: ActionTree<ProblemTypeState, RootState> = {
             ErrorNotifier.notify();
         }
     },
+
+    async deleteProblemType({ dispatch }) {
+        try {
+            await axios.get(`${baseUrl}problem_types/delete/${state.problemType.id}`);
+            dispatch('getAllProblemTypes');
+        } catch {
+            ErrorNotifier.notifyWithCustomMessage(
+                'Произошла ошибка. Проверьте, нет ли у данного типа проблемы зависимостей');
+        }
+    },
 };
 
 export const problemType: Module<ProblemTypeState, RootState> = {

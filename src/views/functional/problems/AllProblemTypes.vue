@@ -61,6 +61,7 @@
         @State('cabinet') public cabinetState!: CabinetState;
 
         @Action('getAllProblemTypes') public getProblemTypes;
+        @Action('deleteProblemType') public deleteProblemType;
         @Action('deleteProblem') public deleteProblem;
         @Action('getSingleProblemType') public getSingleProblemType;
         @Action('getSingleProblem') public getSingleProblem;
@@ -104,7 +105,8 @@
         }
 
         public removeProblemType(problemType) {
-            // remove problem type
+            this.problemTypeState.problemType = problemType;
+            this.deleteProblemType();
         }
 
         public removeProblem(problem) {

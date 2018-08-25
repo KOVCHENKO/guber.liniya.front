@@ -17,7 +17,7 @@ export const state: OrganizationState = {
 export const actions: ActionTree<OrganizationState, RootState> = {
     getAllOrganizations({commit}) {
         axios.get(baseUrl + 'organizations/all').then((response) => {
-            state.organizationTree = makeTree(response.data);
+            state.organizationTree = makeTree(response.data, 'fas fa-building');
         }, () => {
             ErrorNotifier.notify();
         });
