@@ -2,59 +2,64 @@
 <template>
     <div class="welcome">
 
-        <div>
-			
-			<header-component></header-component>
-			
-			<div class="global-overlay">
-				<div class="overlay">
-					<div class="overlay-wrapper">
-						<div class="overlay-inner"></div>
-						<div class="overlay-background-dark"></div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="overlay-frame">
-				<div class="of-top"></div>
-				<div class="of-bottom"></div>
-				<div class="of-right"></div>
-			</div>
-			
-			<div class="ed-homeblock" v-if="!loginedCmptd">
-				<div class="homeblock-container">
-					<div class="homeblock-container-wrapper">
-						<div class="homeblock-container-content">
-							<div>
-								<h1 class="homeblock-title">Авторизация</h1>
-								<p class="homeblock-container-input"><input class="homeblock-input" type="text" placeholder="Логин" v-model="user.email" /></p>
-								<p class="homeblock-container-input"><input class="homeblock-input" type="password" placeholder="Пароль" v-model="user.password" /></p>
-								<div class="homeblock-container-button">
-									<div class="homeblock-button" @click="login">Войти</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+        <div class="wrapper">
 
-			<div class="ed-homeblock" v-if="loginedCmptd">
-				<div class="homeblock-container">
-					<div class="homeblock-container-wrapper">
-						<div class="homeblock-container-content">
-							<div>
-								<div class="homeblock-container-button">
-									<div class="homeblock-button" @click="toDesktop">Рабочий стол</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-            <footer-component></footer-component>
-			
-		</div>
+            <div class="sidebar-left">
+                <header class="main-header">
+                    <div class="header-container">
+                        <div class="header-content">
+                            <div class="header-el">
+                                <div class="topline"></div>
+                                <p class="title"><span class="capital">У</span>МНЫЙ<br>
+                                    <span class="capital">Г</span>РАЖДАНИН</p>
+                                <div class="bottomline"></div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </div>
+
+            <div class="welcome-homeblock-container" v-if="!loginedCmptd">
+                <div class="welcome-homeblock-container-content">
+                    <div class="homeblock-display-table">
+                        <div class="container-straight-title">
+                            <p class="straight-title">Прямая связь с Правительством Астраханской области</p>
+                            <h1 class="homeblock-title">Авторизация</h1>
+                            <md-field class="md-field-email">
+                                <label>Логин</label>
+                                <md-input v-model="user.email"></md-input>
+                            </md-field>
+                            <br>
+                            <md-field class="md-field-password">
+                                <label>Пароль</label>
+                                <md-input v-model="user.password" type="password"></md-input>
+                            </md-field>
+                            <br>
+                            <div class="homeblock-container-button">
+                                <div class="homeblock-button" @click="login">Войти</div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+
+            <div class="welcome-homeblock-container" v-else>
+                <div class="welcome-homeblock-container-content">
+                    <div class="homeblock-display-table">
+                        <div class="container-straight-title">
+                            <p class="straight-title">Прямая связь с Правительством Астраханской области</p>
+                            <div class="homeblock-container-button">
+                                <div class="homeblock-button" @click="toDesktop">Рабочий стол</div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+
+        </div>
+
+        <img src="/img/quality-mark.png" class="quality-mark">
+        <footer-component></footer-component>
 
 	</div>
 </template>

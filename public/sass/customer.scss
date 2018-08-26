@@ -1,5 +1,5 @@
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -59,6 +59,62 @@ body {
     text-align: center;
     -webkit-margin-before: 1em;
     -webkit-margin-after: 1em;
+
+    span.capital {
+        color: #00a0e3;
+        font-weight: bold;
+    }
+
+}
+
+.welcome {
+    .quality-mark {
+        position: absolute;
+        bottom: 47px;
+        right: 76px;
+        height: 300px;
+    }
+    .homeblock-display-table {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+    .welcome-homeblock-container {
+        display: table-cell;
+        height: 100vh;
+        background: #ffffff;
+    }
+    .welcome-homeblock-container-content {
+        height: calc(100% - 42px);
+        background: white;
+        margin: 21px;
+        display: block;
+        margin-left: 0px;
+        box-shadow: inset 0 0 54px rgba(0, 0, 0, 0.073);
+    }
+    .container-straight-title {
+        padding-left: 55px;     
+        padding-right: 55px;
+        position: relative;
+        display: table-cell;
+        vertical-align: middle;
+
+        .straight-title {
+            font-size: 45px;
+            line-height: 65px;
+            margin-bottom: 50px;
+            margin-top: -100px;
+        }
+    }
+    .md-field-email {
+        width: 224px;
+        display: inline-block; 
+        margin-bottom: 8px;
+    }
+    .md-field-password {
+        width: 224px;
+        display: inline-block;
+    }
 }
 
 .overlay-frame .of-top {
@@ -117,7 +173,7 @@ body {
     height: 100%;
 }
 .overlay-inner {
-    background-image: url(/img/background.jpg);
+    // background-image: url(/img/background.jpg);
     -webkit-background-size: cover;
     background-size: cover;
     background-repeat: no-repeat;
@@ -170,11 +226,11 @@ body {
 }
 
 .homeblock-title {
-    color: white;     
-    font-size: 48px;
-    line-height: 58px;
+    // color: white;     
+    font-size: 24px;
+    line-height: 16px;
     font-weight: 300;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-variant-ligatures: common-ligatures;
     margin-top: 0;
     margin-bottom: 15px;
@@ -186,7 +242,7 @@ body {
 .homeblock-input {
     padding-left: 10px;
     font-size: 16px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-style: normal;
     font-weight: 300;
     line-height: inherit;
@@ -210,14 +266,14 @@ input[placeholder] {
     -moz-border-radius: 100px;
     -webkit-border-radius: 100px;
     border-radius: 100px;
-    color: #333;
-    background-color: #fff;
+    color: #fff;
+    background-color: #362f79;
     text-decoration: none;
     cursor: pointer;
 }
 
 .site-footer {
-    color: #fff;
+    // color: #fff;
     position: fixed;
     bottom: 21px;
     left: 0;
@@ -234,8 +290,8 @@ input[placeholder] {
 }
 .container-fluid {
     position: relative;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 55px;
+    padding-left: 55px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -314,7 +370,7 @@ input[placeholder] {
     display: block;
     position: relative;
     font-size: 13px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-style: normal;
     font-weight: 500;
     letter-spacing: 3px;
@@ -346,7 +402,7 @@ li.active {
 }
 .caption-text-center {
     text-align: center !important;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-variant-ligatures: common-ligatures;
     margin-top: 0;
     margin-bottom: 15px;
@@ -511,4 +567,20 @@ button.close {
 }
 .color-light-grey {
     color: rgba(0,0,0,0.54);
+}
+
+.wrapper {
+    display: table;
+    width: 100%;
+}
+.sidebar-left {
+    width: 330px;
+    display: table-cell;
+    background: #ffffff;
+}
+
+
+.title:first-letter {
+    font-weight: bold;
+    color: blue !important;
 }

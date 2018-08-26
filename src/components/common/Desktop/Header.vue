@@ -7,7 +7,7 @@
                         <div class="topline"></div>
                         <nav>
                             <p class="title">
-                                <b>П</b>РЯМАЯ<br><b>Л</b>ИНИЯ<br><b>Г</b>УБЕРНАТОРА
+                                <b>У</b>МНЫЙ<br><b>Г</b>РАЖДАНИН
                             </p>
                         </nav>
                         <div class="bottomline"></div>
