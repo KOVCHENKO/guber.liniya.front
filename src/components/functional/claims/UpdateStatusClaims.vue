@@ -28,7 +28,7 @@
                 <div class="col-sm-6" style="padding-left: 16px;">
                     <md-field>
                         <label for="claim_name">Перенаправить</label>
-                        <md-input :name="$t('validation.name')" id="claim_name" />
+                        <md-input id="claim_name" />
                     </md-field>
                 </div>                              
             </div>
@@ -69,7 +69,7 @@
 
         <md-dialog-actions>
             <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
-            <md-button class="md-primary" @click="updateStatusClaim">{{ $t("common.edit") }}</md-button>
+            <!-- <md-button class="md-primary" @click="updateStatusClaim">{{ $t("common.edit") }}</md-button> -->
         </md-dialog-actions>
 
     </md-dialog>
@@ -79,10 +79,10 @@
     import {Component, Provide, Vue, Prop} from 'vue-property-decorator';
     import {statusDialog} from '@/domain/util/interface/CommonInterface';
 
-    @Component()
+    @Component({})
     export default class UpdateStatusClaims extends Vue {
 
-        @Prop() 
+        @Prop()
         public claim: any;
 
         @Provide()
@@ -93,16 +93,16 @@
             'не подтверждено',
             'принято',
             'отправить вниз',
-            'отправить вверх'
+            'отправить вверх',
         ];
 
         public closeDialog() {
             statusDialog.show = false;
         }
 
-        public updateStatusClaim() {
+        // public updateStatusClaim() {
 
-        }
+        // }
 
     }
 </script>

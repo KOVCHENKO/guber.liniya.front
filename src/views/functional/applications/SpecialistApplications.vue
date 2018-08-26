@@ -43,7 +43,7 @@
 
     @Component({
         components: {
-            Icon, UpdateStatusClaims
+            Icon, UpdateStatusClaims,
         },
     })
     export default class SpecialistApplications extends Vue {
@@ -65,11 +65,19 @@
             {label: 'Заявитель', representedAs: (row) => {
                     return `${row.firstname} ${row.middlename } ${row.lastname}`;
                 }, interpolate: true},
-            {label: ''}
+            {label: ''},
         ];
 
         @Provide()
-        public claim = null;
+        public claim = {
+            name: '',
+            description: '', 
+            firstname: '', 
+            middlename: '',
+            lastname: '', 
+            phone: '', 
+            email: '',
+        };
 
         constructor() {
             super();
@@ -85,7 +93,6 @@
         public show(row) {
             this.claim = row;
             statusDialog.show = true;
-            console.log('row', row);
         }
 
     }

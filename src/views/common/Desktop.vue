@@ -2,48 +2,51 @@
 
     <div class="content">
 
+        <div class="button-curtail" @click="open"><img src="/img/menu.png" /></div>
         <notifications></notifications>
 
-        <header class="main-header" v-if="toolBarVisibility">
-            <div class="header-container">
-                <div class="header-content">
-                    <div class="header-el">
-                        <div class="topline"></div>
-                        <nav>
-                            <p class="title" id="main-title" @click="toolBarVisibility = false">
-                                <b>П</b>РЯМАЯ<br><b>Л</b>ИНИЯ<br><b>Г</b>УБЕРНАТОРА
-                            </p>
-                        </nav>
+        <div class="wrapper">
+            
+            <div class="sidebar-left" :class="{ isOpenTable: isOpen }">
+                <header class="main-header desktop" :class="{ isOpen: isOpen }">
+                    <div class="header-container">
+                        <div class="header-content">
+                            <div class="button-curtail" @click="close"><img src="/img/arrow.png" /></div>
+                            <div class="header-el">
+                                <div class="topline"></div>
+                                <p class="title"><span class="capital">У</span>МНЫЙ<br>
+                                    <span class="capital">Г</span>РАЖДАНИН</p>
 
-                        <nav class="header-nav">
-                            <ul class="nav">
-                                <span v-for="cabinet in cabinetState.cabinets" :key="cabinet.id">
-                                    <li v-bind:class="{ active: cabinet.route === $route.name }">
-                                        <a  @click="selectMenuItem(cabinet)">{{ cabinet.name }}</a>
-                                    </li>
-                                </span>
+                                    <nav class="header-nav">
+                                        <ul class="nav">
+                                            <span v-for="cabinet in cabinetState.cabinets" :key="cabinet.id">
+                                                <li v-bind:class="{ active: cabinet.route === $route.name }">
+                                                    <a  @click="selectMenuItem(cabinet)">{{ cabinet.name }}</a>
+                                                </li>
+                                            </span>
 
-                                <li><a>Профиль</a></li>
-                                <li @click="logout"><a>Выйти</a></li>
-                            </ul>
-                        </nav>
+                                            <li><a>Профиль</a></li>
+                                            <li @click="logout"><a>Выйти</a></li>
+                                        </ul>
+                                    </nav>
 
-                        <div class="bottomline"></div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        
-        <div class="ed-homeblock">
-            <div class="homeblock-container">
-                <div class="homeblock-container-wrapper">
-                    <div id="main-desktop">
-                        <div id="main-container">
-                            <router-view></router-view>
+                                <div class="bottomline"></div>
+                            </div>
                         </div>
                     </div>
+                </header>
+            </div>
+
+            <div class="welcome-homeblock-container">
+                <div class="welcome-homeblock-container-content">
+                    <div class="homeblock-display-table">
+                        <div class="container-straight-title">
+                            <router-view></router-view>
+                        </div>
+                    </div>                    
                 </div>
             </div>
+
         </div>
 
         <button id="button-add" class="circular grey button-customer" data-toggle="modal"
@@ -92,6 +95,9 @@
         @Provide()
         public toolBarVisibility = mainToolbar.shown;
 
+        @Provide()
+        public isOpen: boolean = false;
+
         constructor() {
             super();
             this.getCabinets();
@@ -110,5 +116,14 @@
         private selectMenuItem(cabinet) {
             this.$router.push({ name: cabinet.route });
         }
+
+        public open() {
+            this.isOpen = false;
+        }
+
+        public close() {
+            this.isOpen = true;
+        }
+
     }
 </script>
