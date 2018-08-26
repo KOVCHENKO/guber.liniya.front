@@ -2,7 +2,7 @@ import IProblemTypeCollection from '@/domain/collections/functional/interfaces/I
 import IProblemType from '@/domain/entities/functional/interfaces/IProblemType';
 
 export default interface ProblemTypeState {
-    problemTypes: IProblemTypeCollection;
+    problemTypes: IProblemType[];
     problemType: IProblemType;
     problemTypesTree: [{}];
 }

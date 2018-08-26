@@ -8,17 +8,34 @@ export class ProblemTypeCollection {
     }
     addBunchOfProblemTypes(problemTypes) {
         for (const problemType of problemTypes) {
+            problemType.opened = false;
+            problemType.disabled = false;
             problemType.text = problemType.name;
-            problemType.data = {};
-            problemType.data.icon = '/images/test_problem/008-light-bulb.png';
-            problemType.data.type = 'problemType';
+            problemType.icon = 'fas fa-exclamation-circle';
+            problemType.type = 'problemType';
             for (const problem of problemType.children) {
+                problem.opened = false;
                 problem.text = problem.name;
-                problem.data = {};
-                problem.data.icon = '/images/test_problem/008-light-bulb.png';
-                problem.data.type = 'problem';
+                problem.disabled = true;
+                problem.icon = 'fas fa-exclamation';
+                problem.type = 'problem';
             }
         }
+        return problemTypes;
+    }
+    /**
+     * Добавить новый тип проблемы к коллекции
+     * @param problemTypes
+     * @param newProblemType
+     * @returns {any}
+     */
+    addNewProblemTypeToCollection(problemTypes, newProblemType) {
+        newProblemType.opened = false;
+        newProblemType.disabled = false;
+        newProblemType.text = newProblemType.name;
+        newProblemType.icon = 'fas fa-exclamation-circle';
+        newProblemType.type = 'problemType';
+        problemTypes.push(newProblemType);
         return problemTypes;
     }
     /**
@@ -48,6 +65,15 @@ export class ProblemTypeCollection {
         return this.problemTypes.map((e) => {
             return e.id;
         }).indexOf(parseInt(problemTypeId, 10));
+    }
+    changeData(problemTypes, problemType) {
+        const subIndex = problemTypes.map((e) => {
+            return e.id;
+        }).indexOf(problemType.id);
+        problemTypes[subIndex].name = problemType.name;
+        problemTypes[subIndex].description = problemType.description;
+        problemTypes[subIndex].text = problemType.name;
+        return problemTypes;
     }
 }
 //# sourceMappingURL=ProblemTypeCollection.js.map

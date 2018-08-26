@@ -9,7 +9,7 @@
         <div class="main-page">
  
             <datatable :columns="tableColumns" :data="organizationState.claims">
-                <template scope="{ row }">
+                <template slot-scope="{ row }">
                     <tr>
                         <td>{{ row.id }}</td>
                         <td>{{ row.name }}</td>
@@ -71,12 +71,11 @@
         @Provide()
         public claim = {
             name: '',
-            description: '', 
-            firstname: '', 
+            description: '',
+            firstname: '',
             middlename: '',
-            lastname: '', 
-            phone: '', 
-            email: '',
+            lastname: '',
+            phone: '',
         };
 
         constructor() {

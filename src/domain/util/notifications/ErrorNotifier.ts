@@ -8,6 +8,13 @@ class ErrorNotifier {
             text: 'При выполнении запроса произошла ошибка',
         });
     }
+
+    public static notifyWithCustomMessage(message) {
+        Vue.prototype.$notify({
+            title: 'Ошибка',
+            text: message,
+        });
+    }
 }
 
 export default ErrorNotifier;

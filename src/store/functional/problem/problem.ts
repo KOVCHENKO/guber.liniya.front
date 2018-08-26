@@ -13,15 +13,47 @@ export const state: IProblemState = {
     problems: new ProblemCollection([]),
 };
 
-export const actions: ActionTree<IProblemState, RootState> = {
-    createProblem({commit, state, rootState}) {
-        state.problem.problem_type_id = rootState.problemType.problemType.id;
+const problemManip = new ProblemCollection([]);
 
-        axios.post(baseUrl + 'problems/create', state.problem).then((response) => {
+export const actions: ActionTree<IProblemState, RootState> = {
+    async createProblem({commit, state, rootState, dispatch}) {
+        try {
+            state.problem.problem_type_id = rootState.problemType.problemType.id;
+            const res = await axios.post(baseUrl + 'problems/create', state.problem);
             state.problem = new Problem(0, '', '');
-        }, () => {
+            dispatch('getAllProblemTypes');
+        } catch {
             ErrorNotifier.notify();
+        }
+    },
+
+    async deleteProblem({ dispatch }) {
+        try {
+            await axios.get(`${baseUrl}problems/delete/${state.problem.id}`);
+            dispatch('getAllProblemTypes');
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
+    getSingleProblem(context, payload) {
+        return new Promise((resolve, reject) => {
+            axios.get(baseUrl + 'problems/get_by_id/' + payload.id).then((response) => {
+                state.problem = response.data;
+                resolve(response);
+            }, () => {
+                reject(ErrorNotifier.notify());
+            });
         });
+    },
+
+    async editProblem({dispatch}) {
+        try {
+            await axios.post(`${baseUrl}problems/update/${state.problem.id}`, state.problem);
+            dispatch('getAllProblemTypes');
+        } catch {
+            ErrorNotifier.notify();
+        }
     },
 };
 

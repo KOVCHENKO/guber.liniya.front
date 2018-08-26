@@ -6,23 +6,23 @@ import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 export const state = {
     problemType: new ProblemType(0, '', ''),
-    problemTypes: new ProblemTypeCollection([]),
+    problemTypes: [
+        new ProblemType(0, '', ''),
+    ],
     problemTypesTree: [{}],
 };
+const problemTypes = new ProblemTypeCollection([]);
 export const actions = {
     getAllProblemTypes({ state }) {
-        return new Promise((resolve, reject) => {
-            axios.get(baseUrl + 'problem_types/all').then((response) => {
-                const problemTypes = new ProblemTypeCollection([]);
-                state.problemTypes = problemTypes.addBunchOfProblemTypes(response.data);
-                resolve(problemTypes.addBunchOfProblemTypes(response.data));
-            }, () => {
-                reject(ErrorNotifier.notify());
-            });
+        axios.get(baseUrl + 'problem_types/all').then((response) => {
+            state.problemTypes = problemTypes.addBunchOfProblemTypes(response.data);
+        }, () => {
+            ErrorNotifier.notify();
         });
     },
     createProblemType({ commit, state, dispatch }) {
         axios.post(baseUrl + 'problem_types/create', state.problemType).then((response) => {
+            state.problemTypes = problemTypes.addNewProblemTypeToCollection(state.problemTypes, response.data);
             SuccessNotifier.notify('Тип проблемы', 'Добавлен новый тип проблемы');
         }, () => {
             ErrorNotifier.notify();
@@ -54,6 +54,24 @@ export const actions = {
         }, () => {
             ErrorNotifier.notify();
         });
+    },
+    async editProblemType({ dispatch }) {
+        try {
+            await axios.post(`${baseUrl}problem_types/edit_problem_type/${state.problemType.id}`, state.problemType);
+            state.problemTypes = problemTypes.changeData(state.problemTypes, state.problemType);
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
+    },
+    async deleteProblemType({ dispatch }) {
+        try {
+            await axios.get(`${baseUrl}problem_types/delete/${state.problemType.id}`);
+            dispatch('getAllProblemTypes');
+        }
+        catch {
+            ErrorNotifier.notifyWithCustomMessage('Произошла ошибка. Проверьте, нет ли у данного типа проблемы зависимостей');
+        }
     },
 };
 export const problemType = {

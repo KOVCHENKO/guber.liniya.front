@@ -1,6 +1,7 @@
 import ProblemType from '@/domain/entities/functional/ProblemType';
 import IProblemTypeCollection from '@/domain/collections/functional/interfaces/IProblemTypeCollection';
 import {getSelectedNodes} from '@/domain/util/interface/TreeMaker';
+import IProblemType from '@/domain/entities/functional/interfaces/IProblemType';
 
 
 
@@ -17,19 +18,37 @@ export class ProblemTypeCollection implements IProblemTypeCollection {
 
     public addBunchOfProblemTypes(problemTypes) {
         for (const problemType of problemTypes) {
+            problemType.opened = false;
+            problemType.disabled = false;
             problemType.text = problemType.name;
-            problemType.data = {};
-            problemType.data.icon = '/images/test_problem/008-light-bulb.png';
-            problemType.data.type = 'problemType';
+            problemType.icon = 'fas fa-exclamation-circle';
+            problemType.type = 'problemType';
 
             for (const problem of problemType.children) {
+                problem.opened = false;
                 problem.text = problem.name;
-                problem.data = {};
-                problem.data.icon = '/images/test_problem/008-light-bulb.png';
-                problem.data.type = 'problem';
+                problem.disabled = true;
+                problem.icon = 'fas fa-exclamation';
+                problem.type = 'problem';
             }
         }
+        return problemTypes;
+    }
 
+    /**
+     * Добавить новый тип проблемы к коллекции
+     * @param problemTypes
+     * @param newProblemType
+     * @returns {any}
+     */
+    public addNewProblemTypeToCollection(problemTypes, newProblemType) {
+        newProblemType.opened = false;
+        newProblemType.disabled = false;
+        newProblemType.text = newProblemType.name;
+        newProblemType.icon = 'fas fa-exclamation-circle';
+        newProblemType.type = 'problemType';
+
+        problemTypes.push(newProblemType);
         return problemTypes;
     }
 
@@ -65,4 +84,16 @@ export class ProblemTypeCollection implements IProblemTypeCollection {
         }).indexOf(parseInt(problemTypeId, 10));
     }
 
+    public changeData(problemTypes: IProblemType[], problemType: IProblemType) {
+        const subIndex = problemTypes.map((e) => {
+            return e.id;
+        }).indexOf(problemType.id);
+
+        problemTypes[subIndex].name = problemType.name;
+        problemTypes[subIndex].description = problemType.description;
+        problemTypes[subIndex].text = problemType.name;
+
+        return problemTypes;
+
+    }
 }

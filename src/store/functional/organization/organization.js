@@ -13,7 +13,7 @@ export const state = {
 export const actions = {
     getAllOrganizations({ commit }) {
         axios.get(baseUrl + 'organizations/all').then((response) => {
-            state.organizationTree = makeTree(response.data);
+            state.organizationTree = makeTree(response.data, 'fas fa-building');
         }, () => {
             ErrorNotifier.notify();
         });

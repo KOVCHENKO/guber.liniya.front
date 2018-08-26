@@ -21,17 +21,9 @@
                         <i>Аккаунты</i>
                     </button>
                     &nbsp&nbsp
-                    <button @click="newOrganization(_.model.id)" class="template-tree">
-                        <i>Доб.</i>
-                    </button>
-                    &nbsp
-                    <button @click="editOrganization(_.model.id)" class="template-tree">
-                        <i>Ред.</i>
-                    </button>
-                    &nbsp
-                    <button @click="dispatchOrganizationDelete(_.model.id)" class="template-tree">
-                        <i>Удал.</i>
-                    </button>
+                    <i @click="newOrganization(_.model.id)" class="fa fa-plus"></i>&nbsp
+                    <i @click="editOrganization(_.model.id)" class="fas fa-pencil-alt"></i>&nbsp
+                    <i @click="dispatchOrganizationDelete(_.model.id)" class="fas fa-trash-alt"></i>
                 </div>
             </template>
         </v-jstree>

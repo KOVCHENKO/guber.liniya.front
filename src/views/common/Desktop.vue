@@ -117,11 +117,11 @@
             this.$router.push({ name: cabinet.route });
         }
 
-        public open() {
+        private open() {
             this.isOpen = false;
         }
 
-        public close() {
+        private close() {
             this.isOpen = true;
         }
 

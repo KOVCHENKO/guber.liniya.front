@@ -1,9 +1,10 @@
-const makeTree = (elements) => {
+const makeTree = (elements, icon) => {
     for (const singleElement of elements) {
         singleElement.text = singleElement.name;
         singleElement.opened = true;
         singleElement.children = [];
         singleElement.disabled = true;
+        singleElement.icon = icon;
         /**
          * Сформировать дерево элементов
          */
