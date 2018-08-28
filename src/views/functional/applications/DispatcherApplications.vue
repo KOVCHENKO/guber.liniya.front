@@ -1,10 +1,6 @@
 <template>
     <div>
-        <div class="heading-page">
-            <h2 class="caption-text-center">Заявки</h2>
-            <div class="divider"></div>
-        </div>
-
+        
         <div class="main-page">
             <datatable-customized
                     :columns="tableColumns"
@@ -12,7 +8,7 @@
             ></datatable-customized>
         </div>
 
-        <!-- <create-application></create-application> -->
+        <create-application></create-application>
 
     </div>
 </template>
@@ -24,7 +20,7 @@
     import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../store/functional/claim/types';
-    import {headings} from '../../../domain/util/interface/CommonInterface';
+    import {headings, plusButton} from '../../../domain/util/interface/CommonInterface';
 
     @Component({
         components: {
@@ -53,7 +49,8 @@
         constructor() {
             super();
             headings.title = 'Все заявки';
-            headings.subtitle = 'заявки диспетчера';
+            plusButton.visible = true;
+            plusButton.title = 'Добавить заявку';
         }
 
         public created() {

@@ -1,11 +1,6 @@
 <template>
     <div>
-
-        <div class="heading-page">
-            <h2 class="caption-text-center">Заявки специалиста</h2>
-            <div class="divider"></div>
-        </div>
-
+        
         <div class="main-page">
  
             <datatable :columns="tableColumns" :data="organizationState.claims">
@@ -17,7 +12,7 @@
                         <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(row)">
-                                <icon name="edit"></icon>
+                                <i class="fas fa-pencil-alt"></i>
                             </div>
                         </td>
                     </tr>
@@ -36,14 +31,13 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import OrganizationState from '../../../store/functional/organization/types';
-    import {headings, statusDialog} from '../../../domain/util/interface/CommonInterface';
+    import {headings, statusDialog, plusButton} from '../../../domain/util/interface/CommonInterface';
     import UserState from '../../../store/common/user/types';
-    import Icon from 'vue-awesome';
     import UpdateStatusClaims from '@/components/functional/claims/UpdateStatusClaims.vue';
 
     @Component({
         components: {
-            Icon, UpdateStatusClaims,
+            UpdateStatusClaims,
         },
     })
     export default class SpecialistApplications extends Vue {
@@ -69,7 +63,7 @@
         ];
 
         @Provide()
-        public claim = {
+        public claim: {} = {
             name: '',
             description: '',
             firstname: '',
@@ -81,8 +75,8 @@
         constructor() {
             super();
             headings.title = 'Все заявки';
-            headings.subtitle = 'заявки специалиста';
             statusDialog.show = false;
+            plusButton.visible = false;
         }
 
         public created() {

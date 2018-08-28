@@ -42,7 +42,7 @@
         constructor() {
             super();
             plusButton.clickAction = this.addSpecialist;
-            plusButton.disabled = false;
+            plusButton.visible = false;
             headings.title = 'Пользователи организации';
             headings.subtitle = '';
         }

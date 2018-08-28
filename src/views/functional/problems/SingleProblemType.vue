@@ -33,7 +33,7 @@
 
         constructor() {
             super();
-            plusButton.disabled = false;
+            plusButton.visible = false;
             plusButton.title = 'Добавить проблему';
             plusButton.clickAction = this.createProblem;
             headings.title = 'Тип проблемы';

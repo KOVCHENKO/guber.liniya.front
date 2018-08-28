@@ -152,8 +152,6 @@
 
         constructor() {
             super();
-            plusButton.title = 'Добавить заявку';
-            plusButton.disabled = false;
             plusButton.clickAction = this.createProblemType;
         }
 

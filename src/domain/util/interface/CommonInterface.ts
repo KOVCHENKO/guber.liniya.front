@@ -1,5 +1,5 @@
 export const plusButton = {
-    disabled: false,
+    visible: false,
     title: 'Добавить',
     clickAction: () => {
         // dummy function

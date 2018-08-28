@@ -1,11 +1,6 @@
 <template>
     <div>
-
-        <div class="heading-page">
-            <h2 class="caption-text-center">Подчиненные организации</h2>
-            <div class="divider"></div>
-        </div>
-
+        
         <div class="main-page">
             <datatable-customized
                     :columns="tableColumns"
@@ -23,6 +18,7 @@
     import {Action, State} from 'vuex-class';
     import UserState from '../../../store/common/user/types';
     import OrganizationState from '../../../store/functional/organization/types';
+    import {headings, plusButton} from '../../../domain/util/interface/CommonInterface';
 
     @Component({
         components: {
@@ -46,6 +42,12 @@
 
         @Action('getAllChildrenOrganization')
         public getAllChildrenOrganization;
+
+        constructor() {
+            super();
+            plusButton.visible = false;
+            headings.title = 'Подчиненные организации';
+        }
 
         public created() {
             this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });

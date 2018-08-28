@@ -73,11 +73,10 @@
     import User from '../../domain/entities/common/interfaces/User';
     import UserState from '../../store/common/user/types';
     import FooterComponent from '@/components/common/Desktop/Footer.vue';
-    import HeaderComponent from '@/components/common/Desktop/Header.vue';
     import CabinetState from '../../store/common/cabinet/types';
 
     @Component({
-        components: {FooterComponent, HeaderComponent},
+        components: {FooterComponent},
     })
     export default class Login extends Vue {
         @Action('getUser')
