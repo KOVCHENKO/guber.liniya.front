@@ -7,6 +7,7 @@ import { organization } from '@/store/functional/organization/organization';
 import { problemType } from '@/store/functional/problemType/problemType';
 import { problem } from '@/store/functional/problem/problem';
 import { claim } from '@/store/functional/claim/claim';
+import { call } from '@/store/functional/call/call';
 Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
@@ -22,6 +23,7 @@ export default new Vuex.Store({
         problemType,
         problem,
         claim,
+        call,
     },
     plugins: [createPersistedState({
             paths: ['cabinet', 'user'],
