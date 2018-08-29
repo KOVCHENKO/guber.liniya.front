@@ -11,11 +11,12 @@ class Claim {
     public address: IAddress;
     public phone: string;
     public email: string;
+    public link: string;
     public problem: IProblem;
 
 
     constructor(id: number, name: string, description: string, firstName: string,
-                middleName: string, lastName: string, phone: string, email: string,
+                middleName: string, lastName: string, phone: string, email: string, link: string,
                 address: IAddress, problem: IProblem) {
         this.id = id;
         this.name = name;
@@ -27,6 +28,7 @@ class Claim {
         this.phone = phone;
         this.email = email;
         this.problem = problem;
+        this.link = link;
     }
 }
 

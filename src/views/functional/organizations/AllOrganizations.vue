@@ -1,7 +1,6 @@
 <!--suppress TypeScriptCheckImport -->
 <template>
     <div>
-        <p @click="newOrganization(0)">Добавить новую организацию</p>
         <v-jstree
                 :data="organizationState.organizationTree"
                 allow-batch
@@ -62,10 +61,10 @@
 
         constructor() {
             super();
-            plusButton.title = 'Организации';
-            plusButton.disabled = true;
+            plusButton.title = 'Добавить новую организацию';
+            plusButton.visible = true;
+            plusButton.clickAction = this.newOrganizationUpper;
             headings.title = 'Все организации';
-            headings.subtitle = '';
         }
 
         public created() {
@@ -93,6 +92,10 @@
         public dispatchOrganizationDelete(id) {
             this.organizationState.organization.id = id;
             this.deleteOrganization();
+        }
+
+        public newOrganizationUpper() {
+            this.newOrganization(0);
         }
 
     }

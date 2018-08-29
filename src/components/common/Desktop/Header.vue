@@ -1,28 +1,25 @@
 <template>
-    <div>
-		<header class="main-header">
-            <div class="header-container">
-                <div class="header-content">
-                    <div class="header-el">
-                        <div class="topline"></div>
-                        <nav>
-                            <p class="title">
-                                <b>У</b>МНЫЙ<br><b>Г</b>РАЖДАНИН
-                            </p>
-                        </nav>
-                        <div class="bottomline"></div>
-                    </div>
-                </div>
-            </div>
-        </header>
+    <div class="heading-page">
+        <h2 class="caption-text-center">{{headings.title}}</h2>
+        <div class="divider"></div>
     </div>
 </template>
 <script lang="ts">
 
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Vue, Provide} from 'vue-property-decorator';
+    import {headings} from '@/domain/util/interface/CommonInterface';
 
     @Component
     export default class Header extends Vue {
+
+        @Provide()
+        public headings = headings;
+
+        constructor() {
+            super();
+            headings.title = 'Рабочий стол';
+            headings.subtitle = '';
+        }
 
     }
 

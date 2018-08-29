@@ -136,6 +136,7 @@ const messages = {
             claimer_phone: 'Телефон',
             claimer_email: 'Email',
             claimer_info: 'ФИО',
+            call_link: 'Аудио',
         },
         specialist: {
             create_specialist_modal: 'Добавить аккаунт специалиста',

@@ -2,27 +2,26 @@ import CallState from '@/store/functional/call/types';
 import Call from '@/domain/entities/functional/Call';
 import {ActionTree, Module} from 'vuex';
 import RootState from '@/store/types';
-import {crmAddress, crmToken} from '@/globals';
 import axios from 'axios';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 
 export const state: CallState = {
     call: new Call('', '', '', '', '', '', 0, 0, ''),
     calls: [],
-    crmToken: '81552f04-5695-463-857d-15bf8d3c6239',
-    rawCalls: [{}],
+    crmToken: '',
+    crmAddress: 'https://dummy_address/',
 };
 
 export const actions: ActionTree<CallState, RootState> = {
     async getCalls() {
       try {
-          const res = await axios.post(`${crmAddress}`, {
+          const res = await axios.post(`${state.crmAddress}`, {
               cmd: 'history',
               period: 'today',
-              token: crmToken,
+              token: state.crmToken,
           });
 
-          state.rawCalls = res.data;
+          state.calls = res.data;
       } catch {
           ErrorNotifier.notify();
       }

@@ -6,4 +6,5 @@ export default interface RootState {
     problemType?: any;
     problem?: IProblem;
     cabinet?: any;
+    pagination?: any;
 }

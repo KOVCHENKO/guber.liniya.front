@@ -9,6 +9,7 @@ import {problemType} from '@/store/functional/problemType/problemType';
 import {problem} from '@/store/functional/problem/problem';
 import {claim} from '@/store/functional/claim/claim';
 import {call} from '@/store/functional/call/call';
+import {pagination} from '@/store/util/pagination/pagination';
 
 
 Vue.use(Vuex);
@@ -35,6 +36,7 @@ export default new Vuex.Store<RootState>({
         problem,
         claim,
         call,
+        pagination,
     },
 
     plugins: [createPersistedState({

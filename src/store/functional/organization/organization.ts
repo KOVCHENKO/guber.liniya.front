@@ -91,6 +91,17 @@ export const actions: ActionTree<OrganizationState, RootState> = {
         }
     },
 
+    async getAllChildrenOrganization(context, payload) {
+        try {
+            const organizationId = payload.organization_id;
+            const result = await axios.get(baseUrl + 'organizations/all_children_organization/'
+                + organizationId);
+            state.organizations = result.data;
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
 };
 
 export const organization: Module<OrganizationState, RootState> = {

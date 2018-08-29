@@ -17,11 +17,22 @@
                 
                 <md-field>
                     <label>Проблема</label>
-                    <md-select name="claimer_сity" id="claimer_сity">
-                        <md-option v-for="(problem, index) in problems" @click="chooseProblem(problem)" :key="index" :value="problem.id">{{ problem.name }}</md-option>
+                    <md-select name="problem" id="problem">
+                        <md-option v-for="(problem, index) in problems" @click="chooseProblem(problem)" :key="index" :value="problem.id">
+                            {{ problem.name }}
+                        </md-option>
                     </md-select>
                 </md-field>
                 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <label>{{ claimState.claim.problem.name }}</label>
+            </div>
+            <div class="col-sm-4">
+                <label>{{ claimState.claim.problem.description }}</label>
             </div>
         </div>
     </div>
@@ -50,6 +61,7 @@
 
         private created() {
             this.getAllProblemTypes();
+
         }
 
         /**

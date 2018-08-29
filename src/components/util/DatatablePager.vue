@@ -1,18 +1,14 @@
 <template>
-    <div class="datatable">
-        <label class="sr-only">Поиск</label>
-        <input type="text" class="form-control datatable-search" v-model="tableOptions.filter" placeholder="Поиск">
-
-        <datatable :filter-by="tableOptions.filter"
-            :columns="columns"
-            :data="data"
-        ></datatable>
-
-        <datatable-pager v-model="tableOptions.page" :per-page="tableOptions.perPage" type="abbreviated"></datatable-pager>
+    <div>
+        <datatable-pager
+                v-model="tableOptions.page"
+                :per-page="tableOptions.perPage"
+                type="abbreviated"
+        ></datatable-pager>
 
         <div class="dropup">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 {{ tableOptions.perPage }}
+                {{ tableOptions.perPage }}
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">

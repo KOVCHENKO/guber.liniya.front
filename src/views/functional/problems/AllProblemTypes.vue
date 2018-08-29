@@ -1,11 +1,6 @@
 <!--suppress TypeScriptCheckImport, XmlUnboundNsPrefix -->
 <template>
     <div>
-        <div class="heading-page">
-            <h2 class="caption-text-center">Проблемы</h2>
-            <div class="divider"></div>
-        </div>
-
         <div class="main-page">
             <v-jstree
                     :data="problemTypeState.problemTypes"
@@ -71,12 +66,10 @@
 
         constructor() {
             super();
-
             plusButton.title = 'Проблемы';
-            plusButton.disabled = false;
+            plusButton.visible = true;
             plusButton.clickAction = this.createProblemType;
-            headings.title = 'Все типы проблем';
-            headings.subtitle = 'Выберите проблему';
+            headings.title = 'Все типы проблемы';
             this.getProblemTypes();
         }
 

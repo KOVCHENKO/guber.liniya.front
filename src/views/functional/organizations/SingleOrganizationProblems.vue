@@ -37,7 +37,7 @@
         constructor() {
             super();
 
-            plusButton.disabled = true;
+            plusButton.visible = true;
             headings.title = 'Управление организацией';
             headings.subtitle = '';
         }

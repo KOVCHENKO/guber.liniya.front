@@ -2,7 +2,7 @@
 
     <div class="content">
 
-        <div class="button-curtail" @click="open"><img src="/img/menu.png" /></div>
+        <div class="line-button left-top" @click="open"><img src="/img/menu.png" /></div>
         <notifications></notifications>
 
         <div class="wrapper">
@@ -11,7 +11,7 @@
                 <header class="main-header desktop" :class="{ isOpen: isOpen }">
                     <div class="header-container">
                         <div class="header-content">
-                            <div class="button-curtail" @click="close"><img src="/img/arrow.png" /></div>
+                            <div class="line-button left-top" @click="close"><img src="/img/arrow.png" /></div>
                             <div class="header-el">
                                 <div class="topline"></div>
                                 <p class="title"><span class="capital">У</span>МНЫЙ<br>
@@ -24,8 +24,6 @@
                                                     <a  @click="selectMenuItem(cabinet)">{{ cabinet.name }}</a>
                                                 </li>
                                             </span>
-
-                                            <li><a>Профиль</a></li>
                                             <li @click="logout"><a>Выйти</a></li>
                                         </ul>
                                     </nav>
@@ -41,7 +39,10 @@
                 <div class="welcome-homeblock-container-content">
                     <div class="homeblock-display-table">
                         <div class="container-straight-title">
+
+                            <header-component></header-component>
                             <router-view></router-view>
+
                         </div>
                     </div>                    
                 </div>
@@ -49,35 +50,23 @@
 
         </div>
 
-        <button id="button-add" class="circular grey button-customer" data-toggle="modal"
-                :disabled="plusButton.disabled"
+        <div class="line-button right-bottom" data-toggle="modal"
                 :title="plusButton.title"
-                @click="plusButton.clickAction">
-            <icon name="plus"></icon>
-        </button>
-
-        <!-- TODO: относится к компоненту DispatcherApplications.vue-->
-        <create-application></create-application>
+                @click="plusButton.clickAction" v-if="plusButton.visible"><img src="/img/plus.png" /></div>
 
     </div>
 </template>
 
 <script lang ="ts">
-    import {plusButton, headings, mainToolbar} from '../../domain/util/interface/CommonInterface';
+    import {plusButton, mainToolbar} from '../../domain/util/interface/CommonInterface';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
     import UserState from '../../store/common/user/types';
-    // noinspection TypeScriptCheckImport
-    // import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
-    import Icon from 'vue-awesome';
-    import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
-    import { registerAllIcons } from '../../domain/util/interface/Icons';
-
-    registerAllIcons();
+    import HeaderComponent from '@/components/common/Desktop/Header.vue';
 
     @Component({
-        components: {Icon, CreateApplication},
+        components: {HeaderComponent},
     })
     export default class Desktop extends Vue {
         @State('cabinet')
@@ -102,9 +91,7 @@
             super();
             this.getCabinets();
             plusButton.title = 'Добавить!';
-            plusButton.disabled = true;
-            headings.title = 'Рабочий стол';
-            headings.subtitle = '';
+            plusButton.visible = true;
         }
 
         protected logout() {

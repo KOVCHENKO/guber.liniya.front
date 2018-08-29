@@ -6,14 +6,15 @@ import Problem from '@/domain/entities/functional/Problem';
 import Address from '@/domain/entities/functional/Address';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 export const state = {
-    claim: new Claim(0, '', '', '', '', '', '', '', new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', '')),
+    claim: new Claim(0, '', '', '', '', '', '', '', '', new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', '')),
     claims: [{}],
 };
 export const actions = {
-    async getAllClaims() {
+    async getAllClaims({ rootState, dispatch }) {
         try {
-            const result = await axios.get(baseUrl + 'claims/all');
-            state.claims = result.data;
+            const result = await axios.get(`${baseUrl}claims/all/${rootState.pagination.currentPage}`);
+            state.claims = result.data.claims;
+            dispatch('formPagination', { lastPage: result.data.pages });
         }
         catch {
             ErrorNotifier.notify();
@@ -21,10 +22,8 @@ export const actions = {
     },
     async createClaim() {
         try {
-            const result = await axios.post(`${baseUrl}claims/create`, state.claim);
-            state.claims.push(result.data);
+            await axios.post(`${baseUrl}claims/create`, state.claim);
             SuccessNotifier.notify('Заявка', 'Создана новая заявка');
-            state.claim = new Claim(0, '', '', '', '', '', '', '', new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''));
         }
         catch {
             ErrorNotifier.notify();

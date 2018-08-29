@@ -4,5 +4,5 @@ export default interface CallState {
     call: ICall;
     calls: ICall[];
     crmToken: string;
-    rawCalls: [{}];
+    crmAddress: string;
 }

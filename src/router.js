@@ -12,7 +12,6 @@ import AllProblemTypes from './views/functional/problems/AllProblemTypes.vue';
 import SingleProblemType from './views/functional/problems/SingleProblemType.vue';
 import SingleOrganizationProblems from './views/functional/organizations/SingleOrganizationProblems.vue';
 import SingleOrganizationUsers from './views/functional/organizations/SingleOrganizationUsers.vue';
-import Calls from './views/functional/calls/Calls.vue';
 import { authMiddleware, roleMiddleware } from '@/domain/util/authorization/RouterMiddleware';
 import { ADMIN, ANALYST, COMMUNICATOR, DISPATCHER, SPECIALIST } from '@/domain/util/authorization/RoleChecker';
 Vue.use(Router);
@@ -75,11 +74,6 @@ const router = new Router({
                     path: '/single_organization_users/:id', name: 'single_organization_users',
                     component: SingleOrganizationUsers,
                     meta: { requiresAuth: true, requiresRole: ADMIN },
-                },
-                {
-                    path: '/calls', name: 'calls',
-                    component: Calls,
-                    meta: { requiresAuth: true, requiresRole: DISPATCHER },
                 },
             ],
         },
