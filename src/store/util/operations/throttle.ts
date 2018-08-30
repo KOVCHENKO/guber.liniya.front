@@ -1,12 +1,9 @@
 export default function throttle(callback, limit) {
-    let wait = false;
+    var lastExecution : any = null;
     return () => {
-        if (!wait) {
+        clearTimeout(lastExecution);
+        lastExecution = setTimeout(() => {
             callback.call();
-            wait = true;
-            setTimeout(() => {
-                wait = false;
-            }, limit);
-        }
+        }, limit);
     };
 }

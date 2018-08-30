@@ -109,6 +109,10 @@
         }
 
         public startSearch() {
+            if (this.searchField == '') {
+                this.getAllClaims();
+                return;
+            } 
             this.searchClaim({search: this.searchField});
         }
 
