@@ -36,6 +36,17 @@ export const actions: ActionTree<ClaimState, RootState> = {
         }
     },
 
+    async searchClaim({rootState, dispatch}, payload) {
+        try {
+            const result = await axios.get(`${baseUrl}claims/search/
+                                                ${rootState.pagination.currentPage}/${payload.search}`);
+            state.claims = result.data.claims;
+            dispatch('formPagination', { lastPage: result.data.pages });
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
 };
 
 export const claim: Module<ClaimState, RootState> = {

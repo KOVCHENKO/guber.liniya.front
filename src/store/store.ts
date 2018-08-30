@@ -18,6 +18,7 @@ export default new Vuex.Store<RootState>({
     state: {
         applicationName: 'psychology platform!',
         user: [],
+        search: '',
     },
 
     mutations: {

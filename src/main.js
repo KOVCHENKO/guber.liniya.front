@@ -8,7 +8,7 @@ import './globals'; // глобальные настройки
 import i18n from './i18n'; // языковой файл
 import { addAuthorizationHeaderFromLocalStorage } from '@/domain/util/libraries/AxiosConfig';
 Vue.config.productionTip = false;
-const vueInstance = new Vue({
+export const vueInstance = new Vue({
     router,
     store,
     i18n,

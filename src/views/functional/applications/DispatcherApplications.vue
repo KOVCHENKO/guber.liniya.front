@@ -2,6 +2,8 @@
     <div>
         
         <div class="main-page">
+            <input v-model="searchField" @input="throttledSearch">
+
             <datatable
                     :columns="tableColumns"
                     :data="claimState.claims"
@@ -46,6 +48,7 @@
     import Claim from '../../../domain/entities/functional/Claim';
     import Address from '../../../domain/entities/functional/Address';
     import Problem from '../../../domain/entities/functional/Problem';
+    import throttle from '../../../store/util/operations/throttle';
 
     @Component({
         components: {
@@ -55,6 +58,8 @@
         },
     })
     export default class DispatcherApplications extends Vue {
+        @Provide()
+        public searchField: string = '';
 
         @Provide()
         public tableColumns = [
@@ -70,8 +75,8 @@
         @State('claim')
         public claimState!: ClaimState;
 
-        @Action('getAllClaims')
-        public getAllClaims;
+        @Action public getAllClaims;
+        @Action public searchClaim;
 
         constructor() {
             super();
@@ -98,6 +103,15 @@
 
             statusDialog.show = true;
         }
+
+        get throttledSearch() {
+            return throttle(this.startSearch, 2000);
+        }
+
+        public startSearch() {
+            this.searchClaim({search: this.searchField});
+        }
+
 
     }
 </script>

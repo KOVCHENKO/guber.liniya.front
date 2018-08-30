@@ -13,7 +13,7 @@ import {addAuthorizationHeaderFromLocalStorage} from '@/domain/util/libraries/Ax
 
 Vue.config.productionTip = false;
 
-const vueInstance = new Vue({
+export const vueInstance = new Vue({
     router,
     store,
     i18n,
