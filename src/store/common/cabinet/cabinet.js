@@ -14,7 +14,7 @@ export const mutations = {
      */
     getCabinets(state, payload) {
         state.cabinets = payload;
-        Router.push({ name: payload[0].route });
+        Router.push(payload[0].route);
     },
 };
 export const actions = {

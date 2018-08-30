@@ -3,20 +3,21 @@ import IAddress from '@/domain/entities/functional/interfaces/IAddress';
 
 class Claim {
     public id: number;
-    public name: string;
-    public description: string;
-    public firstName: string;
-    public middleName: string;
-    public lastName: string;
-    public address: IAddress;
-    public phone: string;
-    public email: string;
-    public link: string;
-    public problem: IProblem;
+    public name: string;            // id из АТС Мегафон
+    public description: string;     // описание полное
+    public firstName: string;       // имя заявителя
+    public middleName: string;      // отчество заявителя
+    public lastName: string;        // фамилия заявителя
+    public address: IAddress;       // Адрес заявки
+    public phone: string;           // телефон заявителя
+    public email: string;           // email заявителя
+    public link: string;            // ссылка на аудиозапись заявления
+    public dispatchStatus: string;  // prepared - для диспетчера, edited - для редактора, dispatched - для супервизора
+    public problem: IProblem;       // Проблема по заявке
 
 
-    constructor(id: number, name: string, description: string, firstName: string,
-                middleName: string, lastName: string, phone: string, email: string, link: string,
+    constructor(id: number, name: string, description: string, firstName: string, middleName: string,
+                lastName: string, phone: string, email: string, link: string, dispatchStatus: string,
                 address: IAddress, problem: IProblem) {
         this.id = id;
         this.name = name;
@@ -29,6 +30,7 @@ class Claim {
         this.email = email;
         this.problem = problem;
         this.link = link;
+        this.dispatchStatus = dispatchStatus;
     }
 }
 

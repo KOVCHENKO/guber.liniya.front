@@ -21,7 +21,7 @@ export const mutations: MutationTree<CabinetState> = {
      */
     getCabinets(state, payload: CabinetCollection) {
         state.cabinets = payload;
-        Router.push({ name: payload[0].route });
+        Router.push(payload[0].route);
     },
 };
 

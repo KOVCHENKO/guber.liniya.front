@@ -101,7 +101,7 @@
         }
 
         private selectMenuItem(cabinet) {
-            this.$router.push({ name: cabinet.route });
+            this.$router.push(cabinet.route);
         }
 
         private open() {

@@ -3,6 +3,8 @@ export const DISPATCHER = 'dispatcher';
 export const ANALYST = 'analyst';
 export const SPECIALIST = 'specialist';
 export const COMMUNICATOR = 'communicator';
+export const SUPERVISOR = 'supervisor';
+export const EDITOR = 'editor';
 
 export const getRole = () => {
     if (localStorage.getItem('vuex')) {
