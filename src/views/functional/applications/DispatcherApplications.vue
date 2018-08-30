@@ -2,7 +2,7 @@
     <div>
         
         <div class="main-page">
-            <input v-model="searchField" @input="throttledSearch">
+            <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск">
 
             <datatable
                     :columns="tableColumns"
@@ -63,13 +63,12 @@
 
         @Provide()
         public tableColumns = [
-            {label: 'id', field: 'id'},
-            {label: 'Описание', field: 'description'},
-            {label: 'Телефон', field: 'phone'},
-            {label: 'Дата', field: 'created_at'},
-            {label: 'Заявитель', representedAs: (row) => {
-                    return `${row.firstname} ${row.middlename } ${row.lastname}`;
-                }, interpolate: true},
+            {label: 'id'},
+            {label: 'Описание'},
+            {label: 'Телефон'},
+            {label: 'Дата'},
+            {label: 'Заявитель'},
+            {label: ''},
         ];
 
         @State('claim')
