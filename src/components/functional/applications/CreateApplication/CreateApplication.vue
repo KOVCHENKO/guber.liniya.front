@@ -18,19 +18,19 @@
                         <div class="col-sm-4">
                             <md-field>
                                 <label for="claimer_lastname">{{$t('claims.claimer_lastname')}}</label>
-                                <md-input :name="$t('validation.lastname')" id="claimer_lastname" v-model="claimState.claim.lastName" />
+                                <md-input :name="$t('validation.lastname')" id="claimer_lastname" v-model="claimState.claim.lastName" :disabled="disabledBasedOnDispatchStatus"/>
                             </md-field>
                         </div>
                         <div class="col-sm-4">
                             <md-field>
                                 <label for="claimer_info">{{$t('claims.claimer_firstname')}}</label>
-                                <md-input :name="$t('validation.firstname')" id="claimer_info" v-model="claimState.claim.firstName" />
+                                <md-input :name="$t('validation.firstname')" id="claimer_info" v-model="claimState.claim.firstName" :disabled="disabledBasedOnDispatchStatus"/>
                             </md-field>
                         </div>
                         <div class="col-sm-4">
                             <md-field>
                                 <label for="claimer_middlename">{{$t('claims.claimer_middlename')}}</label>
-                                <md-input :name="$t('validation.middlename')" id="claimer_middlename" v-model="claimState.claim.middleName" />
+                                <md-input :name="$t('validation.middlename')" id="claimer_middlename" v-model="claimState.claim.middleName" :disabled="disabledBasedOnDispatchStatus"/>
                             </md-field>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                         <div class="col-sm-4">                                
                             <md-field>
                                 <label>Район</label>
-                                <md-select name="сity" id="claimer_сity" v-model="claimState.claim.address.district">
+                                <md-select name="сity" id="claimer_сity" v-model="claimState.claim.address.district" :disabled="disabledBasedOnDispatchStatus">
                                     <md-option v-for="(district, index) in districts" :key="index" :value="district">{{ district }}</md-option>
                                 </md-select>
                             </md-field>
@@ -47,7 +47,7 @@
                         <div class="col-sm-8">
                             <md-field>
                                 <label for="claim_address">{{$t('claims.claimer_address')}}</label>
-                                <md-input :name="$t('validation.address')" id="claim_address" v-model="claimState.claim.address.location" />
+                                <md-input :name="$t('validation.address')" id="claim_address" v-model="claimState.claim.address.location" :disabled="disabledBasedOnDispatchStatus"/>
                             </md-field>
                         </div>
                     </div>
@@ -56,13 +56,13 @@
                         <div class="col-sm-6">
                             <md-field>
                                 <label for="claimer_phone">{{$t('claims.claimer_phone')}}</label>
-                                <md-input :name="$t('validation.phone')" id="claimer_phone" v-model="claimState.claim.phone" />
+                                <md-input :name="$t('validation.phone')" id="claimer_phone" v-model="claimState.claim.phone" :disabled="disabledBasedOnDispatchStatus"/>
                             </md-field>
                         </div>
                         <div class="col-sm-6">
                             <md-field>
                                 <label for="claimer_email">{{$t('claims.claimer_email')}}</label>
-                                <md-input :name="$t('validation.email')" id="claimer_email" v-model="claimState.claim.email" />
+                                <md-input :name="$t('validation.email')" id="claimer_email" v-model="claimState.claim.email" :disabled="disabledBasedOnDispatchStatus"/>
                             </md-field>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                             <md-field>
                                 <label>{{$t('claims.claim_description')}}</label>
                                 <md-textarea id="claim_description" name="description" style="height: 75px; min-height: auto !important;"
-                                    v-model="claimState.claim.description" md-counter="300"></md-textarea>
+                                    v-model="claimState.claim.description" md-counter="300" :disabled="disabledBasedOnDispatchStatus"></md-textarea>
                             </md-field>
 
                         </div>
@@ -109,7 +109,7 @@
 
                 <md-dialog-actions style="top: -30px;">
                     <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
-                    <md-button class="md-primary" @click="createClaim">{{ $t("common.create") }}</md-button>
+                    <md-button class="md-primary" @click="createClaim" :disabled="disabledBasedOnDispatchStatus">{{ $t("common.create") }}</md-button>
                 </md-dialog-actions>
 
             </md-step>
@@ -126,15 +126,19 @@
     import ClaimProblems from '@/components/functional/applications/CreateApplication/ProblemsPartial.vue';
     import { districts } from '../../../../domain/entities/functional/Address';
     import {plusButton, statusDialog} from '../../../../domain/util/interface/CommonInterface';
+    import IWithRoute from '../../../../domain/util/interface/IWithRoute';
+    import UserState from '../../../../store/common/user/types';
+    import RoleResolver from '../../../../domain/services/functional/roles/RoleResolver';
 
     @Component({
         components: {ClaimProblems},
     })
-    export default class CreateApplication extends Vue {
+    export default class CreateApplication extends Vue implements IWithRoute {
         @Action('createClaim')
         public createClaim;
 
         @State('claim') public claimState!: ClaimState;
+        @State('user') public userState!: UserState;
 
         @Provide() public districts: string[] = districts;
         @Provide() public showSingleClaimModal: boolean = false;
@@ -157,10 +161,16 @@
         }
 
         public closeDialog() {
-            this.showSingleClaimModal = false;
+            this.statusDialog.show = false;
             this.active = 'active';
             this.first = true;
             this.second = false;
+        }
+
+        get disabledBasedOnDispatchStatus() {
+            let resolvedRole;
+            resolvedRole = RoleResolver.resolveRole(this.userState.role.name);
+            return resolvedRole.dispatchStatusOfClaim(this.claimState.claim.dispatchStatus);
         }
 
     }

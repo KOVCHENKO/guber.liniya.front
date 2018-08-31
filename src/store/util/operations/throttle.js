@@ -1,5 +1,5 @@
 export default function throttle(callback, limit) {
-    var lastExecution = null;
+    let lastExecution = null;
     return () => {
         clearTimeout(lastExecution);
         lastExecution = setTimeout(() => {

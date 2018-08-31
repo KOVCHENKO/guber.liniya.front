@@ -1,4 +1,4 @@
 export default interface ClaimState {
-    claim: {};
+    claim: {} | any;
     claims: [{}] | any;
 }

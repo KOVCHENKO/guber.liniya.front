@@ -1,3 +1,4 @@
+<!--suppress TypeScriptUnresolvedVariable -->
 <template>
     <div>
         
@@ -26,7 +27,7 @@
 
 
             <datatable-custom-paginator
-                    v-on:setAnotherPage="getAllClaims"
+                    v-on:setAnotherPage="getAllClaims({ dispatchStatus: $route.params.dispatch_status })"
             ></datatable-custom-paginator>
 
         </div>
@@ -49,6 +50,7 @@
     import Address from '../../../domain/entities/functional/Address';
     import Problem from '../../../domain/entities/functional/Problem';
     import throttle from '../../../store/util/operations/throttle';
+    import IWithRoute from '../../../domain/util/interface/IWithRoute';
 
     @Component({
         components: {
@@ -57,7 +59,7 @@
             DatatableCustomPaginator,
         },
     })
-    export default class DispatcherApplications extends Vue {
+    export default class DispatcherApplications extends Vue implements IWithRoute {
         @Provide()
         public searchField: string = '';
 
@@ -85,7 +87,7 @@
         }
 
         public created() {
-            this.getAllClaims();
+            this.getAllClaims({ dispatchStatus: this.$route.params.dispatch_status });
         }
 
         public show(claim) {
@@ -96,7 +98,7 @@
             }
 
             this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
-                claim.middlename, claim.lastname, claim.phone, claim.email, claim.link,
+                claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status,
                 new Address(claim.address.id, claim.address.district, claim.address.location),
                 problem);
 
@@ -108,11 +110,12 @@
         }
 
         public startSearch() {
-            if (this.searchField == '') {
-                this.getAllClaims();
+            if (this.searchField === '') {
+                this.getAllClaims({ dispatchStatus: this.$route.params.dispatch_status });
                 return;
             } 
-            this.searchClaim({search: this.searchField});
+            
+            this.searchClaim({search: this.searchField, dispatchStatus: this.$route.params.dispatch_status });
         }
 
 

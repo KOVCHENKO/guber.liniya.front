@@ -10,16 +10,17 @@ import Address from '@/domain/entities/functional/Address';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 
 export const state: ClaimState = {
-    claim: new Claim(0, '', '', '', '', '', '', '', '',
+    claim: new Claim(0, '', '', '', '', '', '', '', '', '',
                         new Address(0, 'Астрахань', ''),
                         new Problem(0, 'Выберите проблему', '')),
     claims: [{}],
 };
 
 export const actions: ActionTree<ClaimState, RootState> = {
-    async getAllClaims({rootState, dispatch}) {
+    async getAllClaims({rootState, dispatch}, payload) {
         try {
-            const result = await axios.get(`${baseUrl}claims/all/${rootState.pagination.currentPage}`);
+            const result = await axios.get(`${baseUrl}claims/all/
+                                                    ${rootState.pagination.currentPage}/${payload.dispatchStatus}`);
             state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.pages });
         } catch {
@@ -38,8 +39,8 @@ export const actions: ActionTree<ClaimState, RootState> = {
 
     async searchClaim({rootState, dispatch}, payload) {
         try {
-            const result = await axios.get(`${baseUrl}claims/search/
-                                                ${rootState.pagination.currentPage}/${payload.search}`);
+            const result = await axios.get(`${baseUrl}claims/search/${rootState.pagination.currentPage}/
+                                                                        ${payload.search}/${payload.dispatchStatus}`);
             state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.pages });
         } catch {
