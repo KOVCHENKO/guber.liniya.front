@@ -641,3 +641,20 @@ button.close {
         overflow: auto;
     }
 }
+.pagination {
+    .pagination-box {
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        line-height: 25px;
+        border: 1px solid #c1c1c1;
+        margin: 3px;
+        cursor: pointer;
+    }
+    .pagination-box:hover {
+        background: #f3f3f3;
+    }
+    .pagination-box.active-page {
+        background: #eaeaea;
+    }
+}

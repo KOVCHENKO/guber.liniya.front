@@ -2,21 +2,15 @@
     <div class="datatable">
         <nav aria-label="Page navigation">
             <ul class="pagination">
-                <li @click="changePage(1)" v-if="currentChosenPage !== 1">
-                    <a>1</a>
+                <span v-for="(page, index) in this.pagination.pagesArray" :key="index">
+                <li  @click="changePage(page)" :class="{ 'active-page': currentChosenPage === page }"  
+                    class="pagination-box" v-if="page !== -1">
+                    <a :class="{ active: currentChosenPage === page }">{{ page }}</a>
                 </li>
-                <li v-if="currentChosenPage !== 1">
+                <li v-else>
                     <a>...</a>
                 </li>
-                <li v-for="currentPage in this.pagination.slicedPagesNumber" @click="changePage(currentPage)">
-                    <a :class="{ active: currentChosenPage === currentPage }">{{ currentPage }}</a>
-                </li>
-                <li v-if="currentChosenPage !== pagination.lastPage">
-                    <a>...</a>
-                </li>
-                <li v-if="currentChosenPage !== pagination.lastPage" @click="changePage(pagination.lastPage)">
-                    <a> {{ pagination.lastPage }} </a>
-                </li>
+                </span>
             </ul>
         </nav>
 

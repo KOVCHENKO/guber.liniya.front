@@ -1,18 +1,17 @@
-export const makeBunchOfPages = (lastPage) => {
-    const pages = Array.apply(null, {length: lastPage + 1})
-        .map(Number.call, Number);
-    pages.shift();
-
-    return pages;
-};
-
-export const slicePages = (qntyOfSlicedPages, lastPage, currentPage, pages) => {
-    let slicedPagesNumber = [];
-
-    if (lastPage < 5) {
-        return slicedPagesNumber = pages;
-    } else {
-        return slicedPagesNumber =
-            pages.slice(currentPage - 1, currentPage + 5);
+export const makePages = (currentPage, lastPage) => {
+    let arrayPages : any = [];
+    let firstPage = 1;
+    
+    for (var i = firstPage; i <= lastPage; i++) {
+        if (i == firstPage || i == lastPage 
+            || (i <= currentPage + 2 && i >= currentPage-2) ) {
+            
+            arrayPages.push(i);
+        }
+        else if (i == firstPage + 1 || i == lastPage - 1) {
+            arrayPages.push(-1);
+        } 
     }
+
+    return arrayPages;
 };
