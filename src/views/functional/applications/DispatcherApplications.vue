@@ -11,11 +11,10 @@
             >
                 <template slot-scope="{ row }">
                     <tr>
-                        <td>{{ row.id }}</td>
-                        <td>{{ row.description }}</td>
-                        <td>{{ row.phone }}</td>
                         <td>{{ row.created_at }}</td>
                         <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
+                        <td>{{ row.phone }}</td>
+                        <td>{{ row.address.district }} / {{ row.address.location }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(row)">
                                 <i class="fas fa-pencil-alt"></i>
@@ -65,11 +64,10 @@
 
         @Provide()
         public tableColumns = [
-            {label: 'id'},
-            {label: 'Описание'},
-            {label: 'Телефон'},
             {label: 'Дата'},
             {label: 'Заявитель'},
+            {label: 'Телефон'},
+            {label: 'Адрес (район / адрес)'},
             {label: ''},
         ];
 
@@ -113,8 +111,7 @@
             if (this.searchField === '') {
                 this.getAllClaims({ dispatchStatus: this.$route.params.dispatch_status });
                 return;
-            } 
-            
+            }
             this.searchClaim({search: this.searchField, dispatchStatus: this.$route.params.dispatch_status });
         }
 

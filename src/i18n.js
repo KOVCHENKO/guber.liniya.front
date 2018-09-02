@@ -129,7 +129,7 @@ const messages = {
             problems: 'Проблемы',
             problem_types: 'Виды проблем',
             claimer_firstname: 'Имя',
-            claimer_middlename: 'Отчетство',
+            claimer_middlename: 'Отчество',
             claimer_lastname: 'Фамилия',
             claimer_address: 'Адрес',
             claimer_phone: 'Телефон',
