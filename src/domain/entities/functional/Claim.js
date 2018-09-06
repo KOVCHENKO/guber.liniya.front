@@ -1,5 +1,5 @@
 class Claim {
-    constructor(id, name, description, firstName, middleName, lastName, phone, email, link, dispatchStatus, address, problem) {
+    constructor(id, name, description, firstName, middleName, lastName, phone, email, link, dispatchStatus, address, problem, call) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -12,6 +12,7 @@ class Claim {
         this.problem = problem;
         this.link = link;
         this.dispatchStatus = dispatchStatus;
+        this.call = call;
     }
 }
 export default Claim;

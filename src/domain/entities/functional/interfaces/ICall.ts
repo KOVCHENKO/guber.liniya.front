@@ -1,13 +1,13 @@
 interface ICall {
-    UID: string;
-    type: string;
+    id: number;
+    callId: string;
     clientPhone: string;
-    account: string;
-    executorPhone: string;
-    start: string;
-    wait: number;
-    duration: number;
-    record: string;
+    link: string;
+    atsStatus: string;
+    type: string;
+    ext: string;
+    processingStatus: string;
+    createdAt: string;
 }
 
 export default ICall;

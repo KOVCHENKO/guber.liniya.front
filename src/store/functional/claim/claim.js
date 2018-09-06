@@ -5,8 +5,9 @@ import Claim from '@/domain/entities/functional/Claim';
 import Problem from '@/domain/entities/functional/Problem';
 import Address from '@/domain/entities/functional/Address';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
+import Call from '@/domain/entities/functional/Call';
 export const state = {
-    claim: new Claim(0, '', '', '', '', '', '', '', '', '', new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', '')),
+    claim: new Claim(0, '', '', '', '', '', '', '', '', '', new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''), new Call(0, '', '', '', 'success', 'in', '', '', '')),
     claims: [{}],
 };
 export const actions = {

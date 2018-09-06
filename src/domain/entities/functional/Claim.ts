@@ -1,5 +1,6 @@
 import IProblem from '@/domain/entities/functional/interfaces/IProblem';
 import IAddress from '@/domain/entities/functional/interfaces/IAddress';
+import ICall from '@/domain/entities/functional/interfaces/ICall';
 
 class Claim {
     public id: number;
@@ -14,11 +15,12 @@ class Claim {
     public link: string;            // ссылка на аудиозапись заявления
     public dispatchStatus: string;  // prepared - для диспетчера, edited - для редактора, dispatched - для супервизора
     public problem: IProblem;       // Проблема по заявке
+    public call: ICall;
 
 
     constructor(id: number, name: string, description: string, firstName: string, middleName: string,
                 lastName: string, phone: string, email: string, link: string, dispatchStatus: string,
-                address: IAddress, problem: IProblem) {
+                address: IAddress, problem: IProblem, call: ICall) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -31,6 +33,7 @@ class Claim {
         this.problem = problem;
         this.link = link;
         this.dispatchStatus = dispatchStatus;
+        this.call = call;
     }
 }
 

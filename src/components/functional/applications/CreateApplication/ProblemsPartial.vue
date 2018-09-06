@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-sm-4">
-                
+            <div class="col-sm-3">
                 <md-field>
                     <label>Тип проблемы</label>
                     <md-select name="type_problem" id="type_problem" v-model="problemTypeId">
@@ -11,20 +10,33 @@
                         </md-option>
                     </md-select>
                 </md-field>
-                
             </div>
-            <div class="col-sm-4">
-                
+
+            <div class="col-sm-3">
                 <md-field>
                     <label>Проблема</label>
-                    <md-select name="problem" id="problem">
-                        <md-option v-for="(problem, index) in problems" @click="chooseProblem(problem)" :key="index" :value="problem.id">
+                    <md-select name="problem" id="problem" v-model="problemId">
+                        <md-option v-for="(problem, index) in problems" :key="index" :value="problem.id">
                             {{ problem.name }}
                         </md-option>
                     </md-select>
                 </md-field>
-                
             </div>
+
+            <div class="col-sm-4">
+                <md-list :md-expand-single="expandSingle">
+                    <md-list-item md-expand :md-expanded.sync="expandOrganizations">
+                        <span class="md-list-item-text">Организации</span>
+
+                        <md-list slot="md-expand">
+                            <md-list-item v-for="organization in problemState.organizations" :key="organization.id" class="md-inset">
+                                {{ organization.name }}
+                            </md-list-item>
+                        </md-list>
+                    </md-list-item>
+                </md-list>
+            </div>
+
         </div>
 
         <div class="row">
@@ -46,17 +58,28 @@
     @Component
     export default class ClaimProblems extends Vue {
 
-        @Action('getAllProblemTypes')
-        public getAllProblemTypes;
+        @Action public getAllProblemTypes;
+        @Action public getOrganizationsOfProblem;
 
         @State('problemType') public problemTypeState;
         @State('claim') public claimState;
-        @Provide() public problems = [];
+        @State('problem') public problemState;
+
+        @Provide() public problems: IProblem[] = [];
         @Provide() public problemTypeId: number = 0;
+        @Provide() public problemId: number = 0;
+
+        @Provide() public expandSingle = false;
+        @Provide() public expandOrganizations = false;
 
         @Watch('problemTypeId')
         private onChildChanged(val: string, oldVal: string) {
             this.chooseProblemTypeById(val);
+        }
+
+        @Watch('problemId')
+        private onProblemChange(val: string, oldVal: string) {
+            this.chooseProblem(val);
         }
 
         private created() {
@@ -76,8 +99,14 @@
             this.problems = this.problemTypeState.problemTypes[problemTypeIndex].children;
         }
 
-        private chooseProblem(problem: IProblem) {
-            this.claimState.claim.problem = problem;
+        private chooseProblem(problemId) {
+            const problemIndex = this.problems.map((e) => {
+                return e.id;
+            }).indexOf(parseInt(problemId, 10));
+
+            this.claimState.claim.problem = this.problems[problemIndex];
+            this.getOrganizationsOfProblem({ problemId });
+            this.expandOrganizations = true;
         }
 
     }

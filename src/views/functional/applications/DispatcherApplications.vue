@@ -50,6 +50,7 @@
     import Problem from '../../../domain/entities/functional/Problem';
     import throttle from '../../../store/util/operations/throttle';
     import IWithRoute from '../../../domain/util/interface/IWithRoute';
+    import Call from '../../../domain/entities/functional/Call';
 
     @Component({
         components: {
@@ -98,7 +99,8 @@
             this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
                 claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status,
                 new Address(claim.address.id, claim.address.district, claim.address.location),
-                problem);
+                problem,
+                new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
             statusDialog.show = true;
         }
