@@ -9,7 +9,6 @@ import {baseUrl} from '@/globals';
 export const state: CallState = {
     call: new Call(0, '', '', '', 'success', 'in',  '', '', ''),
     calls: [],
-    previousCalls: [],
 };
 
 export const actions: ActionTree<CallState, RootState> = {
@@ -23,10 +22,10 @@ export const actions: ActionTree<CallState, RootState> = {
       }
     },
 
-    async getCallsOfTheSamePhone() {
+    async markCallAsFaulty({dispatch}) {
         try {
-            const res = await axios.post(`${baseUrl}calls/get_previous_by_phone`, state.call);
-            state.previousCalls = res.data;
+            await axios.get(`${baseUrl}calls/mark_call_as_faulty/${state.call.id}`);
+            dispatch('getCalls');
         } catch {
             ErrorNotifier.notify();
         }

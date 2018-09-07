@@ -14,12 +14,13 @@ class Claim {
     public email: string;           // email заявителя
     public link: string;            // ссылка на аудиозапись заявления
     public dispatchStatus: string;  // prepared - для диспетчера, edited - для редактора, dispatched - для супервизора
+    public pid: number | null;
     public problem: IProblem;       // Проблема по заявке
-    public call: ICall;
+    public call: ICall;             // Звонок на котором основана заявка
 
 
-    constructor(id: number, name: string, description: string, firstName: string, middleName: string,
-                lastName: string, phone: string, email: string, link: string, dispatchStatus: string,
+    constructor(id: number, name: string, description: string, firstName: string, middleName: string, lastName: string,
+                phone: string, email: string, link: string, dispatchStatus: string, pid: number | null,
                 address: IAddress, problem: IProblem, call: ICall) {
         this.id = id;
         this.name = name;
@@ -32,6 +33,7 @@ class Claim {
         this.email = email;
         this.problem = problem;
         this.link = link;
+        this.pid = pid;
         this.dispatchStatus = dispatchStatus;
         this.call = call;
     }

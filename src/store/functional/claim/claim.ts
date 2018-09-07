@@ -11,11 +11,12 @@ import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 import Call from '@/domain/entities/functional/Call';
 
 export const state: ClaimState = {
-    claim: new Claim(0, '', '', '', '', '', '', '', '', '',
+    claim: new Claim(0, '', '', '', '', '', '', '', '', '', null,
                         new Address(0, 'Астрахань', ''),
                         new Problem(0, 'Выберите проблему', ''),
                         new Call(0, '', '', '', 'success', 'in',  '', '', '')),
     claims: [{}],
+    previousClaims: [],
 };
 
 export const actions: ActionTree<ClaimState, RootState> = {
@@ -45,6 +46,17 @@ export const actions: ActionTree<ClaimState, RootState> = {
                                                                         ${payload.search}/${payload.dispatchStatus}`);
             state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.pages });
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
+    async getClaimsOfTheSamePhone() {
+        try {
+            const res = await axios.post(`${baseUrl}claims/get_previous_by_phone`, {
+                phone: state.claim.phone,
+            });
+            state.previousClaims = res.data;
         } catch {
             ErrorNotifier.notify();
         }

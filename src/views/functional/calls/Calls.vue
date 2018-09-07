@@ -8,6 +8,7 @@
                 <tr>
                     <td>{{ row.created_at }}</td>
                     <td>{{ row.phone }}</td>
+                    <td>{{ row.processing_status }}</td>
                     <td>
                         <div style="cursor: pointer;" @click="resolve(row)">
                             <i class="fas fa-pencil-alt"></i>
@@ -55,6 +56,7 @@
         public tableColumns = [
             {label: 'Дата'},
             {label: 'Телефон'},
+            {label: 'Статус обработки'},
             {label: ''},
         ];
 
@@ -67,7 +69,10 @@
          * Обработать звонок - новый, З - заявка, ПЗ - повторный звонок, О - ошибка
          */
         public resolve(call) {
-            this.claimState.claim = new Claim(0, '', '', '', '', '', call.phone, '', call.link, '',
+            this.callState.call = new Call(call.id, call.call_id, call.phone, call.link, call.ats_status, 'in',
+                '', 'raw', call.created_at);
+
+            this.claimState.claim = new Claim(0, '', '', '', '', '', call.phone, '', call.link, '', null,
                 new Address(0, 'Астрахань', ''),
                 new Problem(0, '', ''),
                 new Call(call.id, call.call_id, call.phone, call.link, call.ats_status, 'in',

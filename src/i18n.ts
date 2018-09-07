@@ -70,6 +70,7 @@ const messages = {
             answer: 'Ответить',
             pay: 'Оплатить',
             edit: 'Изменить',
+            choose: 'Выбрать',
         },
         errors: {
             query_error_title: 'ошибка',
