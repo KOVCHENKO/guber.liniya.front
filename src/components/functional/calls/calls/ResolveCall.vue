@@ -159,14 +159,18 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../../store/functional/claim/types';
-    import ClaimProblems from '@/components/functional/applications/CreateApplication/ProblemsPartial.vue';
-    import { districts } from '../../../../domain/entities/functional/Address';
+    import ClaimProblems from '@/components/functional/calls/calls/ProblemsPartial.vue';
+    import {default as Address, districts} from '../../../../domain/entities/functional/Address';
     import {OkCancelModalProperties, plusButton, statusDialog} from '../../../../domain/util/interface/CommonInterface';
     import IWithRoute from '../../../../domain/util/interface/IWithRoute';
     import UserState from '../../../../store/common/user/types';
     import ISteps from '../../../../domain/util/interface/ISteps';
     import Reclaimed from '@/components/functional/calls/calls/Reclaimed.vue';
     import OkCancelModal from '@/components/util/ui/OkCancelModal.vue';
+    import CallState from '../../../../store/functional/call/types';
+    import Claim from '../../../../domain/entities/functional/Claim';
+    import Problem from '../../../../domain/entities/functional/Problem';
+    import Call from '../../../../domain/entities/functional/Call';
 
     @Component({
         components: {ClaimProblems, Reclaimed, OkCancelModal},
@@ -178,6 +182,7 @@
 
         @State('claim') public claimState!: ClaimState;
         @State('user') public userState!: UserState;
+        @State('call') public callState!: CallState;
 
         @Provide() public callType: string = 'Новый';
 
@@ -236,6 +241,16 @@
             if (processingStatus === 'failed') {
                 $('#sureWindow').modal('show');
                 this.statusDialog.show = false;
+            }
+
+            if (processingStatus === 'claimed') {
+
+                this.claimState.claim = new Claim(0, '', '', '', '', '', this.callState.call.clientPhone, '',
+                    this.callState.call.link, '', null,
+                    new Address(0, 'Астрахань', ''), new Problem(0, '', ''),
+                    new Call(this.callState.call.id, this.callState.call.callId, this.callState.call.clientPhone,
+                        this.callState.call.link, this.callState.call.atsStatus, 'in', '', 'raw',
+                        this.callState.call.createdAt));
             }
         }
 

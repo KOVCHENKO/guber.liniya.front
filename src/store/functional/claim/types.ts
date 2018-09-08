@@ -1,5 +1,7 @@
+import IClaim from '@/domain/entities/functional/interfaces/IClaim';
+
 export default interface ClaimState {
-    claim: {} | any;
-    claims: [{}] | any;
+    claim: IClaim;
+    claims: IClaim[];
     previousClaims: [{}] | any;
 }

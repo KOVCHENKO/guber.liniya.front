@@ -1,19 +1,9 @@
 <template>
-
     <!-- Диалоговое окно-->
     <md-dialog :md-active.sync="statusDialog.show" class="customer-dialog">
-        <md-dialog-title>Создание заявки</md-dialog-title>
-        <!-- Степпер-->
-        <md-steppers :md-active-step.sync="active" md-linear>
-            <!-- Шаг первый-->
-            <md-step id="first" md-label="Заявитель" md-description="личные данные" :md-done.sync="first">
-                <!-- Информация о пользователе-->
+        <md-tabs md-sync-route>
+            <md-tab id="tab-home" md-label="Данные заявителя">
                 <div class="form-padding">
-                    <div class="row">
-                        <div class="col-sm-4-12 dialog-title">
-                            <h5>Данные заявителя</h5>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-sm-4">
                             <md-field>
@@ -36,7 +26,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-4">                                
+                        <div class="col-sm-4">
                             <md-field>
                                 <label>Район</label>
                                 <md-select name="сity" id="claimer_сity" v-model="claimState.claim.address.district" :disabled="disabledBasedOnDispatchStatus">
@@ -68,19 +58,10 @@
                     </div>
 
                 </div>
-                <md-dialog-actions>
-                    <md-button class="md-primary" @click="setDone('first', 'second')">Продолжить</md-button>
-                </md-dialog-actions>                
-            </md-step>
-            <!-- Шаг второй-->
-            <md-step id="second" md-label="Заявка" md-description="подробная информация" :md-done.sync="second">
-                <!-- Информация о заявке-->
+            </md-tab>
+
+            <md-tab id="tab-pages" md-label="Информация">
                 <div class="form-padding">
-                    <!--<div class="row">-->
-                        <!--<div class="col-sm-4-12 dialog-title">-->
-                            <!--<h5>Информация о заявке</h5>-->
-                        <!--</div>-->
-                    <!--</div>-->
 
                     <div class="row">
                         <div class="col-sm-12 clearfix">
@@ -90,52 +71,60 @@
                         </div>
                     </div>
 
-                    <br>
+                    <br><br>
 
-                    <claim-problems></claim-problems>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>{{ claimState.claim.problem.name }}</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>{{ claimState.claim.problem.description }}</label>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-sm-12 clearfix">
-                            
+
                             <md-field>
                                 <label>{{$t('claims.claim_description')}}</label>
                                 <md-textarea id="claim_description" name="description" style="height: 75px; min-height: auto !important;"
-                                    v-model="claimState.claim.description" md-counter="300" :disabled="disabledBasedOnDispatchStatus"></md-textarea>
+                                             v-model="claimState.claim.description" md-counter="300" :disabled="disabledBasedOnDispatchStatus"></md-textarea>
                             </md-field>
 
                         </div>
                     </div>
                 </div>
+            </md-tab>
+            <md-tab id="tab-posts" md-label="Связанные заявки">
 
-                <md-dialog-actions style="top: -30px;">
-                    <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
-                    <md-button class="md-primary" @click="createClaim" :disabled="disabledBasedOnDispatchStatus">{{ $t("common.create") }}</md-button>
-                </md-dialog-actions>
+            </md-tab>
 
-            </md-step>
-        </md-steppers>
+            <md-tab id="tab-posts" md-label="Комментарии">
+
+            </md-tab>
+        </md-tabs>
+
+        <md-dialog-actions style="top: -30px;">
+            <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
+            <md-button class="md-primary" @click="pushUpdate" :disabled="disabledBasedOnDispatchStatus">{{ $t("common.update") }}</md-button>
+        </md-dialog-actions>
 
     </md-dialog>
-
 </template>
 
 <script lang="ts">
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../../store/functional/claim/types';
-    import ClaimProblems from '@/components/functional/applications/CreateApplication/ProblemsPartial.vue';
     import { districts } from '../../../../domain/entities/functional/Address';
-    import {plusButton, statusDialog} from '../../../../domain/util/interface/CommonInterface';
+    import { plusButton, statusDialog } from '../../../../domain/util/interface/CommonInterface';
     import IWithRoute from '../../../../domain/util/interface/IWithRoute';
     import UserState from '../../../../store/common/user/types';
     import RoleResolver from '../../../../domain/services/functional/roles/RoleResolver';
 
-    @Component({
-        components: {ClaimProblems},
-    })
-    export default class CreateApplication extends Vue implements IWithRoute {
-        @Action('createClaim')
-        public createClaim;
+    @Component
+    export default class UpdateApplication extends Vue implements IWithRoute {
+        @Action public updateClaim;
 
         @State('claim') public claimState!: ClaimState;
         @State('user') public userState!: UserState;
@@ -165,6 +154,12 @@
             this.active = 'active';
             this.first = true;
             this.second = false;
+        }
+
+        public pushUpdate() {
+            let resolvedRole;
+            resolvedRole = RoleResolver.resolveRole(this.userState.role.name);
+            this.updateClaim({ updatedDispatchStatus: resolvedRole.getDispatchStatusToUpdate() });
         }
 
         get disabledBasedOnDispatchStatus() {

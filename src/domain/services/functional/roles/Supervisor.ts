@@ -16,6 +16,10 @@ class Supervisor implements IActiveRole {
                 return true;
         }
     }
+
+    public getDispatchStatusToUpdate() {
+        return DISPATCHED;
+    }
 }
 
 export default Supervisor;

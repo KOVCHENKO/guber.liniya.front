@@ -15,6 +15,7 @@
                         <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
                         <td>{{ row.phone }}</td>
                         <td>{{ row.address.district }} / {{ row.address.location }}</td>
+                        <td>{{ row.dispatch_status }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(row)">
                                 <i class="fas fa-pencil-alt"></i>
@@ -31,7 +32,7 @@
 
         </div>
 
-        <create-application></create-application>
+        <update-application></update-application>
 
     </div>
 </template>
@@ -41,7 +42,7 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import DatatableCustomized from '../../../components/util/DatatableCustomized.vue';
     import DatatableCustomPaginator from '../../../components/util/DatatableCustomPaginator.vue';
-    import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
+    import UpdateApplication from '@/components/functional/applications/UpdateApplication/UpdateApplication.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../store/functional/claim/types';
     import {headings, plusButton, statusDialog} from '../../../domain/util/interface/CommonInterface';
@@ -55,7 +56,7 @@
     @Component({
         components: {
             DatatableCustomized,
-            CreateApplication,
+            UpdateApplication,
             DatatableCustomPaginator,
         },
     })
@@ -69,6 +70,7 @@
             {label: 'Заявитель'},
             {label: 'Телефон'},
             {label: 'Адрес (район / адрес)'},
+            {label: 'Статус обработки'},
             {label: ''},
         ];
 

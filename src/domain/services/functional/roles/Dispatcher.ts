@@ -16,6 +16,10 @@ class Dispatcher implements IActiveRole {
                 return true;
         }
     }
+
+    public getDispatchStatusToUpdate() {
+        return PREPARED;
+    }
 }
 
 export default Dispatcher;
