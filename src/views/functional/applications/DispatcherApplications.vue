@@ -7,7 +7,7 @@
 
             <datatable
                     :columns="tableColumns"
-                    :data="claimState.claims"
+                    :data="claims"
             >
                 <template slot-scope="{ row }">
                     <tr>
@@ -52,6 +52,7 @@
     import throttle from '../../../store/util/operations/throttle';
     import IWithRoute from '../../../domain/util/interface/IWithRoute';
     import Call from '../../../domain/entities/functional/Call';
+    import ClaimService from '../../../domain/services/functional/claims/ClaimService';
 
     @Component({
         components: {
@@ -100,8 +101,8 @@
 
             this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
                 claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status, null,
-                new Address(claim.address.id, claim.address.district, claim.address.location),
-                problem,
+                claim.parents,
+                new Address(claim.address.id, claim.address.district, claim.address.location), problem,
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
             statusDialog.show = true;
@@ -109,6 +110,10 @@
 
         get throttledSearch() {
             return throttle(this.startSearch, 2000);
+        }
+
+        get claims() {
+            return ClaimService.resolveClaimDispatchStatus(this.claimState.claims);
         }
 
         public startSearch() {

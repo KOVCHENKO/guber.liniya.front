@@ -17,10 +17,11 @@ class Claim {
     public pid: number | null;
     public problem: IProblem;       // Проблема по заявке
     public call: ICall;             // Звонок на котором основана заявка
+    public parents: [{}];
 
 
     constructor(id: number, name: string, description: string, firstName: string, middleName: string, lastName: string,
-                phone: string, email: string, link: string, dispatchStatus: string, pid: number | null,
+                phone: string, email: string, link: string, dispatchStatus: string, pid: number | null, parents: [{}],
                 address: IAddress, problem: IProblem, call: ICall) {
         this.id = id;
         this.name = name;
@@ -34,6 +35,7 @@ class Claim {
         this.problem = problem;
         this.link = link;
         this.pid = pid;
+        this.parents = parents;
         this.dispatchStatus = dispatchStatus;
         this.call = call;
     }

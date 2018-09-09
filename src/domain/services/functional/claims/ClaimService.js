@@ -1,4 +1,24 @@
+import { DISPATCHED, EDITED, PREPARED, RAW } from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
 class ClaimService {
+    static resolveClaimDispatchStatus(claims) {
+        return claims.map((b) => {
+            switch (b.dispatch_status) {
+                case RAW:
+                    b.dispatch_status = 'Необработанна';
+                    break;
+                case PREPARED:
+                    b.dispatch_status = 'Создана';
+                    break;
+                case EDITED:
+                    b.dispatch_status = 'Отредактирована';
+                    break;
+                case DISPATCHED:
+                    b.dispatch_status = 'Отправлена';
+                    break;
+            }
+            return b;
+        });
+    }
     updateClaimInCollection(claims, claim) {
         const subIndex = claims.map((e) => {
             return e.id;

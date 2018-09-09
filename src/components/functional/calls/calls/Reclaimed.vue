@@ -69,7 +69,7 @@
             const savedCall: ICall = this.claimState.claim.call;
 
             this.claimState.claim = new Claim(0, claim.name, claim.description, claim.firstname, claim.middlename,
-                claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status, claim.id,
+                claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status, claim.id, [{}],
                 new Address(claim.address.id, claim.address.district, claim.address.location),
                 new Problem(claim.problem.id, claim.problem.name, claim.problem.description),
                 savedCall);

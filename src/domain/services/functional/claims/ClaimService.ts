@@ -1,6 +1,20 @@
 import IClaim from '@/domain/entities/functional/interfaces/IClaim';
+import {DISPATCHED, EDITED, PREPARED, RAW} from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
 
 class ClaimService {
+
+    public static resolveClaimDispatchStatus(claims) {
+        return claims.map( (b) => {
+            switch (b.dispatch_status) {
+                case RAW:  b.dispatch_status = 'Необработанна'; break;
+                case PREPARED:  b.dispatch_status = 'Создана'; break;
+                case EDITED:  b.dispatch_status = 'Отредактирована'; break;
+                case DISPATCHED:  b.dispatch_status = 'Отправлена'; break;
+            }
+            return b;
+        });
+    }
+
     public updateClaimInCollection(claims, claim: IClaim) {
         const subIndex = claims.map((e) => {
             return e.id;
@@ -16,7 +30,6 @@ class ClaimService {
         claims[subIndex].dispatch_status = claim.dispatchStatus;
 
         return claims;
-
     }
 }
 

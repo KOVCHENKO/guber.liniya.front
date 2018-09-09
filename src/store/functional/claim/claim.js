@@ -8,7 +8,7 @@ import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 import Call from '@/domain/entities/functional/Call';
 import ClaimService from '@/domain/services/functional/claims/ClaimService';
 export const state = {
-    claim: new Claim(0, '', '', '', '', '', '', '', '', '', null, new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''), new Call(0, '', '', '', 'success', 'in', '', '', '')),
+    claim: new Claim(0, '', '', '', '', '', '', '', '', '', null, [{}], new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''), new Call(0, '', '', '', 'success', 'in', '', '', '')),
     claims: [],
     previousClaims: [],
 };

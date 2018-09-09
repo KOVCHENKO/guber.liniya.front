@@ -2,7 +2,7 @@
     <div>
         <datatable
                 :columns="tableColumns"
-                :data="callState.calls"
+                :data="calls"
         >
             <template slot-scope="{ row }">
                 <tr>
@@ -36,8 +36,9 @@
     import Claim from '../../../domain/entities/functional/Claim';
     import ClaimState from '../../../store/functional/claim/types';
     import Address from '../../../domain/entities/functional/Address';
-    import {statusDialog} from '../../../domain/util/interface/CommonInterface';
+    import {headings, statusDialog} from '../../../domain/util/interface/CommonInterface';
     import Call from '../../../domain/entities/functional/Call';
+    import CallService from '../../../domain/services/functional/calls/CallService';
 
     @Component({
         components: {
@@ -62,6 +63,7 @@
 
         constructor() {
             super();
+            headings.title = 'Все звонки';
             this.getCalls();
         }
 
@@ -72,7 +74,7 @@
             this.callState.call = new Call(call.id, call.call_id, call.phone, call.link, call.ats_status, 'in',
                 '', 'raw', call.created_at);
 
-            this.claimState.claim = new Claim(0, '', '', '', '', '', call.phone, '', call.link, '', null,
+            this.claimState.claim = new Claim(0, '', '', '', '', '', call.phone, '', call.link, '', null, [{}],
                 new Address(0, 'Астрахань', ''),
                 new Problem(0, '', ''),
                 new Call(call.id, call.call_id, call.phone, call.link, call.ats_status, 'in',
@@ -80,9 +82,9 @@
 
             statusDialog.show = true;
         }
+
+        get calls() {
+            return CallService.resolveCallProcessingStatus(this.callState.calls);
+        }
     }
 </script>
-
-<style scoped>
-
-</style>

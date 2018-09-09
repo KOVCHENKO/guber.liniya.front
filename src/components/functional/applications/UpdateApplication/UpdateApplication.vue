@@ -2,7 +2,7 @@
     <!-- Диалоговое окно-->
     <md-dialog :md-active.sync="statusDialog.show" class="customer-dialog">
         <md-tabs md-sync-route>
-            <md-tab id="tab-home" md-label="Данные заявителя">
+            <md-tab id="tab-applicant" md-label="Данные заявителя">
                 <div class="form-padding">
                     <div class="row">
                         <div class="col-sm-4">
@@ -60,7 +60,7 @@
                 </div>
             </md-tab>
 
-            <md-tab id="tab-pages" md-label="Информация">
+            <md-tab id="tab-info" md-label="Информация">
                 <div class="form-padding">
 
                     <div class="row">
@@ -95,11 +95,20 @@
                     </div>
                 </div>
             </md-tab>
-            <md-tab id="tab-posts" md-label="Связанные заявки">
-
+            <md-tab id="tab-linked" md-label="Связанные заявки">
+                <div class="row" v-for="parentClaim in claimState.claim.parents">
+                    <div class="col-sm-2 clearfix">
+                        {{ parentClaim.created_at }}
+                    </div>
+                    <div class="col-sm-10 clearfix">
+                        <audio controls>
+                            <source :src="parentClaim.link" type="audio/mpeg">
+                        </audio>
+                    </div>
+                </div>
             </md-tab>
 
-            <md-tab id="tab-posts" md-label="Комментарии">
+            <md-tab id="tab-comments" md-label="Комментарии">
 
             </md-tab>
         </md-tabs>
