@@ -19,6 +19,14 @@ class ClaimService {
             return b;
         });
     }
+    static reverseClaimDispatchStatus(dispatchStatus) {
+        switch (dispatchStatus) {
+            case 'Необработанна': return RAW;
+            case 'Создана': return PREPARED;
+            case 'Отредактирована': return EDITED;
+            case 'Отправлена': return DISPATCHED;
+        }
+    }
     updateClaimInCollection(claims, claim) {
         const subIndex = claims.map((e) => {
             return e.id;

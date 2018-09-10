@@ -47,15 +47,13 @@
 
 <script lang="ts">
 
-    import {Component, Provide, Vue} from "vue-property-decorator";
-    import {Action, State} from 'vuex-class';
-    import UserState from '../../../../store/common/user/types';
+    import {Component, Provide, Vue} from 'vue-property-decorator';
     import IWithRoute from '@/domain/util/interface/IWithRoute';
 
     @Component
     export default class CreateSpecialist extends Vue implements IWithRoute {
-        @Provide public password;
-        @Provide public repassword;
+        @Provide() public password;
+        @Provide() public repassword;
 
         public resetPassword() {
             // reset password method

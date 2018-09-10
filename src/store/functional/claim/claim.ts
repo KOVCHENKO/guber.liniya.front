@@ -67,12 +67,31 @@ export const actions: ActionTree<ClaimState, RootState> = {
         }
     },
 
+    async changeStatusClaim(context, payload) {
+        try {
+            await axios.get(`${baseUrl}claims/update_status/${payload.id}/${payload.status}`);
+            SuccessNotifier.notify('Заявка', 'Статус заявки изменен');
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
     async getClaimsOfTheSamePhone() {
         try {
             const res = await axios.post(`${baseUrl}claims/get_previous_by_phone`, {
                 phone: state.claim.phone,
             });
             state.previousClaims = res.data;
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
+    async changeOrganization(context, payload) {
+        try {
+            await axios.get(`${baseUrl}claims/change_organization/${payload.id}/
+                    ${payload.id_old_organization}/${payload.id_new_organization}`);
+            SuccessNotifier.notify('Заявка', 'Отвественная организация изменена');
         } catch {
             ErrorNotifier.notify();
         }

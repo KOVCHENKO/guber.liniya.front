@@ -51,6 +51,9 @@
         @Action('getAllClaimsOfOrganization')
         public getAllClaimsOfOrganization;
 
+        @Action('getAllChildrenOrganization')
+        public getAllChildrenOrganization;
+
         @Provide()
         public tableColumns = [
             {label: 'id', field: 'id'},
@@ -70,6 +73,7 @@
             middlename: '',
             lastname: '',
             phone: '',
+            status: '',
         };
 
         constructor() {
@@ -81,6 +85,7 @@
 
         public created() {
             this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id });
+            this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });
         }
 
         public show(row) {

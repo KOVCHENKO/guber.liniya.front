@@ -640,6 +640,14 @@ button.close {
         max-height: 112px;
         overflow: auto;
     }
+    .row {
+        width: 100%;
+        .col-sm-6 {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+    }
+
 }
 .pagination {
     .pagination-box {
@@ -657,4 +665,11 @@ button.close {
     .pagination-box.active-page {
         background: #eaeaea;
     }
+}
+.fa-check-green {
+    color: green; 
+    padding: 5px;
+}
+.claim-check-text {
+    display: inline;
 }
