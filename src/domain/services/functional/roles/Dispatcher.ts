@@ -18,6 +18,8 @@ class Dispatcher implements IActiveRole {
                     return true;
                 case DISPATCHED:
                     return true;
+                case undefined:
+                    return false;
                 default:
                     ErrorNotifier.notifyWithCustomMessage('Ошибка в обработке статуса отправки');
             }

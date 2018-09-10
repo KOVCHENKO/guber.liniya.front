@@ -19,7 +19,7 @@
         </datatable>
 
         <datatable-custom-paginator
-                v-on:setAnotherPage="getAllClaims({ dispatchStatus: $route.params.dispatch_status })"
+                v-on:setAnotherPage="getCalls()"
         ></datatable-custom-paginator>
 
         <resolve-call></resolve-call>
