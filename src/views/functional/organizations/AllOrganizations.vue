@@ -95,7 +95,7 @@
         }
 
         public newOrganizationUpper() {
-            this.newOrganization(0);
+            this.newOrganization(null);
         }
 
     }

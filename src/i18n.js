@@ -143,6 +143,8 @@ const messages = {
             create_specialist_modal: 'Добавить аккаунт специалиста',
             login: 'Логин (email)',
             password: 'Пароль',
+            repassword: 'Повторить пароль',
+            reset_password_modal: 'Сбросить пароль',
         },
     },
 };
