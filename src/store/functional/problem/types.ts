@@ -4,4 +4,5 @@ import IProblemCollection from '@/domain/collections/functional/interfaces/IProb
 export default interface IProblemState {
     problem: IProblem;
     problems: IProblemCollection;
+    organizations: [{}];
 }

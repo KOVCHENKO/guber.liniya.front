@@ -1,18 +1,22 @@
+import { DISPATCHED, EDITED, PREPARED, RAW } from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
 class Editor {
     constructor() {
         this.type = 'editor';
     }
     dispatchStatusOfClaim(dispatchStatus) {
         switch (dispatchStatus) {
-            case 'raw':
+            case RAW:
                 return false;
-            case 'prepared':
+            case PREPARED:
                 return false;
-            case 'edited':
+            case EDITED:
                 return false;
-            case 'dispatched':
+            case DISPATCHED:
                 return true;
         }
+    }
+    getDispatchStatusToUpdate() {
+        return EDITED;
     }
 }
 export default Editor;

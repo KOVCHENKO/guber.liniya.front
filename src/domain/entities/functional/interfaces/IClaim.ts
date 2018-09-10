@@ -1,0 +1,21 @@
+import ICall from '@/domain/entities/functional/interfaces/ICall';
+import IAddress from '@/domain/entities/functional/interfaces/IAddress';
+import IProblem from '@/domain/entities/functional/interfaces/IProblem';
+
+export default interface IClaim {
+    id: number;
+    name: string;            // id из АТС Мегафон
+    description: string;     // описание полное
+    firstName: string;       // имя заявителя
+    middleName: string;      // отчество заявителя
+    lastName: string;        // фамилия заявителя
+    address: IAddress;       // Адрес заявки
+    phone: string;           // телефон заявителя
+    email: string;           // email заявителя
+    link: string;            // ссылка на аудиозапись заявления
+    dispatchStatus: string;  // prepared - для диспетчера, edited - для редактора, dispatched - для супервизора
+    pid: number | null;      // ид родительской заявки
+    problem: IProblem;       // Проблема по заявке
+    call: ICall;             // Связанный заявок
+    parents: [{}];
+}

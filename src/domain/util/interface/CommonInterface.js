@@ -15,4 +15,11 @@ export const mainToolbar = {
 export const statusDialog = {
     show: false,
 };
+export const OkCancelModalProperties = {
+    title: '',
+    text: '',
+    okAction: () => {
+        // dummy function
+    },
+};
 //# sourceMappingURL=CommonInterface.js.map

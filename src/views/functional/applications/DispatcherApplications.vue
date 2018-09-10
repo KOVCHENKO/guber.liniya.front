@@ -7,7 +7,7 @@
 
             <datatable
                     :columns="tableColumns"
-                    :data="claimState.claims"
+                    :data="claims"
             >
                 <template slot-scope="{ row }">
                     <tr>
@@ -15,6 +15,7 @@
                         <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
                         <td>{{ row.phone }}</td>
                         <td>{{ row.address.district }} / {{ row.address.location }}</td>
+                        <td>{{ row.dispatch_status }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(row)">
                                 <i class="fas fa-pencil-alt"></i>
@@ -31,7 +32,7 @@
 
         </div>
 
-        <create-application></create-application>
+        <update-application></update-application>
 
     </div>
 </template>
@@ -41,7 +42,7 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import DatatableCustomized from '../../../components/util/DatatableCustomized.vue';
     import DatatableCustomPaginator from '../../../components/util/DatatableCustomPaginator.vue';
-    import CreateApplication from '@/components/functional/applications/CreateApplication/CreateApplication.vue';
+    import UpdateApplication from '@/components/functional/applications/UpdateApplication/UpdateApplication.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../store/functional/claim/types';
     import {headings, plusButton, statusDialog} from '../../../domain/util/interface/CommonInterface';
@@ -50,11 +51,13 @@
     import Problem from '../../../domain/entities/functional/Problem';
     import throttle from '../../../store/util/operations/throttle';
     import IWithRoute from '../../../domain/util/interface/IWithRoute';
+    import Call from '../../../domain/entities/functional/Call';
+    import ClaimService from '../../../domain/services/functional/claims/ClaimService';
 
     @Component({
         components: {
             DatatableCustomized,
-            CreateApplication,
+            UpdateApplication,
             DatatableCustomPaginator,
         },
     })
@@ -68,6 +71,7 @@
             {label: 'Заявитель'},
             {label: 'Телефон'},
             {label: 'Адрес (район / адрес)'},
+            {label: 'Статус обработки'},
             {label: ''},
         ];
 
@@ -96,15 +100,20 @@
             }
 
             this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
-                claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status,
-                new Address(claim.address.id, claim.address.district, claim.address.location),
-                problem);
+                claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status, null,
+                claim.parents,
+                new Address(claim.address.id, claim.address.district, claim.address.location), problem,
+                new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
             statusDialog.show = true;
         }
 
         get throttledSearch() {
             return throttle(this.startSearch, 2000);
+        }
+
+        get claims() {
+            return ClaimService.resolveClaimDispatchStatus(this.claimState.claims);
         }
 
         public startSearch() {

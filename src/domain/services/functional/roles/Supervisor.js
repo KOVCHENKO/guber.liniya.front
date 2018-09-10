@@ -15,6 +15,9 @@ class Supervisor {
                 return true;
         }
     }
+    getDispatchStatusToUpdate() {
+        return DISPATCHED;
+    }
 }
 export default Supervisor;
 //# sourceMappingURL=Supervisor.js.map

@@ -6,15 +6,19 @@ class Editor implements IActiveRole {
 
     public dispatchStatusOfClaim(dispatchStatus: string) {
         switch (dispatchStatus) {
-            case 'raw':
+            case RAW:
                 return false;
-            case 'prepared':
+            case PREPARED:
                 return false;
-            case 'edited':
+            case EDITED:
                 return false;
-            case 'dispatched':
+            case DISPATCHED:
                 return true;
         }
+    }
+
+    public getDispatchStatusToUpdate() {
+        return EDITED;
     }
 }
 

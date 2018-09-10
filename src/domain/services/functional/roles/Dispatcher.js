@@ -15,6 +15,9 @@ class Dispatcher {
                 return true;
         }
     }
+    getDispatchStatusToUpdate() {
+        return PREPARED;
+    }
 }
 export default Dispatcher;
 //# sourceMappingURL=Dispatcher.js.map

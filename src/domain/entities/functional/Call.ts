@@ -1,28 +1,28 @@
 import ICall from '@/domain/entities/functional/interfaces/ICall';
 
 class Call implements ICall {
-    public UID: string;
-    public account: string;
+    public id: number;
+    public callId: string;
     public clientPhone: string;
-    public duration: number;
-    public executorPhone: string;
-    public record: string;
-    public start: string;
+    public link: string;
+    public atsStatus: string;
     public type: string;
-    public wait: number;
+    public ext: string;
+    public processingStatus: string;
+    public createdAt: string;
 
 
-    constructor(UID: string, type: string, clientPhone: string, account: string, executorPhone: string, start: string,
-                wait: number, duration: number, record: string) {
-        this.UID = UID;
-        this.account = account;
+    constructor(id: number, callId: string, clientPhone: string, link: string, atsStatus: string,
+                type: string, ext: string, processingStatus: string, createdAt: string) {
+        this.id = id;
+        this.callId = callId;
         this.clientPhone = clientPhone;
-        this.duration = duration;
-        this.executorPhone = executorPhone;
-        this.record = record;
-        this.start = start;
+        this.link = link;
+        this.atsStatus = atsStatus;
         this.type = type;
-        this.wait = wait;
+        this.ext = ext;
+        this.processingStatus = processingStatus;
+        this.createdAt = createdAt;
     }
 }
 

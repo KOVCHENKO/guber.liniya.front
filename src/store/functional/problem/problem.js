@@ -6,6 +6,7 @@ import ProblemCollection from '@/domain/collections/functional/ProblemCollection
 export const state = {
     problem: new Problem(0, '', ''),
     problems: new ProblemCollection([]),
+    organizations: [{}],
 };
 const problemManip = new ProblemCollection([]);
 export const actions = {
@@ -43,6 +44,15 @@ export const actions = {
         try {
             await axios.post(`${baseUrl}problems/update/${state.problem.id}`, state.problem);
             dispatch('getAllProblemTypes');
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
+    },
+    async getOrganizationsOfProblem(context, payload) {
+        try {
+            const res = await axios.get(`${baseUrl}problems/get_organizations_of_problem/${payload.problemId}`);
+            state.organizations = res.data;
         }
         catch {
             ErrorNotifier.notify();

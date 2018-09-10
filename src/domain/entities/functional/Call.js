@@ -1,14 +1,14 @@
 class Call {
-    constructor(UID, type, clientPhone, account, executorPhone, start, wait, duration, record) {
-        this.UID = UID;
-        this.account = account;
+    constructor(id, callId, clientPhone, link, atsStatus, type, ext, processingStatus, createdAt) {
+        this.id = id;
+        this.callId = callId;
         this.clientPhone = clientPhone;
-        this.duration = duration;
-        this.executorPhone = executorPhone;
-        this.record = record;
-        this.start = start;
+        this.link = link;
+        this.atsStatus = atsStatus;
         this.type = type;
-        this.wait = wait;
+        this.ext = ext;
+        this.processingStatus = processingStatus;
+        this.createdAt = createdAt;
     }
 }
 export default Call;
