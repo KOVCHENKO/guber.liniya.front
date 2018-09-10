@@ -75,7 +75,7 @@ export const actions: ActionTree<ClaimState, RootState> = {
             ErrorNotifier.notify();
         }
     },
-    
+
     async getClaimsOfTheSamePhone() {
         try {
             const res = await axios.post(`${baseUrl}claims/get_previous_by_phone`, {
@@ -95,7 +95,7 @@ export const actions: ActionTree<ClaimState, RootState> = {
         } catch {
             ErrorNotifier.notify();
         }
-    }
+    },
 
 };
 

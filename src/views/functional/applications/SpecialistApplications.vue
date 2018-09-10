@@ -95,7 +95,7 @@
 
         public created() {
             this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id });
-            this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });           
+            this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });
         }
 
         public show(row) {

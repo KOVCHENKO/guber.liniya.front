@@ -1,9 +1,20 @@
 <template>
     <div>
-        <datatable-customized
+        <datatable
                 :columns="tableColumns"
                 :data="userState.users"
-        ></datatable-customized>
+        >
+            <template slot-scope="{ row }">
+                <tr>
+                    <td>{{ row.email }}</td>
+                    <td>
+                        <div style="cursor: pointer;" @click="resetPassword(row)">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                    </td>
+                </tr>
+            </template>
+        </datatable>
 
         <create-specialist></create-specialist>
     </div>
@@ -34,15 +45,14 @@
 
         @Provide()
         public tableColumns = [
-            {label: 'id', field: 'id'},
             {label: 'Логин', field: 'email'},
-            {label: 'Пароль', field: 'password'},
+            {label: 'Сбросить пароль'},
         ];
 
         constructor() {
             super();
             plusButton.clickAction = this.addSpecialist;
-            plusButton.visible = false;
+            plusButton.visible = true;
             headings.title = 'Пользователи организации';
             headings.subtitle = '';
         }
@@ -54,6 +64,11 @@
 
         public addSpecialist() {
             $('#createSpecialistModal').modal('show');
+        }
+
+        public resetPassword() {
+
+            // reset password
         }
 
     }

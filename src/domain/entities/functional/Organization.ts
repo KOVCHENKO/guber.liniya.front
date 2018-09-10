@@ -5,9 +5,9 @@ class Organization implements IOrganization {
     public id: number;
     public name: string;
     public description: string;
-    public pid: number;
+    public pid: number | null;
 
-    constructor(id: number, name: string, description: string, pid: number) {
+    constructor(id: number, name: string, description: string, pid: number | null) {
         this.id = id;
         this.name = name;
         this.description = description;

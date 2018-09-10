@@ -14,7 +14,7 @@
                     <div class="md-layout-item">
                         <span v-if="claim.status === 'created'">
                             <md-field>
-                                <label for="claimer_status">Изменить статус</label>
+                                <label>Изменить статус</label>
                                 <md-select name="status" id="claimer_status" v-model="statusData">
                                     <md-option v-for="(status, index) in statusClaims" :key="index" :value="index">{{ status }}</md-option>
                                 </md-select>
@@ -34,7 +34,7 @@
                 <div class="col-sm-6">
                     <div class="md-layout-item" v-if="statusData === 'redirect'">
                         <md-field>
-                            <label for="child_organization">Перенаправить</label>
+                            <label>Перенаправить</label>
                             <md-select name="child_organization" id="child_organization" v-model="childOrganization">
                                 <md-option v-for="organization in organizationState.organizations" :key="organization.id" :value="organization.id">{{ organization.name }}</md-option>
                             </md-select>
@@ -89,64 +89,51 @@
     @Component({})
     export default class UpdateStatusClaims extends Vue {
 
-        @Prop()
-        public claim: any;
+        @Prop() public claim: any;
 
-        @Provide()
-        public statusDialog = statusDialog;
+        @Provide() public statusDialog = statusDialog;
 
-        @Provide()
-        public statusData: string = '';
+        @Provide() public statusData: string = '';
 
-        @Provide()
-        public comment: string = '';
+        @Provide() public comment: string = '';
 
-        @State('user')
-        public userState!: UserState;
+        @State('user') public userState!: UserState;
 
-        @State('organization')
-        public organizationState!: OrganizationState;
+        @State('organization') public organizationState!: OrganizationState;
 
-        @State('comment')
-        public commentState!: CommentState;
-
-        //TODO: получение текущего статуса заявки, когда открывается окно 
-        @Watch('statusDialog.show')
-        public onChangedStatusDialog(val: string, oldVal: string) {
-            this.statusData = this.claim.status;
-        };
+        @State('comment') public commentState!: CommentState;
 
         @Provide()
         public statusClaims: any = {
-            'created'  : 'Не принятая',
-            'assigned' : 'Принять в работу', 
-            'redirect' : 'Переадресовать',
-            'rejected' : 'Отказать',
-        }; 
+            created: 'Не принятая',
+            assigned: 'Принять в работу',
+            redirect: 'Переадресовать',
+            rejected: 'Отказать',
+        };
 
-        @Provide() 
-        public booleanAssigned: boolean = false;
+        @Provide() public booleanAssigned: boolean = false;
 
-        @Provide() 
-        public childOrganization: number = -1;
+        @Provide() public childOrganization: number = -1;
 
-        @Action('changeStatusClaim') 
-        public changeStatusClaim;
+        @Action public changeStatusClaim;
 
-        @Action('getAllClaimsOfOrganization') 
-        public getAllClaimsOfOrganization;
+        @Action public getAllClaimsOfOrganization;
 
-        @Action('changeOrganization') 
-        public changeOrganization;
+        @Action public changeOrganization;
 
-        @Action('createComment') 
-        public createComment;
+        @Action public createComment;
+
+        // TODO: получение текущего статуса заявки, когда открывается окно
+        @Watch('statusDialog.show')
+        public onChangedStatusDialog(val: string, oldVal: string) {
+            this.statusData = this.claim.status;
+        }
 
         public closeDialog() {
             statusDialog.show = false;
         }
- 
-        //TODO: логика. 
+
+        // TODO: логика.
         public updateStatusClaim() {
             // Заявка выполнена. Изменяем статус заявки с assigned на executed. Добавляем комментарий
             if (this.booleanAssigned === true && this.claim.status === 'assigned') {
@@ -155,10 +142,10 @@
                     statusDialog.show = false;
 
                     this.commentState.comment = {
-                        'text' : this.comment,
-                        'claim_id' : this.claim.id,
-                        'status' : 'executed',
-                    }
+                        text: this.comment,
+                        claim_id: this.claim.id,
+                        status: 'executed',
+                    };
                     this.createComment();
                 });
                 return;
@@ -168,7 +155,7 @@
                 return;
             }
             // Приянть в работу. Изменяем статус заявки на assigned
-            if (this.statusData === "assigned") {
+            if (this.statusData === 'assigned') {
                 this.changeStatusClaim({id : this.claim.id, status : this.statusData }).then(() => {
                     this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id });
                     statusDialog.show = false;
@@ -176,27 +163,26 @@
                 return;
             }
             // Перенаправить другой организации. Изменяем прикрепленную организацию.
-            if (this.statusData === "redirect") {
+            if (this.statusData === 'redirect') {
                 this.changeOrganization({id : this.claim.id, id_old_organization : this.userState.user.organization.id,
                         id_new_organization : this.childOrganization }).then(() => {
                     this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id });
                     statusDialog.show = false;
                 });
                 return;
-            } 
+            }
             // Отказаться. Изменяем статус заявки на rejected. Добавляем комментарий
-            if (this.statusData === "rejected") {
+            if (this.statusData === 'rejected') {
                 this.changeStatusClaim({id : this.claim.id, status : this.statusData }).then(() => {
                     this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id });
                     statusDialog.show = false;
-                    
+
                     this.commentState.comment = {
-                        'text' : this.comment,
-                        'claim_id' : this.claim.id,
-                        'status' : this.statusData,
-                    }
+                        text: this.comment,
+                        claim_id: this.claim.id,
+                        status: this.statusData,
+                    };
                     this.createComment();
-                
                 });
                 return;
             }

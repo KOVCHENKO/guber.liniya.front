@@ -19,7 +19,7 @@ export const actions: ActionTree<CommentState, RootState> = {
         } catch {
             ErrorNotifier.notify();
         }
-    }
+    },
 
 };
 

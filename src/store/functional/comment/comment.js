@@ -14,7 +14,7 @@ export const actions = {
         catch {
             ErrorNotifier.notify();
         }
-    }
+    },
 };
 export const comment = {
     state, actions,

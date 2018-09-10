@@ -85,7 +85,7 @@ export const actions = {
         catch {
             ErrorNotifier.notify();
         }
-    }
+    },
 };
 export const claim = {
     state, actions,

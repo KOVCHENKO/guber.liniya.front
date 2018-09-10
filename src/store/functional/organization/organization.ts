@@ -9,7 +9,7 @@ import Organization from '@/domain/entities/functional/Organization';
 import {makeTree} from '@/domain/util/interface/TreeMaker';
 
 export const state: OrganizationState = {
-    organization: new Organization(0, '', '', 0),
+    organization: new Organization(0, '', '', null),
     organizations: [{}],
     organizationTree: [{}],
     claims: [{}],
