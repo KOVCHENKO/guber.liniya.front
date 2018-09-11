@@ -627,11 +627,13 @@ button.close {
     background: #00a0e340 !important;
     @include transition(all 0.5s ease-out);
 }
-.claim-container {
-    padding: 0 24px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-   
+.claim-content {   
+    
+    &.claim-container {
+        padding: 0 24px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
     .claim-text {
         font-size: 18px;
         padding-bottom: 16px;
@@ -679,4 +681,8 @@ button.close {
     .fa-bookmark {
         transform: rotate(90deg);
     }
+}
+.transparent-line {
+    margin: 0px;
+    opacity: 0;
 }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row" v-if="hiddenBasedOnClaimPid">
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <md-field>
                     <label>Тип проблемы</label>
                     <md-select name="type_problem" id="type_problem" v-model="problemTypeId">
@@ -12,7 +12,7 @@
                 </md-field>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <md-field>
                     <label>Проблема</label>
                     <md-select name="problem" id="problem" v-model="problemId">
@@ -23,7 +23,7 @@
                 </md-field>
             </div>
 
-            <div class="col-sm-4">
+            <!-- <div class="col-sm-4">
                 <md-list :md-expand-single="expandSingle">
                     <md-list-item md-expand :md-expanded.sync="expandOrganizations">
                         <span class="md-list-item-text">Организации</span>
@@ -35,6 +35,18 @@
                         </md-list>
                     </md-list-item>
                 </md-list>
+            </div> -->
+
+            <div class="col-sm-4">
+                <div class="dropdown" style="margin-top: 17px;">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" style="width: 100%"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Организации
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 100%">
+                        <p class="dropdown-item" v-for="organization in problemState.organizations" :key="organization.id">{{ organization.name }}</p>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -69,8 +81,8 @@
         @Provide() public problemTypeId: number = 0;
         @Provide() public problemId: number = 0;
 
-        @Provide() public expandSingle = false;
-        @Provide() public expandOrganizations = false;
+        // @Provide() public expandSingle = false;
+        // @Provide() public expandOrganizations = false;
 
         @Watch('problemTypeId')
         private onChildChanged(val: string, oldVal: string) {
@@ -106,7 +118,7 @@
 
             this.claimState.claim.problem = this.problems[problemIndex];
             this.getOrganizationsOfProblem({ problemId });
-            this.expandOrganizations = true;
+            // this.expandOrganizations = true;
         }
 
         get hiddenBasedOnClaimPid() {

@@ -3,41 +3,38 @@
         <!-- Диалоговое окно-->
         <md-dialog :md-active.sync="statusDialog.show" class="customer-dialog">
             <md-dialog-title>Создание заявки</md-dialog-title>
+            <!-- <hr class="transparent-line"> -->
             <!-- Степпер-->
             <md-steppers :md-active-step.sync="active" md-linear>
                 <md-step id="zero" md-label="Данные звонка" md-description="тип звонка" :md-done.sync="steps.zero">
                     <!-- Информация о пользователе-->
-                    <div class="form-padding">
-                        <div class="row">
-                            <div class="col-sm-4-12 dialog-title">
-                                <h5>Тип звонка</h5>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="claim-content">
+                                <md-content class="claim-text">Тип звонка</md-content>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="claimed" value="claimed" @click="chooseCallType('claimed')" v-model="callType" class="custom-control-input">
+                                <label class="custom-control-label" for="claimed">Заявка</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="reclaimed" value="reclaimed" @click="chooseCallType('reclaimed')" v-model="callType" class="custom-control-input">
+                                <label class="custom-control-label" for="reclaimed">Повторная заявка</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="failed" value="failed" @click="chooseCallType('failed')" v-model="callType" class="custom-control-input">
+                                <label class="custom-control-label" for="failed">Ошибка</label>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label for="claimed">Заявка</label>
-                            </div>
-                            <div class="col-sm-4">
-                                <input type="radio" id="claimed" value="claimed" @click="chooseCallType('claimed')" v-model="callType">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label for="reclaimed">Повторная заявка</label>
-                            </div>
-                            <div class="col-sm-4">
-                                <input type="radio" id="reclaimed" value="reclaimed" @click="chooseCallType('reclaimed')" v-model="callType">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label for="failed">Ошибка</label>
-                            </div>
-                            <div class="col-sm-4">
-                                <input type="radio" id="failed" value="failed" @click="chooseCallType('failed')" v-model="callType">
+                        <div class="col-sm-8">
+                            <div>
+                                <audio style="margin-top: 110px;" controls>
+                                    <source :src="claimState.claim.link" type="audio/mpeg">
+                                </audio>
                             </div>
                         </div>
                     </div>
+
                     <md-dialog-actions>
                         <md-button class="md-primary" @click="setDone('zero', 'first')">Продолжить</md-button>
                     </md-dialog-actions>
@@ -47,10 +44,8 @@
                 <md-step id="first" md-label="Заявитель" md-description="личные данные" :md-done.sync="steps.first">
                     <!-- Информация о пользователе-->
                     <div class="form-padding">
-                        <div class="row">
-                            <div class="col-sm-4-12 dialog-title">
-                                <h5>Данные заявителя</h5>
-                            </div>
+                        <div class="claim-content row">
+                            <md-content class="claim-text">Данные заявителя</md-content>
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
@@ -114,16 +109,6 @@
                 <md-step id="second" md-label="Заявка" md-description="подробная информация" :md-done.sync="steps.second">
                     <!-- Информация о заявке-->
                     <div class="form-padding">
-                        <div class="row">
-                            <div class="col-sm-12 clearfix">
-                                <audio controls>
-                                    <source :src="claimState.claim.link" type="audio/mpeg">
-                                </audio>
-                            </div>
-                        </div>
-
-                        <br>
-
                         <claim-problems></claim-problems>
 
                         <div class="row">
@@ -131,7 +116,7 @@
 
                                 <md-field>
                                     <label>{{$t('claims.claim_description')}}</label>
-                                    <md-textarea id="claim_description" name="description" style="height: 75px; min-height: auto !important;"
+                                    <md-textarea id="claim_description" name="description" style="resize: none;"
                                         v-model="claimState.claim.description" md-counter="300"></md-textarea>
                                 </md-field>
 
@@ -139,7 +124,7 @@
                         </div>
                     </div>
 
-                    <md-dialog-actions style="top: -30px;">
+                    <md-dialog-actions>
                         <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
                         <md-button class="md-primary" @click="createClaim">{{ $t("common.create") }}</md-button>
                     </md-dialog-actions>
