@@ -2,11 +2,11 @@
     <div class="modal fade" id="reclaimedModal" tabindex="-1" role="dialog"
          aria-labelledby="reclaimedModalLabel">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+            <div class="modal-content cst-md-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="reclaimedModalLabel">Поиск повторных звонков</h4>
+                    <h4 class="modal-title cst-md-title" id="reclaimedModalLabel">
+                        Поиск повторных звонков
+                    </h4>
                 </div>
                 <div class="modal-body">
                     <md-tabs md-sync-route>
@@ -74,7 +74,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">{{ $t("common.close") }}</button>
+                    <button type="button" class="cst-md-btn" data-dismiss="modal">{{ $t("common.close") }}</button>
                 </div>
             </div>
         </div>
@@ -124,6 +124,7 @@
             {label: 'Заявитель'},
             {label: 'Телефон'},
             {label: 'Адрес (район / адрес)'},
+            {label: ''},
             {label: ''},
         ];
 

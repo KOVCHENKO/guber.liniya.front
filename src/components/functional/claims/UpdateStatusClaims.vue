@@ -4,7 +4,7 @@
     
     <md-dialog-title>Изменить статус заявки</md-dialog-title>
     <div class="dialog-line-shadow"></div>
-    <div class="claim-container">
+    <div class="claim-container claim-content">
         <md-content class="claim-text">{{claim.name}}</md-content>
         <md-content class="md-scrollbar claim-scrollbar">{{claim.description}}</md-content>
 
@@ -49,7 +49,7 @@
         </div>
     </div>
     <div class="dialog-line"></div>
-    <div class="claim-container">
+    <div class="claim-container claim-content">
         <md-content class="claim-text">{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</md-content>
         <div class="md-layout md-gutter">
             <div class="md-layout-item">

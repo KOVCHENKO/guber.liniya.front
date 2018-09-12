@@ -627,11 +627,13 @@ button.close {
     background: #00a0e340 !important;
     @include transition(all 0.5s ease-out);
 }
-.claim-container {
-    padding: 0 24px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-   
+.claim-content {   
+    
+    &.claim-container {
+        padding: 0 24px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
     .claim-text {
         font-size: 18px;
         padding-bottom: 16px;
@@ -679,4 +681,39 @@ button.close {
     .fa-bookmark {
         transform: rotate(90deg);
     }
+}
+.transparent-line {
+    margin: 0px;
+    opacity: 0;
+}
+.cst-md-title {
+    font-family: 'Ubuntu', sans-serif;
+    font-style: normal;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: .005em;
+    line-height: 26px;
+}
+.cst-md-content {
+    background: white;
+}
+.cst-md-btn {
+    border: none;
+    color: var(--md-theme-default-primary-on-background, #448aff);
+    background: white;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 2px;
+    padding: 6px 8px;
+}
+.cst-md-btn:hover {
+    background: rgb(232, 241, 255);
+}
+.cst-droplist {
+    background: white;
+    border: none;
+    color: black;
 }
