@@ -179,6 +179,7 @@
         @Action public createClaim;
         @Action public getClaimsOfTheSamePhone;
         @Action public markCallAsFaulty;
+        @Action public getAllClaims;
 
         @State('claim') public claimState!: ClaimState;
         @State('user') public userState!: UserState;
@@ -233,16 +234,20 @@
         public chooseCallType(processingStatus: string) {
             this.claimState.claim.call.processingStatus = processingStatus;
 
+            // Повторные заявки
             if (processingStatus === 'reclaimed') {
                 this.getClaimsOfTheSamePhone();
+                this.getAllClaims();
                 $('#reclaimedModal').modal('show');
             }
 
+            // Со статусом ошибочная
             if (processingStatus === 'failed') {
                 $('#sureWindow').modal('show');
                 this.statusDialog.show = false;
             }
 
+            // Новая заявка
             if (processingStatus === 'claimed') {
 
                 this.claimState.claim = new Claim(0, '', '', '', '', '', this.callState.call.clientPhone, '',

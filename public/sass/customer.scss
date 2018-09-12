@@ -673,3 +673,10 @@ button.close {
 .claim-check-text {
     display: inline;
 }
+.container-icon {
+    cursor: pointer;
+
+    .fa-bookmark {
+        transform: rotate(90deg);
+    }
+}

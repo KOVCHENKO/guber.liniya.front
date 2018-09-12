@@ -3,7 +3,7 @@ class CallService {
         return calls.map((b) => {
             switch (b.processing_status) {
                 case 'raw':
-                    b.processing_status = 'Необработанный';
+                    b.processing_status = 'Заявка';
                     break;
                 case 'claimed':
                     b.processing_status = 'Заявка';

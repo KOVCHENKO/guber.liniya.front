@@ -6,13 +6,23 @@
             <datatable :columns="tableColumns" :data="organizationState.claims">
                 <template slot-scope="{ row }">
                     <tr>
-                        <td>{{ row.id }}</td>
+                        <td>
+                            {{ row.id }}
+                            <div class="container-icon">
+                                <i class="fas fa-exclamation fa-3x" v-if="row.status === 'created'" title="новая заявка" style="color: #fffa31;"></i>
+                            </div>
+                        </td>
                         <td>{{ row.name }}</td>
                         <td>{{ row.description }}</td>                        
-                        <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
+                        <td>{{ row.firstname}} {{row.middlename}} {{row.lastname}}</td>
                         <td>
-                            <div style="cursor: pointer;" @click="show(row)">
+                            <div @click="show(row)" class="container-icon">
                                 <i class="fas fa-pencil-alt"></i>
+                            </div>
+                            <div class="container-icon">
+                                <i class="fas fa-bookmark fa-2x" v-if="row.status === 'created'" style="color: dimgrey;"  title="новая заявка"></i>
+                                <i class="fas fa-bookmark fa-2x" v-if="row.status === 'assigned'" style="color: #9dbcf5;" title="заявка в работе"></i>
+                                <i class="fas fa-bookmark fa-2x" v-if="row.status === 'executed'" style="color: #fffa31;" title="выполненая заявка"></i>
                             </div>
                         </td>
                     </tr>

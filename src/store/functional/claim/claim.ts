@@ -17,12 +17,20 @@ export const state: ClaimState = {
                         new Problem(0, 'Выберите проблему', ''),
                         new Call(0, '', '', '', 'success', 'in',  '', '', '')),
     claims: [],
-    previousClaims: [],
+    previousClaims: [],     // Предыдущие по номеру телефона
+    executedClaims: [],     // Выполненные заявки для роли комуникатора
 };
 
 const claimService = new ClaimService();
 
 export const actions: ActionTree<ClaimState, RootState> = {
+    /**
+     * Получить все заявки
+     * @param {any} rootState - пагинация
+     * @param {any} dispatch - формирование кол-ва страниц для пагинации
+     * @param payload - статус отправки для диспетчера, редактора и отправителя
+     * @returns {Promise<void>} - возвращает заявки и присваивает в state
+     */
     async getAllClaims({rootState, dispatch}, payload) {
         try {
             const result = await axios.get(`${baseUrl}claims/all/
@@ -34,6 +42,11 @@ export const actions: ActionTree<ClaimState, RootState> = {
         }
     },
 
+    /**
+     * Создать заявку / жалобу
+     * @returns {Promise<void>} - создается заявка, так как создание происходит в компоненте звонков -
+     * заявка не отображается
+     */
     async createClaim() {
         try {
             await axios.post(`${baseUrl}claims/create`, state.claim);
@@ -43,6 +56,11 @@ export const actions: ActionTree<ClaimState, RootState> = {
         }
     },
 
+    /**
+     * Обновить заявку
+     * @param payload - обновляется статус отправки: raw, prepared, edited, supervised
+     * @returns {Promise<void>} - обнволенная заявка добавляется в коллекцию
+     */
     async updateClaim({}, payload) {
         try {
             await axios.post(`${baseUrl}claims/update/${payload.updatedDispatchStatus}`, state.claim);
@@ -56,10 +74,20 @@ export const actions: ActionTree<ClaimState, RootState> = {
         }
     },
 
+    /**
+     * Поиск заявки
+     * @param {any} rootState - пагинация - текущая страница
+     * @param {any} dispatch - формирование пагинации
+     * @param payload - строка поиска по определенным полям и статус отправки (для разных ролей диспетчера)
+     * @returns {Promise<void>} - возвращает найденные заявки по определенному критерию
+     */
     async searchClaim({rootState, dispatch}, payload) {
         try {
-            const result = await axios.get(`${baseUrl}claims/search/${rootState.pagination.currentPage}/
-                                                                        ${payload.search}/${payload.dispatchStatus}`);
+            const result = await axios.post(`${baseUrl}claims/search`, {
+                currentPage: rootState.pagination.currentPage,
+                search: payload.search,
+                dispatchStatus: payload.dispatchStatus,
+            });
             state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.pages });
         } catch {
@@ -67,6 +95,12 @@ export const actions: ActionTree<ClaimState, RootState> = {
         }
     },
 
+    /**
+     * Изменить статус заявки (роли диспетчера, специалиста или коммуникатора)
+     * @param context - dummy
+     * @param payload - ид заявки, статус заявки
+     * @returns {Promise<void>} - обновляется в компоненте
+     */
     async changeStatusClaim(context, payload) {
         try {
             await axios.get(`${baseUrl}claims/update_status/${payload.id}/${payload.status}`);
@@ -76,6 +110,10 @@ export const actions: ActionTree<ClaimState, RootState> = {
         }
     },
 
+    /**
+     * Получить заявки по тому же номеру телефона - заявки
+     * @returns {Promise<void>}
+     */
     async getClaimsOfTheSamePhone() {
         try {
             const res = await axios.post(`${baseUrl}claims/get_previous_by_phone`, {
@@ -87,6 +125,25 @@ export const actions: ActionTree<ClaimState, RootState> = {
         }
     },
 
+    /**
+     * Получить выполненные заявки - для роли коммуникатора
+     * @returns {Promise<void>}
+     */
+    async getExecutedClaims() {
+        try {
+            const res = await axios.get(`${baseUrl}claims/get_executed_claims`);
+            state.executedClaims = res.data;
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
+    /**
+     * Изменение организации, ответственной за выполнение заявки
+     * @param context
+     * @param payload
+     * @returns {Promise<void>}
+     */
     async changeOrganization(context, payload) {
         try {
             await axios.get(`${baseUrl}claims/change_organization/${payload.id}/

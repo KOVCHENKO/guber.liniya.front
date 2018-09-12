@@ -19,6 +19,10 @@ export const statusDialog = {
     show: false,
 };
 
+export const statusDialogOfSecondLevel  = {
+    show: false,
+};
+
 export const OkCancelModalProperties = {
     title: '',
     text: '',

@@ -11,6 +11,7 @@ export const state = {
     claim: new Claim(0, '', '', '', '', '', '', '', '', '', null, [{}], new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''), new Call(0, '', '', '', 'success', 'in', '', '', '')),
     claims: [],
     previousClaims: [],
+    executedClaims: [],
 };
 const claimService = new ClaimService();
 export const actions = {
@@ -47,8 +48,11 @@ export const actions = {
     },
     async searchClaim({ rootState, dispatch }, payload) {
         try {
-            const result = await axios.get(`${baseUrl}claims/search/${rootState.pagination.currentPage}/
-                                                                        ${payload.search}/${payload.dispatchStatus}`);
+            const result = await axios.post(`${baseUrl}claims/search`, {
+                currentPage: rootState.pagination.currentPage,
+                search: payload.search,
+                dispatchStatus: payload.dispatchStatus,
+            });
             state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.pages });
         }
@@ -71,6 +75,15 @@ export const actions = {
                 phone: state.claim.phone,
             });
             state.previousClaims = res.data;
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
+    },
+    async getExecutedClaims() {
+        try {
+            const res = await axios.get(`${baseUrl}claims/get_executed_claims`);
+            state.executedClaims = res.data;
         }
         catch {
             ErrorNotifier.notify();
