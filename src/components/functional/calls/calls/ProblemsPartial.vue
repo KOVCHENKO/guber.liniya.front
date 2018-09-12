@@ -39,7 +39,7 @@
 
             <div class="col-sm-4">
                 <div class="dropdown" style="margin-top: 17px;">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" style="width: 100%"
+                    <button class="btn btn-secondary dropdown-toggle cst-droplist" type="button" style="width: 100%"
                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Организации
                     </button>
