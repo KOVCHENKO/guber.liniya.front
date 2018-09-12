@@ -96,7 +96,7 @@
                 </div>
             </md-tab>
             <md-tab id="tab-linked" md-label="Связанные заявки">
-                <div class="row" v-for="parentClaim in claimState.claim.parents">
+                <div class="row" v-if="claimState.claim.parents !== null" v-for="parentClaim in claimState.claim.parents">
                     <div class="col-sm-2 clearfix">
                         {{ parentClaim.created_at }}
                     </div>
@@ -106,10 +106,24 @@
                         </audio>
                     </div>
                 </div>
+                <div class="row" v-if="claimState.claim.parents.length === 0">
+                    <div class="col-sm-6 clearfix">
+                        История по заявке отсутсвует
+                    </div>
+                </div>
             </md-tab>
 
             <md-tab id="tab-comments" md-label="Комментарии">
-
+                <div class="row" v-if="claimState.claim.comments !== null" v-for="comment in claimState.claim.comments">
+                    <div class="col-sm-6 clearfix">
+                        {{ comment.text }}
+                    </div>
+                </div>
+                <div class="row" v-if="claimState.claim.comments.length === 0">
+                    <div class="col-sm-6 clearfix">
+                        Комментарии к заявке отсутствуют
+                    </div>
+                </div>
             </md-tab>
         </md-tabs>
 

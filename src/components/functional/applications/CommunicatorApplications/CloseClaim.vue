@@ -41,7 +41,7 @@
 
         <md-dialog-actions>
             <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
-            <md-button class="md-primary" @click="closeClaim">{{ $t("common.close") }}</md-button>
+            <md-button class="md-primary" @click="dispatchClose">{{ $t("common.update") }}</md-button>
         </md-dialog-actions>
 
     </md-dialog>

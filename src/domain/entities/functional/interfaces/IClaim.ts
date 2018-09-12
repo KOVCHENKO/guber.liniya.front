@@ -1,6 +1,7 @@
 import ICall from '@/domain/entities/functional/interfaces/ICall';
 import IAddress from '@/domain/entities/functional/interfaces/IAddress';
 import IProblem from '@/domain/entities/functional/interfaces/IProblem';
+import IComment from '@/domain/entities/functional/interfaces/IComment';
 
 export default interface IClaim {
     id: number;
@@ -17,5 +18,6 @@ export default interface IClaim {
     pid: number | null;      // ид родительской заявки
     problem: IProblem;       // Проблема по заявке
     call: ICall;             // Связанный заявок
-    parents: [{}];
+    parents: [{}];           // Родительские заявки
+    comments: IComment[];    // Комментарии к заявке
 }

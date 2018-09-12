@@ -1,6 +1,7 @@
 import IProblem from '@/domain/entities/functional/interfaces/IProblem';
 import IAddress from '@/domain/entities/functional/interfaces/IAddress';
 import ICall from '@/domain/entities/functional/interfaces/ICall';
+import IComment from '@/domain/entities/functional/interfaces/IComment';
 
 class Claim {
     public id: number;
@@ -18,11 +19,12 @@ class Claim {
     public problem: IProblem;       // Проблема по заявке
     public call: ICall;             // Звонок на котором основана заявка
     public parents: [{}];
+    public comments: IComment[];
 
 
     constructor(id: number, name: string, description: string, firstName: string, middleName: string, lastName: string,
                 phone: string, email: string, link: string, dispatchStatus: string, pid: number | null, parents: [{}],
-                address: IAddress, problem: IProblem, call: ICall) {
+                comments: IComment[], address: IAddress, problem: IProblem, call: ICall) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,6 +40,7 @@ class Claim {
         this.parents = parents;
         this.dispatchStatus = dispatchStatus;
         this.call = call;
+        this.comments = comments;
     }
 }
 

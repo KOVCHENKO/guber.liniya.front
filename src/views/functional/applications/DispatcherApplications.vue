@@ -16,6 +16,7 @@
                         <td>{{ row.phone }}</td>
                         <td>{{ row.address.district }} / {{ row.address.location }}</td>
                         <td>{{ row.dispatch_status }}</td>
+                        <td>{{ row.status }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(row)">
                                 <i class="fas fa-pencil-alt"></i>
@@ -70,6 +71,7 @@
             {label: 'Телефон'},
             {label: 'Адрес (район / адрес)'},
             {label: 'Статус обработки', headerComponent: 'process-status-selector'},
+            {label: 'Статус выполнения'},
             {label: ''},
         ];
 
@@ -99,7 +101,7 @@
 
             this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
                 claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status, null,
-                claim.parents,
+                claim.parents, claim.comments,
                 new Address(claim.address.id, claim.address.district, claim.address.location), problem,
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 

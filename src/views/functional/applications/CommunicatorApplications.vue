@@ -14,6 +14,7 @@
                         <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
                         <td>{{ row.phone }}</td>
                         <td>{{ row.address.district }} / {{ row.address.location }}</td>
+                        <td>{{ row.close_status }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(row)">
                                 <i class="fas fa-pencil-alt"></i>
@@ -64,6 +65,7 @@
             {label: 'Заявитель'},
             {label: 'Телефон'},
             {label: 'Адрес (район / адрес)'},
+            {label: 'Статусы закрытия'},
             {label: ''},
         ];
 
@@ -85,7 +87,7 @@
         public show(claim) {
             this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname, claim.middlename,
                 claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status, null, claim.parents,
-                new Address(claim.address.id, claim.address.district, claim.address.location),
+                claim.comments, new Address(claim.address.id, claim.address.district, claim.address.location),
                 new Problem(claim.problem.id, claim.problem.description, claim.problem.description),
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 

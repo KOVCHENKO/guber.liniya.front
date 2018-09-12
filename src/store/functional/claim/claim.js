@@ -8,7 +8,7 @@ import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 import Call from '@/domain/entities/functional/Call';
 import ClaimService from '@/domain/services/functional/claims/ClaimService';
 export const state = {
-    claim: new Claim(0, '', '', '', '', '', '', '', '', '', null, [{}], new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''), new Call(0, '', '', '', 'success', 'in', '', '', '')),
+    claim: new Claim(0, '', '', '', '', '', '', '', '', '', null, [{}], [], new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''), new Call(0, '', '', '', 'success', 'in', '', '', '')),
     claims: [],
     previousClaims: [],
     executedClaims: [],
@@ -132,6 +132,7 @@ export const actions = {
             const url = `${baseUrl}claims/change_close_status/${payload.claim_id}/${payload.close_status}`;
             const res = await axios.get(url);
             dispatch('getExecutedClaims');
+            SuccessNotifier.notify('Завершение', `Заявка закрыта со статусом ${payload.close_status}`);
         }
         catch {
             ErrorNotifier.notify();
