@@ -33,12 +33,10 @@
         </div>
 
         <update-application></update-application>
-
     </div>
 </template>
 
 <script lang="ts">
-
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import DatatableCustomized from '../../../components/util/DatatableCustomized.vue';
     import DatatableCustomPaginator from '../../../components/util/DatatableCustomPaginator.vue';
@@ -71,7 +69,7 @@
             {label: 'Заявитель'},
             {label: 'Телефон'},
             {label: 'Адрес (район / адрес)'},
-            {label: 'Статус обработки'},
+            {label: 'Статус обработки', headerComponent: 'process-status-selector'},
             {label: ''},
         ];
 

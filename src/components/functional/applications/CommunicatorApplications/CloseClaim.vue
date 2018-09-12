@@ -41,6 +41,7 @@
 
         <md-dialog-actions>
             <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
+            <md-button class="md-primary" @click="closeClaim">{{ $t("common.close") }}</md-button>
         </md-dialog-actions>
 
     </md-dialog>
@@ -49,7 +50,7 @@
 <script lang="ts">
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {statusDialog} from '../../../../domain/util/interface/CommonInterface';
-    import {State} from 'vuex-class';
+    import {Action, State} from 'vuex-class';
     import ClaimState from '../../../../store/functional/claim/types';
     import {
         EXECUTED_PARTIALLY, EXECUTED_TOTALLY, NOT_CALLED, NOT_EXECUTED,
@@ -57,11 +58,12 @@
 
     @Component
     export default class ClaimInfo extends Vue {
+        @Action('closeClaim')
+        public closeClaim;
 
         @State('claim') public claimState!: ClaimState;
 
         @Provide() public statusDialog = statusDialog;
-
         @Provide()
         public statusClaims: any = [NOT_CALLED, NOT_EXECUTED, EXECUTED_PARTIALLY, EXECUTED_TOTALLY];
 
@@ -70,6 +72,17 @@
         public closeDialog() {
             statusDialog.show = false;
         }
+
+        /**
+         * Изменить статус заявки
+         */
+        public dispatchClose() {
+            this.closeClaim({
+                claim_id: this.claimState.claim.id,
+                close_status: this.statusData,
+            });
+        }
+
 
 
 

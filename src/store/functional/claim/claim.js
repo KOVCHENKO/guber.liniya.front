@@ -15,6 +15,13 @@ export const state = {
 };
 const claimService = new ClaimService();
 export const actions = {
+    /**
+     * Получить все заявки
+     * @param {any} rootState - пагинация
+     * @param {any} dispatch - формирование кол-ва страниц для пагинации
+     * @param payload - статус отправки для диспетчера, редактора и отправителя
+     * @returns {Promise<void>} - возвращает заявки и присваивает в state
+     */
     async getAllClaims({ rootState, dispatch }, payload) {
         try {
             const result = await axios.get(`${baseUrl}claims/all/
@@ -26,6 +33,11 @@ export const actions = {
             ErrorNotifier.notify();
         }
     },
+    /**
+     * Создать заявку / жалобу
+     * @returns {Promise<void>} - создается заявка, так как создание происходит в компоненте звонков -
+     * заявка не отображается
+     */
     async createClaim() {
         try {
             await axios.post(`${baseUrl}claims/create`, state.claim);
@@ -35,6 +47,11 @@ export const actions = {
             ErrorNotifier.notify();
         }
     },
+    /**
+     * Обновить заявку
+     * @param payload - обновляется статус отправки: raw, prepared, edited, supervised
+     * @returns {Promise<void>} - обнволенная заявка добавляется в коллекцию
+     */
     async updateClaim({}, payload) {
         try {
             await axios.post(`${baseUrl}claims/update/${payload.updatedDispatchStatus}`, state.claim);
@@ -46,6 +63,13 @@ export const actions = {
             ErrorNotifier.notify();
         }
     },
+    /**
+     * Поиск заявки
+     * @param {any} rootState - пагинация - текущая страница
+     * @param {any} dispatch - формирование пагинации
+     * @param payload - строка поиска по определенным полям и статус отправки (для разных ролей диспетчера)
+     * @returns {Promise<void>} - возвращает найденные заявки по определенному критерию
+     */
     async searchClaim({ rootState, dispatch }, payload) {
         try {
             const result = await axios.post(`${baseUrl}claims/search`, {
@@ -60,6 +84,12 @@ export const actions = {
             ErrorNotifier.notify();
         }
     },
+    /**
+     * Изменить статус заявки (роли диспетчера, специалиста или коммуникатора)
+     * @param context - dummy
+     * @param payload - ид заявки, статус заявки
+     * @returns {Promise<void>} - обновляется в компоненте
+     */
     async changeStatusClaim(context, payload) {
         try {
             await axios.get(`${baseUrl}claims/update_status/${payload.id}/${payload.status}`);
@@ -69,6 +99,10 @@ export const actions = {
             ErrorNotifier.notify();
         }
     },
+    /**
+     * Получить заявки по тому же номеру телефона - заявки
+     * @returns {Promise<void>}
+     */
     async getClaimsOfTheSamePhone() {
         try {
             const res = await axios.post(`${baseUrl}claims/get_previous_by_phone`, {
@@ -80,6 +114,10 @@ export const actions = {
             ErrorNotifier.notify();
         }
     },
+    /**
+     * Получить выполненные заявки - для роли коммуникатора
+     * @returns {Promise<void>}
+     */
     async getExecutedClaims() {
         try {
             const res = await axios.get(`${baseUrl}claims/get_executed_claims`);
@@ -89,6 +127,22 @@ export const actions = {
             ErrorNotifier.notify();
         }
     },
+    async closeClaim({ dispatch }, payload) {
+        try {
+            const url = `${baseUrl}claims/change_close_status/${payload.claim_id}/${payload.close_status}`;
+            const res = await axios.get(url);
+            dispatch('getExecutedClaims');
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
+    },
+    /**
+     * Изменение организации, ответственной за выполнение заявки
+     * @param context
+     * @param payload
+     * @returns {Promise<void>}
+     */
     async changeOrganization(context, payload) {
         try {
             await axios.get(`${baseUrl}claims/change_organization/${payload.id}/

@@ -138,6 +138,16 @@ export const actions: ActionTree<ClaimState, RootState> = {
         }
     },
 
+    async closeClaim({dispatch}, payload) {
+        try {
+            const url = `${baseUrl}claims/change_close_status/${payload.claim_id}/${payload.close_status}`;
+            const res = await axios.get(url);
+            dispatch('getExecutedClaims');
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
     /**
      * Изменение организации, ответственной за выполнение заявки
      * @param context
