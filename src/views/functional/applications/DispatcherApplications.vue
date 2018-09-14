@@ -17,6 +17,7 @@
                         <td>{{ row.address.district }} / {{ row.address.location }}</td>
                         <td>{{ row.dispatch_status }}</td>
                         <td>{{ row.status }}</td>
+                        <td>{{ row.close_status }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(row)">
                                 <i class="fas fa-pencil-alt"></i>
@@ -112,8 +113,15 @@
             return throttle(this.startSearch, 2000);
         }
 
+        /**
+         * Обработка статусов: статус отправки, статус выполнения, статус закрытия
+         * @returns {IClaim[]}
+         */
         get claims() {
-            return ClaimService.resolveClaimDispatchStatus(this.claimState.claims);
+            this.claimState.claims = ClaimService.resolveClaimDispatchStatus(this.claimState.claims);
+            this.claimState.claims = ClaimService.resolveClaimStatus(this.claimState.claims);
+
+            return this.claimState.claims;
         }
 
         public startSearch() {

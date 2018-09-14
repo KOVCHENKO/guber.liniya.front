@@ -27,6 +27,25 @@ class ClaimService {
             case 'Отправлена': return DISPATCHED;
         }
     }
+    static resolveClaimStatus(claims) {
+        return claims.map((b) => {
+            switch (b.status) {
+                case 'created':
+                    b.status = 'Создана';
+                    break;
+                case 'executed':
+                    b.status = 'Выполнена';
+                    break;
+                case 'rejected':
+                    b.status = 'Отказано';
+                    break;
+                case 'assigned':
+                    b.status = 'Назначена';
+                    break;
+            }
+            return b;
+        });
+    }
     updateClaimInCollection(claims, claim) {
         const subIndex = claims.map((e) => {
             return e.id;

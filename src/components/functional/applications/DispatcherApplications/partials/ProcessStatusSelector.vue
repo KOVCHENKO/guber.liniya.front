@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>Статус обработки</div>
+        <div>{{ row }}</div>
         <div>
             <span>Отред<input type="checkbox" v-model="edited"></span>
             <span>Отпр<input type="checkbox" v-model="dispatched"></span>
@@ -12,6 +12,7 @@
 <script>
     export default {
         name: "ProcessStatusSelector",
+        props: ['row'],
         data: function () {
             return {
                 edited: false,
