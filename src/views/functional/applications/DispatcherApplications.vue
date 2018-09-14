@@ -3,30 +3,42 @@
     <div>
         
         <div class="main-page">
-            <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
-
-            <datatable
-                    :columns="tableColumns"
-                    :data="claims"
-            >
-                <template slot-scope="{ row }">
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <td>{{ row.created_at }}</td>
-                        <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
-                        <td>{{ row.phone }}</td>
-                        <td>{{ row.address.district }} / {{ row.address.location }}</td>
-                        <td>{{ row.dispatch_status }}</td>
-                        <td>{{ row.status }}</td>
-                        <td>{{ row.close_status }}</td>
+                        <th colspan="4">
+                            <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
+                        </th>
+                        <th colspan="4">
+                            <select class="form-control" id="inputGroupSelect01">
+                                <option selected>Статус заявки</option>
+                                <option value="1">Отред</option>
+                                <option value="2">Отпр</option>
+                                <option value="3">Созд</option>
+                            </select>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col" v-for="(column, index) in tableColumns" :key="index">{{column.label}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(claim, index) in claims" :key="index">
+                        <th>{{claim.created_at}}</th>
+                        <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
+                        <td>{{claim.phone}}</td>
+                        <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
+                        <td>{{ claim.dispatch_status }}</td>
+                        <td>{{ claim.status }}</td>
+                        <td>{{ claim.close_status }}</td>
                         <td>
-                            <div style="cursor: pointer;" @click="show(row)">
+                            <div style="cursor: pointer;" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                         </td>
                     </tr>
-                </template>
-            </datatable>
-
+                </tbody>
+            </table>
 
             <datatable-custom-paginator
                     v-on:setAnotherPage="getAllClaims({ dispatchStatus: $route.params.dispatch_status })"
@@ -71,8 +83,9 @@
             {label: 'Заявитель'},
             {label: 'Телефон'},
             {label: 'Адрес (район / адрес)'},
-            {label: 'Статус обработки', headerComponent: 'process-status-selector'},
+            {label: 'Статус обработки'},
             {label: 'Статус выполнения'},
+            {label: ''},
             {label: ''},
         ];
 
