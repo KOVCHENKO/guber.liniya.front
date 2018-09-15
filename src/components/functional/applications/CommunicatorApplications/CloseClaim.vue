@@ -64,7 +64,7 @@
     } from '../../../../domain/services/functional/claims/interfaces/closeStatusTypes';
 
     @Component
-    export default class ClaimInfo extends Vue {
+    export default class CloseClaim extends Vue {
         @Action('closeClaim')
         public closeClaim;
 
