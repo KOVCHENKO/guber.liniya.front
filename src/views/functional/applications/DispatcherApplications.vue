@@ -127,6 +127,9 @@
                 claim.dispatch_status, null, claim.parents, claim.comments,
                 new Address(claim.address.id, claim.address.district, claim.address.location), problem,
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
+
+            // Подтверждающие файлы
+            this.claimState.confirmationFiles = claim.files;
         }
 
         get throttledSearch() {

@@ -19,6 +19,7 @@ export const state: ClaimState = {
     claims: [],
     previousClaims: [],     // Предыдущие по номеру телефона
     executedClaims: [],     // Выполненные заявки для роли комуникатора
+    confirmationFiles: [],
 };
 
 const claimService = new ClaimService();
@@ -162,32 +163,6 @@ export const actions: ActionTree<ClaimState, RootState> = {
             SuccessNotifier.notify('Заявка', 'Отвественная организация изменена');
         } catch {
             ErrorNotifier.notify();
-        }
-    },
-
-    /**
-     * Отослать подтверждающий файл в БД
-     * @param context - dummy
-     * @param payload - file content
-     * @returns {Promise<void>}
-     */
-    async submitConfirmationFile(context, payload) {
-        const formData = new FormData();
-        formData.append('file', payload.file);
-
-        try {
-            await axios.post(`${baseUrl}file/upload`, {
-                    formData,
-                    claimId: payload.claimId,
-                }, {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                },
-            );
-
-            SuccessNotifier.notify('Файл', 'Подтверждающий файл отправлен');
-        } catch {
-            ErrorNotifier.notify();
-
         }
     },
 

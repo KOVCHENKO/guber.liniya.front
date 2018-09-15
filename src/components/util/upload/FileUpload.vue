@@ -1,21 +1,26 @@
 <template>
-    <md-content class="claim-text claim-check-text">
-        <span @click="attachFile">Выбрать файл</span>
-        <md-button class="md-primary" @click="submitFile()">Отправить</md-button>
-        <input id="file" v-show="false" ref="file" type="file" @change="processFile($event)"/>
-        <span @click="attachFile">{{ fileName }}</span>
-    </md-content>
+    <div>
+        <!--<span @click="attachFile">Выбрать файл</span>-->
+            <button class="md-primary" @click="submitFile()">Отправить</button>
+            <input id="file" ref="file" type="file" @change="processFile()"/>
+            <span @click="attachFile">{{ fileName }}</span>
+    </div>
 </template>
 
 <script>
     import SuccessNotifier from '../../../domain/util/notifications/SuccessNotifier';
     import ErrorNotifier from '../../../domain/util/notifications/ErrorNotifier';
+    import {baseUrl} from '@/globals';
+    import axios from 'axios';
 
     export default {
-        data(){
+        props: ['claim'],
+
+        data() {
             return {
                 file: '',
                 fileName: '',
+                fileStatus: 'statu'
             }
         },
 
@@ -24,22 +29,22 @@
                 document.getElementById('file').click()
             },
 
-            async submitFile() {
+            submitFile() {
                 const formData = new FormData();
                 formData.append('file', this.file);
 
-                try {
-                    await axios.post(`${baseUrl}file/upload`, {
-                            formData: formData,
-                        }, {
-                            headers: { 'Content-Type': 'multipart/form-data' },
-                        },
-                    );
+                    axios.post(baseUrl + 'file/upload/' + this.claim.id , formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+                    ).then(() => {
+                        SuccessNotifier.notify('Файл', 'Подтверждающий файл отправлен');
+                    }).catch(() => {
+                        ErrorNotifier.notify();
+                    });
 
-                    SuccessNotifier.notify('Файл', 'Подтверждающий файл отправлен');
-                } catch {
-                    ErrorNotifier.notify();
-                }
 
                 // this.submitConfirmationFile({ file: this.file, claimId: this.claim.id });
             },
