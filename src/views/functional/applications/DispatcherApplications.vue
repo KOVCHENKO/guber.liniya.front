@@ -10,11 +10,12 @@
                             <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
                         </th>
                         <th colspan="4">
-                            <select class="form-control" id="inputGroupSelect01">
-                                <option selected>Статус заявки</option>
-                                <option value="1">Отред</option>
-                                <option value="2">Отпр</option>
-                                <option value="3">Созд</option>
+                            <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
+                                <option value="all">Статус заявки</option>
+                                <option value="raw">Необработанна</option>
+                                <option value="edited">Отредактирована</option>
+                                <option value="dispatched">Отправлена</option>
+                                <option value="prepared">Создана</option>
                             </select>
                         </th>
                     </tr>
@@ -42,7 +43,7 @@
             </table>
 
             <datatable-custom-paginator
-                    v-on:setAnotherPage="getAllClaims({ dispatchStatus: $route.params.dispatch_status })"
+                    v-on:setAnotherPage="getAllClaims({ dispatchStatus: $route.params.dispatch_status, dispatchStatusFilter: dispatchStatusFilter  })"
             ></datatable-custom-paginator>
 
         </div>
@@ -82,6 +83,9 @@
         public searchField: string = '';
 
         @Provide()
+        public dispatchStatusFilter: string = 'all';
+
+        @Provide()
         public tableColumns = [
             {label: 'Дата'},
             {label: 'Заявитель'},
@@ -107,7 +111,7 @@
         }
 
         public created() {
-            this.getAllClaims({ dispatchStatus: this.$route.params.dispatch_status });
+            this.getAllClaims({ dispatchStatus: this.$route.params.dispatch_status, dispatchStatusFilter: this.dispatchStatusFilter });
         }
 
         public show(claim) {
@@ -149,10 +153,11 @@
 
         public startSearch() {
             if (this.searchField === '') {
-                this.getAllClaims({ dispatchStatus: this.$route.params.dispatch_status });
+                this.getAllClaims({ dispatchStatus: this.$route.params.dispatch_status, dispatchStatusFilter: this.dispatchStatusFilter });
                 return;
             }
-            this.searchClaim({search: this.searchField, dispatchStatus: this.$route.params.dispatch_status });
+            this.searchClaim({search: this.searchField, dispatchStatus: this.$route.params.dispatch_status,
+                dispatchStatusFilter: this.dispatchStatusFilter});
         }
 
         /**
