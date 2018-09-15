@@ -5,12 +5,12 @@
     <md-dialog-title>Изменить статус заявки</md-dialog-title>
     <div class="dialog-line-shadow"></div>
     <div class="claim-container claim-content">
-        <md-content class="claim-text">{{claim.name}}</md-content>
+        <!-- <md-content class="claim-text">{{claim.name}}</md-content> -->
         <md-content class="md-scrollbar claim-scrollbar">{{claim.description}}</md-content>
 
-        <div class="md-layout md-gutter">
+        <md-content>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-6 padding-right">
                     <div class="md-layout-item">
                         <span v-if="claim.status === 'created'">
                             <md-field>
@@ -34,7 +34,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 padding-left">
                     <div class="md-layout-item" v-if="statusData === 'redirect'">
                         <md-field>
                             <label>Перенаправить</label>
@@ -47,9 +47,9 @@
             </div>
             <md-field style="margin-bottom: 0px" v-if="statusData === 'rejected' || claim.status === 'assigned' ">
                 <label>Комментарий</label>
-                <md-textarea v-model="comment"></md-textarea>
+                <md-textarea v-model="comment" class="textarea-resize-none"></md-textarea>
             </md-field>
-        </div>
+        </md-content>
     </div>
     <div class="dialog-line"></div>
     <div class="claim-container claim-content">
