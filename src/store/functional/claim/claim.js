@@ -24,8 +24,7 @@ export const actions = {
      */
     async getAllClaims({ rootState, dispatch }, payload) {
         try {
-            const result = await axios.get(`${baseUrl}claims/all/${rootState.pagination.currentPage}/
-                        ${payload.dispatchStatus}?dispatchStatusFilter=${payload.dispatchStatusFilter}`);
+            const result = await axios.get(`${baseUrl}claims/all/${rootState.pagination.currentPage}/${payload.dispatchStatus}?dispatchStatusFilter=${payload.dispatchStatusFilter}`);
             state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.pages });
         }
