@@ -235,7 +235,7 @@
             // Новая заявка
             if (processingStatus === 'claimed') {
 
-                this.claimState.claim = new Claim(0, '', '', '', '', '', this.callState.call.clientPhone, '',
+                this.claimState.claim = new Claim(0, '', '', '', '', '', this.callState.call.clientPhone, '', '',
                     this.callState.call.link, '', null, [{}], [],
                     new Address(0, 'Астрахань', ''), new Problem(0, '', ''),
                     new Call(this.callState.call.id, this.callState.call.callId, this.callState.call.clientPhone,

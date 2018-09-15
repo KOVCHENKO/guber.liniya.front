@@ -8,7 +8,7 @@ import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 import Call from '@/domain/entities/functional/Call';
 import ClaimService from '@/domain/services/functional/claims/ClaimService';
 export const state = {
-    claim: new Claim(0, '', '', '', '', '', '', '', '', '', null, [{}], [], new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''), new Call(0, '', '', '', 'success', 'in', '', '', '')),
+    claim: new Claim(0, '', '', '', '', '', '', '', '', '', '', null, [{}], [], new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''), new Call(0, '', '', '', 'success', 'in', '', '', '')),
     claims: [],
     previousClaims: [],
     executedClaims: [],
@@ -149,6 +149,38 @@ export const actions = {
             await axios.get(`${baseUrl}claims/change_organization/${payload.id}/
                     ${payload.id_old_organization}/${payload.id_new_organization}`);
             SuccessNotifier.notify('Заявка', 'Отвественная организация изменена');
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
+    },
+    /**
+     * Отослать подтверждающий файл в БД
+     * @param context - dummy
+     * @param payload - file content
+     * @returns {Promise<void>}
+     */
+    async submitConfirmationFile(context, payload) {
+        const formData = new FormData();
+        formData.append('file', payload.file);
+        try {
+            await axios.post(`${baseUrl}file/upload`, {
+                formData,
+                claimId: payload.claimId,
+            }, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            SuccessNotifier.notify('Файл', 'Подтверждающий файл отправлен');
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
+    },
+    async reassignRejectedClaim({ dispatch }, payload) {
+        try {
+            await axios.get(`${baseUrl}claims/reassign_rejected_claim/${payload.organizationId}/${state.claim.id}`);
+            state.claim.status = payload.status;
+            state.claims = claimService.updateClaimInCollection(state.claims, state.claim);
         }
         catch {
             ErrorNotifier.notify();
