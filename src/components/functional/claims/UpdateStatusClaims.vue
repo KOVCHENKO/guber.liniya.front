@@ -24,10 +24,13 @@
                             <md-checkbox v-model="booleanAssigned" class="md-primary">
                                 <md-content class="claim-text claim-check-text">Заявка выполнена</md-content>
                             </md-checkbox>
+                            <br>
+                            <file-upload></file-upload>
                         </span>
                         <span v-if="claim.status === 'executed'">
                             <i class="fas fa-check fa-2x fa-check-green"></i>
                             <md-content class="claim-text claim-check-text">Заявка выполнена</md-content>
+
                         </span>
                     </div>
                 </div>
@@ -82,14 +85,20 @@
     import {Action, State} from 'vuex-class';
     import UserState from '../../../store/common/user/types';
     import OrganizationState from '../../../store/functional/organization/types';
-    import axios from 'axios';
     import {baseUrl} from '@/globals';
     import CommentState from '../../../store/functional/comment/types';
+    import FileUpload from '@/components/util/upload/FileUpload.vue';
 
-    @Component({})
+    @Component({
+        components: {FileUpload},
+    })
     export default class UpdateStatusClaims extends Vue {
 
         @Prop() public claim: any;
+
+        @Provide() public file = '';
+        @Provide() public fileName = '';
+        @Action public submitConfirmationFile;
 
         @Provide() public statusDialog = statusDialog;
 

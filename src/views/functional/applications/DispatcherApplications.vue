@@ -29,8 +29,9 @@
                         <td>{{claim.phone}}</td>
                         <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
                         <td>{{ claim.dispatch_status }}</td>
-                        <td>{{ claim.status }}</td>
-                        <td>{{ claim.close_status }}</td>
+                        <td style="color:red" v-if="claim.status === 'Отказано'" @click="reassignToAnotherOrganization(claim)">{{ claim.status }}</td>
+                        <td v-if="claim.status !== 'Отказано'">{{ claim.status }}</td>
+                        <td >{{ claim.close_status }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
@@ -47,6 +48,7 @@
         </div>
 
         <update-application></update-application>
+        <reassign-to-another-organization></reassign-to-another-organization>
     </div>
 </template>
 
@@ -55,6 +57,7 @@
     import DatatableCustomized from '../../../components/util/DatatableCustomized.vue';
     import DatatableCustomPaginator from '../../../components/util/DatatableCustomPaginator.vue';
     import UpdateApplication from '@/components/functional/applications/DispatcherApplications/UpdateApplication.vue';
+    import ReassignToAnotherOrganization from '@/components/functional/applications/DispatcherApplications/ReassignToAnotherOrganization.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../store/functional/claim/types';
     import {headings, plusButton, statusDialog} from '../../../domain/util/interface/CommonInterface';
@@ -71,6 +74,7 @@
             DatatableCustomized,
             UpdateApplication,
             DatatableCustomPaginator,
+            ReassignToAnotherOrganization,
         },
     })
     export default class DispatcherApplications extends Vue implements IWithRoute {
@@ -107,6 +111,11 @@
         }
 
         public show(claim) {
+            this.makeClaim(claim);
+            statusDialog.show = true;
+        }
+
+        public makeClaim(claim) {
             let problem = new Problem(0, '', '');
 
             if (claim.problem !== null) {
@@ -114,12 +123,10 @@
             }
 
             this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
-                claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status, null,
-                claim.parents, claim.comments,
+                claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.status,
+                claim.dispatch_status, null, claim.parents, claim.comments,
                 new Address(claim.address.id, claim.address.district, claim.address.location), problem,
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
-
-            statusDialog.show = true;
         }
 
         get throttledSearch() {
@@ -145,6 +152,12 @@
             this.searchClaim({search: this.searchField, dispatchStatus: this.$route.params.dispatch_status });
         }
 
-
+        /**
+         * Переназначить другой организации
+         */
+        public reassignToAnotherOrganization(claim) {
+            this.makeClaim(claim);
+            $('#reassignToAnotherOrganization').modal('show');
+        }
     }
 </script>

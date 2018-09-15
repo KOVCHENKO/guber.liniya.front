@@ -133,7 +133,8 @@
             const savedCall: ICall = this.claimState.claim.call;
 
             this.claimState.claim = new Claim(0, claim.name, claim.description, claim.firstname, claim.middlename,
-                claim.lastname, claim.phone, claim.email, claim.link, claim.dispatch_status, claim.id, [{}], [],
+                claim.lastname, claim.phone, claim.email, claim.link,
+                claim.status, claim.dispatch_status, claim.id, [{}], [],
                 new Address(claim.address.id, claim.address.district, claim.address.location),
                 new Problem(claim.problem.id, claim.problem.name, claim.problem.description),
                 savedCall);
@@ -143,7 +144,7 @@
 
         public show(row) {
             this.claimState.claim = new Claim(row.id, row.name, row.description,
-                row.firstname, row.middlename, row.lastname, row.phone, '', row.link, '', null, [{}], row.comments,
+                row.firstname, row.middlename, row.lastname, row.phone, '', row.link, '', '', null, [{}], row.comments,
                 new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''),
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 

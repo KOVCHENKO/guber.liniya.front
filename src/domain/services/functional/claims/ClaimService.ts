@@ -49,6 +49,7 @@ class ClaimService {
         claims[subIndex].address = claim.address;
         claims[subIndex].phone = claim.phone;
         claims[subIndex].dispatch_status = claim.dispatchStatus;
+        claims[subIndex].status = claim.status;
 
         return claims;
     }
