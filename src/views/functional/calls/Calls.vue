@@ -74,8 +74,8 @@
             this.callState.call = new Call(call.id, call.call_id, call.phone, call.link, call.ats_status, 'in',
                 '', 'raw', call.created_at);
 
-            this.claimState.claim = new Claim(0, '', '', '', '', '', call.phone, '', call.link, '', '', null, [{}], [],
-                new Address(0, 'Астрахань', ''),
+            this.claimState.claim = new Claim(0, '', '', '', '', '', call.phone, '', call.link, '', '', null, '',
+                [{}], [], new Address(0, 'Астрахань', ''),
                 new Problem(0, '', ''),
                 new Call(call.id, call.call_id, call.phone, call.link, call.ats_status, 'in',
                     '', 'raw', call.created_at));

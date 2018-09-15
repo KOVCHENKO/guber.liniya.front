@@ -134,7 +134,7 @@
 
             this.claimState.claim = new Claim(0, claim.name, claim.description, claim.firstname, claim.middlename,
                 claim.lastname, claim.phone, claim.email, claim.link,
-                claim.status, claim.dispatch_status, claim.id, [{}], [],
+                claim.status, claim.dispatch_status, claim.id, claim.level, [{}], [],
                 new Address(claim.address.id, claim.address.district, claim.address.location),
                 new Problem(claim.problem.id, claim.problem.name, claim.problem.description),
                 savedCall);
@@ -144,8 +144,8 @@
 
         public show(row) {
             this.claimState.claim = new Claim(row.id, row.name, row.description,
-                row.firstname, row.middlename, row.lastname, row.phone, '', row.link, '', '', null, [{}], row.comments,
-                new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''),
+                row.firstname, row.middlename, row.lastname, row.phone, '', row.link, '', '', null, row.level, [{}],
+                row.comments, new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''),
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
             statusDialogOfSecondLevel.show = true;

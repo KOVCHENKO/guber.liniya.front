@@ -14,9 +14,10 @@ class Claim {
     public phone: string;           // телефон заявителя
     public email: string;           // email заявителя
     public link: string;            // ссылка на аудиозапись заявления
-    public status: string;
+    public status: string;          // Статус выполнения заявки
     public dispatchStatus: string;  // prepared - для диспетчера, edited - для редактора, dispatched - для супервизора
     public pid: number | null;
+    public level: string;
     public problem: IProblem;       // Проблема по заявке
     public call: ICall;             // Звонок на котором основана заявка
     public parents: [{}];
@@ -25,7 +26,7 @@ class Claim {
 
     constructor(id: number, name: string, description: string, firstName: string, middleName: string, lastName: string,
                 phone: string, email: string, link: string, status: string, dispatchStatus: string, pid: number | null,
-                parents: [{}], comments: IComment[], address: IAddress, problem: IProblem, call: ICall) {
+                level: string, parents: [{}], comments: IComment[], address: IAddress, problem: IProblem, call: ICall) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -40,6 +41,7 @@ class Claim {
         this.pid = pid;
         this.parents = parents;
         this.status = status;
+        this.level = level;
         this.dispatchStatus = dispatchStatus;
         this.call = call;
         this.comments = comments;

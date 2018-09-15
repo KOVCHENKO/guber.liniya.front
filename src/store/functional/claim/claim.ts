@@ -12,7 +12,7 @@ import Call from '@/domain/entities/functional/Call';
 import ClaimService from '@/domain/services/functional/claims/ClaimService';
 
 export const state: ClaimState = {
-    claim: new Claim(0, '', '', '', '', '', '', '', '', '', '', null, [{}], [],
+    claim: new Claim(0, '', '', '', '', '', '', '', '', '', '', null, '', [{}], [],
                         new Address(0, 'Астрахань', ''),
                         new Problem(0, 'Выберите проблему', ''),
                         new Call(0, '', '', '', 'success', 'in',  '', '', '')),
