@@ -20,7 +20,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th scope="col" v-for="(column, index) in tableColumns" :key="index">{{column.label}}</th>
+                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}</th>
                     </tr>
                 </thead>
                 <tbody>

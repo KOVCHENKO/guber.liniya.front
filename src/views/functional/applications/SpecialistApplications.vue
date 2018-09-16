@@ -3,31 +3,74 @@
         
         <div class="main-page">
  
-            <datatable :columns="tableColumns" :data="organizationState.claims">
-                <template slot-scope="{ row }">
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <td>
-                            {{ row.id }}
+                        <th colspan="4">
+                            <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
+                        </th>
+                        <th colspan="4">
+                            <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
+                                <option value="all">Статус заявки</option>
+                                <option value="raw">Необработанна</option>
+                                <option value="edited">Отредактирована</option>
+                                <option value="dispatched">Отправлена</option>
+                                <option value="prepared">Создана</option>
+                            </select>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr v-for="(claim, index) in organizationState.claims" :key="index">
+                        <th>
+                            {{ claim.id }}
                             <div class="container-icon">
-                                <i class="fas fa-exclamation fa-3x" v-if="row.status === 'created'" title="новая заявка" style="color: #fffa31;"></i>
+                                <i class="fas fa-exclamation fa-3x" v-if="claim.status === 'created'" title="новая заявка" style="color: #fffa31;"></i>
                             </div>
-                        </td>
-                        <td>{{ row.name }}</td>
-                        <td>{{ row.description }}</td>                        
-                        <td>{{ row.firstname}} {{row.middlename}} {{row.lastname}}</td>
+                        </th>
+                        <td>{{ claim.name }}</td>
+                        <td>{{ claim.description }}</td>                        
+                        <td>{{ claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                         <td>
-                            <div @click="show(row)" class="container-icon">
+                            <div @click="show(claim)" class="container-icon">
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                             <div class="container-icon">
-                                <i class="fas fa-bookmark fa-2x" v-if="row.status === 'created'" style="color: dimgrey;"  title="новая заявка"></i>
-                                <i class="fas fa-bookmark fa-2x" v-if="row.status === 'assigned'" style="color: #9dbcf5;" title="заявка в работе"></i>
-                                <i class="fas fa-bookmark fa-2x" v-if="row.status === 'executed'" style="color: #fffa31;" title="выполненая заявка"></i>
+                                <i class="fas fa-bookmark fa-2x" v-if="claim.status === 'created'" style="color: dimgrey;"  title="новая заявка"></i>
+                                <i class="fas fa-bookmark fa-2x" v-if="claim.status === 'assigned'" style="color: #9dbcf5;" title="заявка в работе"></i>
+                                <i class="fas fa-bookmark fa-2x" v-if="claim.status === 'executed'" style="color: #fffa31;" title="выполненая заявка"></i>
+                            </div>
+                        </td>
+                    </tr> -->
+                    <tr v-for="(claim, index) in organizationState.claims" :key="index">
+                        <th>
+                            {{claim.created_at}}
+                            <div class="container-icon">
+                                <i class="fas fa-exclamation fa-3x" v-if="claim.status === 'created'" title="новая заявка" style="color: #fffa31;"></i>
+                            </div>
+                        </th>
+                        <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
+                        <td>{{claim.phone}}</td>
+                        <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
+                        <td>{{ claim.dispatch_status }}</td>
+                        <td>{{ claim.status }}</td>
+                        <td>{{ claim.close_status }}</td>
+                        <td>
+                            <div style="cursor: pointer;" @click="show(claim)">
+                                <i class="fas fa-pencil-alt"></i>
+                            </div>
+                            <div class="container-icon">
+                                <i class="fas fa-bookmark fa-2x" v-if="claim.status === 'created'" style="color: dimgrey;"  title="новая заявка"></i>
+                                <i class="fas fa-bookmark fa-2x" v-if="claim.status === 'assigned'" style="color: #9dbcf5;" title="заявка в работе"></i>
+                                <i class="fas fa-bookmark fa-2x" v-if="claim.status === 'executed'" style="color: #fffa31;" title="выполненая заявка"></i>
                             </div>
                         </td>
                     </tr>
-                </template>
-            </datatable>
+                </tbody>
+            </table>
 
         </div>
 
@@ -44,6 +87,7 @@
     import {headings, statusDialog, plusButton} from '../../../domain/util/interface/CommonInterface';
     import UserState from '../../../store/common/user/types';
     import UpdateStatusClaims from '@/components/functional/claims/UpdateStatusClaims.vue';
+    import throttle from '../../../store/util/operations/throttle';
 
     @Component({
         components: {
@@ -51,6 +95,11 @@
         },
     })
     export default class SpecialistApplications extends Vue {
+        @Provide()
+        public searchField: string = '';
+
+        @Provide()
+        public dispatchStatusFilter: string = 'all';
 
         @State('organization')
         public organizationState!: OrganizationState;
@@ -66,12 +115,13 @@
 
         @Provide()
         public tableColumns = [
-            {label: 'id', field: 'id'},
-            {label: 'Наименование', field: 'name'},
-            {label: 'Описание', field: 'description'},
-            {label: 'Заявитель', representedAs: (row) => {
-                    return `${row.firstname} ${row.middlename } ${row.lastname}`;
-                }, interpolate: true},
+            {label: 'Дата'},
+            {label: 'Заявитель'},
+            {label: 'Телефон'},
+            {label: 'Адрес (район / адрес)'},
+            {label: 'Статус обработки'},
+            {label: 'Статус выполнения'},
+            {label: 'Статус закрытия'},
             {label: ''},
         ];
 
@@ -93,8 +143,16 @@
             plusButton.visible = false;
         }
 
+        get throttledSearch() {
+            return throttle(this.startSearch, 2000);
+        }
+
+        public startSearch() {
+            this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id, dispatchStatusFilter : this.dispatchStatusFilter, search : this.searchField });
+        }
+
         public created() {
-            this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id });
+            this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id, dispatchStatusFilter : this.dispatchStatusFilter, search : this.searchField });
             this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });
         }
 
