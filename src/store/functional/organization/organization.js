@@ -73,7 +73,8 @@ export const actions = {
         try {
             const organizationId = payload.organization_id;
             const result = await axios.get(baseUrl + 'organizations/all_claims_of_organization/'
-                + organizationId);
+                + organizationId + '?dispatchStatusFilter=' + payload.dispatchStatusFilter +
+                '&search=' + payload.search);
             state.claims = result.data;
         }
         catch {

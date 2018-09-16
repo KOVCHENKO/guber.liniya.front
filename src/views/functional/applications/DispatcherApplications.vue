@@ -20,7 +20,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th scope="col" v-for="(column, index) in tableColumns" :key="index">{{column.label}}</th>
+                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,11 +97,6 @@
             {label: ''},
         ];
 
-        @Provide()
-        public expiredStyle = {
-            color: 'red',
-        };
-
         @State('claim')
         public claimState!: ClaimState;
 
@@ -116,7 +111,10 @@
         }
 
         public created() {
-            this.getAllClaims({ dispatchStatus: this.$route.params.dispatch_status, dispatchStatusFilter: this.dispatchStatusFilter });
+            this.getAllClaims({
+                dispatchStatus: this.$route.params.dispatch_status,
+                dispatchStatusFilter: this.dispatchStatusFilter
+            });
         }
 
         public show(claim) {
@@ -158,7 +156,10 @@
 
         public startSearch() {
             if (this.searchField === '') {
-                this.getAllClaims({ dispatchStatus: this.$route.params.dispatch_status, dispatchStatusFilter: this.dispatchStatusFilter });
+                this.getAllClaims({
+                    dispatchStatus: this.$route.params.dispatch_status,
+                    dispatchStatusFilter: this.dispatchStatusFilter
+                });
                 return;
             }
             this.searchClaim({search: this.searchField, dispatchStatus: this.$route.params.dispatch_status,
