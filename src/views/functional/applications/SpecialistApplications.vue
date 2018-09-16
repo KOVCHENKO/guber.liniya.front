@@ -7,13 +7,12 @@
                 <template slot-scope="{ row }">
                     <tr>
                         <td>
-                            {{ row.id }}
                             <div class="container-icon">
                                 <i class="fas fa-exclamation fa-3x" v-if="row.status === 'created'" title="новая заявка" style="color: #fffa31;"></i>
                             </div>
                         </td>
-                        <td>{{ row.name }}</td>
-                        <td>{{ row.description }}</td>                        
+                        <td>{{ row.created_at }}</td>
+                        <td>{{ row.description }}</td>
                         <td>{{ row.firstname}} {{row.middlename}} {{row.lastname}}</td>
                         <td>
                             <div @click="show(row)" class="container-icon">
@@ -66,8 +65,8 @@
 
         @Provide()
         public tableColumns = [
-            {label: 'id', field: 'id'},
-            {label: 'Наименование', field: 'name'},
+            {label: ''},
+            {label: 'Дата'},
             {label: 'Описание', field: 'description'},
             {label: 'Заявитель', representedAs: (row) => {
                     return `${row.firstname} ${row.middlename } ${row.lastname}`;

@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(claim, index) in claims" :key="index">
+                    <tr :class="{ expiredClaim: claim.expired }" v-for="(claim, index) in claims" :key="index">
                         <th>{{claim.created_at}}</th>
                         <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                         <td>{{claim.phone}}</td>
@@ -96,6 +96,11 @@
             {label: 'Статус закрытия'},
             {label: ''},
         ];
+
+        @Provide()
+        public expiredStyle = {
+            color: 'red',
+        };
 
         @State('claim')
         public claimState!: ClaimState;
@@ -169,3 +174,9 @@
         }
     }
 </script>
+
+<style>
+    .expiredClaim {
+        color: red;
+    }
+</style>
