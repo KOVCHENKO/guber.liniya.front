@@ -27,8 +27,19 @@
                             </div>
                         </div>
                         <div class="col-sm-8">
+                            <div class="claim-content">
+                                <md-content class="claim-text">Уровень проблемы</md-content>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="private" value="Личная" v-model="claimLevel" class="custom-control-input">
+                                <label class="custom-control-label" for="private">Личная</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="general" value="Общезначимая" v-model="claimLevel" class="custom-control-input">
+                                <label class="custom-control-label" for="general">Общезначимая</label>
+                            </div>
                             <div>
-                                <audio style="margin-top: 110px;" controls>
+                                <audio style="margin-top: 50px;" controls>
                                     <source :src="claimState.claim.link" type="audio/mpeg">
                                 </audio>
                             </div>
@@ -126,7 +137,7 @@
 
                     <md-dialog-actions>
                         <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
-                        <md-button class="md-primary" @click="createClaim">{{ $t("common.create") }}</md-button>
+                        <md-button class="md-primary" @click="dispatchClaimCreate">{{ $t("common.create") }}</md-button>
                     </md-dialog-actions>
 
                 </md-step>
@@ -171,6 +182,7 @@
         @State('call') public callState!: CallState;
 
         @Provide() public callType: string = 'Новый';
+        @Provide() public claimLevel: string = 'Личный';
 
         @Provide() public districts: string[] = districts;
         @Provide() public showSingleClaimModal: boolean = false;
@@ -236,12 +248,20 @@
             if (processingStatus === 'claimed') {
 
                 this.claimState.claim = new Claim(0, '', '', '', '', '', this.callState.call.clientPhone, '', '',
-                    this.callState.call.link, '', null, [{}], [],
+                    this.callState.call.link, '', null, '', [{}], [],
                     new Address(0, 'Астрахань', ''), new Problem(0, '', ''),
                     new Call(this.callState.call.id, this.callState.call.callId, this.callState.call.clientPhone,
                         this.callState.call.link, this.callState.call.atsStatus, 'in', '', 'raw',
                         this.callState.call.createdAt));
             }
+        }
+
+        /**
+         * Перед отправкой проблемы необходимо обозначить уровень
+         */
+        public dispatchClaimCreate() {
+            this.claimState.claim.level = this.claimLevel;
+            this.createClaim();
         }
 
     }

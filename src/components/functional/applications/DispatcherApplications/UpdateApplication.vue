@@ -125,6 +125,19 @@
                     </div>
                 </div>
             </md-tab>
+
+            <md-tab id="tab-files" md-label="Файлы">
+                <div class="row" v-if="claimState.confirmationFiles !== null" v-for="file in claimState.confirmationFiles">
+                    <div class="col-sm-6 clearfix">
+                        <a :href="baseRootUrl + file.path" download>Скачать</a>
+                    </div>
+                </div>
+                <div class="row" v-if="claimState.confirmationFiles.length === 0">
+                    <div class="col-sm-6 clearfix">
+                        Подтверждаюшие файлы отсутствуют
+                    </div>
+                </div>
+            </md-tab>
         </md-tabs>
 
         <md-dialog-actions style="top: -30px;">
@@ -144,6 +157,7 @@
     import IWithRoute from '../../../../domain/util/interface/IWithRoute';
     import UserState from '../../../../store/common/user/types';
     import RoleResolver from '../../../../domain/services/functional/roles/RoleResolver';
+    import {baseRootUrl} from '@/globals';
 
     @Component
     export default class UpdateApplication extends Vue implements IWithRoute {
@@ -151,6 +165,8 @@
 
         @State('claim') public claimState!: ClaimState;
         @State('user') public userState!: UserState;
+
+        @Provide() public baseRootUrl = baseRootUrl;
 
         @Provide() public districts: string[] = districts;
         @Provide() public showSingleClaimModal: boolean = false;

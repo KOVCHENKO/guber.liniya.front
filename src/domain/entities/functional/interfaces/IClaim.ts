@@ -16,6 +16,7 @@ export default interface IClaim {
     link: string;            // ссылка на аудиозапись заявления
     dispatchStatus: string;  // prepared - для диспетчера, edited - для редактора, dispatched - для супервизора
     status: string;          // created, assigned, executed, rejected
+    level: string;           // уровень проблемы: личная или общезначимая
     pid: number | null;      // ид родительской заявки
     problem: IProblem;       // Проблема по заявке
     call: ICall;             // Связанный заявок

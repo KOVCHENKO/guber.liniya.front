@@ -128,9 +128,12 @@
 
             this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
                 claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.status,
-                claim.dispatch_status, null, claim.parents, claim.comments,
+                claim.dispatch_status, null, claim.level, claim.parents, claim.comments,
                 new Address(claim.address.id, claim.address.district, claim.address.location), problem,
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
+
+            // Подтверждающие файлы
+            this.claimState.confirmationFiles = claim.files;
         }
 
         get throttledSearch() {

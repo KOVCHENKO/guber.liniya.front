@@ -25,7 +25,7 @@
                                 <md-content class="claim-text claim-check-text">Заявка выполнена</md-content>
                             </md-checkbox>
                             <br>
-                            <file-upload></file-upload>
+                            <file-upload :claim="claim"></file-upload>
                         </span>
                         <span v-if="claim.status === 'executed'">
                             <i class="fas fa-check fa-2x fa-check-green"></i>
@@ -96,8 +96,6 @@
 
         @Prop() public claim: any;
 
-        @Provide() public file = '';
-        @Provide() public fileName = '';
         @Action public submitConfirmationFile;
 
         @Provide() public statusDialog = statusDialog;
