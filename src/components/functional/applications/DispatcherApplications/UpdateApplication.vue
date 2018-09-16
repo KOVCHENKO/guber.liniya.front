@@ -1,6 +1,7 @@
 <template>
     <!-- Диалоговое окно-->
-    <md-dialog :md-active.sync="statusDialog.show" class="customer-dialog">
+    <md-dialog :md-active.sync="statusDialog.show" class="customer-dialog update-app">
+        <md-dialog-title>Информаци по заявке</md-dialog-title>
         <md-tabs md-sync-route>
             <md-tab id="tab-applicant" md-label="Данные заявителя">
                 <div class="form-padding">
@@ -62,19 +63,17 @@
 
             <md-tab id="tab-info" md-label="Информация">
                 <div class="form-padding">
-
+                    <hr class="transparent-line">
                     <div class="row">
                         <div class="col-sm-12 clearfix">
-                            <audio controls>
+                            <audio style="margin-top: 50px;" controls>
                                 <source :src="claimState.claim.link" type="audio/mpeg">
                             </audio>
                         </div>
                     </div>
 
-                    <br><br>
-
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" style="padding-left: 17px;">
                             <label>{{ claimState.claim.problem.name }}</label>
                         </div>
                         <div class="col-sm-4">
@@ -87,7 +86,7 @@
 
                             <md-field>
                                 <label>{{$t('claims.claim_description')}}</label>
-                                <md-textarea id="claim_description" name="description" style="height: 75px; min-height: auto !important;"
+                                <md-textarea id="claim_description" name="description" style="height: 75px; min-height: auto !important;" class="textarea-resize-none"
                                              v-model="claimState.claim.description" md-counter="300" :disabled="disabledBasedOnDispatchStatus"></md-textarea>
                             </md-field>
 
@@ -96,51 +95,57 @@
                 </div>
             </md-tab>
             <md-tab id="tab-linked" md-label="Связанные заявки">
-                <div class="row" v-if="claimState.claim.parents !== null" v-for="parentClaim in claimState.claim.parents">
-                    <div class="col-sm-2 clearfix">
-                        {{ parentClaim.created_at }}
+                <md-content class="container md-scrollbar update-app-scrollbar">
+                    <div class="row" v-if="claimState.claim.parents !== null" v-for="parentClaim in claimState.claim.parents">
+                        <div class="col-sm-3 clearfix" style="line-height: 58px;">
+                            {{ parentClaim.created_at }}
+                        </div>
+                        <div class="col-sm-9 clearfix">
+                            <audio style="margin-top: 58px;" controls>
+                                <source :src="parentClaim.link" type="audio/mpeg">
+                            </audio>
+                        </div>
                     </div>
-                    <div class="col-sm-10 clearfix">
-                        <audio controls>
-                            <source :src="parentClaim.link" type="audio/mpeg">
-                        </audio>
+                    <div class="row" v-if="claimState.claim.parents.length === 0">
+                        <div class="col-sm-6 clearfix">
+                            История по заявке отсутсвует
+                        </div>
                     </div>
-                </div>
-                <div class="row" v-if="claimState.claim.parents.length === 0">
-                    <div class="col-sm-6 clearfix">
-                        История по заявке отсутсвует
-                    </div>
-                </div>
+                </md-content>
             </md-tab>
 
             <md-tab id="tab-comments" md-label="Комментарии">
-                <div class="row" v-if="claimState.claim.comments !== null" v-for="comment in claimState.claim.comments">
-                    <div class="col-sm-6 clearfix">
-                        {{ comment.text }}
+                <md-content class="container md-scrollbar update-app-comments-scrollbar">
+                    <div class="row" v-if="claimState.claim.comments !== null" v-for="comment in claimState.claim.comments">
+                        <div class="col-sm-12 clearfix" style="padding: 10px; border-bottom: 1px solid #d2d2d2;">
+                            {{ comment.text }}
+                        </div>
                     </div>
-                </div>
-                <div class="row" v-if="claimState.claim.comments.length === 0">
-                    <div class="col-sm-6 clearfix">
-                        Комментарии к заявке отсутствуют
+                    <div class="row" v-if="claimState.claim.comments.length === 0">
+                        <div class="col-sm-12 clearfix">
+                            Комментарии к заявке отсутствуют
+                        </div>
                     </div>
-                </div>
+                </md-content>
             </md-tab>
 
             <md-tab id="tab-files" md-label="Файлы">
-                <div class="row" v-if="claimState.confirmationFiles !== null" v-for="file in claimState.confirmationFiles">
-                    <div class="col-sm-6 clearfix">
-                        <a :href="baseRootUrl + file.path" download>Скачать</a>
+                <md-content class="container md-scrollbar update-app-comments-scrollbar">
+                    <div class="row" v-if="claimState.confirmationFiles !== null" v-for="file in claimState.confirmationFiles">
+                        <div class="col-sm-12 clearfix">
+                            <a :href="baseRootUrl + file.path" download>Скачать</a>
+                        </div>
                     </div>
-                </div>
-                <div class="row" v-if="claimState.confirmationFiles.length === 0">
-                    <div class="col-sm-6 clearfix">
-                        Подтверждаюшие файлы отсутствуют
+                    <div class="row" v-if="claimState.confirmationFiles.length === 0">
+                        <div class="col-sm-12 clearfix">
+                            Подтверждаюшие файлы отсутствуют
+                        </div>
                     </div>
-                </div>
+                </md-content>
             </md-tab>
         </md-tabs>
 
-        <md-dialog-actions style="top: -30px;">
+        <md-dialog-actions>
             <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
             <md-button class="md-primary" @click="pushUpdate" :disabled="disabledBasedOnDispatchStatus">{{ $t("common.update") }}</md-button>
         </md-dialog-actions>

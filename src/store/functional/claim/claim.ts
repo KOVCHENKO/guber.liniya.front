@@ -34,6 +34,9 @@ export const actions: ActionTree<ClaimState, RootState> = {
      */
     async getAllClaims({rootState, dispatch}, payload) {
         try {
+            if (payload.dispatchStatusFilter == null){
+                payload.dispatchStatusFilter = '';
+            }
             const result = await axios.get(`${baseUrl}claims/all/${rootState.pagination.currentPage}/${payload.dispatchStatus}?dispatchStatusFilter=${payload.dispatchStatusFilter}`);
             state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.pages });
@@ -83,6 +86,9 @@ export const actions: ActionTree<ClaimState, RootState> = {
      */
     async searchClaim({rootState, dispatch}, payload) {
         try {
+            if (payload.dispatchStatusFilter == null) {
+                payload.dispatchStatusFilter = '';
+            }
             const result = await axios.post(`${baseUrl}claims/search`, {
                 currentPage: rootState.pagination.currentPage,
                 search: payload.search,

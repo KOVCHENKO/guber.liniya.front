@@ -734,3 +734,16 @@ button.close {
 // .cst-col:hover {
 //     background: rgb(238, 238, 238)
 // }
+.update-app {
+    .md-tabs-navigation {
+        box-shadow: 0 -1px 5px 0 rgba(0,0,0,.12);
+    }
+    .update-app-scrollbar {
+        max-height: 140px;
+        overflow: auto;
+    }
+    .update-app-comments-scrollbar {
+        max-height: 140px;
+        overflow: auto;
+    }
+}
