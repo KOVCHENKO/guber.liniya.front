@@ -61,6 +61,9 @@ class ClaimService {
         claims[subIndex].status = claim.status;
         return claims;
     }
+    changeTimeFormat(claims, claim) {
+        // change time format
+    }
 }
 export default ClaimService;
 //# sourceMappingURL=ClaimService.js.map

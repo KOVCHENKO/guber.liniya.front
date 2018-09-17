@@ -53,6 +53,10 @@ class ClaimService {
 
         return claims;
     }
+
+    public changeTimeFormat(claims, claim: IClaim) {
+        // change time format
+    }
 }
 
 export default ClaimService;

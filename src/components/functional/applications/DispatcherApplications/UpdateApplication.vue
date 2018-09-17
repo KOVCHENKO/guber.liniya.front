@@ -63,16 +63,16 @@
 
             <md-tab id="tab-info" md-label="Информация">
                 <div class="form-padding">
-                    <hr class="transparent-line">
+                    <!--<hr class="transparent-line">-->
                     <div class="row">
                         <div class="col-sm-12 clearfix">
-                            <audio style="margin-top: 50px;" controls>
+                            <audio controls>
                                 <source :src="claimState.claim.link" type="audio/mpeg">
                             </audio>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="margin-top: 40px;">
                         <div class="col-sm-4" style="padding-left: 17px;">
                             <label>{{ claimState.claim.problem.name }}</label>
                         </div>
