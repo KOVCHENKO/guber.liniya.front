@@ -7,6 +7,7 @@ import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 import axios from 'axios';
 import Organization from '@/domain/entities/functional/Organization';
 import {makeTree} from '@/domain/util/interface/TreeMaker';
+import ClaimService from '@/domain/services/functional/claims/ClaimService';
 
 export const state: OrganizationState = {
     organization: new Organization(0, '', '', null),
@@ -87,6 +88,7 @@ export const actions: ActionTree<OrganizationState, RootState> = {
                 + organizationId + '?dispatchStatusFilter=' + payload.dispatchStatusFilter +
                 '&search=' + payload.search);
             state.claims = result.data;
+            state.claims = ClaimService.resolveClaimStatus(state.claims);
         } catch {
             ErrorNotifier.notify();
         }
