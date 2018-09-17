@@ -84,7 +84,10 @@
         }
 
         get calls() {
-            return CallService.resolveCallProcessingStatus(this.callState.calls);
+            this.callState.calls = CallService.resolveCallProcessingStatus(this.callState.calls);
+            this.callState.calls = CallService.changeTimeFormat(this.callState.calls);
+
+            return this.callState.calls;
         }
     }
 </script>

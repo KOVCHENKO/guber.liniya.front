@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(claim, index) in organizationState.claims" :key="index">
+                    <tr v-for="(claim, index) in claims" :key="index">
                         <th>
                             {{claim.created_at}}
                             <div class="container-icon">
@@ -34,7 +34,7 @@
                         <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                         <td>{{claim.phone}}</td>
                         <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
-                        <td>{{ claim.status }}</td>
+                        <td>{{ claim.translatedStatus }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
@@ -65,6 +65,7 @@
     import UserState from '../../../store/common/user/types';
     import UpdateStatusClaims from '@/components/functional/claims/UpdateStatusClaims.vue';
     import throttle from '../../../store/util/operations/throttle';
+    import ClaimService from '../../../domain/services/functional/claims/ClaimService';
 
     @Component({
         components: {
@@ -141,6 +142,10 @@
         public show(row) {
             this.claim = row;
             statusDialog.show = true;
+        }
+
+        get claims() {
+           return ClaimService.changeTimeFormat(this.organizationState.claims);
         }
 
     }

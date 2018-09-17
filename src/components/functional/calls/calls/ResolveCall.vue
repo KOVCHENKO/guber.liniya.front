@@ -26,18 +26,15 @@
                                 <label class="custom-control-label" for="failed">Ошибка</label>
                             </div>
                         </div>
-                        <div class="col-sm-8">
+                        <div class="col-sm-5">
                             <div class="claim-content">
                                 <md-content class="claim-text">Уровень проблемы</md-content>
                             </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="private" value="Личная" v-model="claimLevel" class="custom-control-input">
-                                <label class="custom-control-label" for="private">Личная</label>
+                            <div class="form-check">
+                                <input v-model="claimLevel" type="checkbox" class="form-check-input" style="margin-top: 10px">
+                                <label class="form-check-label">Общезначимая</label>
                             </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="general" value="Общезначимая" v-model="claimLevel" class="custom-control-input">
-                                <label class="custom-control-label" for="general">Общезначимая</label>
-                            </div>
+
                             <div>
                                 <audio style="margin-top: 50px;" controls>
                                     <source :src="claimState.claim.link" type="audio/mpeg">
@@ -182,7 +179,7 @@
         @State('call') public callState!: CallState;
 
         @Provide() public callType: string = 'Новый';
-        @Provide() public claimLevel: string = 'Личный';
+        @Provide() public claimLevel: boolean = false;
 
         @Provide() public districts: string[] = districts;
         @Provide() public showSingleClaimModal: boolean = false;
@@ -260,8 +257,16 @@
          * Перед отправкой проблемы необходимо обозначить уровень
          */
         public dispatchClaimCreate() {
-            this.claimState.claim.level = this.claimLevel;
+            this.claimState.claim.level = this.claimLevelStringified;
             this.createClaim();
+        }
+
+        get claimLevelStringified() {
+            if (this.claimLevel === true) {
+                return 'Общезначимая';
+            } else {
+                return 'Личная';
+            }
         }
 
     }

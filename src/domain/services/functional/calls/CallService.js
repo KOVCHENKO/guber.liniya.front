@@ -1,9 +1,10 @@
+import TimeFormatter from '@/domain/util/formatters/TimeFormatter';
 class CallService {
     static resolveCallProcessingStatus(calls) {
         return calls.map((b) => {
             switch (b.processing_status) {
                 case 'raw':
-                    b.processing_status = 'Заявка';
+                    b.processing_status = 'Необработанная';
                     break;
                 case 'claimed':
                     b.processing_status = 'Заявка';
@@ -16,6 +17,12 @@ class CallService {
                     break;
             }
             return b;
+        });
+    }
+    static changeTimeFormat(calls) {
+        return calls.map((call) => {
+            call.created_at = TimeFormatter.formatTime(call.created_at);
+            return call;
         });
     }
 }

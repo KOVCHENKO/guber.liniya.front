@@ -150,6 +150,7 @@
         get claims() {
             this.claimState.claims = ClaimService.resolveClaimDispatchStatus(this.claimState.claims);
             this.claimState.claims = ClaimService.resolveClaimStatus(this.claimState.claims);
+            this.claimState.claims = ClaimService.changeTimeFormat(this.claimState.claims);
 
             return this.claimState.claims;
         }

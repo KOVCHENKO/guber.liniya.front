@@ -1,4 +1,5 @@
 import { DISPATCHED, EDITED, PREPARED, RAW } from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
+import TimeFormatter from '@/domain/util/formatters/TimeFormatter';
 class ClaimService {
     static resolveClaimDispatchStatus(claims) {
         return claims.map((b) => {
@@ -46,6 +47,36 @@ class ClaimService {
             return b;
         });
     }
+    /**
+     * Добавляет статус на русском языке - при этом оставляя простой (на англ.яз из БД) для взаимодействия
+     * @param claims
+     * @returns {any}
+     */
+    static addTranslatedClaimStatus(claims) {
+        return claims.map((b) => {
+            switch (b.status) {
+                case 'created':
+                    b.translatedStatus = 'Создана';
+                    break;
+                case 'executed':
+                    b.translatedStatus = 'Выполнена';
+                    break;
+                case 'rejected':
+                    b.translatedStatus = 'Отказано';
+                    break;
+                case 'assigned':
+                    b.translatedStatus = 'Назначена';
+                    break;
+            }
+            return b;
+        });
+    }
+    static changeTimeFormat(claims) {
+        return claims.map((claim) => {
+            claim.created_at = TimeFormatter.formatTime(claim.created_at);
+            return claim;
+        });
+    }
     updateClaimInCollection(claims, claim) {
         const subIndex = claims.map((e) => {
             return e.id;
@@ -60,9 +91,6 @@ class ClaimService {
         claims[subIndex].dispatch_status = claim.dispatchStatus;
         claims[subIndex].status = claim.status;
         return claims;
-    }
-    changeTimeFormat(claims, claim) {
-        // change time format
     }
 }
 export default ClaimService;

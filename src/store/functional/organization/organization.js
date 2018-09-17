@@ -77,7 +77,7 @@ export const actions = {
                 + organizationId + '?dispatchStatusFilter=' + payload.dispatchStatusFilter +
                 '&search=' + payload.search);
             state.claims = result.data;
-            state.claims = ClaimService.resolveClaimStatus(state.claims);
+            state.claims = ClaimService.addTranslatedClaimStatus(state.claims);
         }
         catch {
             ErrorNotifier.notify();

@@ -145,7 +145,11 @@
             // Заявка выполнена. Изменяем статус заявки с assigned на executed. Добавляем комментарий
             if (this.booleanAssigned === true && this.claim.status === 'assigned') {
                 this.changeStatusClaim({id : this.claim.id, status : 'executed' }).then(() => {
-                    this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id });
+                    this.getAllClaimsOfOrganization({
+                        organization_id: this.userState.user.organization.id,
+                        dispatchStatusFilter: 'all',
+                        search: ''
+                    });
                     statusDialog.show = false;
 
                     this.commentState.comment = {
@@ -164,7 +168,11 @@
             // Приянть в работу. Изменяем статус заявки на assigned
             if (this.statusData === 'assigned') {
                 this.changeStatusClaim({id : this.claim.id, status : this.statusData }).then(() => {
-                    this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id });
+                    this.getAllClaimsOfOrganization({
+                        organization_id: this.userState.user.organization.id,
+                        dispatchStatusFilter: 'all',
+                        search: ''
+                    });
                     statusDialog.show = false;
                 });
                 return;
@@ -173,7 +181,11 @@
             if (this.statusData === 'redirect') {
                 this.changeOrganization({id : this.claim.id, id_old_organization : this.userState.user.organization.id,
                         id_new_organization : this.childOrganization }).then(() => {
-                    this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id });
+                    this.getAllClaimsOfOrganization({
+                        organization_id: this.userState.user.organization.id,
+                        dispatchStatusFilter: 'all',
+                        search: ''
+                    });
                     statusDialog.show = false;
                 });
                 return;
@@ -181,7 +193,11 @@
             // Отказаться. Изменяем статус заявки на rejected. Добавляем комментарий
             if (this.statusData === 'rejected') {
                 this.changeStatusClaim({id : this.claim.id, status : this.statusData }).then(() => {
-                    this.getAllClaimsOfOrganization({organization_id : this.userState.user.organization.id });
+                    this.getAllClaimsOfOrganization({
+                        organization_id: this.userState.user.organization.id,
+                        dispatchStatusFilter: 'all',
+                        search: ''
+                    });
                     statusDialog.show = false;
 
                     this.commentState.comment = {
