@@ -97,8 +97,8 @@
             {label: 'Заявитель'},
             {label: 'Телефон'},
             {label: 'Адрес (район / адрес)'},
-            {label: 'Статус выполнения'},
-            {label: ''}
+            {label: 'Статус обработки'},
+            {label: ''},
         ];
 
         @Provide()
@@ -126,7 +126,7 @@
         public startSearch() {
             this.getAllClaimsOfOrganization({
                 organization_id : this.userState.user.organization.id,
-                dispatchStatusFilter : this.dispatchStatusFilter, search : this.searchField
+                dispatchStatusFilter : this.dispatchStatusFilter, search : this.searchField,
             });
         }
 

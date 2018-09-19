@@ -22,8 +22,19 @@ class Supervisor {
                 ErrorNotifier.notifyWithCustomMessage('Ошибка в обработке статуса отправки');
         }
     }
+    /**
+     * Статус отправки на обновление заявки
+     * @returns {string}
+     */
     getDispatchStatusToUpdate() {
         return DISPATCHED;
+    }
+    /**
+     * Статус отправки на создание заявки
+     * @returns {string}
+     */
+    getDispatchStatusToCreateClaim() {
+        return EDITED;
     }
 }
 export default Supervisor;

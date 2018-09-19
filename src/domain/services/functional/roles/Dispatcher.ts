@@ -25,7 +25,19 @@ class Dispatcher implements IActiveRole {
             }
     }
 
+    /**
+     * Статус отправки на обновление заявки
+     * @returns {string}
+     */
     public getDispatchStatusToUpdate() {
+        return PREPARED;
+    }
+
+    /**
+     * Статус отправки на создание заявки
+     * @returns {string}
+     */
+    public getDispatchStatusToCreateClaim() {
         return PREPARED;
     }
 }

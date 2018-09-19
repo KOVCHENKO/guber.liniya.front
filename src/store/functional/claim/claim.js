@@ -7,6 +7,7 @@ import Address from '@/domain/entities/functional/Address';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 import Call from '@/domain/entities/functional/Call';
 import ClaimService from '@/domain/services/functional/claims/ClaimService';
+import RoleResolver from '@/domain/services/functional/roles/RoleResolver';
 export const state = {
     claim: new Claim(0, '', '', '', '', '', '', '', '', '', '', null, '', [{}], [], new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''), new Call(0, '', '', '', 'success', 'in', '', '', '')),
     claims: [],
@@ -28,7 +29,10 @@ export const actions = {
             if (payload.dispatchStatusFilter == null) {
                 payload.dispatchStatusFilter = '';
             }
-            const result = await axios.get(`${baseUrl}claims/all/${rootState.pagination.currentPage}/${payload.dispatchStatus}?dispatchStatusFilter=${payload.dispatchStatusFilter}`);
+            const url = `${baseUrl}claims/all` +
+                `/${rootState.pagination.currentPage}/${payload.dispatchStatus}?` +
+                `dispatchStatusFilter=${payload.dispatchStatusFilter}`;
+            const result = await axios.get(url);
             state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.pages });
         }
@@ -41,7 +45,11 @@ export const actions = {
      * @returns {Promise<void>} - создается заявка, так как создание происходит в компоненте звонков -
      * заявка не отображается
      */
-    async createClaim() {
+    async createClaim({ rootState }) {
+        // Установить dispatchStatus: роль dispatcher - 'prepared', editor - 'edited', supervisor - 'edited'
+        let role;
+        role = RoleResolver.resolveRole(rootState.user.role.name);
+        state.claim.dispatchStatus = role.getDispatchStatusToCreateClaim();
         try {
             await axios.post(`${baseUrl}claims/create`, state.claim);
             SuccessNotifier.notify('Заявка', 'Создана новая заявка');

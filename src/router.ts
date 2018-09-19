@@ -88,9 +88,10 @@ const router = new Router({
                 meta: { requiresAuth: true, requiresRole: ADMIN },
             },
             {
+                // TODO: прикрепить авторизацию к данному маршруту
                 path: '/calls', name: 'calls',
                 component: Calls,
-                meta: { requiresAuth: true, requiresRole: DISPATCHER },
+                meta: { requiresAuth: true },
             },
         ],
     },

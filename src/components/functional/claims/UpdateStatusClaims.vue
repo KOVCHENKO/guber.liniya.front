@@ -148,7 +148,7 @@
                     this.getAllClaimsOfOrganization({
                         organization_id: this.userState.user.organization.id,
                         dispatchStatusFilter: 'all',
-                        search: ''
+                        search: '',
                     });
                     statusDialog.show = false;
 
@@ -171,7 +171,7 @@
                     this.getAllClaimsOfOrganization({
                         organization_id: this.userState.user.organization.id,
                         dispatchStatusFilter: 'all',
-                        search: ''
+                        search: '',
                     });
                     statusDialog.show = false;
                 });
@@ -184,7 +184,7 @@
                     this.getAllClaimsOfOrganization({
                         organization_id: this.userState.user.organization.id,
                         dispatchStatusFilter: 'all',
-                        search: ''
+                        search: '',
                     });
                     statusDialog.show = false;
                 });
@@ -196,7 +196,7 @@
                     this.getAllClaimsOfOrganization({
                         organization_id: this.userState.user.organization.id,
                         dispatchStatusFilter: 'all',
-                        search: ''
+                        search: '',
                     });
                     statusDialog.show = false;
 

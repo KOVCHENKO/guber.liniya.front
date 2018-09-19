@@ -11,6 +11,7 @@ export const state = {
     users: [{}],
     token: '',
     role: new Role(0, '', ''),
+    nickname: '',
 };
 export const mutations = {
     /**
@@ -21,6 +22,7 @@ export const mutations = {
     getUser(state, payload) {
         state.user = payload;
         state.role = payload.role;
+        state.nickname = payload.nickname;
         Router.push({ name: 'desktop' });
     },
 };

@@ -11,7 +11,14 @@
                 <header class="main-header desktop" :class="{ isOpen: isOpen }">
                     <div class="header-container">
                         <div class="header-content">
-                            <div class="line-button left-top" @click="close"><img src="/img/arrow.png" /></div>
+                            <div class="line-button left-top" @click="close">
+                                <img src="/img/arrow.png" />
+                            </div>
+                            <p class="title">
+                                    <span class="capital">
+                                        {{ userState.nickname }}
+                                    </span>
+                            </p>
                             <div class="header-el">
                                 <div class="topline"></div>
                                 <p class="title"><span class="capital">У</span>МНЫЙ<br>

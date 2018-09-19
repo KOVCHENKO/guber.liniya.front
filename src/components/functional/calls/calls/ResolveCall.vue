@@ -257,7 +257,10 @@
          * Перед отправкой проблемы необходимо обозначить уровень
          */
         public dispatchClaimCreate() {
+            // Уровень заявки: личный или общезначимый
             this.claimState.claim.level = this.claimLevelStringified;
+
+            // Создать заявку
             this.createClaim();
         }
 

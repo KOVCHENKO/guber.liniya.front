@@ -14,7 +14,7 @@ import SingleOrganizationProblems from './views/functional/organizations/SingleO
 import SingleOrganizationUsers from './views/functional/organizations/SingleOrganizationUsers.vue';
 import Calls from './views/functional/calls/Calls.vue';
 import { authMiddleware, roleMiddleware } from '@/domain/util/authorization/RouterMiddleware';
-import { ADMIN, ANALYST, COMMUNICATOR, DISPATCHER, SPECIALIST, } from '@/domain/util/authorization/RoleChecker';
+import { ADMIN, ANALYST, COMMUNICATOR, SPECIALIST, } from '@/domain/util/authorization/RoleChecker';
 Vue.use(Router);
 const router = new Router({
     routes: [
@@ -78,9 +78,10 @@ const router = new Router({
                     meta: { requiresAuth: true, requiresRole: ADMIN },
                 },
                 {
+                    // TODO: прикрепить авторизацию к данному маршруту
                     path: '/calls', name: 'calls',
                     component: Calls,
-                    meta: { requiresAuth: true, requiresRole: DISPATCHER },
+                    meta: { requiresAuth: true },
                 },
             ],
         },

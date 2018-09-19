@@ -22,7 +22,18 @@ class Dispatcher {
                 ErrorNotifier.notifyWithCustomMessage('Ошибка в обработке статуса отправки');
         }
     }
+    /**
+     * Статус отправки на обновление заявки
+     * @returns {string}
+     */
     getDispatchStatusToUpdate() {
+        return PREPARED;
+    }
+    /**
+     * Статус отправки на создание заявки
+     * @returns {string}
+     */
+    getDispatchStatusToCreateClaim() {
         return PREPARED;
     }
 }

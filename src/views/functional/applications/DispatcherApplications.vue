@@ -9,9 +9,27 @@
                         <th colspan="4">
                             <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
                         </th>
-                        <th colspan="4">
+                        <th colspan="1">
                             <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
-                                <option value="all">Статус заявки</option>
+                                <option value="all">Статус приема</option>
+                                <option value="raw">Необработанна</option>
+                                <option value="edited">Отредактирована</option>
+                                <option value="dispatched">Отправлена</option>
+                                <option value="prepared">Создана</option>
+                            </select>
+                        </th>
+                        <th colspan="1">
+                            <select class="form-control" id="inputGroupSelect02" v-model="dispatchStatusFilter" v-on:change="startSearch">
+                                <option value="all">Статус обработки</option>
+                                <option value="raw">Необработанна</option>
+                                <option value="edited">Отредактирована</option>
+                                <option value="dispatched">Отправлена</option>
+                                <option value="prepared">Создана</option>
+                            </select>
+                        </th>
+                        <th colspan="1">
+                            <select class="form-control" id="inputGroupSelect03" v-model="dispatchStatusFilter" v-on:change="startSearch">
+                                <option value="all">Статус выполнения</option>
                                 <option value="raw">Необработанна</option>
                                 <option value="edited">Отредактирована</option>
                                 <option value="dispatched">Отправлена</option>
@@ -36,6 +54,7 @@
                         <td>
                             <div style="cursor: pointer;" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
+                                Edit
                             </div>
                         </td>
                     </tr>
@@ -91,9 +110,9 @@
             {label: 'Заявитель'},
             {label: 'Телефон'},
             {label: 'Адрес (район / адрес)'},
+            {label: 'Статус приема'},
             {label: 'Статус обработки'},
             {label: 'Статус выполнения'},
-            {label: 'Статус закрытия'},
             {label: ''},
         ];
 
@@ -113,7 +132,7 @@
         public created() {
             this.getAllClaims({
                 dispatchStatus: this.$route.params.dispatch_status,
-                dispatchStatusFilter: this.dispatchStatusFilter
+                dispatchStatusFilter: this.dispatchStatusFilter,
             });
         }
 
@@ -159,7 +178,7 @@
             if (this.searchField === '') {
                 this.getAllClaims({
                     dispatchStatus: this.$route.params.dispatch_status,
-                    dispatchStatusFilter: this.dispatchStatusFilter
+                    dispatchStatusFilter: this.dispatchStatusFilter,
                 });
                 return;
             }

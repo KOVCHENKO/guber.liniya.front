@@ -22,7 +22,18 @@ class Editor {
                 ErrorNotifier.notifyWithCustomMessage('Ошибка в обработке статуса отправки');
         }
     }
+    /**
+     * Статус отправки на обновление заявки
+     * @returns {string}
+     */
     getDispatchStatusToUpdate() {
+        return EDITED;
+    }
+    /**
+     * Статус отправки на создание заявки
+     * @returns {string}
+     */
+    getDispatchStatusToCreateClaim() {
         return EDITED;
     }
 }
