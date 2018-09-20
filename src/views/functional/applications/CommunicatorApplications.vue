@@ -1,32 +1,48 @@
-<!--suppress TypeScriptUnresolvedVariable -->
 <template>
     <div>
 
         <div class="main-page">
 
-            <datatable
-                    :columns="tableColumns"
-                    :data="claimState.executedClaims"
-            >
-                <template slot-scope="{ row }">
-                    <tr>
-                        <td>{{ row.created_at }}</td>
-                        <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
-                        <td>{{ row.phone }}</td>
-                        <td>{{ row.address.district }} / {{ row.address.location }}</td>
-                        <td>{{ row.close_status }}</td>
-                        <td>
-                            <div style="cursor: pointer;" @click="show(row)">
-                                <i class="fas fa-pencil-alt"></i>
-                            </div>
-                        </td>
-                    </tr>
-                </template>
-            </datatable>
-
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th colspan="4">
+                        <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
+                    </th>
+                    <th colspan="1">
+                        <select class="form-control" id="inputGroupSelect01" v-model="closeStatusFilter" v-on:change="startSearch">
+                            <option value="all">Статус закрытия</option>
+                            <option value="not_executed">Ничего не сделано</option>
+                            <option value="executed_partially">Выполнена частично</option>
+                            <option value="executed_totally">Выполнена полностью</option>
+                        </select>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">
+                        {{column.label}}
+                        <i v-if="column.sorting" class="fas fa-sort" @click="makeSorting(column.column)"></i>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr :class="{ expiredClaim: claim.expired }" v-for="(claim, index) in claims" :key="index">
+                    <th>{{claim.created_at}}</th>
+                    <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
+                    <td>{{claim.phone}}</td>
+                    <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
+                    <td >{{ claim.translatedCloseStatus }}</td>
+                    <td>
+                        <div style="cursor: pointer;" @click="show(claim)">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
             <datatable-custom-paginator
-                    v-on:setAnotherPage="getExecutedClaims()"
+                    v-on:setAnotherPage="getAllClaims({ statusFilter: 'executed' })"
             ></datatable-custom-paginator>
 
         </div>
@@ -50,6 +66,8 @@
     import IWithRoute from '../../../domain/util/interface/IWithRoute';
     import Call from '../../../domain/entities/functional/Call';
     import CloseClaim from '@/components/functional/applications/CommunicatorApplications/CloseClaim.vue';
+    import ClaimService from '../../../domain/services/functional/claims/ClaimService';
+    import throttle from '../../../store/util/operations/throttle';
 
     @Component({
         components: {
@@ -59,20 +77,29 @@
         },
     })
     export default class CommunicatorApplications extends Vue implements IWithRoute {
+        @Provide() public searchField: string = '';
+        @Provide() public closeStatusFilter: string = 'all';
+
+        @Action public searchClaim;
+
+        @Action public getAllClaims;
+
+        // Поле сортировки
+        public sortBy: string = 'created_at';
+        public sortDirection: string = 'desc';
+
         @Provide()
         public tableColumns = [
-            {label: 'Дата'},
-            {label: 'Заявитель'},
-            {label: 'Телефон'},
-            {label: 'Адрес (район / адрес)'},
-            {label: 'Статусы выполнения'},
-            {label: ''},
+            {label: 'Дата', sorting: true, column: 'created_at' },
+            {label: 'Заявитель', sorting: true, column: 'lastname' },
+            {label: 'Телефон', sorting: true, column: 'phone' },
+            {label: 'Адрес (район / адрес)', sorting: false, column: 'address' },
+            {label: 'Статусы выполнения', sorting: false, column: 'close_status' },
+            {label: '', sorting: false, column: '' },
         ];
 
         @State('claim')
         public claimState!: ClaimState;
-
-        @Action public getExecutedClaims;
 
         constructor() {
             super();
@@ -81,7 +108,9 @@
         }
 
         public created() {
-            this.getExecutedClaims();
+            this.getAllClaims({
+                statusFilter: 'executed'
+            });
         }
 
         public show(claim) {
@@ -94,6 +123,55 @@
 
             statusDialog.show = true;
         }
+
+        /**
+         * Обработка статусов: статус закрытия
+         * Изменение формата времени
+         * @returns {IClaim[]}
+         */
+        get claims() {
+            this.claimState.claims = ClaimService.addTranslatedCloseStatus(this.claimState.claims);
+            this.claimState.claims = ClaimService.changeTimeFormat(this.claimState.claims);
+
+            return this.claimState.claims;
+        }
+
+        get throttledSearch() {
+            return throttle(this.startSearch, 2000);
+        }
+
+
+        public startSearch() {
+            if (this.searchField === '') {
+                this.getAllClaims({
+                    statusFilter: 'executed',
+                    closeStatusFilter: this.closeStatusFilter,
+                    sortBy: this.sortBy,
+                    sortDirection: this.sortDirection,
+                });
+                return;
+            }
+
+            this.searchClaim({
+                search: this.searchField,
+                statusFilter: 'executed',
+                closeStatusFilter: this.closeStatusFilter,
+                sortBy: this.sortBy,
+                sortDirection: this.sortDirection,
+            });
+        }
+
+        /**
+         * Сортировка
+         * @param columnName
+         */
+        public makeSorting(columnName) {
+            this.sortDirection === 'desc' ? this.sortDirection = 'asc' : this.sortDirection = 'desc';
+            this.sortBy = columnName;
+            this.startSearch();
+        }
+
+
 
     }
 </script>

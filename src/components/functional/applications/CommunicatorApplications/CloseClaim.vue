@@ -17,7 +17,9 @@
                             <md-field>
                                 <label>Изменить статус</label>
                                 <md-select name="status" id="claimer_status" v-model="statusData">
-                                    <md-option v-for="status in statusClaims" :key="status" :value="status">{{ status }}</md-option>
+                                    <md-option value="not_executed">{{ statusClaims[0] }}</md-option>
+                                    <md-option value="executed_partially">{{ statusClaims[1] }}</md-option>
+                                    <md-option value="executed_totally">{{ statusClaims[2] }}</md-option>
                                 </md-select>
                             </md-field>                            
                         </div>
@@ -72,7 +74,7 @@
 
         @Provide() public statusDialog = statusDialog;
         @Provide()
-        public statusClaims: any = [NOT_CALLED, NOT_EXECUTED, EXECUTED_PARTIALLY, EXECUTED_TOTALLY];
+        public statusClaims: any = [NOT_EXECUTED, EXECUTED_PARTIALLY, EXECUTED_TOTALLY];
 
         @Provide() public statusData: string = '';
 

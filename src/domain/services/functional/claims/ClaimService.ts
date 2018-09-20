@@ -45,10 +45,27 @@ class ClaimService {
     public static addTranslatedClaimStatus(claims) {
         return claims.map( (b) => {
             switch (b.status) {
-                case 'created':  b.translatedStatus = 'Создана'; break;
+                case 'created':  b.translatedStatus = ''; break;
                 case 'executed':  b.translatedStatus = 'Выполнена'; break;
                 case 'rejected':  b.translatedStatus = 'Отказано'; break;
                 case 'assigned':  b.translatedStatus = 'Назначена'; break;
+            }
+            return b;
+        });
+    }
+
+    /**
+     * Добавляет статус на русском языке - при этом оставляя простой (на англ.яз из БД) для взаимодействия
+     * @param claims
+     * @returns {any}
+     */
+    public static addTranslatedCloseStatus(claims) {
+        return claims.map( (b) => {
+            switch (b.close_status) {
+                case 'raw':  b.translatedCloseStatus = ''; break;
+                case 'not_executed':  b.translatedCloseStatus = 'Ничего не сделано'; break;
+                case 'executed_partially':  b.translatedCloseStatus = 'Выполнена частично'; break;
+                case 'executed_totally':  b.translatedCloseStatus = 'Выполнена полностью'; break;
             }
             return b;
         });
@@ -77,6 +94,21 @@ class ClaimService {
         claims[subIndex].status = claim.status;
 
         return claims;
+    }
+
+    /**
+     * Разрулить фильтры
+     * @param payload
+     */
+    public resolveFilters(payload) {
+        if (payload.dispatchStatus == null) { payload.dispatchStatus = 'all'; }
+        if (payload.dispatchStatusFilter == null) { payload.dispatchStatusFilter = ''; }
+        if (payload.statusFilter == null) { payload.statusFilter = ''; }
+        if (payload.closeStatusFilter == null) { payload.closeStatusFilter = ''; }
+        if (payload.sortBy == null) { payload.sortBy = 'created_at'; }
+        if (payload.sortDirection == null) { payload.sortDirection = 'desc'; }
+
+        return payload;
     }
 
 

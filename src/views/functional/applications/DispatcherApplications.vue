@@ -19,26 +19,27 @@
                             </select>
                         </th>
                         <th colspan="1">
-                            <select class="form-control" id="inputGroupSelect02" v-model="dispatchStatusFilter" v-on:change="startSearch">
+                            <select class="form-control" id="inputGroupSelect02" v-model="statusFilter" v-on:change="startSearch">
                                 <option value="all">Статус обработки</option>
-                                <option value="raw">Необработанна</option>
-                                <option value="edited">Отредактирована</option>
-                                <option value="dispatched">Отправлена</option>
-                                <option value="prepared">Создана</option>
+                                <option value="assigned">Назначена</option>
+                                <option value="executed">Выполнена</option>
+                                <option value="rejected">Отказано</option>
                             </select>
                         </th>
                         <th colspan="1">
-                            <select class="form-control" id="inputGroupSelect03" v-model="dispatchStatusFilter" v-on:change="startSearch">
-                                <option value="all">Статус выполнения</option>
-                                <option value="raw">Необработанна</option>
-                                <option value="edited">Отредактирована</option>
-                                <option value="dispatched">Отправлена</option>
-                                <option value="prepared">Создана</option>
+                            <select class="form-control" id="inputGroupSelect03" v-model="closeStatusFilter" v-on:change="startSearch">
+                                <option value="all">Статус закрытия</option>
+                                <option value="not_executed">Ничего не сделано</option>
+                                <option value="executed_partially">Выполнена частично</option>
+                                <option value="executed_totally">Выполнена полностью</option>
                             </select>
                         </th>
                     </tr>
                     <tr>
-                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}</th>
+                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">
+                            {{column.label}}
+                            <i v-if="column.sorting" class="fas fa-sort" @click="makeSorting(column.column)"></i>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,13 +49,12 @@
                         <td>{{claim.phone}}</td>
                         <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
                         <td>{{ claim.dispatch_status }}</td>
-                        <td style="color:red" v-if="claim.status === 'Отказано'" @click="reassignToAnotherOrganization(claim)">{{ claim.status }}</td>
-                        <td v-if="claim.status !== 'Отказано'">{{ claim.status }}</td>
-                        <td >{{ claim.close_status }}</td>
+                        <td style="color:red" v-if="claim.status === 'rejected'" @click="reassignToAnotherOrganization(claim)">{{ claim.translatedStatus }}</td>
+                        <td v-if="claim.status !== 'rejected'">{{ claim.translatedStatus }}</td>
+                        <td >{{ claim.translatedCloseStatus }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
-                                Edit
                             </div>
                         </td>
                     </tr>
@@ -98,22 +98,26 @@
         },
     })
     export default class DispatcherApplications extends Vue implements IWithRoute {
-        @Provide()
-        public searchField: string = '';
+        // Фильтры - Поиск, Статус приема, Статус обработки, Статус выполнения
+        @Provide() public searchField: string = '';
+        @Provide() public dispatchStatusFilter: string = 'all';
+        @Provide() public statusFilter: string = 'all';
+        @Provide() public closeStatusFilter: string = 'all';
 
-        @Provide()
-        public dispatchStatusFilter: string = 'all';
+        // Поле сортировки
+        public sortBy: string = 'created_at';
+        public sortDirection: string = 'desc';
 
         @Provide()
         public tableColumns = [
-            {label: 'Дата'},
-            {label: 'Заявитель'},
-            {label: 'Телефон'},
-            {label: 'Адрес (район / адрес)'},
-            {label: 'Статус приема'},
-            {label: 'Статус обработки'},
-            {label: 'Статус выполнения'},
-            {label: ''},
+            { label: 'Дата', sorting: true, column: 'created_at' },
+            { label: 'Заявитель', sorting: true, column: 'lastname' },
+            { label: 'Телефон', sorting: true, column: 'phone' },
+            { label: 'Адрес (район / адрес)', sorting: false, column: 'address' },
+            { label: 'Статус приема', sorting: false, column: 'dispatch_status' },
+            { label: 'Статус обработки', sorting: false, column: 'status' },
+            { label: 'Статус выполнения', sorting: false, column: 'close_status' },
+            { label: '', sorting: false, column: '' },
         ];
 
         @State('claim')
@@ -168,7 +172,8 @@
          */
         get claims() {
             this.claimState.claims = ClaimService.resolveClaimDispatchStatus(this.claimState.claims);
-            this.claimState.claims = ClaimService.resolveClaimStatus(this.claimState.claims);
+            this.claimState.claims = ClaimService.addTranslatedClaimStatus(this.claimState.claims);
+            this.claimState.claims = ClaimService.addTranslatedCloseStatus(this.claimState.claims);
             this.claimState.claims = ClaimService.changeTimeFormat(this.claimState.claims);
 
             return this.claimState.claims;
@@ -179,11 +184,23 @@
                 this.getAllClaims({
                     dispatchStatus: this.$route.params.dispatch_status,
                     dispatchStatusFilter: this.dispatchStatusFilter,
+                    statusFilter: this.statusFilter,
+                    closeStatusFilter: this.closeStatusFilter,
+                    sortBy: this.sortBy,
+                    sortDirection: this.sortDirection,
                 });
                 return;
             }
-            this.searchClaim({search: this.searchField, dispatchStatus: this.$route.params.dispatch_status,
-                dispatchStatusFilter: this.dispatchStatusFilter});
+
+            this.searchClaim({
+                search: this.searchField,
+                dispatchStatus: this.$route.params.dispatch_status,
+                dispatchStatusFilter: this.dispatchStatusFilter,
+                statusFilter: this.statusFilter,
+                closeStatusFilter: this.closeStatusFilter,
+                sortBy: this.sortBy,
+                sortDirection: this.sortDirection,
+            });
         }
 
         /**
@@ -192,6 +209,16 @@
         public reassignToAnotherOrganization(claim) {
             this.makeClaim(claim);
             $('#reassignToAnotherOrganization').modal('show');
+        }
+
+        /**
+         * Сортировка
+         * @param columnName
+         */
+        public makeSorting(columnName) {
+            this.sortDirection === 'desc' ? this.sortDirection = 'asc' : this.sortDirection = 'desc';
+            this.sortBy = columnName;
+            this.startSearch();
         }
     }
 </script>

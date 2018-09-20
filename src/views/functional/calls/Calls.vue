@@ -12,7 +12,6 @@
                     <td>
                         <div style="cursor: pointer;" @click="resolve(row)">
                             <i class="fas fa-pencil-alt"></i>
-                            <p>Edit</p>
                         </div>
                     </td>
                 </tr>

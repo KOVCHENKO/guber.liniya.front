@@ -1,5 +1,5 @@
-export const NOT_CALLED = 'Вообще не связывались с заявителем';
-export const NOT_EXECUTED = 'Связывались, но ничего не делали';
-export const EXECUTED_PARTIALLY = 'Проблема решена, но не полностью';
-export const EXECUTED_TOTALLY = 'Проблема решена';
+export const NOT_CALLED = 'Вообще не связывались с заявителем'; //  DEPRECATED
+export const NOT_EXECUTED = 'Ничего не сделано';
+export const EXECUTED_PARTIALLY = 'Выполнена частично';
+export const EXECUTED_TOTALLY = 'Выполнена полностью';
 //# sourceMappingURL=closeStatusTypes.js.map

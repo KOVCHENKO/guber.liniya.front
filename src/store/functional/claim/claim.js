@@ -26,12 +26,14 @@ export const actions = {
      */
     async getAllClaims({ rootState, dispatch }, payload) {
         try {
-            if (payload.dispatchStatusFilter == null) {
-                payload.dispatchStatusFilter = '';
-            }
+            payload = claimService.resolveFilters(payload);
             const url = `${baseUrl}claims/all` +
                 `/${rootState.pagination.currentPage}/${payload.dispatchStatus}?` +
-                `dispatchStatusFilter=${payload.dispatchStatusFilter}`;
+                `dispatchStatusFilter=${payload.dispatchStatusFilter}&` +
+                `statusFilter=${payload.statusFilter}&` +
+                `closeStatusFilter=${payload.closeStatusFilter}&` +
+                `sortBy=${payload.sortBy}&` +
+                `sortDirection=${payload.sortDirection}`;
             const result = await axios.get(url);
             state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.pages });
@@ -83,14 +85,16 @@ export const actions = {
      */
     async searchClaim({ rootState, dispatch }, payload) {
         try {
-            if (payload.dispatchStatusFilter == null) {
-                payload.dispatchStatusFilter = '';
-            }
+            payload = claimService.resolveFilters(payload);
             const result = await axios.post(`${baseUrl}claims/search`, {
                 currentPage: rootState.pagination.currentPage,
                 search: payload.search,
                 dispatchStatus: payload.dispatchStatus,
                 dispatchStatusFilter: payload.dispatchStatusFilter,
+                statusFilter: payload.statusFilter,
+                closeStatusFilter: payload.closeStatusFilter,
+                sortBy: payload.sortBy,
+                sortDirection: payload.sortDirection,
             });
             state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.pages });
@@ -129,25 +133,12 @@ export const actions = {
             ErrorNotifier.notify();
         }
     },
-    /**
-     * Получить выполненные заявки - для роли коммуникатора
-     * @returns {Promise<void>}
-     */
-    async getExecutedClaims() {
-        try {
-            const res = await axios.get(`${baseUrl}claims/get_executed_claims`);
-            state.executedClaims = res.data;
-        }
-        catch {
-            ErrorNotifier.notify();
-        }
-    },
     async closeClaim({ dispatch }, payload) {
         try {
             const url = `${baseUrl}claims/change_close_status/${payload.claim_id}/${payload.close_status}`;
             const res = await axios.get(url);
-            dispatch('getExecutedClaims');
-            SuccessNotifier.notify('Завершение', `Заявка закрыта со статусом ${payload.close_status}`);
+            dispatch('getAllClaims', { statusFilter: 'executed' });
+            SuccessNotifier.notify('Завершение', `Заявка закрыта`);
         }
         catch {
             ErrorNotifier.notify();
