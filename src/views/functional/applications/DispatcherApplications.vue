@@ -7,7 +7,7 @@
                 <thead>
                     <tr>
                         <th colspan="4">
-                            <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
+                            <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по заявителю, телефону">
                         </th>
                         <th colspan="1">
                             <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
@@ -57,6 +57,7 @@
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                         </td>
+                        <td >{{ claim.responsible_organization[0].name }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -118,6 +119,7 @@
             { label: 'Статус обработки', sorting: false, column: 'status' },
             { label: 'Статус выполнения', sorting: false, column: 'close_status' },
             { label: '', sorting: false, column: '' },
+            { label: 'Организация', sorting: false, column: 'responsible_organizations' },
         ];
 
         @State('claim')

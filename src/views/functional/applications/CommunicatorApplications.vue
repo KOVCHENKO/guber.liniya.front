@@ -109,7 +109,8 @@
 
         public created() {
             this.getAllClaims({
-                statusFilter: 'executed'
+                statusFilter: 'created',
+                dispatchStatusFilter: 'dispatched',
             });
         }
 
@@ -144,7 +145,8 @@
         public startSearch() {
             if (this.searchField === '') {
                 this.getAllClaims({
-                    statusFilter: 'executed',
+                    statusFilter: 'created',
+                    dispatchStatusFilter: 'dispatched',
                     closeStatusFilter: this.closeStatusFilter,
                     sortBy: this.sortBy,
                     sortDirection: this.sortDirection,
@@ -154,7 +156,8 @@
 
             this.searchClaim({
                 search: this.searchField,
-                statusFilter: 'executed',
+                statusFilter: 'created',
+                dispatchStatusFilter: 'dispatched',
                 closeStatusFilter: this.closeStatusFilter,
                 sortBy: this.sortBy,
                 sortDirection: this.sortDirection,

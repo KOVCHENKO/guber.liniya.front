@@ -23,27 +23,13 @@
                 </md-field>
             </div>
 
-            <!-- <div class="col-sm-4">
-                <md-list :md-expand-single="expandSingle">
-                    <md-list-item md-expand :md-expanded.sync="expandOrganizations">
-                        <span class="md-list-item-text">Организации</span>
-
-                        <md-list slot="md-expand">
-                            <md-list-item v-for="organization in problemState.organizations" :key="organization.id" class="md-inset">
-                                {{ organization.name }}
-                            </md-list-item>
-                        </md-list>
-                    </md-list-item>
-                </md-list>
-            </div> -->
-
             <div class="col-sm-4">
                 <div class="dropdown" style="margin-top: 17px;">
                     <button class="btn btn-secondary dropdown-toggle cst-droplist" type="button" style="width: 100%"
-                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" :aria-expanded="expandOrganizations">
                         Организации
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 100%">
+                    <div class="dropdown-menu" :class="{show: dropDownOrganizationsClass}" aria-labelledby="dropdownMenuButton" style="width: 100%">
                         <p class="dropdown-item" v-for="organization in problemState.organizations" :key="organization.id">{{ organization.name }}</p>
                     </div>
                 </div>
@@ -81,8 +67,9 @@
         @Provide() public problemTypeId: number = 0;
         @Provide() public problemId: number = 0;
 
-        // @Provide() public expandSingle = false;
-        // @Provide() public expandOrganizations = false;
+        // DropDown organizations
+        @Provide() public expandOrganizations = false;
+        @Provide() public dropDownOrganizationsClass = false;
 
         @Watch('problemTypeId')
         private onChildChanged(val: string, oldVal: string) {
@@ -92,6 +79,7 @@
         @Watch('problemId')
         private onProblemChange(val: string, oldVal: string) {
             this.chooseProblem(val);
+            // this.expandOrganizations = true;
         }
 
         private created() {
@@ -118,7 +106,9 @@
 
             this.claimState.claim.problem = this.problems[problemIndex];
             this.getOrganizationsOfProblem({ problemId });
-            // this.expandOrganizations = true;
+
+            this.expandOrganizations = true;
+            this.dropDownOrganizationsClass = true;
         }
 
         get hiddenBasedOnClaimPid() {

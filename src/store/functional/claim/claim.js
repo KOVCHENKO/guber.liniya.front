@@ -137,7 +137,7 @@ export const actions = {
         try {
             const url = `${baseUrl}claims/change_close_status/${payload.claim_id}/${payload.close_status}`;
             const res = await axios.get(url);
-            dispatch('getAllClaims', { statusFilter: 'executed' });
+            dispatch('getAllClaims', { statusFilter: 'created', dispatchStatusFilter: 'dispatched' });
             SuccessNotifier.notify('Завершение', `Заявка закрыта`);
         }
         catch {

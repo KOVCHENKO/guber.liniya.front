@@ -7,7 +7,7 @@
                 <thead>
                     <tr>
                         <th colspan="4">
-                            <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
+                            <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по заявителю, телефону">
                         </th>
                         <th colspan="4">
                             <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
