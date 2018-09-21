@@ -12,7 +12,8 @@
             <div class="row">
                 <div class="col-sm-6 padding-right">
                     <div class="md-layout-item">
-                        <span v-if="claim.status === 'created'">
+                        <!--Создана-->
+                        <span v-if="claim.status === 'created' && claim.pivot.organization_id === userState.user.organization.id">
                             <md-field>
                                 <label>Изменить статус</label>
                                 <md-select name="status" id="claimer_status" v-model="statusData">
@@ -20,6 +21,23 @@
                                 </md-select>
                             </md-field>
                         </span>
+
+                        <!--Создана и переназначена другой организации-->
+                        <span v-if="claim.status === 'created' && claim.pivot.organization_id !== userState.user.organization.id">
+                            <md-field>
+                                <label>Заявка назначена другой организации</label>
+                                <!--<div class="col-sm-6 padding-left">-->
+                                    <!--<md-field>-->
+                                        <!--<label>Перенаправить</label>-->
+                                        <!--<md-select name="child_organization" id="child_organization" v-model="childOrganization">-->
+                                            <!--<md-option v-for="organization in organizationState.organizations" :key="organization.id" :value="organization.id">{{ organization.name }}</md-option>-->
+                                        <!--</md-select>-->
+                                    <!--</md-field>-->
+                                <!--</div>-->
+                            </md-field>
+                        </span>
+
+                        <!--Назначена / Взята в работу-->
                         <span v-if="claim.status === 'assigned'"> 
                             <md-checkbox v-model="booleanAssigned" class="md-primary">
                                 <md-content class="claim-text claim-check-text">Заявка выполнена</md-content>
@@ -27,6 +45,8 @@
                             <br>
                             <file-upload :claim="claim"></file-upload>
                         </span>
+
+                        <!--Выполнена-->
                         <span v-if="claim.status === 'executed'">
                             <i class="fas fa-check fa-2x fa-check-green"></i>
                             <md-content class="claim-text claim-check-text">Заявка выполнена</md-content>
