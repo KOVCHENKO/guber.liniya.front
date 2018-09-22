@@ -22,17 +22,16 @@
                             </div>
                             <div class="row" v-if="reportOption === 'range'">
                                 <div class="col-sm-12 clearfix">
-                                    С: <datepicker v-model="from"></datepicker>
-                                    По: <datepicker v-model="to"></datepicker>
+                                    С: <datepicker :format="customFormatter" v-model="from"></datepicker>
+                                    По: <datepicker :format="customFormatter" v-model="to"></datepicker>
                                 </div>
                             </div>
                         </div>
+
+                        <a :href="baseUrl + 'analytics/calls_report/' + reportOption + '/' + customFrom + '/' + customTo" download>Скачать</a>
+
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">{{ $t("common.close") }}</button>
-                        <button type="button" class="btn btn-success" @click="makeReport">Сформировать отчет</button>
-                    </div>
-                </div>
+                </div>      
             </div>
         </div>
         <!--end of modal -->
@@ -40,11 +39,10 @@
 </template>
 
 <script lang="ts">
-    import axios from 'axios';
     import {baseUrl} from '@/globals';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import Datepicker from 'vuejs-datepicker';
-    import ErrorNotifier from '../../../domain/util/notifications/ErrorNotifier';
+    import moment from 'moment';
 
     @Component({
         components: {Datepicker},
@@ -52,20 +50,21 @@
     export default class CallsAnalytics extends Vue {
 
         @Provide() public reportOption = 'day';
-        @Provide() public from = null;
-        @Provide() public to = null;
+        @Provide() public from = '';
+        @Provide() public to = '';
 
+        @Provide() public baseUrl = baseUrl;
 
-        public async makeReport() {
-            try {
-                const res = await axios.post(`${baseUrl}analytics/calls_report`, {
-                    reportOption: this.reportOption,
-                    from: this.from,
-                    to: this.to,
-                });
-            } catch {
-                ErrorNotifier.notify();
-            }
+        public customFormatter(date) {
+            return moment(date).format('MMMM Do YYYY');
+        }
+
+        get customFrom() {
+            return moment(this.from).format('MMMM Do YYYY');
+        }
+
+        get customTo() {
+            return moment(this.to).format('MMMM Do YYYY');
         }
 
     }
