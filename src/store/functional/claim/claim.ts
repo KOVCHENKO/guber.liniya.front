@@ -58,7 +58,7 @@ export const actions: ActionTree<ClaimState, RootState> = {
      * @returns {Promise<void>} - создается заявка, так как создание происходит в компоненте звонков -
      * заявка не отображается
      */
-    async createClaim({rootState}) {
+    async createClaim({rootState, dispatch}) {
         // Установить dispatchStatus: роль dispatcher - 'prepared', editor - 'edited', supervisor - 'edited'
         let role;
         role = RoleResolver.resolveRole(rootState.user.role.name);
@@ -66,6 +66,7 @@ export const actions: ActionTree<ClaimState, RootState> = {
 
         try {
             await axios.post(`${baseUrl}claims/create`, state.claim);
+            dispatch('getCalls');
             SuccessNotifier.notify('Заявка', 'Создана новая заявка');
         } catch {
             ErrorNotifier.notify();

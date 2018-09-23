@@ -248,7 +248,7 @@
                     this.callState.call.link, '', null, '', [{}], [],
                     new Address(0, 'Астрахань', ''), new Problem(0, '', ''),
                     new Call(this.callState.call.id, this.callState.call.callId, this.callState.call.clientPhone,
-                        this.callState.call.link, this.callState.call.atsStatus, 'in', '', 'raw',
+                        this.callState.call.link, this.callState.call.atsStatus, 'in', '', 'claimed',
                         this.callState.call.createdAt));
             }
         }

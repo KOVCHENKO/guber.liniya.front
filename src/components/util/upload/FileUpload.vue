@@ -1,9 +1,12 @@
 <template>
-    <div>
-        <!--<span @click="attachFile">Выбрать файл</span>-->
+    <div class="row">
+        <div class="col-sm-2 clearfix">
             <button class="md-primary" @click="submitFile()">Отправить</button>
+        </div>
+        <div class="col-sm-6 clearfix">
             <input id="file" ref="file" type="file" @change="processFile()"/>
             <span @click="attachFile">{{ fileName }}</span>
+        </div>
     </div>
 </template>
 

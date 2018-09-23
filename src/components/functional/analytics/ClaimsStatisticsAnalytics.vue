@@ -175,7 +175,6 @@
 
                 return this.chosenProblem;
             }
-            
             return this.chosenProblem;
         }
 

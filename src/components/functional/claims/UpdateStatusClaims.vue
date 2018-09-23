@@ -10,7 +10,7 @@
 
         <md-content>
             <div class="row">
-                <div class="col-sm-6 padding-right">
+                <div class="col-sm-12 padding-right">
                     <div class="md-layout-item">
                         <!--Создана-->
                         <span v-if="claim.status === 'created' && claim.pivot.organization_id === userState.user.organization.id">
@@ -38,19 +38,29 @@
                         </span>
 
                         <!--Назначена / Взята в работу-->
-                        <span v-if="claim.status === 'assigned'"> 
-                            <md-checkbox v-model="booleanAssigned" class="md-primary">
-                                <md-content class="claim-text claim-check-text">Заявка выполнена</md-content>
-                            </md-checkbox>
-                            <br>
-                            <file-upload :claim="claim"></file-upload>
+                        <span v-if="claim.status === 'assigned'">
+                            <div class="row">
+                                <div class="col-sm-6 clearfix">
+                                    <md-checkbox v-model="booleanAssigned" class="md-primary">
+                                        <md-content class="claim-text claim-check-text">Заявка выполнена</md-content>
+                                    </md-checkbox>
+                                </div>
+                                <div class="col-sm-6 clearfix">
+                                    <md-field>
+                                        <label>Изменить статус</label>
+                                        <md-select name="status" id="claimer_status" v-model="statusData">
+                                            <md-option value="redirect">Переадресовать</md-option>
+                                            <md-option value="rejected">Отказать</md-option>
+                                        </md-select>
+                                    </md-field>
+                                </div>
+                            </div>
                         </span>
 
                         <!--Выполнена-->
                         <span v-if="claim.status === 'executed'">
                             <i class="fas fa-check fa-2x fa-check-green"></i>
                             <md-content class="claim-text claim-check-text">Заявка выполнена</md-content>
-
                         </span>
                     </div>
                 </div>
@@ -65,10 +75,13 @@
                     </div>
                 </div>
             </div>
-            <md-field style="margin-bottom: 0px" v-if="statusData === 'rejected' || claim.status === 'assigned' ">
-                <label>Комментарий</label>
-                <md-textarea v-model="comment" class="textarea-resize-none"></md-textarea>
-            </md-field>
+            <div v-if="statusData === 'rejected' || claim.status === 'assigned'">
+                <file-upload :claim="claim"></file-upload>
+                <md-field style="margin-bottom: 0px">
+                    <label>Комментарий</label>
+                    <md-textarea v-model="comment" class="textarea-resize-none"></md-textarea>
+                </md-field>
+            </div>
         </md-content>
     </div>
     <div class="dialog-line"></div>
