@@ -10,6 +10,16 @@
 
         <md-content>
             <div class="row">
+                <div class="col-sm-3 clearfix" style="line-height: 58px;">
+                    {{ claim.created_at }}
+                </div>
+                <div class="col-sm-9 clearfix">
+                    <audio style="margin-top: 58px;" controls>
+                        <source :src="claim.link" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-12 padding-right">
                     <div class="md-layout-item">
                         <!--Создана-->

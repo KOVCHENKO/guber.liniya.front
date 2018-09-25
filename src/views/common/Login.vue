@@ -106,8 +106,8 @@
                 this.userState.token = 'Bearer ' + response.data.token;
                 addAuthorizationHeader(this.userState);
                 this.getUser();
-            }).catch((error) => {
-                alert(error);
+            }).catch(() => {
+                alert('Введены неправильные имя пользователя или пароль');
             });
         }
 

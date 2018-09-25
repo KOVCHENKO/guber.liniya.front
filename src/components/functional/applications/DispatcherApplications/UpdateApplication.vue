@@ -147,7 +147,8 @@
 
         <md-dialog-actions>
             <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
-            <md-button class="md-primary" @click="pushUpdate" :disabled="disabledBasedOnDispatchStatus">{{ $t("common.update") }}</md-button>
+            <!--<md-button class="md-primary" @click="pushUpdate" :disabled="disabledBasedOnDispatchStatus">{{ $t("common.update") }}</md-button>-->
+            <md-button class="md-primary" @click="pushUpdate" :disabled="disabledBasedOnDispatchStatus">{{ sendUpdateButton }}</md-button>
         </md-dialog-actions>
 
     </md-dialog>
@@ -210,6 +211,14 @@
             let resolvedRole;
             resolvedRole = RoleResolver.resolveRole(this.userState.role.name);
             return resolvedRole.dispatchStatusOfClaim(this.claimState.claim.dispatchStatus);
+        }
+
+        get sendUpdateButton() {
+            if (this.userState.role.name === 'supervisor') {
+                return 'Отправить';
+            }
+
+            return 'Обновить';
         }
 
     }

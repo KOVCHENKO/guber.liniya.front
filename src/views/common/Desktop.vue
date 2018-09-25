@@ -15,7 +15,7 @@
                                 <img src="/img/arrow.png" />
                             </div>
                             <p class="title">
-                                    <span class="capital">
+                                    <span class="capital" style="font-size: 12pt; color: black">
                                         {{ userState.nickname }}
                                     </span>
                             </p>
