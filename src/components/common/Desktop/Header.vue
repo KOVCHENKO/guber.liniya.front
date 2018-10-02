@@ -1,8 +1,9 @@
 <template>
     <div class="heading-page">
-        <h2 class="caption-text-center">{{headings.title}}</h2>
-        <div class="divider"></div>
         <div class="profile"><p>{{userState.nickname}}</p></div>
+        <div style="clear: right;"></div>
+        <h2 class="caption-text-center">{{headings.title}}</h2>
+        <div class="divider"></div>        
     </div>
 </template>
 <script lang="ts">

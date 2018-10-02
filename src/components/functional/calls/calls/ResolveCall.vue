@@ -126,7 +126,7 @@
                                 <md-field>
                                     <label>{{$t('claims.claim_description')}}</label>
                                     <md-textarea id="claim_description" name="description" class="textarea-resize-none"
-                                        v-model="claimState.claim.description" md-counter="300"></md-textarea>
+                                        v-model="claimState.claim.description" md-counter="300" style="min-height: 50px;"></md-textarea>
                                 </md-field>
 
                             </div>

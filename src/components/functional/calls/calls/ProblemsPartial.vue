@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row" v-if="hiddenBasedOnClaimPid">
+        <div class="row" v-if="hiddenBasedOnClaimPid" >
             <div class="col-sm-4">
                 <md-field>
                     <label>Тип проблемы</label>
@@ -24,15 +24,12 @@
             </div>
 
             <div class="col-sm-4">
-                <div class="dropdown" style="margin-top: 17px;">
-                    <button class="btn btn-secondary dropdown-toggle cst-droplist" type="button" style="width: 100%"
-                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" :aria-expanded="expandOrganizations">
-                        Организации
-                    </button>
-                    <div class="dropdown-menu" :class="{show: dropDownOrganizationsClass}" aria-labelledby="dropdownMenuButton" style="width: 100%">
-                        <p class="dropdown-item" v-for="organization in problemState.organizations" :key="organization.id">{{ organization.name }}</p>
-                    </div>
-                </div>
+                <p class="cst-title" style="margin: 0px;">Организации</p>
+                <md-content class="md-scrollbar org-scrollbar">
+                    <ul v-if="dropDownOrganizationsClass" style="margin: 0px;">
+                        <li v-for="organization in problemState.organizations" :key="organization.id"><span style="color: rgba(0,0,0,0.54);"> &mdash; </span>{{ organization.name }}</li>
+                    </ul>
+                </md-content>
             </div>
 
         </div>
@@ -68,7 +65,6 @@
         @Provide() public problemId: number = 0;
 
         // DropDown organizations
-        @Provide() public expandOrganizations = false;
         @Provide() public dropDownOrganizationsClass = false;
 
         @Watch('problemTypeId')
@@ -79,7 +75,6 @@
         @Watch('problemId')
         private onProblemChange(val: string, oldVal: string) {
             this.chooseProblem(val);
-            // this.expandOrganizations = true;
         }
 
         private created() {
@@ -107,7 +102,6 @@
             this.claimState.claim.problem = this.problems[problemIndex];
             this.getOrganizationsOfProblem({ problemId });
 
-            this.expandOrganizations = true;
             this.dropDownOrganizationsClass = true;
         }
 
