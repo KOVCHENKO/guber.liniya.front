@@ -14,11 +14,6 @@
                             <div class="line-button left-top" @click="close">
                                 <img src="/img/arrow.png" />
                             </div>
-                            <p class="title">
-                                    <span class="capital" style="font-size: 12pt; color: black">
-                                        {{ userState.nickname }}
-                                    </span>
-                            </p>
                             <div class="header-el">
                                 <div class="topline"></div>
                                 <p class="title"><span class="capital">У</span>МНЫЙ<br>
@@ -69,7 +64,6 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
-    import UserState from '../../store/common/user/types';
     import HeaderComponent from '@/components/common/Desktop/Header.vue';
 
     @Component({
@@ -78,9 +72,6 @@
     export default class Desktop extends Vue {
         @State('cabinet')
         public cabinetState!: CabinetState;
-
-        @State('user')
-        public userState!: UserState;
 
         @Action('getCabinets')
         public getCabinets: any;
