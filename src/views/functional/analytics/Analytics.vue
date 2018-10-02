@@ -1,8 +1,26 @@
 <template>
     <div>
-        <h3 @click="callsAnalytics">Звонки</h3>
-        <h3 @click="claimsRegister">Реестр заявок</h3>
-        <h3 @click="claimsStatistics">Статистика заявок</h3>
+        
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="cst-btn-icon" @click="callsAnalytics">
+                    <img src="/img/call.png">
+                    <p>Звонки</p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="cst-btn-icon" @click="claimsRegister">
+                    <img src="/img/order.png">
+                    <p>Реестр заявок</p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="cst-btn-icon" @click="claimsStatistics">
+                    <img src="/img/graph.png">
+                    <p>Статистика заявок</p>
+                </div>
+            </div>
+        </div>
 
         <calls-analytics></calls-analytics>
         <claim-register-analytics></claim-register-analytics>

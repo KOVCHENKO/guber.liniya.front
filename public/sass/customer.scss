@@ -623,7 +623,7 @@ button.close {
         width: 38px;
     }
 }
-.line-button:hover {
+.line-button:hover, .cst-btn-icon:hover {
     background: #00a0e340 !important;
     @include transition(all 0.5s ease-out);
 }
@@ -749,4 +749,19 @@ button.close {
 }
 .button-vertical-align {
     vertical-align: text-top;
+}
+.cst-btn-icon {
+    text-align: center;
+    cursor: pointer;
+    background: #00a0e30d;
+    padding: 16px;
+    margin: 8px;
+    p {
+        margin: 0;
+        padding-top: 8px;
+        font-size: 18px;
+    }
+    img {
+        width: 112px;
+    }
 }

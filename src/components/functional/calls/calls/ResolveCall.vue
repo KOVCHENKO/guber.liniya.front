@@ -8,6 +8,7 @@
             <md-steppers :md-active-step.sync="active" md-linear>
                 <md-step id="zero" md-label="Данные звонка" md-description="тип звонка" :md-done.sync="steps.zero">
                     <!-- Информация о пользователе-->
+                    <hr class="transparent-line">
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="claim-content">
@@ -36,7 +37,7 @@
                             </div>
 
                             <div>
-                                <audio style="margin-top: 50px;" controls>
+                                <audio style="margin-top: 65px;" controls>
                                     <source :src="claimState.claim.link" type="audio/mpeg">
                                 </audio>
                             </div>
