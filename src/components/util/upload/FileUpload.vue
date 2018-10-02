@@ -1,9 +1,9 @@
 <template>
     <div class="row">
-        <div class="col-sm-2 clearfix">
-            <button class="md-primary" @click="submitFile()">Отправить</button>
+        <div class="col-sm-3 clearfix">
+            <button type="button" class="btn btn-light button-vertical-align" @click="submitFile()">Отправить</button>
         </div>
-        <div class="col-sm-6 clearfix">
+        <div class="col-sm-9 clearfix">
             <input id="file" ref="file" type="file" @change="processFile()"/>
             <span @click="attachFile">{{ fileName }}</span>
         </div>
