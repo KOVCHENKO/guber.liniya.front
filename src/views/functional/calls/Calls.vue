@@ -1,22 +1,52 @@
 <template>
     <div class="main-page">
-        <datatable
-                :columns="tableColumns"
-                :data="calls"
-        >
-            <template slot-scope="{ row }">
-                <tr>
-                    <td>{{ row.created_at }}</td>
-                    <td>{{ row.phone }}</td>
-                    <td>{{ row.processing_status }}</td>
-                    <td>
-                        <div style="cursor: pointer;" @click="resolve(row)">
-                            <i class="fas fa-pencil-alt"></i>
-                        </div>
-                    </td>
-                </tr>
-            </template>
-        </datatable>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th colspan="2">
+                    <select class="form-control" id="inputGroupSelect01" v-model="callState.filter.dateFilter" v-on:change="getCalls">
+                        <option value="all">Все</option>
+                        <option value="day">День</option>
+                        <option value="week">Неделя</option>
+                        <option value="period">Период</option>
+                    </select>
+                </th>
+                <th colspan="1">
+                    С: <date-picker
+                        :disabled="callState.filter.dateFilter !== 'period'" v-on:input="getCalls"
+                        v-model="callState.filter.from"
+                        format="dd.MM.yyyy"
+                        placeholder="01.01.2018"
+                        :language="ru"
+                ></date-picker>
+                </th>
+                <th colspan="1">
+                    По: <date-picker
+                        :disabled="callState.filter.dateFilter !== 'period'" v-on:input="getCalls"
+                        v-model="callState.filter.to"
+                        format="dd.MM.yyyy"
+                        placeholder="01.01.2018"
+                        :language="ru"
+                ></date-picker>
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(call, index) in calls" :key="index">
+                <td>{{ call.created_at }}</td>
+                <td>{{ call.phone }}</td>
+                <td>{{ call.processing_status }}</td>
+                <td>
+                    <div style="cursor: pointer;" @click="resolve(call)">
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
         <datatable-custom-paginator
                 v-on:setAnotherPage="getCalls()"
@@ -39,11 +69,16 @@
     import {headings, statusDialog} from '../../../domain/util/interface/CommonInterface';
     import Call from '../../../domain/entities/functional/Call';
     import CallService from '../../../domain/services/functional/calls/CallService';
+    import DatePicker from 'vuejs-datepicker';
+    import {en, ru} from 'vuejs-datepicker/dist/locale';
+    import moment from 'moment';
+
 
     @Component({
         components: {
             DatatableCustomPaginator,
             ResolveCall,
+            DatePicker,
         },
     })
     export default class Calls extends Vue {
@@ -52,6 +87,8 @@
 
         @State('call') public callState!: CallState;
         @State('claim') public claimState!: ClaimState;
+
+        @Provide() public ru: any = ru;
 
         @Provide()
         public tableColumns = [
@@ -81,6 +118,10 @@
                     '', 'raw', call.created_at));
 
             statusDialog.show = true;
+        }
+
+        public customFormatter(date) {
+            return moment(date).format('MMMM Do YYYY');
         }
 
         get calls() {
