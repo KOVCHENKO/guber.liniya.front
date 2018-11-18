@@ -4,7 +4,9 @@
             <thead>
             <tr>
                 <th colspan="2">
-                    <select class="form-control" id="inputGroupSelect01" v-model="callState.filter.dateFilter" v-on:change="getCalls">
+                    <select class="form-control" id="inputGroupSelect01"
+                            v-model="callState.filter.dateFilter"
+                            v-on:change="changeFilter">
                         <option value="all">Все</option>
                         <option value="day">День</option>
                         <option value="week">Неделя</option>
@@ -13,7 +15,7 @@
                 </th>
                 <th colspan="1">
                     С: <date-picker
-                        :disabled="callState.filter.dateFilter !== 'period'" v-on:input="getCalls"
+                        :disabled="callState.filter.dateFilter !== 'period'" v-on:input="changeFilter"
                         v-model="callState.filter.from"
                         format="dd.MM.yyyy"
                         placeholder="01.01.2018"
@@ -22,7 +24,7 @@
                 </th>
                 <th colspan="1">
                     По: <date-picker
-                        :disabled="callState.filter.dateFilter !== 'period'" v-on:input="getCalls"
+                        :disabled="callState.filter.dateFilter !== 'period'" v-on:input="changeFilter"
                         v-model="callState.filter.to"
                         format="dd.MM.yyyy"
                         placeholder="01.01.2018"
@@ -72,6 +74,7 @@
     import DatePicker from 'vuejs-datepicker';
     import {en, ru} from 'vuejs-datepicker/dist/locale';
     import moment from 'moment';
+    import IPaginationState from '../../../store/util/pagination/types';
 
 
     @Component({
@@ -87,6 +90,7 @@
 
         @State('call') public callState!: CallState;
         @State('claim') public claimState!: ClaimState;
+        @State('pagination') public paginationState!: IPaginationState;
 
         @Provide() public ru: any = ru;
 
@@ -122,6 +126,11 @@
 
         public customFormatter(date) {
             return moment(date).format('MMMM Do YYYY');
+        }
+
+        public changeFilter() {
+            this.paginationState.currentPage = 1;
+            this.getCalls();
         }
 
         get calls() {
