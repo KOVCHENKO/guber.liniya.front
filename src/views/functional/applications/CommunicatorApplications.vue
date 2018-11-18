@@ -7,9 +7,9 @@
                 <thead>
                 <tr>
                     <th colspan="4">
-                        <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
+                        <input v-model="searchField" @input="throttledSearch" class="form-control input-search" placeholder="Поиск по дате, заявителю, телефону">
                     </th>
-                    <th colspan="1">
+                    <th colspan="1" class="cst-col-213 cst-col-select">
                         <select class="form-control" id="inputGroupSelect01" v-model="closeStatusFilter" v-on:change="startSearch">
                             <option value="all">Статус закрытия</option>
                             <option value="not_executed">Ничего не сделано</option>
@@ -17,6 +17,7 @@
                             <option value="executed_totally">Выполнена полностью</option>
                         </select>
                     </th>
+                    <th></th>
                 </tr>
                 <tr>
                     <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">
@@ -31,7 +32,7 @@
                     <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                     <td>{{claim.phone}}</td>
                     <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
-                    <td >{{ claim.translatedCloseStatus }}</td>
+                    <td class="cst-col-213">{{ claim.translatedCloseStatus }}</td>
                     <td>
                         <div style="cursor: pointer;" @click="show(claim)">
                             <i class="fas fa-pencil-alt"></i>

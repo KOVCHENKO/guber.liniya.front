@@ -258,6 +258,11 @@ input[placeholder] {
     text-overflow: ellipsis;
 }
 
+input.input-search[placeholder] {
+    font-size: 14px;
+    color: #495057;
+}
+
 .homeblock-container-button {
     position: relative;
     display: inline-block;
@@ -784,4 +789,32 @@ button.close {
     color: rgba(0,0,0,0.54);
     font-size: 12px;
     cursor: default;
+}
+audio {
+    min-height: 54px;
+}
+.cst-col-190 {
+    min-width: 190px;
+}
+.cst-col-188 {
+    min-width: 188px;
+}
+.cst-col-213 {
+    min-width: 213px;
+}
+.cst-col-select select {
+    font-size: 14px;
+    color: #495057;
+}
+.dis-status-yellow-background {
+    background: #ffff009e;
+}
+.dis-status-gray-background {
+    background: #ececec;
+}
+.dis-status-green-background {
+    background: #defad7;
+}
+.dis-status-red-background {
+    background: antiquewhite;
 }

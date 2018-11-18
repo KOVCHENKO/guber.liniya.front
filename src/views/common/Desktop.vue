@@ -83,7 +83,7 @@
         public toolBarVisibility = mainToolbar.shown;
 
         @Provide()
-        public isOpen: boolean = false;
+        public isOpen: boolean = true;
 
         constructor() {
             super();
