@@ -7,9 +7,9 @@
                 <thead>
                     <tr>
                         <th colspan="4">
-                            <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по заявителю, телефону">
+                            <input v-model="searchField" @input="throttledSearch" class="form-control input-search" placeholder="Поиск по заявителю, телефону">
                         </th>
-                        <th colspan="1">
+                        <th colspan="1" class="cst-col-190 cst-col-select">
                             <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
                                 <option value="all">Статус приема</option>
                                 <option value="raw">Необработанна</option>
@@ -18,7 +18,7 @@
                                 <option value="prepared">Создана</option>
                             </select>
                         </th>
-                        <th colspan="1">
+                        <th colspan="1" class="cst-col-188 cst-col-select">
                             <select class="form-control" id="inputGroupSelect02" v-model="statusFilter" v-on:change="startSearch">
                                 <option value="all">Статус обработки</option>
                                 <option value="assigned">Назначена</option>
@@ -26,7 +26,7 @@
                                 <option value="rejected">Отказано</option>
                             </select>
                         </th>
-                        <th colspan="1">
+                        <th colspan="1" class="cst-col-213 cst-col-select">
                             <select class="form-control" id="inputGroupSelect03" v-model="closeStatusFilter" v-on:change="startSearch">
                                 <option value="all">Статус закрытия</option>
                                 <option value="not_executed">Ничего не сделано</option>
@@ -34,6 +34,8 @@
                                 <option value="executed_totally">Выполнена полностью</option>
                             </select>
                         </th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     <tr>
                         <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">
@@ -48,9 +50,9 @@
                         <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                         <td>{{claim.phone}}</td>
                         <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
-                        <td>{{ claim.dispatch_status }}</td>
-                        <td style="color:red" v-if="claim.status === 'rejected'" @click="reassignToAnotherOrganization(claim)">{{ claim.translatedStatus }}</td>
-                        <td v-if="claim.status !== 'rejected'">{{ claim.translatedStatus }}</td>
+                        <td class="cst-col-190">{{ claim.dispatch_status }}</td>
+                        <td class="cst-col-188" style="color:red" v-if="claim.status === 'rejected'" @click="reassignToAnotherOrganization(claim)">{{ claim.translatedStatus }}</td>
+                        <td class="cst-col-213" v-if="claim.status !== 'rejected'">{{ claim.translatedStatus }}</td>
                         <td >{{ claim.translatedCloseStatus }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(claim)">

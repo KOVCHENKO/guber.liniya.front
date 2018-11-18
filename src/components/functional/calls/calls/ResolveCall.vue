@@ -37,7 +37,7 @@
                             </div>
 
                             <div>
-                                <audio style="margin-top: 65px;" controls>
+                                <audio style="margin-top: 5px;" controls>
                                     <source :src="claimState.claim.link" type="audio/mpeg">
                                 </audio>
                             </div>

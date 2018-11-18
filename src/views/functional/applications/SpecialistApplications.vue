@@ -7,9 +7,9 @@
                 <thead>
                     <tr>
                         <th colspan="4">
-                            <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по заявителю, телефону">
+                            <input v-model="searchField" @input="throttledSearch" class="form-control input-search" placeholder="Поиск по заявителю, телефону">
                         </th>
-                        <th colspan="4">
+                        <th colspan="4" class="cst-col-188 cst-col-select">
                             <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
                                 <option value="all">Статус заявки</option>
                                 <option value="created">Создана</option>
@@ -34,7 +34,7 @@
                         <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                         <td>{{claim.phone}}</td>
                         <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
-                        <td>{{ claim.translatedStatus }}</td>
+                        <td class="cst-col-188">{{ claim.translatedStatus }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
