@@ -5,11 +5,20 @@ import { baseUrl } from '@/globals';
 export const state = {
     call: new Call(0, '', '', '', 'success', 'in', '', '', ''),
     calls: [],
+    filter: {
+        dateFilter: 'all',
+        from: '2018-01-01',
+        to: '2019-01-01',
+    },
 };
 export const actions = {
     async getCalls({ rootState, dispatch }) {
         try {
-            const res = await axios.get(`${baseUrl}calls/all/${rootState.pagination.currentPage}`);
+            const res = await axios.post(`${baseUrl}calls/all/${rootState.pagination.currentPage}`, {
+                dateFilter: state.filter.dateFilter,
+                from: state.filter.from,
+                to: state.filter.to,
+            });
             state.calls = res.data.calls;
             dispatch('formPagination', { lastPage: res.data.pages });
         }
