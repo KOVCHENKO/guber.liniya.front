@@ -11,7 +11,7 @@
                                 {{ claim.created_at }}
                             </div>
                             <div class="col-sm-9 clearfix">
-                                <audio style="margin-top: 58px;" controls>
+                                <audio style="margin-top: 58px; width: 100%;" controls>
                                     <source :src="claim.link" type="audio/mpeg">
                                 </audio>
                             </div>

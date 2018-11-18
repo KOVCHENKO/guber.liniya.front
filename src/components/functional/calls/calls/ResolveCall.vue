@@ -27,7 +27,7 @@
                                 <label class="custom-control-label" for="failed">Ошибка</label>
                             </div>
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-8">
                             <div class="claim-content">
                                 <md-content class="claim-text">Уровень проблемы</md-content>
                             </div>
@@ -37,7 +37,7 @@
                             </div>
 
                             <div>
-                                <audio style="margin-top: 5px;" controls>
+                                <audio style="margin-top: 5px; width: 100%;" controls>
                                     <source :src="claimState.claim.link" type="audio/mpeg">
                                 </audio>
                             </div>

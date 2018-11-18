@@ -66,7 +66,7 @@
                     <!--<hr class="transparent-line">-->
                     <div class="row">
                         <div class="col-sm-12 clearfix">
-                            <audio controls>
+                            <audio style="width: 100%;" controls>
                                 <source :src="claimState.claim.link" type="audio/mpeg">
                             </audio>
                         </div>
@@ -101,7 +101,7 @@
                             {{ parentClaim.created_at }}
                         </div>
                         <div class="col-sm-9 clearfix">
-                            <audio style="margin-top: 58px;" controls>
+                            <audio style="margin-top: 58px; width: 100%;" controls>
                                 <source :src="parentClaim.link" type="audio/mpeg">
                             </audio>
                         </div>

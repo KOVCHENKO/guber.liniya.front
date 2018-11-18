@@ -45,7 +45,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr :class="{ expiredClaim: claim.expired }" v-for="(claim, index) in claims" :key="index">
+                    <!-- <span> -->
+                    <tr :class="[{ expiredClaim: claim.expired }, setClass(claim.dispatch_status)]" class="dispatch-status-background" v-for="(claim, index) in claims" :key="index">
                         <th>{{claim.created_at}}</th>
                         <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                         <td>{{claim.phone}}</td>
@@ -61,6 +62,7 @@
                         </td>
                         <td >{{ claim.responsible_organization[0].name }}</td>
                     </tr>
+                    <!-- </span> -->
                 </tbody>
             </table>
 
@@ -164,6 +166,19 @@
 
             // Подтверждающие файлы
             this.claimState.confirmationFiles = claim.files;
+        }
+
+        public setClass(dispatch_status) {
+            if (dispatch_status == 'Необработанна') {
+                return 'dis-status-yellow-background';
+            } else if(dispatch_status == 'Отредактирована') {
+                return 'dis-status-gray-background';
+            } else if(dispatch_status == 'Отправлена') {
+                return 'dis-status-green-background';
+            } else if(dispatch_status == 'Создана') {
+                return 'dis-status-red-background';
+            }
+            return '';
         }
 
         get throttledSearch() {
