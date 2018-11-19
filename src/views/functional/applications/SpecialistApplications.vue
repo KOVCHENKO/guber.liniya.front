@@ -1,8 +1,8 @@
 <template>
     <div>
-        
+
         <div class="main-page">
- 
+
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -26,12 +26,13 @@
                 <tbody>
                     <tr v-for="(claim, index) in claims" :key="index">
                         <th>
-                            {{claim.created_at}}
+                            {{claim.created_at_shortened}}
                             <div class="container-icon">
                                 <i class="fas fa-exclamation fa-3x" v-if="claim.status === 'created'" title="новая заявка" style="color: #fffa31;"></i>
                             </div>
                         </th>
-                        <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
+                        <td v-if="claim.firstname === '' && claim.middlename === '' && claim.lastname === ''">Нет данных</td>
+                        <td v-else>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                         <td>{{claim.phone}}</td>
                         <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
                         <td class="cst-col-188">{{ claim.translatedStatus }}</td>

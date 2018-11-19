@@ -22,4 +22,5 @@ export default interface IClaim {
     call: ICall;             // Связанный заявок
     parents: [{}];           // Родительские заявки
     comments: IComment[];    // Комментарии к заявке
+    created_at_shortened?: string;
 }

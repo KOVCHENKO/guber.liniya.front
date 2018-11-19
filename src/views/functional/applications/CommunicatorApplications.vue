@@ -28,8 +28,9 @@
                 </thead>
                 <tbody>
                 <tr :class="{ expiredClaim: claim.expired }" v-for="(claim, index) in claims" :key="index">
-                    <th>{{claim.created_at}}</th>
-                    <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
+                    <th>{{claim.created_at_shortened}}</th>
+                    <td v-if="claim.firstname === '' && claim.middlename === '' && claim.lastname === ''">Нет данных</td>
+                    <td v-else>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                     <td>{{claim.phone}}</td>
                     <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
                     <td class="cst-col-213">{{ claim.translatedCloseStatus }}</td>

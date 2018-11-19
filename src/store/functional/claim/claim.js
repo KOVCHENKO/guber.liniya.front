@@ -58,7 +58,7 @@ export const actions = {
             SuccessNotifier.notify('Заявка', 'Создана новая заявка');
         }
         catch {
-            ErrorNotifier.notify();
+            ErrorNotifier.notifyWithCustomMessage('Заполните, все необходимые поля: адрес, телефон, содержание заявки');
         }
     },
     /**

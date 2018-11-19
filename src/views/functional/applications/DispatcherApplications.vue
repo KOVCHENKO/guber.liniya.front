@@ -1,7 +1,7 @@
 <!--suppress TypeScriptUnresolvedVariable -->
 <template>
     <div>
-        
+
         <div class="main-page">
             <table class="table table-hover">
                 <thead>
@@ -47,7 +47,7 @@
                 <tbody>
                     <!-- <span> -->
                     <tr :class="[{ expiredClaim: claim.expired }, setClass(claim.dispatch_status)]" class="dispatch-status-background" v-for="(claim, index) in claims" :key="index">
-                        <th>{{claim.created_at}}</th>
+                        <th>{{claim.created_at_shortened}}</th>
                         <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                         <td>{{claim.phone}}</td>
                         <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
@@ -168,14 +168,14 @@
             this.claimState.confirmationFiles = claim.files;
         }
 
-        public setClass(dispatch_status) {
-            if (dispatch_status == 'Необработанна') {
+        public setClass(dispatchStatus) {
+            if (dispatchStatus === 'Необработанна') {
                 return 'dis-status-yellow-background';
-            } else if(dispatch_status == 'Отредактирована') {
+            } else if (dispatchStatus === 'Отредактирована') {
                 return 'dis-status-gray-background';
-            } else if(dispatch_status == 'Отправлена') {
+            } else if (dispatchStatus === 'Отправлена') {
                 return 'dis-status-green-background';
-            } else if(dispatch_status == 'Создана') {
+            } else if (dispatchStatus === 'Создана') {
                 return 'dis-status-red-background';
             }
             return '';

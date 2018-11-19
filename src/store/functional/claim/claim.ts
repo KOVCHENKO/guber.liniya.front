@@ -69,7 +69,7 @@ export const actions: ActionTree<ClaimState, RootState> = {
             dispatch('getCalls');
             SuccessNotifier.notify('Заявка', 'Создана новая заявка');
         } catch {
-            ErrorNotifier.notify();
+            ErrorNotifier.notifyWithCustomMessage('Заполните, все необходимые поля: адрес, телефон, содержание заявки');
         }
     },
 
@@ -79,6 +79,7 @@ export const actions: ActionTree<ClaimState, RootState> = {
      * @returns {Promise<void>} - обнволенная заявка добавляется в коллекцию
      */
     async updateClaim({}, payload) {
+
         try {
             await axios.post(`${baseUrl}claims/update/${payload.updatedDispatchStatus}`, state.claim);
 

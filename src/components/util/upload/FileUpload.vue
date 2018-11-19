@@ -53,9 +53,6 @@
             },
 
             processFile(event) {
-                // console.log(this.$refs.file);
-                console.log(this.$refs.file.files[0]);
-
                 this.file = this.$refs.file.files[0];
                 this.fileName = event.target.files[0].name;
             }

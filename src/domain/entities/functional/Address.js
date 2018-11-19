@@ -8,7 +8,7 @@ class Address {
 export default Address;
 export const districts = [
     'Астрахань',
-    'Знаменск',
+    'ЗАТО г. Знаменск',
     'Ахтубинский',
     'Володарский',
     'Енотаевский',

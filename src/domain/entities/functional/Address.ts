@@ -18,7 +18,7 @@ export default Address;
 
 export const districts: string[] = [
     'Астрахань',
-    'Знаменск',
+    'ЗАТО г. Знаменск',
     'Ахтубинский',
     'Володарский',
     'Енотаевский',

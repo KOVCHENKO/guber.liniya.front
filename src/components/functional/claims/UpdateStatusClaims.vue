@@ -20,19 +20,20 @@
 
                     <!-- <div class="dialog-line"></div> -->
                     <div class="claim-container claim-content" style="padding: 0px !important;">
-                        <md-content class="claim-text">{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</md-content>
+                        <md-content class="claim-text" v-if="claim.firstname === '' && claim.middlename === '' && claim.lastname === ''">Нет данных</md-content>
+                        <md-content class="claim-text" v-else>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</md-content>
                         <div class="md-layout md-gutter">
                             <div class="md-layout-item">
                                 <div class="md-list-item-text">
                                     <span>{{claim.phone}}</span>
                                     <span class="color-light-grey">Телефон</span>
-                                </div>  
+                                </div>
                             </div>
                             <div class="md-layout-item">
                                 <div class="md-list-item-text">
                                     <span>{{claim.email}}</span>
                                     <span class="color-light-grey">E-mail</span>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -44,7 +45,7 @@
                 </md-dialog-actions>
             </md-tab>
             <md-tab id="tab-change-claim" md-label="Изменить заявку">
-            
+
                     <div class="claim-container claim-content" style="margin-top: 0px !important;">
 
                         <md-content>
@@ -118,7 +119,7 @@
         </md-tabs>
     </md-dialog>
 </template>
-    
+
 <script lang="ts">
     import {Component, Provide, Vue, Prop, Watch} from 'vue-property-decorator';
     import {statusDialog} from '@/domain/util/interface/CommonInterface';

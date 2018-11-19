@@ -73,7 +73,7 @@ class ClaimService {
 
     public static changeTimeFormat(claims) {
         return claims.map((claim) => {
-            claim.created_at = TimeFormatter.formatTime(claim.created_at);
+            claim.created_at_shortened = TimeFormatter.formatTime(claim.created_at);
             return claim;
         });
     }
@@ -83,6 +83,7 @@ class ClaimService {
             return e.id;
         }).indexOf(claim.id);
 
+        // claims[subIndex].created_at = claim.createdAt;
         claims[subIndex].name = claim.name;
         claims[subIndex].description = claim.description;
         claims[subIndex].firstname = claim.firstName;

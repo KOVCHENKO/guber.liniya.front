@@ -21,7 +21,7 @@
                                     <md-option value="executed_partially">{{ statusClaims[1] }}</md-option>
                                     <md-option value="executed_totally">{{ statusClaims[2] }}</md-option>
                                 </md-select>
-                            </md-field>                            
+                            </md-field>
                         </div>
                     </div>
                 </div>
@@ -30,19 +30,20 @@
         <div class="dialog-line"></div>
 
         <div class="claim-container claim-content">
-            <md-content class="claim-text">{{ claimState.claim.firstName }} {{ claimState.claim.middleName }} {{ claimState.claim.lastName }}</md-content>
+            <md-content class="claim-text" v-if="claimState.claim.firstName === '' && claimState.claim.middleName === '' && claimState.claim.lastName === ''">Нет данных</md-content>
+            <md-content class="claim-text" v-else>{{ claimState.claim.firstName }} {{ claimState.claim.middleName }} {{ claimState.claim.lastName }}</md-content>
             <div class="md-layout md-gutter">
                 <div class="md-layout-item">
                     <div class="md-list-item-text">
                         <span>{{ claimState.claim.phone }}</span>
                         <span class="color-light-grey">Телефон</span>
-                    </div>  
+                    </div>
                 </div>
                 <div class="md-layout-item">
                     <div class="md-list-item-text">
                         <span>{{claimState.claim.email}}</span>
                         <span class="color-light-grey">E-mail</span>
-                    </div> 
+                    </div>
                 </div>
             </div>
 
