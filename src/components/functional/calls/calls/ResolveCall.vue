@@ -262,7 +262,12 @@
             this.claimState.claim.level = this.claimLevelStringified;
 
             // Создать заявку
-            this.createClaim();
+            this.createClaim().then((response) => {
+                if (response.status === 200) {
+                    this.statusDialog.show = false;
+                }
+            });
+
         }
 
         get claimLevelStringified() {

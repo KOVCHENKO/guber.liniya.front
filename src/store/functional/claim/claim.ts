@@ -65,9 +65,10 @@ export const actions: ActionTree<ClaimState, RootState> = {
         state.claim.dispatchStatus = role.getDispatchStatusToCreateClaim();
 
         try {
-            await axios.post(`${baseUrl}claims/create`, state.claim);
+            const result = await axios.post(`${baseUrl}claims/create`, state.claim);
             dispatch('getCalls');
             SuccessNotifier.notify('Заявка', 'Создана новая заявка');
+            return result;
         } catch {
             ErrorNotifier.notifyWithCustomMessage('Заполните, все необходимые поля: адрес, телефон, содержание заявки');
         }

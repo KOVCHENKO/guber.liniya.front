@@ -56,9 +56,9 @@ body {
     margin-top: 50px;
 }
 .title {
-    font-size: 22px; 
-    margin-left: auto; 
-    margin-right: auto; 
+    font-size: 22px;
+    margin-left: auto;
+    margin-right: auto;
     display: table;
     text-align: center;
     -webkit-margin-before: 1em;
@@ -97,7 +97,7 @@ body {
         box-shadow: inset 0 0 54px rgba(0, 0, 0, 0.073);
     }
     .container-straight-title {
-        padding-left: 55px;     
+        padding-left: 55px;
         padding-right: 55px;
         position: relative;
         display: table-cell;
@@ -112,7 +112,7 @@ body {
     }
     .md-field-email {
         width: 224px;
-        display: inline-block; 
+        display: inline-block;
         margin-bottom: 8px;
     }
     .md-field-password {
@@ -145,7 +145,7 @@ body {
     position: fixed;
     background: #fff;
     z-index: 100;
-}	
+}
 
 .global-overlay {
     position: fixed;
@@ -219,18 +219,18 @@ body {
     height: 100vh;
 }
 .homeblock-container-wrapper {
-    display: table; 
-    width: 100%; 
+    display: table;
+    width: 100%;
     height: 100%;
 }
 .homeblock-container-content {
-    display: table-cell; 
-    vertical-align: middle; 
+    display: table-cell;
+    vertical-align: middle;
     padding-left: 35px;
 }
 
 .homeblock-title {
-    // color: white;     
+    // color: white;
     font-size: 24px;
     line-height: 16px;
     font-weight: 300;
@@ -358,7 +358,7 @@ input.input-search[placeholder] {
     margin: 0;
 }
 .nav {
-    padding: 0; 
+    padding: 0;
     display: block;
     margin-bottom: 0;
     list-style: none;
@@ -513,7 +513,7 @@ li.active {
     }
 
     &.disabled {
-        
+
         cursor: default !important;
         opacity: 0.4 !important;
         background: $gray !important;
@@ -528,7 +528,7 @@ li.active {
     }
 
     &[disabled="disabled"] {
-        
+
         cursor: default !important;
         opacity: 0.4 !important;
         background: $gray !important;
@@ -569,7 +569,7 @@ button.close {
 }
 
 .dialog-line-shadow {
-    width: 100%; 
+    width: 100%;
     height: 1px;
     margin-top: 1px;
     box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
@@ -605,7 +605,7 @@ button.close {
 }
 
 .line-button {
-    
+
     cursor: pointer;
     border-radius: 38px;
     padding: 8px;
@@ -632,8 +632,8 @@ button.close {
     background: #00a0e340 !important;
     @include transition(all 0.5s ease-out);
 }
-.claim-content {   
-    
+.claim-content {
+
     &.claim-container {
         padding: 0 24px;
         margin-top: 20px;
@@ -682,7 +682,7 @@ button.close {
     }
 }
 .fa-check-green {
-    color: green; 
+    color: green;
     padding: 5px;
 }
 .claim-check-text {
@@ -810,7 +810,7 @@ audio {
     background: #ffff009e;
 }
 .dis-status-gray-background {
-    background: #ececec;
+    background: #d1f4ff;
 }
 .dis-status-green-background {
     background: #defad7;
