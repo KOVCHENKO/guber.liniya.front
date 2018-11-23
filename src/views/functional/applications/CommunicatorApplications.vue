@@ -70,6 +70,7 @@
     import CloseClaim from '@/components/functional/applications/CommunicatorApplications/CloseClaim.vue';
     import ClaimService from '../../../domain/services/functional/claims/ClaimService';
     import throttle from '../../../store/util/operations/throttle';
+    import IPaginationState from '../../../store/util/pagination/types';
 
     @Component({
         components: {
@@ -100,8 +101,8 @@
             {label: '', sorting: false, column: '' },
         ];
 
-        @State('claim')
-        public claimState!: ClaimState;
+        @State('claim') public claimState!: ClaimState;
+        @State('pagination') public paginationState!: IPaginationState;
 
         constructor() {
             super();
@@ -145,6 +146,10 @@
 
 
         public startSearch() {
+            // Обнулить и поставить страницу №1
+            this.paginationState.currentPage = 1;
+
+            // Начать поиск
             if (this.searchField === '') {
                 this.getAllClaims({
                     statusFilter: 'created',

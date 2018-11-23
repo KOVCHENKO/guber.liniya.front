@@ -6,7 +6,7 @@
         <notifications></notifications>
 
         <div class="wrapper">
-            
+
             <div class="sidebar-left" :class="{ isOpenTable: isOpen }">
                 <header class="main-header desktop" :class="{ isOpen: isOpen }">
                     <div class="header-container">
@@ -46,7 +46,7 @@
                             <router-view></router-view>
 
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
 
@@ -65,13 +65,14 @@
     import {Action, State} from 'vuex-class';
     import CabinetState from '../../store/common/cabinet/types';
     import HeaderComponent from '@/components/common/Desktop/Header.vue';
+    import IPaginationState from '../../store/util/pagination/types';
 
     @Component({
         components: {HeaderComponent},
     })
     export default class Desktop extends Vue {
-        @State('cabinet')
-        public cabinetState!: CabinetState;
+        @State('cabinet') public cabinetState!: CabinetState;
+        @State('pagination') public paginationState!: IPaginationState;
 
         @Action('getCabinets')
         public getCabinets: any;
@@ -99,6 +100,9 @@
         }
 
         private selectMenuItem(cabinet) {
+            // Обнулить настройки состояния приложения
+            this.paginationState.currentPage = 1;
+
             this.$router.push(cabinet.route);
         }
 

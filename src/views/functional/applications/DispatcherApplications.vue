@@ -1,4 +1,3 @@
-<!--suppress TypeScriptUnresolvedVariable -->
 <template>
     <div>
 
@@ -68,7 +67,12 @@
             </table>
 
             <datatable-custom-paginator
-                    v-on:setAnotherPage="getAllClaims({ dispatchStatus: $route.params.dispatch_status, dispatchStatusFilter: dispatchStatusFilter  })"
+                    v-on:setAnotherPage="getAllClaims({
+                        dispatchStatus: $route.params.dispatch_status,
+                        dispatchStatusFilter: dispatchStatusFilter,
+                        statusFilter: statusFilter,
+                        closeStatusFilter: closeStatusFilter,
+                     })"
             ></datatable-custom-paginator>
 
         </div>
@@ -94,6 +98,7 @@
     import IWithRoute from '../../../domain/util/interface/IWithRoute';
     import Call from '../../../domain/entities/functional/Call';
     import ClaimService from '../../../domain/services/functional/claims/ClaimService';
+    import IPaginationState from '../../../store/util/pagination/types';
 
     @Component({
         components: {
@@ -127,8 +132,9 @@
             { label: 'Организация', sorting: false, column: 'responsible_organizations' },
         ];
 
-        @State('claim')
-        public claimState!: ClaimState;
+        @State('claim') public claimState!: ClaimState;
+        @State('pagination') public paginationState!: IPaginationState;
+
 
         @Action public getAllClaims;
         @Action public searchClaim;
@@ -200,6 +206,10 @@
         }
 
         public startSearch() {
+            // Обнулить и поставить страницу №1
+            this.paginationState.currentPage = 1;
+
+            // Начать поиск
             if (this.searchField === '') {
                 this.getAllClaims({
                     dispatchStatus: this.$route.params.dispatch_status,
