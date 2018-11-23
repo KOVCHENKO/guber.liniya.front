@@ -21,6 +21,7 @@ export const state: ClaimState = {
     previousClaims: [],     // Предыдущие по номеру телефона
     executedClaims: [],     // Выполненные заявки для роли комуникатора
     confirmationFiles: [],
+    responsibleOrganizations: [{}],
 };
 
 const claimService = new ClaimService();

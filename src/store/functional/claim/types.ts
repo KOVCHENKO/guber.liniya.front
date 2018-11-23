@@ -7,4 +7,5 @@ export default interface ClaimState {
     previousClaims: [{}] | any;
     executedClaims: [{}] | any;
     confirmationFiles: IFile[];
+    responsibleOrganizations: [{}];
 }

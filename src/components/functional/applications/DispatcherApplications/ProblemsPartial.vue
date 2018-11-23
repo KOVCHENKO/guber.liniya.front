@@ -39,14 +39,7 @@
 
         </div>
 
-        <div class="row">
-            <div class="col-sm-4">
-                <label>{{ claimState.claim.problem.name }}</label>
-            </div>
-            <div class="col-sm-4">
-                <label>{{ claimState.claim.problem.description }}</label>
-            </div>
-        </div>
+
     </div>
 </template>
 
@@ -56,7 +49,7 @@
     import IProblem from '../../../../domain/entities/functional/interfaces/IProblem';
 
     @Component
-    export default class ClaimProblems extends Vue {
+    export default class ProblemsPartial extends Vue {
 
         @Action public getAllProblemTypes;
         @Action public getOrganizationsOfProblem;

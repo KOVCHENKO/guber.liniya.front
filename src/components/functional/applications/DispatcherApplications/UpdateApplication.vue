@@ -73,11 +73,14 @@
                     </div>
 
                     <div class="row" style="margin-top: 40px;">
-                        <div class="col-sm-4" style="padding-left: 17px;">
+                        <div class="col-sm-6" style="padding-left: 17px;">
                             <label>{{ claimState.claim.problem.name }}</label>
                         </div>
-                        <div class="col-sm-4">
-                            <label>{{ claimState.claim.problem.description }}</label>
+                        <div class="col-sm-6" v-if="claimState.responsibleOrganizations == ''">
+                            <label>Информация отсутствует</label>
+                        </div>
+                        <div class="col-sm-6" v-else>
+                            <label v-for="respOrg in claimState.responsibleOrganizations">{{ respOrg.name }}</label>
                         </div>
                     </div>
 

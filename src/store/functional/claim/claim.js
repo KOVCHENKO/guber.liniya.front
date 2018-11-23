@@ -14,6 +14,7 @@ export const state = {
     previousClaims: [],
     executedClaims: [],
     confirmationFiles: [],
+    responsibleOrganizations: [{}],
 };
 const claimService = new ClaimService();
 export const actions = {

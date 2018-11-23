@@ -118,7 +118,7 @@
                 <md-step id="second" md-label="Заявка" md-description="подробная информация" :md-done.sync="steps.second">
                     <!-- Информация о заявке-->
                     <div class="form-padding">
-                        <claim-problems></claim-problems>
+                        <problems-partial></problems-partial>
 
                         <div class="row">
                             <div class="col-sm-12 clearfix">
@@ -153,7 +153,7 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../../store/functional/claim/types';
-    import ClaimProblems from '@/components/functional/calls/calls/ProblemsPartial.vue';
+    import ProblemsPartial from '@/components/functional/calls/calls/ProblemsPartial.vue';
     import {default as Address, districts} from '../../../../domain/entities/functional/Address';
     import {OkCancelModalProperties, plusButton, statusDialog} from '../../../../domain/util/interface/CommonInterface';
     import IWithRoute from '../../../../domain/util/interface/IWithRoute';
@@ -167,7 +167,7 @@
     import Call from '../../../../domain/entities/functional/Call';
 
     @Component({
-        components: {ClaimProblems, Reclaimed, OkCancelModal},
+        components: {ProblemsPartial, Reclaimed, OkCancelModal},
     })
     export default class CreateApplication extends Vue implements IWithRoute {
         @Action public createClaim;

@@ -127,7 +127,7 @@
             { label: 'Адрес (район / адрес)', sorting: false, column: 'address' },
             { label: 'Статус приема', sorting: false, column: 'dispatch_status' },
             { label: 'Статус обработки', sorting: false, column: 'status' },
-            { label: 'Статус выполнения', sorting: false, column: 'close_status' },
+            { label: 'Статус закрытия', sorting: false, column: 'close_status' },
             { label: '', sorting: false, column: '' },
             { label: 'Организация', sorting: false, column: 'responsible_organizations' },
         ];
@@ -173,6 +173,9 @@
 
             // Подтверждающие файлы
             this.claimState.confirmationFiles = claim.files;
+
+            // Ответственные организации
+            this.claimState.responsibleOrganizations = claim.responsible_organization;
         }
 
         public setClass(dispatchStatus) {

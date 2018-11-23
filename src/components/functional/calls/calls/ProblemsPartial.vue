@@ -34,14 +34,6 @@
 
         </div>
 
-        <div class="row">
-            <div class="col-sm-4">
-                <label>{{ claimState.claim.problem.name }}</label>
-            </div>
-            <div class="col-sm-4">
-                <label>{{ claimState.claim.problem.description }}</label>
-            </div>
-        </div>
     </div>
 </template>
 
