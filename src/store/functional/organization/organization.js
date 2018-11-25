@@ -70,14 +70,15 @@ export const actions = {
             ErrorNotifier.notify();
         });
     },
-    async getAllClaimsOfOrganization(context, payload) {
+    async getAllClaimsOfOrganization({ rootState, dispatch }, payload) {
         try {
             const organizationId = payload.organization_id;
             const result = await axios.get(baseUrl + 'organizations/all_claims_of_organization/'
                 + organizationId + '?dispatchStatusFilter=' + payload.dispatchStatusFilter +
-                '&search=' + payload.search);
-            state.claims = result.data;
+                '&search=' + payload.search + '&page=' + rootState.pagination.currentPage);
+            state.claims = result.data.claims;
             state.claims = ClaimService.addTranslatedClaimStatus(state.claims);
+            dispatch('formPagination', { lastPage: result.data.count });
         }
         catch {
             ErrorNotifier.notify();

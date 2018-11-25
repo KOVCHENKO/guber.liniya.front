@@ -50,6 +50,12 @@
                 </tbody>
             </table>
 
+            <datatable-custom-paginator
+            v-on:setAnotherPage="getAllClaimsOfOrganization({
+                organization_id : userState.user.organization.id,
+                dispatchStatusFilter : dispatchStatusFilter, search : searchField,
+            })"></datatable-custom-paginator>
+
         </div>
 
         <update-status-claims :claim="claim"></update-status-claims>
@@ -67,10 +73,12 @@
     import UpdateStatusClaims from '@/components/functional/claims/UpdateStatusClaims.vue';
     import throttle from '../../../store/util/operations/throttle';
     import ClaimService from '../../../domain/services/functional/claims/ClaimService';
+    import DatatableCustomPaginator from '../../../components/util/DatatableCustomPaginator.vue';
+    import IPaginationState from '../../../store/util/pagination/types';
 
     @Component({
         components: {
-            UpdateStatusClaims,
+            UpdateStatusClaims, DatatableCustomPaginator
         },
     })
     export default class SpecialistApplications extends Vue {
@@ -85,6 +93,8 @@
 
         @State('user')
         public userState!: UserState;
+
+        @State('pagination') public paginationState!: IPaginationState;
 
         @Action('getAllClaimsOfOrganization')
         public getAllClaimsOfOrganization;
@@ -125,6 +135,9 @@
         }
 
         public startSearch() {
+            // Обнулить и поставить страницу №1
+            this.paginationState.currentPage = 1;
+
             this.getAllClaimsOfOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter, search : this.searchField,

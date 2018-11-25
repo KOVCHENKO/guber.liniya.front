@@ -102,7 +102,7 @@
         private selectMenuItem(cabinet) {
             // Обнулить настройки состояния приложения
             this.paginationState.currentPage = 1;
-
+            this.close();
             this.$router.push(cabinet.route);
         }
 
