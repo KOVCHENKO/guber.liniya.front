@@ -78,7 +78,7 @@
 
     @Component({
         components: {
-            UpdateStatusClaims, DatatableCustomPaginator
+            UpdateStatusClaims, DatatableCustomPaginator,
         },
     })
     export default class SpecialistApplications extends Vue {

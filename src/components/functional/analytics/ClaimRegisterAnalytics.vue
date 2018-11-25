@@ -22,8 +22,8 @@
                             </div>
                             <div class="row" v-if="reportOption === 'range'">
                                 <div class="col-sm-12 clearfix">
-                                    С: <datepicker :format="customFormatter" v-model="from"></datepicker>
-                                    По: <datepicker :format="customFormatter" v-model="to"></datepicker>
+                                    С: <datepicker :language="ru" :format="customFormatter" v-model="from"></datepicker>
+                                    По: <datepicker :language="ru" :format="customFormatter" v-model="to"></datepicker>
                                 </div>
                             </div>
                         </div>
@@ -42,6 +42,7 @@
     import {baseUrl} from '@/globals';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import Datepicker from 'vuejs-datepicker';
+    import {ru} from 'vuejs-datepicker/dist/locale';
     import moment from 'moment';
 
     @Component({
@@ -51,6 +52,7 @@
         @Provide() public reportOption = 'day';
         @Provide() public from = '';
         @Provide() public to = '';
+        @Provide() public ru: any = ru;
 
         @Provide() public baseUrl = baseUrl;
 
@@ -59,11 +61,11 @@
         }
 
         get customFrom() {
-            return moment(this.from).format('MMMM Do YYYY');
+            return moment(this.from).format('DD.MM.YYYY');
         }
 
         get customTo() {
-            return moment(this.to).format('MMMM Do YYYY');
+            return moment(this.to).format('DD.MM.YYYY');
         }
     }
 </script>

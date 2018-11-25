@@ -124,10 +124,6 @@
             statusDialog.show = true;
         }
 
-        public customFormatter(date) {
-            return moment(date).format('MMMM Do YYYY');
-        }
-
         public changeFilter() {
             this.paginationState.currentPage = 1;
             this.getCalls();

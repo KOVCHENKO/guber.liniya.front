@@ -1,4 +1,6 @@
 import Vue from 'vue';
+import moment from 'moment';
+moment.locale('ru');
 
 /* Компонент для интернационализации */
 import VueI18n from 'vue-i18n';
