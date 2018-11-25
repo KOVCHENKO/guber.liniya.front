@@ -27,7 +27,7 @@
                         :disabled="callState.filter.dateFilter !== 'period'" v-on:input="changeFilter"
                         v-model="callState.filter.to"
                         format="dd.MM.yyyy"
-                        placeholder="01.01.2018"
+                        placeholder="01.01.2019"
                         :language="ru"
                 ></date-picker>
                 </th>
