@@ -1,3 +1,10 @@
+<style scope>
+    .md-select-menu.md-menu-content-bottom-start.md-menu-content-small.md-menu-content.md-theme-default {
+        width: auto !important;
+        max-width: none !important;
+        min-width: 280px;
+    }
+</style>
 <template>
     <div>
         <div class="row" v-if="hiddenBasedOnClaimPid" >
