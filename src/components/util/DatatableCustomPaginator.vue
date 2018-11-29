@@ -3,9 +3,9 @@
         <nav aria-label="Page navigation">
             <ul class="pagination">
                 <span v-for="(page, index) in this.pagination.pagesArray" :key="index">
-                <li  @click="changePage(page)" :class="{ 'active-page': currentChosenPage === page }"  
+                <li  @click="changePage(page)" :class="{ 'active-page': pagination.currentPage === page }"
                     class="pagination-box" v-if="page !== -1">
-                    <a :class="{ active: currentChosenPage === page }">{{ page }}</a>
+                    <a :class="{ active: pagination.currentPage === page }">{{ page }}</a>
                 </li>
                 <li v-else>
                     <a>...</a>

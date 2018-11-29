@@ -136,6 +136,7 @@
                     <md-dialog-actions>
                         <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
                         <md-button class="md-primary" @click="dispatchClaimCreate">{{ $t("common.create") }}</md-button>
+                        <md-button class="md-primary" @click="dispatchClaimCreateMore">{{ $t("common.create_more") }}</md-button>
                     </md-dialog-actions>
 
                 </md-step>
@@ -267,7 +268,17 @@
                     this.statusDialog.show = false;
                 }
             });
+        }
 
+        /**
+         * Перед отправкой проблемы необходимо обозначить уровень
+         */
+        public dispatchClaimCreateMore() {
+            // Уровень заявки: личный или общезначимый
+            this.claimState.claim.level = this.claimLevelStringified;
+
+            // Создать заявку без закрытия
+            this.createClaim();
         }
 
         get claimLevelStringified() {

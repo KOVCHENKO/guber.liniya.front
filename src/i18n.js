@@ -52,6 +52,7 @@ const messages = {
             save_and_close: 'Сохранить и закрыть',
             close: 'Закрыть',
             create: 'Создать',
+            create_more: 'Создать еще',
             update: 'Обновить',
             send: 'Отправить',
             delete_notification_title: 'Удаление',
