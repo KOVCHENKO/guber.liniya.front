@@ -6,6 +6,12 @@
         <div class="claim-container claim-content">
             <md-content class="md-scrollbar claim-scrollbar">{{ claimState.claim.description }}</md-content>
 
+            <md-content class="md-scrollbar claim-scrollbar">
+                <audio style="margin-top: 58px; width: 100%;" controls>
+                    <source :src="claimState.claim.link" type="audio/mpeg">
+                </audio>
+            </md-content>
+
             <md-content>
                 <div class="row">
                     <div class="col-sm-4 padding-right">
