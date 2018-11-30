@@ -145,7 +145,8 @@
         public show(row) {
             this.claimState.claim = new Claim(row.id, row.name, row.description,
                 row.firstname, row.middlename, row.lastname, row.phone, '', row.link, '', '', null, row.level, [{}],
-                row.comments, new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''),
+                row.comments, new Address(0, 'Астрахань', ''),
+                new Problem(row.problem.id, row.problem.name, row.problem.description),
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
             statusDialogOfSecondLevel.show = true;

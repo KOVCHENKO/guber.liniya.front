@@ -12,6 +12,14 @@
                 </audio>
             </md-content>
 
+            <br>
+
+            <div class="md-list-item-text">
+                <span v-if="claimState.responsibleOrganizations == ''">Информация отсутсвует</span>
+                <span v-else>{{ claimState.responsibleOrganizations[0].name }}</span>
+                <span class="color-light-grey">Организация</span>
+            </div>
+
             <md-content>
                 <div class="row">
                     <div class="col-sm-4 padding-right">
@@ -49,6 +57,12 @@
                     <div class="md-list-item-text">
                         <span>{{claimState.claim.email}}</span>
                         <span class="color-light-grey">E-mail</span>
+                    </div>
+                </div>
+                <div class="md-layout-item">
+                    <div class="md-list-item-text">
+                        <span>{{claimState.claim.address.district}}, {{claimState.claim.address.location}}</span>
+                        <span class="color-light-grey">Адрес</span>
                     </div>
                 </div>
             </div>
