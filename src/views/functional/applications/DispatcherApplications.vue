@@ -11,7 +11,7 @@
                         <th colspan="1" class="cst-col-190 cst-col-select">
                             <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
                                 <option value="all">Статус приема</option>
-                                <option value="raw">Необработанна</option>
+                                <!--<option value="raw">Необработанна</option>-->
                                 <option value="edited">Отредактирована</option>
                                 <option value="dispatched">Отправлена</option>
                                 <option value="prepared">Создана</option>
@@ -59,7 +59,7 @@
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                         </td>
-                        <td v-if="claim.responsible_organization === ''">Информация отсутсвует</td>
+                        <td v-if="claim.responsible_organization == ''">Информация отсутсвует</td>
                         <td v-else>{{ claim.responsible_organization[0].name }}</td>
                     </tr>
                     <!-- </span> -->

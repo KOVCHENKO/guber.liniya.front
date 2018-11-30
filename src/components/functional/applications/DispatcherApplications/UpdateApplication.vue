@@ -208,6 +208,10 @@
             let resolvedRole;
             resolvedRole = RoleResolver.resolveRole(this.userState.role.name);
             this.updateClaim({ updatedDispatchStatus: resolvedRole.getDispatchStatusToUpdate() });
+
+            if (this.userState.role.name === 'supervisor') {
+                this.statusDialog.show = false;
+            }
         }
 
         get disabledBasedOnDispatchStatus() {

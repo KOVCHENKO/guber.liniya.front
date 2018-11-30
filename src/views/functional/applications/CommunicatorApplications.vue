@@ -111,7 +111,7 @@
 
         constructor() {
             super();
-            headings.title = 'Выполенные заявки';
+            headings.title = 'Выполненные заявки';
             plusButton.visible = false;
         }
 
