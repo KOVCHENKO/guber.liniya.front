@@ -10,7 +10,43 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
+import {baseUrlForTestToBackend} from '../../globals';
+
+Cypress.Commands.add("login", (email, password) => {
+    cy.visit('/')
+
+    cy.get('input#md-input-email')
+        .type(email)
+
+    cy.get('input#md-input-password')
+        .type(password)
+
+    cy.contains('Войти')
+        .click()
+
+    cy.wait(5000)
+})
+
+Cypress.Commands.add("loginRequest", (email, password) => {
+    cy.request({
+        method: 'POST',
+        url: `${baseUrlForTestToBackend}login`,
+        body: {
+           email: email,
+           password: password,
+        }
+    }).then((response) => {
+        let vuex = {
+            user: {
+                token: `Bearer ${response.body.token}`
+            }
+        }
+
+        window.localStorage.setItem('vuex', JSON.stringify(vuex));
+    })
+})
+
+
 //
 //
 // -- This is a child command --

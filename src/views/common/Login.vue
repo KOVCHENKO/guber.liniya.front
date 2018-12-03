@@ -27,19 +27,19 @@
                             <h1 class="homeblock-title">Авторизация</h1>
                             <md-field class="md-field-email">
                                 <label>Логин</label>
-                                <md-input v-model="user.email"></md-input>
+                                <md-input :id="'md-input-email'" v-model="user.email"></md-input>
                             </md-field>
                             <br>
                             <md-field class="md-field-password">
                                 <label>Пароль</label>
-                                <md-input v-model="user.password" type="password"></md-input>
+                                <md-input :id="'md-input-password'" v-model="user.password" type="password"></md-input>
                             </md-field>
                             <br>
                             <div class="homeblock-container-button">
-                                <div class="homeblock-button" @click="login">Войти</div>
+                                <div class="homeblock-button" id="login" @click="login">Войти</div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                                 <div class="homeblock-button" @click="toDesktop">Рабочий стол</div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
 
