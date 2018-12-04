@@ -42,6 +42,7 @@ Cypress.Commands.add("loginRequest", (email, password) => {
             }
         }
 
+
         window.localStorage.setItem('vuex', JSON.stringify(vuex));
     })
 })

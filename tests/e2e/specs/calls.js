@@ -12,4 +12,14 @@ describe('calls test', () => {
         cy.contains('h2', 'Все звонки')
     })
 
+    it('show calls per day', () => {
+        cy.visit(`${baseUrlForTest}calls`)
+        cy.get('#inputGroupSelect01').select('day')
+    })
+
+    it('show calls per week', () => {
+        cy.visit(`${baseUrlForTest}calls`)
+        cy.get('#inputGroupSelect01').select('week')
+    })
+
 })

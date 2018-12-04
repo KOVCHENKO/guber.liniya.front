@@ -100,6 +100,8 @@
                                     <label for="claimer_phone">{{$t('claims.claimer_phone')}}</label>
                                     <md-input :name="$t('validation.phone')" id="claimer_phone" v-model="claimState.claim.phone"/>
                                 </md-field>
+                                <span v-if="claimState.claim.phone === ''" class="md-error">Необходимо ввести телефон</span>
+
                             </div>
                             <div class="col-sm-6">
                                 <md-field>
@@ -126,8 +128,9 @@
                                 <md-field>
                                     <label>{{$t('claims.claim_description')}}</label>
                                     <md-textarea id="claim_description" name="description" class="textarea-resize-none"
-                                        v-model="claimState.claim.description" md-counter="300" style="min-height: 50px;"></md-textarea>
+                                        v-model="claimState.claim.description" style="min-height: 50px;"></md-textarea>
                                 </md-field>
+                                <span v-if="claimState.claim.description === ''" class="md-error">Необходимо заполнить содержание</span>
 
                             </div>
                         </div>
