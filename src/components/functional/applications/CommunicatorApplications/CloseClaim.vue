@@ -40,6 +40,13 @@
                     </div>
                 </div>
             </md-content>
+
+            <div class="md-list-item-text">
+                <span v-if="claimState.claim.comments.length == 0">Комментарий отсутсвует</span>
+                <span v-else v-for="comment in claimState.claim.comments">{{ comment.text }}</span>
+                <span class="color-light-grey">Комментарий</span>
+            </div>
+
         </div>
         <div class="dialog-line"></div>
 
