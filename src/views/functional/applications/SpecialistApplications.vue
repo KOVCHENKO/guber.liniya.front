@@ -20,7 +20,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}</th>
+                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}} <span v-if="column.sort"><i class="fas fa-sort" @click="sortByDataFunc"></i></span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,6 +54,7 @@
             v-on:setAnotherPage="getAllClaimsOfOrganization({
                 organization_id : userState.user.organization.id,
                 dispatchStatusFilter : dispatchStatusFilter, search : searchField,
+                sortByData: sortByData,
             })"></datatable-custom-paginator>
 
         </div>
@@ -88,6 +89,9 @@
         @Provide()
         public dispatchStatusFilter: string = 'all';
 
+        @Provide()
+        public sortByData: string = 'desc';
+
         @State('organization')
         public organizationState!: OrganizationState;
 
@@ -104,12 +108,12 @@
 
         @Provide()
         public tableColumns = [
-            {label: 'Дата'},
-            {label: 'Заявитель'},
-            {label: 'Телефон'},
-            {label: 'Адрес (район / адрес)'},
-            {label: 'Статус обработки'},
-            {label: ''},
+            {label: 'Дата', sort: true},
+            {label: 'Заявитель', sort: false},
+            {label: 'Телефон', sort: false},
+            {label: 'Адрес (район / адрес)', sort: false},
+            {label: 'Статус обработки', sort: false},
+            {label: '', sort: false},
         ];
 
         @Provide()
@@ -141,6 +145,7 @@
             this.getAllClaimsOfOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter, search : this.searchField,
+                sortByData: this.sortByData,
             });
         }
 
@@ -148,7 +153,7 @@
             this.getAllClaimsOfOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter,
-                search : this.searchField });
+                search : this.searchField, sortByData: this.sortByData, });
 
             this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });
         }
@@ -160,6 +165,14 @@
 
         get claims() {
            return ClaimService.changeTimeFormat(this.organizationState.claims);
+        }
+
+        public sortByDataFunc() {
+            this.sortByData = (this.sortByData == 'desc') ? 'asc': 'desc';
+            this.getAllClaimsOfOrganization({
+                organization_id : this.userState.user.organization.id,
+                dispatchStatusFilter : this.dispatchStatusFilter,
+                search : this.searchField, sortByData: this.sortByData, });
         }
 
     }

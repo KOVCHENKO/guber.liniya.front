@@ -35,6 +35,12 @@
                                     <span class="color-light-grey">E-mail</span>
                                 </div>
                             </div>
+                            <div class="md-layout-item">
+                                <div class="md-list-item-text">
+                                    <span>{{claim.address.district}}, {{claim.address.location}}</span>
+                                    <span class="color-light-grey">Адрес</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -74,11 +80,12 @@
                                             <md-field>
                                                 <label>Изменить статус</label>
                                                 <md-select name="status" id="claimer_status" v-model="statusData">
+                                                    <md-option>Изменить статус</md-option>
                                                     <md-option value="redirect">Переадресовать</md-option>
                                                     <md-option value="rejected">Отказать</md-option>
                                                 </md-select>
                                             </md-field>
-                                            <md-checkbox v-model="booleanAssigned" class="md-primary">
+                                            <md-checkbox v-model="booleanAssigned" class="md-primary" v-if="!(statusData == 'redirect' || statusData == 'rejected')">
                                                 <md-content class="claim-text claim-check-text">Заявка выполнена</md-content>
                                             </md-checkbox>
                                         </span>

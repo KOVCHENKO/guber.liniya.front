@@ -75,7 +75,8 @@ export const actions = {
             const organizationId = payload.organization_id;
             const result = await axios.get(baseUrl + 'organizations/all_claims_of_organization/'
                 + organizationId + '?dispatchStatusFilter=' + payload.dispatchStatusFilter +
-                '&search=' + payload.search + '&page=' + rootState.pagination.currentPage);
+                '&search=' + payload.search + '&page=' + rootState.pagination.currentPage +
+                '&sortByData=' + payload.sortByData);
             state.claims = result.data.claims;
             state.claims = ClaimService.addTranslatedClaimStatus(state.claims);
             dispatch('formPagination', { lastPage: result.data.count });
