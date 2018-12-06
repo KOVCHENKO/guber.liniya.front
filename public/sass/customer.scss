@@ -818,3 +818,12 @@ audio {
 .dis-status-red-background {
     background: antiquewhite;
 }
+.md-count {
+    display: none !important;
+}
+.md-field.md-theme-default.md-focused.md-has-textarea label {
+    display: none !important;
+}
+.md-field.md-theme-default.md-has-value.md-has-textarea label {
+    display: none !important;
+}
