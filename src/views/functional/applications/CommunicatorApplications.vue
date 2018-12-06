@@ -6,7 +6,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th colspan="4">
+                    <th colspan="5">
                         <input v-model="searchField" @input="throttledSearch" class="form-control input-search" placeholder="Поиск по дате, заявителю, телефону">
                     </th>
                     <th colspan="1" class="cst-col-213 cst-col-select">
@@ -33,7 +33,10 @@
                     <td v-else>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                     <td>{{claim.phone}}</td>
                     <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
+                    <td class="cst-col-213">{{ claim.translatedStatus }}</td>
                     <td class="cst-col-213">{{ claim.translatedCloseStatus }}</td>
+                    <td v-if="claim.responsible_organization == ''">Информация отсутсвует</td>
+                    <td v-else>{{ claim.responsible_organization[0].name }}</td>
                     <td>
                         <div style="cursor: pointer;" @click="show(claim)">
                             <i class="fas fa-pencil-alt"></i>
@@ -44,7 +47,7 @@
             </table>
 
             <datatable-custom-paginator
-                    v-on:setAnotherPage="getAllClaims({ statusFilter: 'executed' })"
+                    v-on:setAnotherPage="getAllClaims({ statusFilter: 'aer' })"
             ></datatable-custom-paginator>
 
         </div>
@@ -97,7 +100,9 @@
             {label: 'Заявитель', sorting: true, column: 'lastname' },
             {label: 'Телефон', sorting: true, column: 'phone' },
             {label: 'Адрес (район / адрес)', sorting: false, column: 'address' },
-            {label: 'Статусы выполнения', sorting: false, column: 'close_status' },
+            {label: 'Статус обработки', sorting: false, column: 'status'},
+            {label: 'Статусы закрытия', sorting: false, column: 'close_status' },
+            { label: 'Организация', sorting: false, column: 'responsible_organizations' },
             {label: '', sorting: false, column: '' },
         ];
 
@@ -106,13 +111,13 @@
 
         constructor() {
             super();
-            headings.title = 'Выполеннные заявки';
+            headings.title = 'Выполненные заявки';
             plusButton.visible = false;
         }
 
         public created() {
             this.getAllClaims({
-                statusFilter: 'created',
+                statusFilter: 'executed',
                 dispatchStatusFilter: 'dispatched',
             });
         }
@@ -125,6 +130,8 @@
                 new Problem(claim.problem.id, claim.problem.description, claim.problem.description),
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
+            this.claimState.responsibleOrganizations = claim.responsible_organization;
+
             statusDialog.show = true;
         }
 
@@ -135,6 +142,7 @@
          */
         get claims() {
             this.claimState.claims = ClaimService.addTranslatedCloseStatus(this.claimState.claims);
+            this.claimState.claims = ClaimService.addTranslatedClaimStatus(this.claimState.claims);
             this.claimState.claims = ClaimService.changeTimeFormat(this.claimState.claims);
 
             return this.claimState.claims;
@@ -152,7 +160,7 @@
             // Начать поиск
             if (this.searchField === '') {
                 this.getAllClaims({
-                    statusFilter: 'created',
+                    statusFilter: 'aer',
                     dispatchStatusFilter: 'dispatched',
                     closeStatusFilter: this.closeStatusFilter,
                     sortBy: this.sortBy,
@@ -163,7 +171,7 @@
 
             this.searchClaim({
                 search: this.searchField,
-                statusFilter: 'created',
+                statusFilter: 'aer',
                 dispatchStatusFilter: 'dispatched',
                 closeStatusFilter: this.closeStatusFilter,
                 sortBy: this.sortBy,

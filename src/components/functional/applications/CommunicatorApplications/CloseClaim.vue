@@ -6,6 +6,20 @@
         <div class="claim-container claim-content">
             <md-content class="md-scrollbar claim-scrollbar">{{ claimState.claim.description }}</md-content>
 
+            <md-content class="md-scrollbar claim-scrollbar">
+                <audio style="margin-top: 58px; width: 100%;" controls>
+                    <source :src="claimState.claim.link" type="audio/mpeg">
+                </audio>
+            </md-content>
+
+            <br>
+
+            <div class="md-list-item-text">
+                <span v-if="claimState.responsibleOrganizations == ''">Информация отсутсвует</span>
+                <span v-else>{{ claimState.responsibleOrganizations[0].name }}</span>
+                <span class="color-light-grey">Организация</span>
+            </div>
+
             <md-content>
                 <div class="row">
                     <div class="col-sm-4 padding-right">
@@ -26,6 +40,13 @@
                     </div>
                 </div>
             </md-content>
+
+            <div class="md-list-item-text">
+                <span v-if="claimState.claim.comments.length == 0">Комментарий отсутсвует</span>
+                <span v-else v-for="comment in claimState.claim.comments">{{ comment.text }}</span>
+                <span class="color-light-grey">Комментарий</span>
+            </div>
+
         </div>
         <div class="dialog-line"></div>
 
@@ -43,6 +64,12 @@
                     <div class="md-list-item-text">
                         <span>{{claimState.claim.email}}</span>
                         <span class="color-light-grey">E-mail</span>
+                    </div>
+                </div>
+                <div class="md-layout-item">
+                    <div class="md-list-item-text">
+                        <span>{{claimState.claim.address.district}}, {{claimState.claim.address.location}}</span>
+                        <span class="color-light-grey">Адрес</span>
                     </div>
                 </div>
             </div>

@@ -27,7 +27,7 @@
                         :disabled="callState.filter.dateFilter !== 'period'" v-on:input="changeFilter"
                         v-model="callState.filter.to"
                         format="dd.MM.yyyy"
-                        placeholder="01.01.2018"
+                        placeholder="01.01.2019"
                         :language="ru"
                 ></date-picker>
                 </th>
@@ -122,10 +122,6 @@
                     '', 'raw', call.created_at));
 
             statusDialog.show = true;
-        }
-
-        public customFormatter(date) {
-            return moment(date).format('MMMM Do YYYY');
         }
 
         public changeFilter() {

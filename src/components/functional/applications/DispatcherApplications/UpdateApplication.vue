@@ -49,6 +49,7 @@
                                 <label for="claimer_phone">{{$t('claims.claimer_phone')}}</label>
                                 <md-input :name="$t('validation.phone')" id="claimer_phone" v-model="claimState.claim.phone" :disabled="disabledBasedOnDispatchStatus"/>
                             </md-field>
+                            <span v-if="claimState.claim.phone === ''" class="md-error">Необходимо ввести телефон</span>
                         </div>
                         <div class="col-sm-6">
                             <md-field>
@@ -90,8 +91,9 @@
                             <md-field>
                                 <label>{{$t('claims.claim_description')}}</label>
                                 <md-textarea id="claim_description" name="description" style="height: 75px; min-height: auto !important;" class="textarea-resize-none"
-                                             v-model="claimState.claim.description" md-counter="300" :disabled="disabledBasedOnDispatchStatus"></md-textarea>
+                                             v-model="claimState.claim.description" :disabled="disabledBasedOnDispatchStatus"></md-textarea>
                             </md-field>
+                            <span v-if="claimState.claim.description === ''" class="md-error">Необходимо заполнить содержание</span>
 
                         </div>
                     </div>
@@ -208,6 +210,10 @@
             let resolvedRole;
             resolvedRole = RoleResolver.resolveRole(this.userState.role.name);
             this.updateClaim({ updatedDispatchStatus: resolvedRole.getDispatchStatusToUpdate() });
+
+            if (this.userState.role.name === 'supervisor') {
+                this.statusDialog.show = false;
+            }
         }
 
         get disabledBasedOnDispatchStatus() {
