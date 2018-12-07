@@ -1,12 +1,19 @@
+<style scope>
+    .dialog-close-claim .claim-content.claim-container {
+        padding: 0 24px;
+        margin-top: 2px;
+        margin-bottom: 20px;
+    }
+</style>
 <template>
-    <md-dialog :md-active.sync="statusDialog.show" class="customer-dialog" style="width: 640px !important; max-height: 100%;">
+    <md-dialog :md-active.sync="statusDialog.show" class="customer-dialog dialog-close-claim" style="width: 640px !important; max-height: 100%;">
 
         <md-dialog-title>Информация по заявке</md-dialog-title>
         <div class="dialog-line-shadow"></div>
         <div class="claim-container claim-content">
-            <md-content class="md-scrollbar claim-scrollbar">{{ claimState.claim.description }}</md-content>
+            <md-content class="md-scrollbar claim-scrollbar" style="max-height: 60px;">{{ claimState.claim.description }}</md-content>
 
-            <md-content class="md-scrollbar claim-scrollbar">
+            <md-content class="md-scrollbar claim-scrollbar" >
                 <audio style="margin-top: 58px; width: 100%;" controls>
                     <source :src="claimState.claim.link" type="audio/mpeg">
                 </audio>
@@ -41,11 +48,13 @@
                 </div>
             </md-content>
 
-            <div class="md-list-item-text">
-                <span v-if="claimState.claim.comments.length == 0">Комментарий отсутсвует</span>
-                <span v-else v-for="comment in claimState.claim.comments">{{ comment.text }}</span>
-                <span class="color-light-grey">Комментарий</span>
-            </div>
+            <md-content class="md-scrollbar claim-scrollbar" style="max-height: 60px;">
+                <div class="md-list-item-text">
+                    <span v-if="claimState.claim.comments.length == 0">Комментарий отсутсвует</span>
+                    <span v-else v-for="comment in claimState.claim.comments">{{ comment.text }}</span>
+                    <span class="color-light-grey">Комментарий</span>
+                </div>
+            </md-content>
 
         </div>
         <div class="dialog-line"></div>

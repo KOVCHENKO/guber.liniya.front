@@ -70,9 +70,9 @@
 
                                         <!--Создана и переназначена другой организации-->
                                         <span v-if="claim.status === 'created' && claim.pivot.organization_id !== userState.user.organization.id">
-                                            <md-field>
-                                                <label>Заявка назначена другой организации</label>
-                                            </md-field>
+                                            <p>Заявка назначена другой организации: 
+                                                <br>
+                                                {{claim.responsible_organization[0].name}}</p>
                                         </span>
 
                                         <!--Назначена / Взята в работу-->
