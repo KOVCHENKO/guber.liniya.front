@@ -69,14 +69,14 @@
                                         </span>
 
                                         <!--Создана и переназначена другой организации-->
-                                        <span v-if="claim.status === 'created' && claim.pivot.organization_id !== userState.user.organization.id">
+                                        <span v-if="claim.pivot.organization_id !== userState.user.organization.id">
                                             <p>Заявка назначена другой организации: 
                                                 <br>
                                                 {{claim.responsible_organization[0].name}}</p>
                                         </span>
 
                                         <!--Назначена / Взята в работу-->
-                                        <span v-if="claim.status === 'assigned'">
+                                        <span v-if="claim.status === 'assigned' && claim.pivot.organization_id === userState.user.organization.id">
                                             <md-field>
                                                 <label>Изменить статус</label>
                                                 <md-select name="status" id="claimer_status" v-model="statusData">
@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="statusData === 'rejected' || claim.status === 'assigned'">
+                            <div v-if="(statusData === 'rejected' || claim.status === 'assigned') && claim.pivot.organization_id === userState.user.organization.id">
                                 <file-upload :claim="claim"></file-upload>
                                 <md-field style="margin-bottom: 0px">
                                     <label>Комментарий</label>
@@ -143,6 +143,8 @@
     export default class UpdateStatusClaims extends Vue {
 
         @Prop() public claim: any;
+
+        @Prop() public sortByData: any;
 
         @Action public submitConfirmationFile;
 
@@ -196,7 +198,7 @@
                     this.getAllClaimsOfOrganization({
                         organization_id: this.userState.user.organization.id,
                         dispatchStatusFilter: 'all',
-                        search: '',
+                        search: '', sortByData: this.sortByData,
                     });
                     statusDialog.show = false;
 
@@ -219,7 +221,7 @@
                     this.getAllClaimsOfOrganization({
                         organization_id: this.userState.user.organization.id,
                         dispatchStatusFilter: 'all',
-                        search: '',
+                        search: '', sortByData: this.sortByData,
                     });
                     statusDialog.show = false;
                 });
@@ -232,7 +234,7 @@
                     this.getAllClaimsOfOrganization({
                         organization_id: this.userState.user.organization.id,
                         dispatchStatusFilter: 'all',
-                        search: '',
+                        search: '', sortByData: this.sortByData,
                     });
                     statusDialog.show = false;
                 });
@@ -244,7 +246,7 @@
                     this.getAllClaimsOfOrganization({
                         organization_id: this.userState.user.organization.id,
                         dispatchStatusFilter: 'all',
-                        search: '',
+                        search: '', sortByData: this.sortByData,
                     });
                     statusDialog.show = false;
 
