@@ -76,6 +76,7 @@
     import ClaimService from '../../../domain/services/functional/claims/ClaimService';
     import DatatableCustomPaginator from '../../../components/util/DatatableCustomPaginator.vue';
     import IPaginationState from '../../../store/util/pagination/types';
+    import CommentState from '../../../store/functional/comment/types';
 
     @Component({
         components: {
@@ -99,6 +100,7 @@
         public userState!: UserState;
 
         @State('pagination') public paginationState!: IPaginationState;
+        @State('comment') public commentState!: CommentState;
 
         @Action('getAllClaimsOfOrganization')
         public getAllClaimsOfOrganization;
@@ -159,6 +161,7 @@
         }
 
         public show(row) {
+            this.commentState.comment.text = '';
             this.claim = row;
             statusDialog.show = true;
         }

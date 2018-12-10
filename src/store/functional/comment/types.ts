@@ -1,3 +1,7 @@
 export default interface CommentState {
-    comment: {} | any;
+    comment: {
+        text: string,
+        claim_id: number,
+        status: string,
+    };
 }

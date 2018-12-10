@@ -3,7 +3,11 @@ import { baseUrl } from '@/globals';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 export const state = {
-    comment: {},
+    comment: {
+        text: '',
+        claim_id: 0,
+        status: '',
+    },
 };
 export const actions = {
     async createComment() {

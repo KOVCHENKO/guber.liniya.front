@@ -70,7 +70,7 @@
 
                                         <!--Создана и переназначена другой организации-->
                                         <span v-if="claim.status === 'created' && claim.pivot.organization_id !== userState.user.organization.id">
-                                            <p>Заявка назначена другой организации: 
+                                            <p>Заявка назначена другой организации:
                                                 <br>
                                                 {{claim.responsible_organization[0].name}}</p>
                                         </span>
@@ -112,7 +112,7 @@
                                 <file-upload :claim="claim"></file-upload>
                                 <md-field style="margin-bottom: 0px">
                                     <label>Комментарий</label>
-                                    <md-textarea v-model="comment" class="textarea-resize-none"></md-textarea>
+                                    <md-textarea v-model="commentState.comment.text" class="textarea-resize-none"></md-textarea>
                                 </md-field>
                             </div>
                         </md-content>
@@ -149,8 +149,6 @@
         @Provide() public statusDialog = statusDialog;
 
         @Provide() public statusData: string = '';
-
-        @Provide() public comment: string = '';
 
         @State('user') public userState!: UserState;
 
@@ -200,11 +198,9 @@
                     });
                     statusDialog.show = false;
 
-                    this.commentState.comment = {
-                        text: this.comment,
-                        claim_id: this.claim.id,
-                        status: 'executed',
-                    };
+                    this.commentState.comment.claim_id = this.claim.id;
+                    this.commentState.comment.status = this.statusData;
+
                     this.createComment();
                 });
                 return;
@@ -248,11 +244,9 @@
                     });
                     statusDialog.show = false;
 
-                    this.commentState.comment = {
-                        text: this.comment,
-                        claim_id: this.claim.id,
-                        status: this.statusData,
-                    };
+                    this.commentState.comment.claim_id = this.claim.id;
+                    this.commentState.comment.status = this.statusData;
+
                     this.createComment();
                 });
                 return;
