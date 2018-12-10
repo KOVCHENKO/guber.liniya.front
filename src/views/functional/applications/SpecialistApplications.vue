@@ -59,7 +59,7 @@
 
         </div>
 
-        <update-status-claims :claim="claim"></update-status-claims>
+        <update-status-claims :claim="claim" :sortByData="sortByData"></update-status-claims>
 
     </div>
 </template>
