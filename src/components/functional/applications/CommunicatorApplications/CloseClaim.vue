@@ -1,10 +1,3 @@
-<style scope>
-    .dialog-close-claim .claim-content.claim-container {
-        padding: 0 24px;
-        margin-top: 2px;
-        margin-bottom: 20px;
-    }
-</style>
 <template>
     <md-dialog :md-active.sync="statusDialog.show" class="customer-dialog dialog-close-claim" style="width: 640px !important; max-height: 100%;">
 
@@ -135,3 +128,11 @@
 
     }
 </script>
+
+<style scope>
+    .dialog-close-claim .claim-content.claim-container {
+        padding: 0 24px;
+        margin-top: 2px;
+        margin-bottom: 20px;
+    }
+</style>

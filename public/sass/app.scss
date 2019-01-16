@@ -83,6 +83,34 @@ ol {
   }
 }
 
+.dropdown-menu.menu-scrollbar {
+  position: absolute;
+  display: block;
+}
+
+.dropdown-menu {
+  @include border-radius(0);
+  width: 100%;
+
+  &.menu-scrollbar {
+    position: absolute;
+    display: block;
+  }
+
+  a {
+    padding: 5px 10px;
+    text-decoration: none;
+    cursor: pointer;
+    color: $black;
+    display: block;
+
+    &:hover {
+      text-decoration: none;
+      background: $gray;
+    }
+  }
+}
+
 @import "fonts.scss";
 @import "icons.scss";
 // @import "manager.scss";

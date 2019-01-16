@@ -77,22 +77,25 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <md-field>
-                                    <label>Район</label>
-                                    <md-select name="сity" id="claimer_сity" v-model="claimState.claim.address.district">
-                                        <md-option v-for="(district, index) in districts" :key="index" :value="district">{{ district }}</md-option>
-                                    </md-select>
-                                </md-field>
-                            </div>
-                            <div class="col-sm-8">
-                                <md-field>
-                                    <label for="claim_address">{{$t('claims.claimer_address')}}</label>
-                                    <md-input :name="$t('validation.address')" id="claim_address" v-model="claimState.claim.address.location"/>
-                                </md-field>
-                            </div>
-                        </div>
+                        <!--<fias-address v-model="claimState.claim.address.location" :validation="validation"></fias-address>-->
+
+                        <fias-address v-model="claimState.claim.address.location" :validation="validation"></fias-address>
+                        <!--<div class="row">-->
+                            <!--<div class="col-sm-4">-->
+                                <!--<md-field>-->
+                                    <!--<label>Район</label>-->
+                                    <!--<md-select name="сity" id="claimer_сity" v-model="claimState.claim.address.district">-->
+                                        <!--<md-option v-for="(district, index) in districts" :key="index" :value="district">{{ district }}</md-option>-->
+                                    <!--</md-select>-->
+                                <!--</md-field>-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-8">-->
+                                <!--<md-field>-->
+                                    <!--<label for="claim_address">{{$t('claims.claimer_address')}}</label>-->
+                                    <!--<md-input :name="$t('validation.address')" id="claim_address" v-model="claimState.claim.address.location"/>-->
+                                <!--</md-field>-->
+                            <!--</div>-->
+                        <!--</div>-->
 
                         <div class="row">
                             <div class="col-sm-6">
@@ -169,9 +172,10 @@
     import Claim from '../../../../domain/entities/functional/Claim';
     import Problem from '../../../../domain/entities/functional/Problem';
     import Call from '../../../../domain/entities/functional/Call';
+    import FiasAddress from '@/components/functional/addresses/AddressPartial.vue';
 
     @Component({
-        components: {ProblemsPartial, Reclaimed, OkCancelModal},
+        components: {ProblemsPartial, Reclaimed, OkCancelModal, FiasAddress},
     })
     export default class CreateApplication extends Vue implements IWithRoute {
         @Action public createClaim;
@@ -189,6 +193,9 @@
         @Provide() public districts: string[] = districts;
         @Provide() public showSingleClaimModal: boolean = false;
         @Provide() public active: string = 'zero';
+
+        // Validation для адресов фиас
+        @Provide() public validation: string = '';
 
         @Provide() public steps: ISteps = {
             zero: true,
