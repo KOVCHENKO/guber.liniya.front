@@ -4,11 +4,9 @@
         <!-- Город -->
         <div class="row">
             <div class="col-sm-5 clearfix">
-                <md-field>
-                    <label for="claim_city">Город</label>
-                    <md-input :name="$t('validation.address')" id="claim_city" v-model="search.city"
+                <label for="claim_city">Город</label>
+                <input :name="$t('validation.address')" id="claim_city" v-model="search.city"
                               @keydown="changeCity" @click="showCitiesList" autocomplete="off"/>
-                </md-field>
 
                 <vue-scrollbar class="menu-scrollbar dropdown-menu dropdown-menu-right" ref="scrollbar"
                                v-show="visibility.cityList">
@@ -23,11 +21,9 @@
 
             <!-- Улица -->
             <div class="col-sm-5 clearfix">
-                <md-field>
-                    <label for="claim_city">Улица</label>
-                    <md-input :name="$t('validation.address')" id="claim_street" v-model="search.street"
+                <label for="claim_city">Улица</label>
+                <input :name="$t('validation.address')" id="claim_street" v-model="search.street" ref="street"
                               @keydown="changeStreet" @click="showStreetsList" autocomplete="off"/>
-                </md-field>
 
                 <vue-scrollbar class="menu-scrollbar dropdown-menu dropdown-menu-right" ref="scrollbar"
                                v-show="visibility.streetList">
@@ -41,11 +37,9 @@
 
             <!-- Дом -->
             <div class="col-sm-2 clearfix">
-                <md-field>
-                    <label for="claim_house">Дом</label>
-                    <md-input :name="$t('validation.address')" id="claim_house" v-model="search.building"
+                <label for="claim_house">Дом</label>
+                <input :name="$t('validation.address')" id="claim_house" v-model="search.building"
                               @keydown="changeBuilding" autocomplete="off"/>
-                </md-field>
 
                 <vue-scrollbar class="menu-scrollbar dropdown-menu dropdown-menu-right" ref="scrollbar"
                                v-show="visibility.buildingList">
@@ -155,8 +149,6 @@ export default {
 
         /* Получить список городов */
         getCitiesList() {
-            let self = this;
-
             axios.get(fiasUrl + 'choose_cities').then(response => {
                 this.cities = response.data;
             });
@@ -167,7 +159,6 @@ export default {
             this.visibility.cityList = true;
             this.visibility.streetList = false;
             this.visibility.buildingList = false;
-            this.$refs.city.focus();
         },
 
         /* Событие: начали ввод символов в поле для выбора города */
@@ -181,6 +172,7 @@ export default {
         setCity(city) {
             this.search.city = city.SHORTNAME + '. ' + city.FORMALNAME;
             this.visibility.cityList = false;
+            this.current.city = city;
 
             this.getStreetsList();
         },
@@ -209,8 +201,8 @@ export default {
 
         /* Выбрали новую улицу */
         setStreet(street) {
+            this.search.street = street.FORMALNAME;
             this.current.street = street;
-            this.value.shortcadnum = street.SHORTCADNUM;
             this.getBuildingsList();
         },
 
@@ -238,12 +230,14 @@ export default {
         /* Выбрали новый дом */
         setBuilding(building) {
             this.current.building = building;
+            this.search.building = building.FORMALNAME;
+            this.visibility.buildingList = false;
+
         },
 
     },
 
     created() {
-        console.log('fias module has been mounted');
         let a = this.value;
         this.getCitiesList();
     }
