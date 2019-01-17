@@ -1,6 +1,6 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-import {baseUrlForTest} from "../../globals";
+import {baseUrlForTest} from "../../../globals";
 
 describe('calls test', () => {
     beforeEach(() => {
@@ -20,6 +20,10 @@ describe('calls test', () => {
     it('show calls per week', () => {
         cy.visit(`${baseUrlForTest}calls`)
         cy.get('#inputGroupSelect01').select('week')
+    })
+
+    it('Does not do much!', function() {
+        expect(true).to.equal(true)
     })
 
 })
