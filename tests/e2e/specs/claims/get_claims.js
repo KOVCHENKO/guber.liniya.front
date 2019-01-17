@@ -1,4 +1,4 @@
-import {baseUrlForTest} from '../../globals';
+import {baseUrlForTest} from '../../../globals';
 
 
 describe('claims test', () => {

@@ -2,7 +2,7 @@
 
     <div class="content">
 
-        <div class="line-button left-top" @click="open"><img src="/img/menu.png" /></div>
+        <div id="menu-button" class="line-button left-top" @click="open"><img src="/img/menu.png" /></div>
         <notifications></notifications>
 
         <div class="wrapper">
