@@ -9,6 +9,7 @@ import SpecialistApplications from './views/functional/applications/SpecialistAp
 import AllOrganizations from './views/functional/organizations/AllOrganizations.vue';
 import SpecialistOrganizations from './views/functional/organizations/SpecialistOrganizations.vue';
 import AllProblemTypes from './views/functional/problems/AllProblemTypes.vue';
+import AllRoles from './views/functional/roles/AllRoles/AllRoles.vue';
 import SingleProblemType from './views/functional/problems/SingleProblemType.vue';
 import SingleOrganizationProblems from './views/functional/organizations/SingleOrganizationProblems.vue';
 import SingleOrganizationUsers from './views/functional/organizations/SingleOrganizationUsers.vue';
@@ -71,6 +72,11 @@ const router = new Router({
                 path: '/all_problems', name: 'all_problems',
                 component: AllProblemTypes,
                 meta: { requiresAuth: true, requiresRole: ADMIN },
+            },
+            {
+                path: '/all_roles', name: 'all_roles',
+                component: AllRoles,
+                // meta: { requiresAuth: true, requiresRole: ADMIN },
             },
             {
                 path: '/single_problem/:id', name: 'single_problem',
