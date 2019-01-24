@@ -13,7 +13,8 @@
       "src/components/util/VueJsDatatable/src/vue-datatable-header.vue",
       "src/components/util/VueJsDatatable/src/vue-datatable-cell.vue",
       "src/components/util/upload/FileUpload.vue",
-      "src/views/common/Search.vue"
+      "src/views/common/Search.vue",
+      "src/components/functional/addresses/AddressPartial.vue"
     ]
   },
   "rules": {

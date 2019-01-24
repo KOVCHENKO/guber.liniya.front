@@ -57,60 +57,37 @@
                             <md-content class="claim-text">Данные заявителя</md-content>
                         </div>
                         <div class="row">
+
                             <div class="col-sm-4">
-                                <md-field>
-                                    <label for="claimer_lastname">{{$t('claims.claimer_lastname')}}</label>
-                                    <md-input :name="$t('validation.lastname')" id="claimer_lastname" v-model="claimState.claim.lastName"/>
-                                </md-field>
+                                <label for="claimer_lastname">{{$t('claims.claimer_lastname')}}</label>
+                                <input :name="$t('validation.lastname')" id="claimer_lastname" v-model="claimState.claim.lastName"/>
                             </div>
+
                             <div class="col-sm-4">
-                                <md-field>
-                                    <label for="claimer_info">{{$t('claims.claimer_firstname')}}</label>
-                                    <md-input :name="$t('validation.firstname')" id="claimer_info" v-model="claimState.claim.firstName"/>
-                                </md-field>
+                                <label for="claimer_firstname">{{$t('claims.claimer_firstname')}}</label>
+                                <input :name="$t('validation.firstname')" id="claimer_firstname" v-model="claimState.claim.firstName"/>
                             </div>
+
                             <div class="col-sm-4">
-                                <md-field>
-                                    <label for="claimer_middlename">{{$t('claims.claimer_middlename')}}</label>
-                                    <md-input :name="$t('validation.middlename')" id="claimer_middlename" v-model="claimState.claim.middleName"/>
-                                </md-field>
+                                <label for="claimer_middlename">{{$t('claims.claimer_middlename')}}</label>
+                                <input :name="$t('validation.middlename')" id="claimer_middlename" v-model="claimState.claim.middleName"/>
                             </div>
+
                         </div>
 
-                        <!--<fias-address v-model="claimState.claim.address.location" :validation="validation"></fias-address>-->
-
                         <fias-address v-model="claimState.claim.address.location" :validation="validation"></fias-address>
-                        <!--<div class="row">-->
-                            <!--<div class="col-sm-4">-->
-                                <!--<md-field>-->
-                                    <!--<label>Район</label>-->
-                                    <!--<md-select name="сity" id="claimer_сity" v-model="claimState.claim.address.district">-->
-                                        <!--<md-option v-for="(district, index) in districts" :key="index" :value="district">{{ district }}</md-option>-->
-                                    <!--</md-select>-->
-                                <!--</md-field>-->
-                            <!--</div>-->
-                            <!--<div class="col-sm-8">-->
-                                <!--<md-field>-->
-                                    <!--<label for="claim_address">{{$t('claims.claimer_address')}}</label>-->
-                                    <!--<md-input :name="$t('validation.address')" id="claim_address" v-model="claimState.claim.address.location"/>-->
-                                <!--</md-field>-->
-                            <!--</div>-->
-                        <!--</div>-->
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <md-field>
-                                    <label for="claimer_phone">{{$t('claims.claimer_phone')}}</label>
-                                    <md-input :name="$t('validation.phone')" id="claimer_phone" v-model="claimState.claim.phone"/>
-                                </md-field>
-                                <span v-if="claimState.claim.phone === ''" class="md-error">Необходимо ввести телефон</span>
+                                <label for="claimer_phone">{{$t('claims.claimer_phone')}}</label>
+                                <input :name="$t('validation.phone')" id="claimer_phone" v-model="claimState.claim.phone"/>
 
+                                <span v-if="claimState.claim.phone === ''" class="md-error">Необходимо ввести телефон</span>
                             </div>
+
                             <div class="col-sm-6">
-                                <md-field>
-                                    <label for="claimer_email">{{$t('claims.claimer_email')}}</label>
-                                    <md-input :name="$t('validation.email')" id="claimer_email" v-model="claimState.claim.email"/>
-                                </md-field>
+                                <label for="claimer_email">{{$t('claims.claimer_email')}}</label>
+                                <input :name="$t('validation.email')" id="claimer_email" v-model="claimState.claim.email"/>
                             </div>
                         </div>
 
@@ -128,11 +105,8 @@
                         <div class="row">
                             <div class="col-sm-12 clearfix">
 
-                                <md-field>
-                                    <label>{{$t('claims.claim_description')}}</label>
-                                    <md-textarea id="claim_description" name="description" class="textarea-resize-none"
-                                        v-model="claimState.claim.description" style="min-height: 50px;"></md-textarea>
-                                </md-field>
+                                <label for="claim_description">{{$t('claims.claim_description')}}</label>
+                                <textarea :name="$t('validation.description')" id="claim_description" v-model="claimState.claim.description"></textarea>
                                 <span v-if="claimState.claim.description === ''" class="md-error">Необходимо заполнить содержание</span>
 
                             </div>

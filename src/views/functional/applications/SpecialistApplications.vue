@@ -69,7 +69,7 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import OrganizationState from '../../../store/functional/organization/types';
-    import {headings, statusDialog, plusButton} from '../../../domain/util/interface/CommonInterface';
+    import {headings, statusDialog, plusButton} from '@/domain/util/interface/CommonInterface';
     import UserState from '../../../store/common/user/types';
     import UpdateStatusClaims from '@/components/functional/claims/UpdateStatusClaims.vue';
     import throttle from '../../../store/util/operations/throttle';
@@ -155,7 +155,7 @@
             this.getAllClaimsOfOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter,
-                search : this.searchField, sortByData: this.sortByData, });
+                search : this.searchField, sortByData: this.sortByData });
 
             this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });
         }
@@ -171,11 +171,11 @@
         }
 
         public sortByDataFunc() {
-            this.sortByData = (this.sortByData == 'desc') ? 'asc': 'desc';
+            this.sortByData = (this.sortByData === 'desc') ? 'asc' : 'desc';
             this.getAllClaimsOfOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter,
-                search : this.searchField, sortByData: this.sortByData, });
+                search : this.searchField, sortByData: this.sortByData });
         }
 
     }
