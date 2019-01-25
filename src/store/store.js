@@ -10,6 +10,7 @@ import { claim } from '@/store/functional/claim/claim';
 import { call } from '@/store/functional/call/call';
 import { pagination } from '@/store/util/pagination/pagination';
 import { comment } from '@/store/functional/comment/comment';
+import { applicant } from '@/store/functional/applicant/applicant';
 Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
@@ -29,6 +30,7 @@ export default new Vuex.Store({
         call,
         pagination,
         comment,
+        applicant,
     },
     plugins: [createPersistedState({
             paths: ['cabinet', 'user'],
