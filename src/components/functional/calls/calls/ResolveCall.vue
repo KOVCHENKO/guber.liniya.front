@@ -15,15 +15,19 @@
                                 <md-content class="claim-text">Тип звонка</md-content>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="claimed" value="claimed" @click="chooseCallType('claimed')" v-model="callType" class="custom-control-input">
+                                <input type="radio" id="claimed" value="claimed" @click="chooseCallType('claimed')"
+                                       v-model="callType" class="custom-control-input">
                                 <label class="custom-control-label" for="claimed">Заявка</label>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="reclaimed" value="reclaimed" @click="chooseCallType('reclaimed')" v-model="callType" class="custom-control-input">
+                                <input type="radio" id="reclaimed" value="reclaimed"
+                                       @click="chooseCallType('reclaimed')" v-model="callType"
+                                       class="custom-control-input">
                                 <label class="custom-control-label" for="reclaimed">Повторная заявка</label>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="failed" value="failed" @click="chooseCallType('failed')" v-model="callType" class="custom-control-input">
+                                <input type="radio" id="failed" value="failed" @click="chooseCallType('failed')"
+                                       v-model="callType" class="custom-control-input">
                                 <label class="custom-control-label" for="failed">Ошибка</label>
                             </div>
                         </div>
@@ -32,7 +36,8 @@
                                 <md-content class="claim-text">Уровень проблемы</md-content>
                             </div>
                             <div class="form-check">
-                                <input v-model="claimLevel" type="checkbox" class="form-check-input" style="margin-top: 10px">
+                                <input v-model="claimLevel" type="checkbox" class="form-check-input"
+                                       style="margin-top: 10px">
                                 <label class="form-check-label">Общезначимая</label>
                             </div>
 
@@ -53,42 +58,11 @@
                 <md-step id="first" md-label="Заявитель" md-description="личные данные" :md-done.sync="steps.first">
                     <!-- Информация о пользователе-->
                     <div class="form-padding">
+                        <applicants-list></applicants-list>
+
                         <div class="claim-content row">
-                            <md-content class="claim-text">Данные заявителя</md-content>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-sm-4">
-                                <label for="claimer_lastname">{{$t('claims.claimer_lastname')}}</label>
-                                <input :name="$t('validation.lastname')" id="claimer_lastname" v-model="claimState.claim.lastName"/>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <label for="claimer_firstname">{{$t('claims.claimer_firstname')}}</label>
-                                <input :name="$t('validation.firstname')" id="claimer_firstname" v-model="claimState.claim.firstName"/>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <label for="claimer_middlename">{{$t('claims.claimer_middlename')}}</label>
-                                <input :name="$t('validation.middlename')" id="claimer_middlename" v-model="claimState.claim.middleName"/>
-                            </div>
-
-                        </div>
-
-                        <fias-address v-model="claimState.claim.address.location" :validation="validation"></fias-address>
-
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label for="claimer_phone">{{$t('claims.claimer_phone')}}</label>
-                                <input :name="$t('validation.phone')" id="claimer_phone" v-model="claimState.claim.phone"/>
-
-                                <span v-if="claimState.claim.phone === ''" class="md-error">Необходимо ввести телефон</span>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="claimer_email">{{$t('claims.claimer_email')}}</label>
-                                <input :name="$t('validation.email')" id="claimer_email" v-model="claimState.claim.email"/>
-                            </div>
+                            <label class="claim-text">Данные заявителя</label>
+                            <md-button class="md-primary" @click="newApplicant">Добавить</md-button>
                         </div>
 
                     </div>
@@ -97,7 +71,8 @@
                     </md-dialog-actions>
                 </md-step>
                 <!-- Шаг второй-->
-                <md-step id="second" md-label="Заявка" md-description="подробная информация" :md-done.sync="steps.second">
+                <md-step id="second" md-label="Заявка" md-description="подробная информация"
+                         :md-done.sync="steps.second">
                     <!-- Информация о заявке-->
                     <div class="form-padding">
                         <problems-partial></problems-partial>
@@ -106,7 +81,8 @@
                             <div class="col-sm-12 clearfix">
 
                                 <label for="claim_description">{{$t('claims.claim_description')}}</label>
-                                <textarea :name="$t('validation.description')" id="claim_description" v-model="claimState.claim.description"></textarea>
+                                <textarea :name="$t('validation.description')" id="claim_description"
+                                          v-model="claimState.claim.description"></textarea>
                                 <span v-if="claimState.claim.description === ''" class="md-error">Необходимо заполнить содержание</span>
 
                             </div>
@@ -116,7 +92,8 @@
                     <md-dialog-actions>
                         <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
                         <md-button class="md-primary" @click="dispatchClaimCreate">{{ $t("common.create") }}</md-button>
-                        <md-button class="md-primary" @click="dispatchClaimCreateMore">{{ $t("common.create_more") }}</md-button>
+                        <md-button class="md-primary" @click="dispatchClaimCreateMore">{{ $t("common.create_more") }}
+                        </md-button>
                     </md-dialog-actions>
 
                 </md-step>
@@ -124,7 +101,13 @@
 
         </md-dialog>
 
+        <!--Модальное окно - добавить заявителя-->
+        <add-applicant></add-applicant>
+
+        <!--Модальное окно - повторная заявка-->
         <reclaimed></reclaimed>
+
+        <!--Модальное окно - да-нет, подтверждение-->
         <ok-cancel-modal></ok-cancel-modal>
 
     </div>
@@ -133,23 +116,24 @@
 <script lang="ts">
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
-    import ClaimState from '../../../../store/functional/claim/types';
+    import ClaimState from '@/store/functional/claim/types';
     import ProblemsPartial from '@/components/functional/calls/calls/ProblemsPartial.vue';
-    import {default as Address, districts} from '../../../../domain/entities/functional/Address';
-    import {OkCancelModalProperties, plusButton, statusDialog} from '../../../../domain/util/interface/CommonInterface';
-    import IWithRoute from '../../../../domain/util/interface/IWithRoute';
-    import UserState from '../../../../store/common/user/types';
-    import ISteps from '../../../../domain/util/interface/ISteps';
+    import {default as Address, districts} from '@/domain/entities/functional/Address';
+    import {OkCancelModalProperties, plusButton, statusDialog} from '@/domain/util/interface/CommonInterface';
+    import IWithRoute from '@/domain/util/interface/IWithRoute';
+    import UserState from '@/store/common/user/types';
+    import ISteps from '@/domain/util/interface/ISteps';
     import Reclaimed from '@/components/functional/calls/calls/Reclaimed.vue';
     import OkCancelModal from '@/components/util/ui/OkCancelModal.vue';
-    import CallState from '../../../../store/functional/call/types';
-    import Claim from '../../../../domain/entities/functional/Claim';
-    import Problem from '../../../../domain/entities/functional/Problem';
-    import Call from '../../../../domain/entities/functional/Call';
-    import FiasAddress from '@/components/functional/addresses/AddressPartial.vue';
+    import CallState from '@/store/functional/call/types';
+    import Claim from '@/domain/entities/functional/Claim';
+    import Problem from '@/domain/entities/functional/Problem';
+    import Call from '@/domain/entities/functional/Call';
+    import ApplicantsList from '@/components/functional/calls/calls/partials/ApplicantsList.vue';
+    import AddApplicant from '@/components/functional/calls/calls/partials/AddApplicant.vue';
 
     @Component({
-        components: {ProblemsPartial, Reclaimed, OkCancelModal, FiasAddress},
+        components: {ProblemsPartial, Reclaimed, OkCancelModal, ApplicantsList, AddApplicant},
     })
     export default class CreateApplication extends Vue implements IWithRoute {
         @Action public createClaim;
@@ -167,9 +151,6 @@
         @Provide() public districts: string[] = districts;
         @Provide() public showSingleClaimModal: boolean = false;
         @Provide() public active: string = 'zero';
-
-        // Validation для адресов фиас
-        @Provide() public validation: string = '';
 
         @Provide() public steps: ISteps = {
             zero: true,
@@ -217,7 +198,7 @@
             // Повторные заявки
             if (processingStatus === 'reclaimed') {
                 this.getClaimsOfTheSamePhone();
-                this.getAllClaims({ dispatchStatus: 'dispatched' });
+                this.getAllClaims({dispatchStatus: 'dispatched'});
                 $('#reclaimedModal').modal('show');
             }
 
@@ -263,6 +244,13 @@
 
             // Создать заявку без закрытия
             this.createClaim();
+        }
+
+        /**
+         * Открыть окно с возностью добавить нового заявителя
+         */
+        public newApplicant() {
+            $('#createApplicantModal').modal('show');
         }
 
         get claimLevelStringified() {

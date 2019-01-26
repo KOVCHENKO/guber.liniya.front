@@ -16,7 +16,9 @@ export const state: ApplicantState = {
         address: {
             id: 0,
             district: '',
-            location: '',
+            city: '',
+            street: '',
+            building: '',
         },
     },
 
@@ -27,6 +29,15 @@ export const actions: ActionTree<ApplicantState, RootState> = {
     async getApplicants() {
         try {
             const res = await axios.get(`${baseUrl}applicants/all`);
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
+    async createApplicant() {
+        try {
+            const res = await axios.post(`${baseUrl}applicants/create`, state.applicant);
+            state.applicants.push(res.data);
         } catch {
             ErrorNotifier.notify();
         }

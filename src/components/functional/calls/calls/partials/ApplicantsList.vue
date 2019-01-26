@@ -32,14 +32,14 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import IApplicant from '@/domain/entities/functional/interfaces/IApplicant';
     import {Action, State} from 'vuex-class';
-    import ApplicantState from "@/store/functional/applicant/types";
+    import ApplicantState from '@/store/functional/applicant/types';
 
     @Component
     export default class ApplicantsList extends Vue {
 
         @Action public getApplicants;
 
-        @State('call') public callState!: ApplicantState;
+        @State('applicant') public applicantState!: ApplicantState;
 
         @Provide()
         public tableColumns = [
@@ -54,6 +54,8 @@
         }
 
         public choose(applicant: IApplicant) {
+
+
             // Выбрать заявителя
         }
 
