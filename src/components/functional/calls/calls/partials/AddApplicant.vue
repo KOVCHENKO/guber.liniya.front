@@ -59,9 +59,7 @@
                                   :validation="validation"></fias-address>
 
                     <div class="row">
-                        <md-dialog-actions>
-                            <md-button class="md-primary" @click="addApplicant">Добавить</md-button>
-                        </md-dialog-actions>
+                        <button type="button" class="btn btn-primary"  @click="addApplicant">Добавить</button>
                     </div>
                 </div>
             </div>

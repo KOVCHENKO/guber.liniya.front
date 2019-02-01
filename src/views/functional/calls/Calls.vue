@@ -121,7 +121,7 @@
                 new Call(call.id, call.call_id, call.phone, call.link, call.ats_status, 'in',
                     '', 'raw', call.created_at));
 
-            statusDialog.show = true;
+            $('#resolveCall').modal('show');
         }
 
         public changeFilter() {

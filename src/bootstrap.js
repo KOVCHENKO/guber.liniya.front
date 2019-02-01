@@ -36,5 +36,8 @@ Vue.use(VueMaterial);
 import VueRx from 'vue-rx';
 Vue.use(VueRx);
 
+import VueGoodWizard from 'vue-good-wizard';
+Vue.use(VueGoodWizard);
+
 // import VueScrollbar from 'vue2-scrollbar';
 // Vue.component('vue-scrollbar', VueScrollbar);

@@ -1,105 +1,96 @@
 <template>
     <div>
-        <!-- Диалоговое окно-->
-        <md-dialog :md-active.sync="statusDialog.show" class="customer-dialog">
-            <md-dialog-title>Создание заявки</md-dialog-title>
-            <!-- <hr class="transparent-line"> -->
-            <!-- Степпер-->
-            <md-steppers :md-active-step.sync="active" md-linear>
-                <md-step id="zero" md-label="Данные звонка" md-description="тип звонка" :md-done.sync="steps.zero">
-                    <!-- Информация о пользователе-->
-                    <hr class="transparent-line">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="claim-content">
-                                <md-content class="claim-text">Тип звонка</md-content>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="claimed" value="claimed" @click="chooseCallType('claimed')"
-                                       v-model="callType" class="custom-control-input">
-                                <label class="custom-control-label" for="claimed">Заявка</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="reclaimed" value="reclaimed"
-                                       @click="chooseCallType('reclaimed')" v-model="callType"
-                                       class="custom-control-input">
-                                <label class="custom-control-label" for="reclaimed">Повторная заявка</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="failed" value="failed" @click="chooseCallType('failed')"
-                                       v-model="callType" class="custom-control-input">
-                                <label class="custom-control-label" for="failed">Ошибка</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="claim-content">
-                                <md-content class="claim-text">Уровень проблемы</md-content>
-                            </div>
-                            <div class="form-check">
-                                <input v-model="claimLevel" type="checkbox" class="form-check-input"
-                                       style="margin-top: 10px">
-                                <label class="form-check-label">Общезначимая</label>
-                            </div>
-
-                            <div>
-                                <audio style="margin-top: 5px; width: 100%;" controls>
-                                    <source :src="claimState.claim.link" type="audio/mpeg">
-                                </audio>
-                            </div>
-                        </div>
+        <div class="modal fade" id="resolveCall" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Создание заявки</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <div class="modal-body">
+                        <vue-good-wizard
+                            ref="vueGoodWizard"
+                            :previousStepLabel="'Назад'"
+                            :nextStepLabel="'Вперед'"
+                            :steps="steps"
+                            :onNext="nextClicked" 
+                            :onBack="backClicked">
+                            <div slot="page1">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <h5>Тип звонка</h5>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="claimed" value="claimed" @click="chooseCallType('claimed')"
+                                                v-model="callType" class="custom-control-input">
+                                            <label class="custom-control-label" for="claimed">Заявка</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="reclaimed" value="reclaimed"
+                                                @click="chooseCallType('reclaimed')" v-model="callType"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="reclaimed">Повторная заявка</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="failed" value="failed" @click="chooseCallType('failed')"
+                                                v-model="callType" class="custom-control-input">
+                                            <label class="custom-control-label" for="failed">Ошибка</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <h5>Уровень проблемы</h5>
 
-                    <md-dialog-actions>
-                        <md-button class="md-primary" @click="setDone('zero', 'first')">Продолжить</md-button>
-                    </md-dialog-actions>
-                </md-step>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="generalChekbox" v-model="claimLevel">
+                                            <label class="custom-control-label" for="generalChekbox">Общезначимая</label>
+                                        </div>
 
-                <!-- Шаг первый-->
-                <md-step id="first" md-label="Заявитель" md-description="личные данные" :md-done.sync="steps.first">
-                    <!-- Информация о пользователе-->
-                    <div class="form-padding">
-                        <applicants-list></applicants-list>
-
-                        <div class="claim-content row">
-                            <label class="claim-text">Данные заявителя</label>
-                            <md-button class="md-primary" @click="newApplicant">Добавить</md-button>
-                        </div>
-
-                    </div>
-                    <md-dialog-actions>
-                        <md-button class="md-primary" @click="setDone('first', 'second')">Продолжить</md-button>
-                    </md-dialog-actions>
-                </md-step>
-                <!-- Шаг второй-->
-                <md-step id="second" md-label="Заявка" md-description="подробная информация"
-                         :md-done.sync="steps.second">
-                    <!-- Информация о заявке-->
-                    <div class="form-padding">
-                        <problems-partial></problems-partial>
-
-                        <div class="row">
-                            <div class="col-sm-12 clearfix">
-
-                                <label for="claim_description">{{$t('claims.claim_description')}}</label>
-                                <textarea :name="$t('validation.description')" id="claim_description"
-                                          v-model="claimState.claim.description"></textarea>
-                                <span v-if="claimState.claim.description === ''" class="md-error">Необходимо заполнить содержание</span>
-
+                                        <div>
+                                            <audio style="margin-top: 5px; width: 100%;" controls>
+                                                <source :src="claimState.claim.link" type="audio/mpeg">
+                                            </audio>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div slot="page2">
+                                <h5>Данные заявителя</h5>
+                                <div class="form-padding">
+                                    <applicants-list></applicants-list>
+
+                                    <div class="claim-content row">
+                                        <button type="button" class="btn btn-primary"  @click="newApplicant">Добавить</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div slot="page3">
+                                <div class="form-padding">
+                                    <problems-partial></problems-partial>
+
+                                    <div class="row">
+                                        <div class="col-sm-12 clearfix">
+
+                                            <label for="claim_description">{{$t('claims.claim_description')}}</label>
+                                            <textarea :name="$t('validation.description')" id="claim_description"
+                                                    v-model="claimState.claim.description"></textarea>
+                                            <span v-if="claimState.claim.description === ''" class="md-error">Необходимо заполнить содержание</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </vue-good-wizard>
                     </div>
-
-                    <md-dialog-actions>
-                        <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
-                        <md-button class="md-primary" @click="dispatchClaimCreate">{{ $t("common.create") }}</md-button>
-                        <md-button class="md-primary" @click="dispatchClaimCreateMore">{{ $t("common.create_more") }}
-                        </md-button>
-                    </md-dialog-actions>
-
-                </md-step>
-            </md-steppers>
-
-        </md-dialog>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">{{ $t("common.close") }}</button>
+                        <button type="button" class="btn btn-primary" @click="dispatchClaimCreate" v-if="buttonVisibleModal">{{ $t("common.create") }}</button>
+                        <button type="button" class="btn btn-primary" @click="dispatchClaimCreateMore" v-if="buttonVisibleModal">{{ $t("common.create_more") }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!--Модальное окно - добавить заявителя-->
         <add-applicant></add-applicant>
@@ -150,16 +141,25 @@
 
         @Provide() public districts: string[] = districts;
         @Provide() public showSingleClaimModal: boolean = false;
-        @Provide() public active: string = 'zero';
-
-        @Provide() public steps: ISteps = {
-            zero: true,
-            first: false,
-            second: false,
-        };
 
         @Provide() public statusDialog = statusDialog;
 
+        @Provide() public steps = [
+            {
+                label: 'Данные звонка. Тип звонка', // md-description="тип звонка"
+                slot: 'page1',
+            },
+            {
+                label: 'Заявитель. Личные данные', // md-description="личные данные"
+                slot: 'page2',
+            },
+            {
+                label: 'Заявка. Подробная информация', // md-description="подробная информация"
+                slot: 'page3',
+            },
+        ];
+
+        @Provide() public buttonVisibleModal = false;
 
         constructor() {
             super();
@@ -168,24 +168,38 @@
             OkCancelModalProperties.okAction = this.markCallAsFaulty;
         }
 
-        public created() {
-            statusDialog.show = false;
-            plusButton.clickAction = () => statusDialog.show = true;
+        public nextClicked(currentPage) {
+            if (currentPage === 1) {
+                this.buttonVisibleModal = true;
+            }
+            return true;
         }
 
-        public setDone(id, index) {
-            this.steps[id] = true;
+        public backClicked(currentPage) {
+            this.buttonVisibleModal = false;
+            return true;
+        }
 
-            if (index) {
-                this.active = index;
-            }
+        // TODO: 01.02 - xarrper. Нужно?
+        public created() {
+            plusButton.clickAction = () => $('#resolveCall').modal('show');
+        }
+
+        // TODO: 28.01 - xarrper.
+        public mounted() {
+            const self = this;
+            $('#resolveCall').on('shown.bs.modal', () => {
+                self.$refs.vueGoodWizard.handleResize();
+            });
+            $('#resolveCall').on('hidden.bs.modal', () => {
+                self.closeDialog();
+            });
         }
 
         public closeDialog() {
-            this.statusDialog.show = false;
-            this.active = 'active';
-            this.steps.first = true;
-            this.steps.second = false;
+            $('#resolveCall').modal('hide');
+            this.$refs.vueGoodWizard.currentStep = 0;
+            this.buttonVisibleModal = false;
         }
 
         /**
@@ -205,7 +219,7 @@
             // Со статусом ошибочная
             if (processingStatus === 'failed') {
                 $('#sureWindow').modal('show');
-                this.statusDialog.show = false;
+                this.closeDialog();
             }
 
             // Новая заявка
@@ -230,7 +244,7 @@
             // Создать заявку
             this.createClaim().then((response) => {
                 if (response.status === 200) {
-                    this.statusDialog.show = false;
+                    this.closeDialog();
                 }
             });
         }
@@ -254,11 +268,7 @@
         }
 
         get claimLevelStringified() {
-            if (this.claimLevel === true) {
-                return 'Общезначимая';
-            } else {
-                return 'Личная';
-            }
+            return (this.claimLevel === true) ? 'Общезначимая' : 'Личная';
         }
 
     }

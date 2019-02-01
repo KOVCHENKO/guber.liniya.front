@@ -9,8 +9,16 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <md-tabs md-sync-route>
-                        <md-tab id="tab-linked" md-label="По номеру телефона">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+					  <li class="nav-item">
+						<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">По номеру телефона</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Все заявки</a>
+					  </li>
+					</ul>
+                    <div class="tab-content" id="myTabContent">
+					  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <datatable
                                     :columns="tableColumnsForClaimsByPhone"
                                     :data="claimState.previousClaims"
@@ -33,9 +41,8 @@
                                     </tr>
                                 </template>
                             </datatable>
-                        </md-tab>
-
-                        <md-tab id="tab-comments" md-label="Все заявки">
+                      </div>
+					  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="main-page">
                                 <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
 
@@ -69,9 +76,8 @@
                                 ></datatable-custom-paginator>
 
                             </div>
-                        </md-tab>
-                    </md-tabs>
-
+                      </div>
+					</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="cst-md-btn" data-dismiss="modal">{{ $t("common.close") }}</button>
@@ -116,6 +122,7 @@
             {label: 'Заявитель'},
             {label: 'Телефон'},
             {label: ''},
+            {},
         ];
 
         @Provide()
@@ -149,7 +156,7 @@
                 new Problem(row.problem.id, row.problem.name, row.problem.description),
                 new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
-            statusDialogOfSecondLevel.show = true;
+            $('#claimInfo').modal('show');
         }
 
         public startSearch() {

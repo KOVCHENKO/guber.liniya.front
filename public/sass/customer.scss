@@ -357,7 +357,7 @@ input.input-search[placeholder] {
     position: relative;
     margin: 0;
 }
-.nav {
+.cst-nav {
     padding: 0;
     display: block;
     margin-bottom: 0;
@@ -369,7 +369,7 @@ input.input-search[placeholder] {
     display: block;
     float: none;
 }
-.nav>li {
+.cst-nav>li {
     position: relative;
 }
 .header-nav li a {
@@ -832,4 +832,17 @@ audio {
 }
 .customer-dialog .md-dialog-container {
 	width: 640px !important;
+}
+.wizard {
+	li.active {
+        border-right: none;
+        border-left: none;
+    }
+}
+.cst-list-group {
+    overflow-y: auto;
+    max-height: 150px;
+}
+a.wizard__next.pull-right.final-step {
+    display: none !important;
 }

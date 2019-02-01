@@ -47,6 +47,7 @@
             {label: 'Фамилия'},
             {label: 'Отчетство'},
             {label: 'Телефон'},
+            {},
         ];
 
         public created() {

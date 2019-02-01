@@ -20,7 +20,7 @@
                                     <span class="capital">Г</span>РАЖДАНИН</p>
 
                                     <nav class="header-nav">
-                                        <ul class="nav">
+                                        <ul class="cst-nav">
                                             <span v-for="cabinet in cabinetState.cabinets" :key="cabinet.id">
                                                 <li v-bind:class="{ active: cabinet.routeName === $route.name }">
                                                     <a  @click="selectMenuItem(cabinet)">{{ cabinet.name }}</a>
