@@ -127,6 +127,11 @@
         components: {ProblemsPartial, Reclaimed, OkCancelModal, ApplicantsList, AddApplicant},
     })
     export default class CreateApplication extends Vue implements IWithRoute {
+
+        public $refs!: {
+            vueGoodWizard: HTMLFormElement,
+        };
+
         @Action public createClaim;
         @Action public getClaimsOfTheSamePhone;
         @Action public markCallAsFaulty;
