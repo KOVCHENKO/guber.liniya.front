@@ -189,7 +189,7 @@
         public mounted() {
             const self = this;
             $('#resolveCall').on('shown.bs.modal', () => {
-                self.$refs.vueGoodWizard.handleResize();
+                this.$refs.vueGoodWizard.handleResize();
             });
             $('#resolveCall').on('hidden.bs.modal', () => {
                 self.closeDialog();

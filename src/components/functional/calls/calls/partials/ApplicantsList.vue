@@ -16,7 +16,7 @@
                     <td>{{ applicant.phone }}</td>
                     <td>
                         <div style="cursor: pointer;" @click="choose(applicant)">
-                            <i class="fas fa-pencil-alt"></i>
+                            <i class="fas fa-check-circle"></i>
                         </div>
                     </td>
                 </tr>
