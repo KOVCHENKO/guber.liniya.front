@@ -90,7 +90,7 @@
     import ReassignToAnotherOrganization from '@/components/functional/applications/DispatcherApplications/ReassignToAnotherOrganization.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../store/functional/claim/types';
-    import {headings, plusButton, statusDialog} from '../../../domain/util/interface/CommonInterface';
+    import {headings, plusButton} from '../../../domain/util/interface/CommonInterface';
     import Claim from '../../../domain/entities/functional/Claim';
     import Address from '../../../domain/entities/functional/Address';
     import Problem from '../../../domain/entities/functional/Problem';
@@ -155,7 +155,7 @@
 
         public show(claim) {
             this.makeClaim(claim);
-            statusDialog.show = true;
+            $('#updateApplication').modal('show');
         }
 
         public makeClaim(claim) {
@@ -255,9 +255,3 @@
         }
     }
 </script>
-
-<style>
-    .expiredClaim {
-        color: red;
-    }
-</style>

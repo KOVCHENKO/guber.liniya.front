@@ -846,3 +846,11 @@ audio {
 a.wizard__next.pull-right.final-step {
     display: none !important;
 }
+.expiredClaim {
+    color: red;
+}
+.cst-scrollbar {
+    max-height: 250px;
+    overflow: auto;
+    margin-top: 25px;
+}
