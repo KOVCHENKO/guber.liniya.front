@@ -5,9 +5,9 @@ interface IApplicant {
     firstname: string;
     lastname: string;
     middlename: string;
-    phone: string;
+    phone?: string;
     email: string;
-    address: IAddress;
+    address?: IAddress;
 }
 
 export default IApplicant;

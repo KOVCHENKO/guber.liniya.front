@@ -1,15 +1,58 @@
 import axios from 'axios';
 import { baseUrl } from '@/globals';
 import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
-import Claim from '@/domain/entities/functional/Claim';
-import Problem from '@/domain/entities/functional/Problem';
-import Address from '@/domain/entities/functional/Address';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
-import Call from '@/domain/entities/functional/Call';
 import ClaimService from '@/domain/services/functional/claims/ClaimService';
 import RoleResolver from '@/domain/services/functional/roles/RoleResolver';
 export const state = {
-    claim: new Claim(0, '', '', '', '', '', '', '', '', '', '', null, '', [{}], [], new Address(0, 'Астрахань', ''), new Problem(0, 'Выберите проблему', ''), new Call(0, '', '', '', 'success', 'in', '', '', '')),
+    claim: {
+        id: 0,
+        name: '',
+        description: '',
+        address: {
+            id: 0,
+            city: '',
+            street: '',
+            building: '',
+            district: '',
+        },
+        phone: '',
+        link: '',
+        dispatchStatus: '',
+        status: '',
+        level: '',
+        pid: 0,
+        problem: {
+            id: 0,
+            name: '',
+            description: '',
+        },
+        call: {
+            id: 0,
+            callId: '',
+            clientPhone: '',
+            link: '',
+            atsStatus: '',
+            type: '',
+            ext: '',
+            processingStatus: '',
+            createdAt: '',
+        },
+        parents: [{}],
+        comments: [],
+        applicant: {
+            id: 0,
+            firstname: '',
+            lastname: '',
+            middlename: '',
+            phone: '',
+            email: '',
+        },
+    },
+    // claim: new Claim(0, '', '', '', '', '', '', '', '', '', '', null, '', [{}], [],
+    //                     new Address(0, 'Астрахань', ''),
+    //                     new Problem(0, 'Выберите проблему', ''),
+    //                     new Call(0, '', '', '', 'success', 'in',  '', '', '')),
     claims: [],
     previousClaims: [],
     executedClaims: [],

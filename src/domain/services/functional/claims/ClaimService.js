@@ -108,9 +108,9 @@ class ClaimService {
         // claims[subIndex].created_at = claim.createdAt;
         claims[subIndex].name = claim.name;
         claims[subIndex].description = claim.description;
-        claims[subIndex].firstname = claim.firstName;
-        claims[subIndex].middlename = claim.middleName;
-        claims[subIndex].lastname = claim.lastName;
+        // claims[subIndex].firstname = claim.firstName;
+        // claims[subIndex].middlename = claim.middleName;
+        // claims[subIndex].lastname = claim.lastName;
         claims[subIndex].address = claim.address;
         claims[subIndex].phone = claim.phone;
         claims[subIndex].dispatch_status = claim.dispatchStatus;
