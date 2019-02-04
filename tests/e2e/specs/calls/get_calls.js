@@ -4,7 +4,7 @@ import {baseUrlForTest} from "../../../globals";
 
 describe('calls test', () => {
     beforeEach(() => {
-        cy.loginRequest('supervisor@supervisor.ru', 'admin')
+        cy.login('supervisor@supervisor.ru', 'admin')
     })
 
     it('show calls', () => {
