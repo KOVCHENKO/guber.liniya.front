@@ -68,7 +68,7 @@
     import Claim from '../../../domain/entities/functional/Claim';
     import ClaimState from '../../../store/functional/claim/types';
     import Address from '../../../domain/entities/functional/Address';
-    import {headings, statusDialog} from '../../../domain/util/interface/CommonInterface';
+    import {headings} from '../../../domain/util/interface/CommonInterface';
     import Call from '../../../domain/entities/functional/Call';
     import CallService from '../../../domain/services/functional/calls/CallService';
     import DatePicker from 'vuejs-datepicker';
