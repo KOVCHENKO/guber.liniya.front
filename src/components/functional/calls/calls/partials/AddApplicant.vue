@@ -38,7 +38,7 @@
 
                         <div class="col-sm-6">
                             <label for="applicant_phone">{{$t('claims.claimer_phone')}}</label>
-                            <input :name="$t('validation.lastname')" id="applicant_phone"
+                            <input :name="$t('validation.lastname')" id="applicant_phone" v-mask="'+7(###)###-##-##'"
                                    v-model="applicantState.applicant.phone"/>
                         </div>
 

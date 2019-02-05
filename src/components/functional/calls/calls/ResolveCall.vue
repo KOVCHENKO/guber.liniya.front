@@ -127,6 +127,11 @@
         components: {ProblemsPartial, Reclaimed, OkCancelModal, ApplicantsList, AddApplicant},
     })
     export default class CreateApplication extends Vue implements IWithRoute {
+
+        public $refs!: {
+            vueGoodWizard: HTMLFormElement,
+        };
+
         @Action public createClaim;
         @Action public getClaimsOfTheSamePhone;
         @Action public markCallAsFaulty;
@@ -189,7 +194,7 @@
         public mounted() {
             const self = this;
             $('#resolveCall').on('shown.bs.modal', () => {
-                self.$refs.vueGoodWizard.handleResize();
+                this.$refs.vueGoodWizard.handleResize();
             });
             $('#resolveCall').on('hidden.bs.modal', () => {
                 self.closeDialog();

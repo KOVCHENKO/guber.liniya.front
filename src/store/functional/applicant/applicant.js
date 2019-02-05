@@ -23,6 +23,7 @@ export const actions = {
     async getApplicants() {
         try {
             const res = await axios.get(`${baseUrl}applicants/all`);
+            state.applicants = res.data;
         }
         catch {
             ErrorNotifier.notify();
