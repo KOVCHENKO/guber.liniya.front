@@ -34,7 +34,7 @@
                         <td v-if="claim.firstname === '' && claim.middlename === '' && claim.lastname === ''">Нет данных</td>
                         <td v-else>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
                         <td>{{claim.phone}}</td>
-                        <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
+                        <td>{{ address(claim) }}</td>
                         <td class="cst-col-188">{{ claim.translatedStatus }}</td>
                         <td>
                             <div style="cursor: pointer;" @click="show(claim)">
@@ -69,7 +69,7 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import OrganizationState from '../../../store/functional/organization/types';
-    import {headings, statusDialog, plusButton} from '@/domain/util/interface/CommonInterface';
+    import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
     import UserState from '../../../store/common/user/types';
     import UpdateStatusClaims from '@/components/functional/claims/UpdateStatusClaims.vue';
     import throttle from '../../../store/util/operations/throttle';
@@ -132,12 +132,17 @@
         constructor() {
             super();
             headings.title = 'Все заявки';
-            statusDialog.show = false;
             plusButton.visible = false;
         }
 
         get throttledSearch() {
             return throttle(this.startSearch, 2000);
+        }
+
+        public address(claim) {
+            return (claim.hasOwnProperty('address') && claim.address.hasOwnProperty('district') 
+                && claim.address.hasOwnProperty('location') ) ? claim.address.district + ' / ' 
+                + claim.address.location : '';
         }
 
         public startSearch() {
@@ -163,7 +168,7 @@
         public show(row) {
             this.commentState.comment.text = '';
             this.claim = row;
-            statusDialog.show = true;
+            $('#updateStatusClaims').modal('show');
         }
 
         get claims() {
