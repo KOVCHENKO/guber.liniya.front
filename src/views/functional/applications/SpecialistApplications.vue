@@ -140,9 +140,12 @@
         }
 
         public address(claim) {
-            return (claim.hasOwnProperty('address') && claim.address.hasOwnProperty('district') 
-                && claim.address.hasOwnProperty('location') ) ? claim.address.district + ' / ' 
-                + claim.address.location : '';
+            let address = '';
+            if (claim.hasOwnProperty('address')) {
+                address = (claim.address.district) ? claim.address.district : '';
+                address += (claim.address.location) ? ' / ' + claim.address.location : '';
+            }
+            return address;
         }
 
         public startSearch() {

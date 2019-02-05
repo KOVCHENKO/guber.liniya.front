@@ -177,9 +177,12 @@
         @Action public createComment;
 
         get address() {
-            return (this.claim.hasOwnProperty('address') && this.claim.address.hasOwnProperty('district')
-                && this.claim.address.hasOwnProperty('location') ) ? this.claim.address.district + ' / ' +
-                this.claim.address.location : '';
+            let address = '';
+            if (this.claim.hasOwnProperty('address')) {
+                address = (this.claim.address.district) ? this.claim.address.district : '';
+                address += (this.claim.address.location) ? ' / ' + this.claim.address.location : '';
+            }
+            return address;
         }
 
         // // TODO: получение текущего статуса заявки, когда открывается окно
