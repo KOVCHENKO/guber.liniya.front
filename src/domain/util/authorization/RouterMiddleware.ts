@@ -1,13 +1,15 @@
 import {tokenCheck} from '@/domain/util/authorization/CheckTokenAvailability';
 import {getRole} from '@/domain/util/authorization/RoleChecker';
 
+// TODO: Передать нормальные типы пользователей
+
 /**
  * Проверка на то, залогинен пользователь или нет
  * @param router
  */
-export const authMiddleware = (router) => {
-    router.beforeEach((to, from, next) => {
-        if (to.matched.some((record) => record.meta.requiresAuth)) {
+export const authMiddleware = (router: any) => {
+    router.beforeEach((to: any, from: any, next: any) => {
+        if (to.matched.some((record: any) => record.meta.requiresAuth)) {
             if (!tokenCheck()) {
                 next({
                     path: '/',
@@ -25,9 +27,9 @@ export const authMiddleware = (router) => {
  * Проверка на доступность роли пользователя
  * @param router
  */
-export const roleMiddleware = (router) => {
-    router.beforeEach((to, from, next) => {
-        if (to.matched.some((record) => record.meta.requiresRole)) {
+export const roleMiddleware = (router: any) => {
+    router.beforeEach((to: any, from: any, next: any) => {
+        if (to.matched.some((record: any) => record.meta.requiresRole)) {
             if (getRole() !== to.meta.requiresRole) {
                 next({
                     path: '/',

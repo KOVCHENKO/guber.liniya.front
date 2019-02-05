@@ -1,6 +1,10 @@
 import { DISPATCHED, EDITED, PREPARED, RAW } from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
 import TimeFormatter from '@/domain/util/formatters/TimeFormatter';
 class ClaimService {
+    /**
+     * Resolves raw claims from server
+     * @param claims
+     */
     static resolveClaimDispatchStatus(claims) {
         return claims.map((b) => {
             switch (b.dispatch_status) {
@@ -28,6 +32,10 @@ class ClaimService {
             case 'Отправлена': return DISPATCHED;
         }
     }
+    /**
+     * Resolves raw claims from server
+     * @param claims
+     */
     static resolveClaimStatus(claims) {
         return claims.map((b) => {
             switch (b.status) {

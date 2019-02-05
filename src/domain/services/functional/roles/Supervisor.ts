@@ -6,7 +6,7 @@ import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 class Supervisor implements IActiveRole {
     public type: string = 'supervisor';
 
-    public dispatchStatusOfClaim(dispatchStatus) {
+    public dispatchStatusOfClaim(dispatchStatus: string) {
         const dispatchStatusReversed = ClaimService.reverseClaimDispatchStatus(dispatchStatus);
 
         switch (dispatchStatusReversed) {

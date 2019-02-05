@@ -113,13 +113,9 @@
     import {OkCancelModalProperties, plusButton, statusDialog} from '@/domain/util/interface/CommonInterface';
     import IWithRoute from '@/domain/util/interface/IWithRoute';
     import UserState from '@/store/common/user/types';
-    import ISteps from '@/domain/util/interface/ISteps';
     import Reclaimed from '@/components/functional/calls/calls/Reclaimed.vue';
     import OkCancelModal from '@/components/util/ui/OkCancelModal.vue';
     import CallState from '@/store/functional/call/types';
-    import Claim from '@/domain/entities/functional/Claim';
-    import Problem from '@/domain/entities/functional/Problem';
-    import Call from '@/domain/entities/functional/Call';
     import ApplicantsList from '@/components/functional/calls/calls/partials/ApplicantsList.vue';
     import AddApplicant from '@/components/functional/calls/calls/partials/AddApplicant.vue';
 

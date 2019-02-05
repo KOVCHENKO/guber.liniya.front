@@ -52,13 +52,9 @@ export const state: ClaimState = {
             phone: '',
             email: '',
         },
+        created_at: '',
     },
 
-
-    // claim: new Claim(0, '', '', '', '', '', '', '', '', '', '', null, '', [{}], [],
-    //                     new Address(0, 'Астрахань', ''),
-    //                     new Problem(0, 'Выберите проблему', ''),
-    //                     new Call(0, '', '', '', 'success', 'in',  '', '', '')),
     claims: [],
     previousClaims: [],     // Предыдущие по номеру телефона
     executedClaims: [],     // Выполненные заявки для роли комуникатора

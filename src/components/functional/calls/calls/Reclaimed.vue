@@ -95,15 +95,11 @@
     import DatatableCustomPaginator from '@/components/util/DatatableCustomPaginator.vue';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {State, Action} from 'vuex-class';
-    import ClaimState from '../../../../store/functional/claim/types';
-    import Claim from '../../../../domain/entities/functional/Claim';
-    import Address from '../../../../domain/entities/functional/Address';
-    import Problem from '../../../../domain/entities/functional/Problem';
-    import ICall from '../../../../domain/entities/functional/interfaces/ICall';
-    import throttle from '../../../../store/util/operations/throttle';
+    import ClaimState from '@/store/functional/claim/types';
+    import ICall from '@/domain/entities/functional/interfaces/ICall';
+    import throttle from '@/store/util/operations/throttle';
     import ClaimInfo from './ClaimInfo.vue';
-    import {statusDialogOfSecondLevel} from '../../../../domain/util/interface/CommonInterface';
-    import Call from '../../../../domain/entities/functional/Call';
+    import {statusDialogOfSecondLevel} from '@/domain/util/interface/CommonInterface';
 
     @Component({
         components: { DatatableCustomPaginator, ClaimInfo },
@@ -153,7 +149,10 @@
         }
 
         public show(row) {
+            console.log(row);
+
             this.claimState.claim = row;
+            this.claimState.claim.problem = row.problem;
 
             // this.claimState.claim = new Claim(row.id, row.name, row.description,
             //     row.firstname, row.middlename, row.lastname, row.phone, '', row.link, '', '', null, row.level, [{}],

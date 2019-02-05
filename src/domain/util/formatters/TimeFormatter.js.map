@@ -1,1 +1,1 @@
-{"version":3,"file":"TimeFormatter.js","sourceRoot":"","sources":["TimeFormatter.ts"],"names":[],"mappings":"AAAA,OAAO,MAAM,MAAM,QAAQ,CAAC;AAE5B;IACW,MAAM,CAAC,UAAU,CAAC,SAAS;QAC9B,OAAO,MAAM,CAAC,SAAS,CAAC,CAAC,MAAM,CAAC,iBAAiB,CAAC,CAAC;IACvD,CAAC;CACJ;AAED,eAAe,aAAa,CAAC"}
+{"version":3,"file":"TimeFormatter.js","sourceRoot":"","sources":["TimeFormatter.ts"],"names":[],"mappings":"AAAA,OAAO,MAAM,MAAM,QAAQ,CAAC;AAE5B;IACW,MAAM,CAAC,UAAU,CAAC,SAAiB;QACtC,OAAO,MAAM,CAAC,SAAS,CAAC,CAAC,MAAM,CAAC,iBAAiB,CAAC,CAAC;IACvD,CAAC;CACJ;AAED,eAAe,aAAa,CAAC"}
