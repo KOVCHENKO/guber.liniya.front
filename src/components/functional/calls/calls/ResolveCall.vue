@@ -109,7 +109,7 @@
     import ClaimState from '@/store/functional/claim/types';
     import ProblemsPartial from '@/components/functional/calls/calls/ProblemsPartial.vue';
     import {default as Address, districts} from '@/domain/entities/functional/Address';
-    import {OkCancelModalProperties, plusButton, statusDialog} from '@/domain/util/interface/CommonInterface';
+    import {OkCancelModalProperties, plusButton} from '@/domain/util/interface/CommonInterface';
     import IWithRoute from '@/domain/util/interface/IWithRoute';
     import UserState from '@/store/common/user/types';
     import Reclaimed from '@/components/functional/calls/calls/Reclaimed.vue';
@@ -141,8 +141,6 @@
 
         @Provide() public districts: string[] = districts;
         @Provide() public showSingleClaimModal: boolean = false;
-
-        @Provide() public statusDialog = statusDialog;
 
         @Provide() public steps = [
             {

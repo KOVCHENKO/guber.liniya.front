@@ -25,15 +25,21 @@
                         <div class="container-straight-title">
                             <p class="straight-title">Прямая связь с Правительством Астраханской области</p>
                             <h1 class="homeblock-title">Авторизация</h1>
-                            <md-field class="md-field-email">
-                                <label>Логин</label>
-                                <md-input :id="'md-input-email'" v-model="user.email"></md-input>
-                            </md-field>
-                            <br>
-                            <md-field class="md-field-password">
-                                <label>Пароль</label>
-                                <md-input :id="'md-input-password'" v-model="user.password" type="password"></md-input>
-                            </md-field>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" :id="'md-input-email'" v-model="user.email" placeholder="Логин" class="fc-bordered">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="form-group">
+                                        <input type="password" :id="'md-input-password'" v-model="user.password" placeholder="Пароль" class="fc-bordered">
+                                    </div>
+                                </div>
+                            </div>
+
                             <br>
                             <div class="homeblock-container-button">
                                 <div class="homeblock-button" id="login" @click="login">Войти</div>

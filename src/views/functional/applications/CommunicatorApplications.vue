@@ -64,7 +64,7 @@
     import DatatableCustomPaginator from '../../../components/util/DatatableCustomPaginator.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../store/functional/claim/types';
-    import {headings, plusButton, statusDialog} from '../../../domain/util/interface/CommonInterface';
+    import {headings, plusButton} from '../../../domain/util/interface/CommonInterface';
     import Claim from '../../../domain/entities/functional/Claim';
     import Address from '../../../domain/entities/functional/Address';
     import Problem from '../../../domain/entities/functional/Problem';
@@ -134,7 +134,7 @@
 
             this.claimState.responsibleOrganizations = claim.responsible_organization;
 
-            statusDialog.show = true;
+            $('#closeClaim').modal('show');
         }
 
         /**

@@ -15,10 +15,6 @@ export const mainToolbar = {
     shown: true,
 };
 
-export const statusDialog = {
-    show: false,
-};
-
 export const statusDialogOfSecondLevel  = {
     show: false,
 };

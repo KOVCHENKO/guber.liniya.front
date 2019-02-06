@@ -28,11 +28,6 @@ try {
 import Notifications from 'vue-notification';
 Vue.use(Notifications);
 
-import VueMaterial from 'vue-material';
-import 'vue-material/dist/vue-material.min.css';
-import 'vue-material/dist/theme/default.css';
-Vue.use(VueMaterial);
-
 import VueRx from 'vue-rx';
 Vue.use(VueRx);
 
