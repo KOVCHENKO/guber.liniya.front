@@ -14,6 +14,11 @@ import SingleProblemType from './views/functional/problems/SingleProblemType.vue
 import SingleOrganizationProblems from './views/functional/organizations/SingleOrganizationProblems.vue';
 import SingleOrganizationUsers from './views/functional/organizations/SingleOrganizationUsers.vue';
 import Calls from './views/functional/calls/Calls.vue';
+
+import DispatcherClaims from './views/functional/applications/dispatcher/DispatcherClaims.vue';
+import CurrentClaims from './views/functional/applications/dispatcher/Current.vue';
+import ExpiredClaims from './views/functional/applications/dispatcher/Expired.vue';
+
 import {authMiddleware, roleMiddleware} from '@/domain/util/authorization/RouterMiddleware';
 import {
     ADMIN,
@@ -47,12 +52,12 @@ const router = new Router({
                 component: CommunicatorApplications,
                 meta: { requiresAuth: true, requiresRole: COMMUNICATOR },
             },
-            {
+            // {
                 // TODO: прикрепить авторизацию к данному маршруту
-                path: '/dispatcher_applications/:dispatch_status', name: 'dispatcher_applications',
-                component: DispatcherApplications,
-                meta: { requiresAuth: true },
-            },
+                // path: '/dispatcher_applications/:dispatch_status', name: 'dispatcher_applications',
+                // component: DispatcherApplications,
+                // meta: { requiresAuth: true },
+            // },
             {
                 path: '/specialist_applications', name: 'specialist_applications',
                 component: SpecialistApplications,
@@ -98,6 +103,21 @@ const router = new Router({
                 path: '/calls', name: 'calls',
                 component: Calls,
                 meta: { requiresAuth: true },
+            },
+            {
+                path: '/dispatcher_applications/:dispatch_status', name: 'dispatcher_applications',
+                component: DispatcherClaims,
+                meta: { requiresAuth: true },
+                children: [
+                    {
+                        path: '/expired_claims', name: 'expired_claims',
+                        component: ExpiredClaims,
+                    },
+                    {
+                        path: '/current_claims', name: 'current_claims',
+                        component: CurrentClaims,
+                    },
+                ],
             },
         ],
     },
