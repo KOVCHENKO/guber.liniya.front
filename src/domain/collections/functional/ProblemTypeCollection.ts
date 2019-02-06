@@ -3,7 +3,6 @@ import {getSelectedNodes} from '@/domain/util/interface/TreeMaker';
 import IProblemType from '@/domain/entities/functional/interfaces/IProblemType';
 
 
-
 export class ProblemTypeCollection implements IProblemTypeCollection {
     public problemTypes!: IProblemType[];
 
@@ -16,14 +15,15 @@ export class ProblemTypeCollection implements IProblemTypeCollection {
     }
 
     public addBunchOfProblemTypes(problemTypes: IProblemType[]) {
+
         for (const problemType of problemTypes) {
             problemType.opened = false;
             problemType.disabled = false;
             problemType.text = problemType.name;
             problemType.icon = 'fas fa-exclamation-circle';
             problemType.type = 'problemType';
-            problemType.children = [];
 
+            // @ts-ignore
             for (const problem of problemType.children) {
                 problem.opened = false;
                 problem.text = problem.name;
@@ -62,8 +62,8 @@ export class ProblemTypeCollection implements IProblemTypeCollection {
             problemType.text = problemType.name;
             problemType.opened = true;
             problemType.disabled = true;
-            problemType.children = [];
 
+            // @ts-ignore
             for (const problem of problemType.children) {
                 problem.text = problem.name;
                 problem.opened = true;

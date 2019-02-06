@@ -55,14 +55,13 @@
                                 </div>
                             </div>
                             <div slot="page2">
-                                <h5>Данные заявителя</h5>
+                                <h5>Данные заявителя
+                                    <span id="add-applicant-span">
+                                        <button type="button" class="btn btn-primary" @click="newApplicant">Добавить</button>
+                                    </span>
+                                </h5>
                                 <div class="form-padding">
                                     <applicants-list></applicants-list>
-
-                                    <div class="claim-content row">
-                                        <button type="button" class="btn btn-primary"  @click="newApplicant">Добавить</button>
-                                    </div>
-
                                 </div>
                             </div>
                             <div slot="page3">

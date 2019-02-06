@@ -89,8 +89,9 @@
 
 
         public addApplicant() {
-            this.createApplicant();
-            // Добавить заявителя
+            this.createApplicant().then(() => {
+                $('#createApplicantModal').modal('hide');
+            });
         }
 
 

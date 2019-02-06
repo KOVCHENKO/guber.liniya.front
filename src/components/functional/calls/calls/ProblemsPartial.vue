@@ -4,7 +4,7 @@
             <div class="col-sm-4">
                 <label for="type_problem">Тип проблемы</label>
                 <select class="form-control" name="type_problem" id="type_problem" v-model="problemTypeId">
-                    <option v-for="(problemType, index) in problemTypeState.problemTypes" :key="index" :value="problemType.id">
+                    <option v-for="(problemType, index) in problemTypeState.problemTypes" :key="index" :value="problemType.id" @click="chooseProblemTypeById(problemType.id)">
                         {{ problemType.name }}
                     </option>
                 </select>

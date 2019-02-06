@@ -129,7 +129,7 @@
                     id: 0,
                     name: '',
                     description: '',
-                }
+                },
             };
 
             $('#resolveCall').modal('show');

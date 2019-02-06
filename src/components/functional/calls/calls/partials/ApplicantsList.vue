@@ -33,6 +33,8 @@
     import IApplicant from '@/domain/entities/functional/interfaces/IApplicant';
     import {Action, State} from 'vuex-class';
     import ApplicantState from '@/store/functional/applicant/types';
+    import ClaimState from '@/store/functional/claim/types';
+    import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 
     @Component
     export default class ApplicantsList extends Vue {
@@ -40,6 +42,7 @@
         @Action public getApplicants;
 
         @State('applicant') public applicantState!: ApplicantState;
+        @State('claim') public claimState!: ClaimState;
 
         @Provide()
         public tableColumns = [
@@ -55,9 +58,8 @@
         }
 
         public choose(applicant: IApplicant) {
-
-
-            // Выбрать заявителя
+            this.claimState.claim.applicant = applicant;
+            SuccessNotifier.notify('Выбран заявитель', `${applicant.lastname} ${applicant.firstname} ${applicant.middlename}`);
         }
 
     }

@@ -26,7 +26,7 @@
                                 <template slot-scope="{ row }">
                                     <tr>
                                         <td>{{ row.created_at }}</td>
-                                        <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
+                                        <td>{{ row.firstname }} {{ row.middlename }} {{ row.lastname }}</td>
                                         <td>{{ row.phone }}</td>
                                         <td>
                                             <div style="cursor: pointer;" @click="show(row)">
@@ -53,7 +53,7 @@
                                     <template slot-scope="{ row }">
                                         <tr>
                                             <td>{{ row.created_at }}</td>
-                                            <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
+                                            <td>{{ row.firstname }} {{row.middlename}} {{row.lastname}}</td>
                                             <td>{{ row.phone }}</td>
                                             <td>{{ row.address.district }} / {{ row.address.location }}</td>
                                             <td>
@@ -149,7 +149,6 @@
         }
 
         public show(row) {
-            console.log(row);
 
             this.claimState.claim = row;
             this.claimState.claim.problem = row.problem;
