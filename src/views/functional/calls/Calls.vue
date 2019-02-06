@@ -64,11 +64,10 @@
     import DatatableCustomPaginator from '@/components/util/DatatableCustomPaginator.vue';
     import CallState from '@/store/functional/call/types';
     import ResolveCall from '@/components/functional/calls/calls/ResolveCall.vue';
-    import {headings, statusDialog} from '@/domain/util/interface/CommonInterface';
-    import ClaimState from '../../../store/functional/claim/types';
     import {headings} from '@/domain/util/interface/CommonInterface';
-    import Call from '../../../domain/entities/functional/Call';
-    import CallService from '../../../domain/services/functional/calls/CallService';
+    import ClaimState from '@/store/functional/claim/types';
+    import Call from '@/domain/entities/functional/Call';
+    import CallService from '@/domain/services/functional/calls/CallService';
     import DatePicker from 'vuejs-datepicker';
     import {en, ru} from 'vuejs-datepicker/dist/locale';
     import IPaginationState from '@/store/util/pagination/types';

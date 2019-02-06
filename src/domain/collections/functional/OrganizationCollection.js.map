@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 {"version":3,"file":"OrganizationCollection.js","sourceRoot":"","sources":["OrganizationCollection.ts"],"names":[],"mappings":"AAGA;IAGI,YAAY,aAA8B;QACtC,IAAI,CAAC,aAAa,GAAG,aAAa,CAAC;IACvC,CAAC;IAEM,MAAM,CAAC,YAA2B;QACrC,IAAI,CAAC,aAAa,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC;IAC1C,CAAC;CACJ;AAED,eAAe,sBAAsB,CAAC"}
-=======
-{"version":3,"file":"OrganizationCollection.js","sourceRoot":"","sources":["OrganizationCollection.ts"],"names":[],"mappings":"AAGA,MAAM,sBAAsB;IAGxB,YAAY,aAA6B;QACrC,IAAI,CAAC,aAAa,GAAG,aAAa,CAAC;IACvC,CAAC;IAEM,MAAM,CAAC,YAAY;QACtB,IAAI,CAAC,aAAa,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC;IAC1C,CAAC;CACJ;AAED,eAAe,sBAAsB,CAAC"}
->>>>>>> c7c9080736c75220420b27215a4199c486079e9a
