@@ -55,7 +55,7 @@
                         <td class="cst-col-213" v-if="claim.status !== 'rejected'">{{ claim.translatedStatus }}</td>
                         <td >{{ claim.translatedCloseStatus }}</td>
                         <td>
-                            <div style="cursor: pointer;" @click="show(claim)">
+                            <div class="container-icon" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                         </td>

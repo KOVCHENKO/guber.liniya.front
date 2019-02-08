@@ -15,7 +15,7 @@
                     <td>{{ applicant.middlename }}</td>
                     <td>{{ applicant.phone }}</td>
                     <td>
-                        <div style="cursor: pointer;" @click="choose(applicant)">
+                        <div class="container-icon" @click="choose(applicant)">
                             <i class="fas fa-check-circle"></i>
                         </div>
                     </td>

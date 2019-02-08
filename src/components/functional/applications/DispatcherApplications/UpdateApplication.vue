@@ -2,7 +2,7 @@
     <div class="modal fade" id="updateApplication" tabindex="-1" role="dialog"
          aria-labelledby="updateApplicationLabel">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content cst-md-content">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Информаци по заявке</h5>
                     <button type="button" class="close" aria-label="Close" @click="closeDialog">
@@ -10,7 +10,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-					<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<ul class="nav nav-tabs" id="tabUpdateApp" role="tablist">
 					  <li class="nav-item">
 						<a class="nav-link active" id="home-tab" data-toggle="tab" href="#applic-data" role="tab" aria-controls="applic-data" aria-selected="true">Данные заявителя</a>
 					  </li>
@@ -27,9 +27,9 @@
 						<a class="nav-link" id="contact-tab" data-toggle="tab" href="#file" role="tab" aria-controls="file" aria-selected="false">Файлы</a>
 					  </li>
 					</ul>
-					<div class="tab-content" id="myTabContent">
+					<div class="tab-content" id="tabUpdateAppContent">
 					  <div class="tab-pane fade show active" id="applic-data" role="tabpanel" aria-labelledby="applic-data-tab">
-                          <div class="form-padding">
+                          <div class="form-padding cst-container">
                             <div class="row">
                                 <div class="col-sm-4">
                                     <label for="claimer_lastname">{{$t('claims.claimer_lastname')}}</label>
@@ -73,48 +73,46 @@
                         </div>
                       </div>
 					  <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
-                        <div class="form-padding">
+                        <div class="form-padding cst-container">
                             <div class="row">
                                 <div class="col-sm-12 clearfix">
-                                    <audio style="width: 100%;" controls>
+                                    <audio class="cst-audio" controls>
                                         <source :src="claimState.claim.link" type="audio/mpeg">
                                     </audio>
                                 </div>
                             </div>
 
-                            <div class="row" style="margin-top: 40px;">
-                                <div class="col-sm-6" style="padding-left: 17px;">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h6>Название проблемы:</h6>
                                     <label>{{ claimState.claim.problem.name }}</label>
                                 </div>
-                                <div class="col-sm-6" v-if="claimState.responsibleOrganizations == ''">
-                                    <label>Информация отсутствует</label>
-                                </div>
-                                <div class="col-sm-6" v-else>
-                                    <label v-for="(respOrg, index) in claimState.responsibleOrganizations" :key="index">{{ respOrg.name }}</label>
+                                <div class="col-sm-6">
+                                    <h6>Организации:</h6>
+                                    <label v-if="claimState.responsibleOrganizations == ''">Информация отсутствует</label>
+                                    <label v-else v-for="(respOrg, index) in claimState.responsibleOrganizations" :key="index">{{ respOrg.name }}</label>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-sm-12 clearfix">
-
-                                    <label>{{$t('claims.claim_description')}}</label>
+                                    <h6>{{$t('claims.claim_description')}}:</h6>
                                     <textarea id="claim_description" name="description" style="height: 75px; min-height: auto !important;" class="textarea-resize-none"
                                                 v-model="claimState.claim.description" :disabled="disabledBasedOnDispatchStatus"></textarea>
                                     <span v-if="claimState.claim.description === ''" class="md-error">Необходимо заполнить содержание</span>
-
                                 </div>
                             </div>
                         </div>
                       </div>
 					  <div class="tab-pane fade" id="claim" role="tabpanel" aria-labelledby="claim-tab">
-                        <div class="cst-scrollbar">
+                        <div class="cst-scrollbar form-padding">
                             <span v-if="claimState.claim.parents !== null">
                                 <div class="row" v-for="(parentClaim, index) in claimState.claim.parents" :key="index">
                                     <div class="col-sm-3 clearfix" style="line-height: 58px;">
                                         {{ parentClaim.created_at }}
                                     </div>
                                     <div class="col-sm-9 clearfix">
-                                        <audio style="width: 100%;" controls>
+                                        <audio class="cst-audio" controls>
                                             <source :src="parentClaim.link" type="audio/mpeg">
                                         </audio>
                                     </div>
@@ -128,11 +126,12 @@
                         </div>
                       </div>
                       <div class="tab-pane fade" id="comment" role="tabpanel" aria-labelledby="comment-tab">
-                        <div class="cst-scrollbar">
+                        <div class="cst-scrollbar form-padding">
                             <span v-if="claimState.claim.comments !== null">
                                 <div class="row" v-for="(comment, index) in claimState.claim.comments" :key="index">
-                                    <div class="col-sm-12 clearfix" style="padding: 10px; border-bottom: 1px solid #d2d2d2;">
+                                    <div class="col-sm-12 clearfix">
                                         {{ comment.text }}
+                                        <hr>
                                     </div>
                                 </div>
                             </span>
@@ -144,7 +143,7 @@
                         </div>
                       </div>
 					  <div class="tab-pane fade" id="file" role="tabpanel" aria-labelledby="file-tab">
-                        <div class="cst-scrollbar">
+                        <div class="cst-scrollbar form-padding">
                             <span v-if="claimState.confirmationFiles !== null">
                                 <div class="row" v-for="(file, index) in claimState.confirmationFiles" :key="index">
                                     <div class="col-sm-12 clearfix">
@@ -200,7 +199,7 @@
 
         public closeDialog() {
             $('#updateApplication').modal('hide');
-            $('#myTab li:first-child a').tab('show');
+            $('#tabUpdateApp li:first-child a').tab('show');
         }
 
         public mounted() {

@@ -42,7 +42,7 @@
                 <td>{{ call.phone }}</td>
                 <td>{{ call.processing_status }}</td>
                 <td>
-                    <div style="cursor: pointer;" @click="resolve(call)">
+                    <div class="container-icon" @click="resolve(call)">
                         <i class="fas fa-pencil-alt"></i>
                     </div>
                 </td>
