@@ -55,14 +55,13 @@
                                 </div>
                             </div>
                             <div slot="page2">
-                                <h5>Данные заявителя</h5>
+                                <h5>Данные заявителя
+                                    <span id="add-applicant-span">
+                                        <button type="button" class="btn btn-primary" @click="newApplicant">Добавить</button>
+                                    </span>
+                                </h5>
                                 <div class="form-padding">
                                     <applicants-list></applicants-list>
-
-                                    <div class="claim-content row">
-                                        <button type="button" class="btn btn-primary"  @click="newApplicant">Добавить</button>
-                                    </div>
-
                                 </div>
                             </div>
                             <div slot="page3">
@@ -113,13 +112,9 @@
     import {OkCancelModalProperties, plusButton} from '@/domain/util/interface/CommonInterface';
     import IWithRoute from '@/domain/util/interface/IWithRoute';
     import UserState from '@/store/common/user/types';
-    import ISteps from '@/domain/util/interface/ISteps';
     import Reclaimed from '@/components/functional/calls/calls/Reclaimed.vue';
     import OkCancelModal from '@/components/util/ui/OkCancelModal.vue';
     import CallState from '@/store/functional/call/types';
-    import Claim from '@/domain/entities/functional/Claim';
-    import Problem from '@/domain/entities/functional/Problem';
-    import Call from '@/domain/entities/functional/Call';
     import ApplicantsList from '@/components/functional/calls/calls/partials/ApplicantsList.vue';
     import AddApplicant from '@/components/functional/calls/calls/partials/AddApplicant.vue';
 
@@ -228,12 +223,16 @@
             // Новая заявка
             if (processingStatus === 'claimed') {
 
-                this.claimState.claim = new Claim(0, '', '', '', '', '', this.callState.call.clientPhone, '', '',
-                    this.callState.call.link, '', null, '', [{}], [],
-                    new Address(0, 'Астрахань', ''), new Problem(0, '', ''),
-                    new Call(this.callState.call.id, this.callState.call.callId, this.callState.call.clientPhone,
-                        this.callState.call.link, this.callState.call.atsStatus, 'in', '', 'claimed',
-                        this.callState.call.createdAt));
+                this.claimState.claim.phone = this.callState.call.clientPhone;
+                this.claimState.claim.call = this.callState.call;
+                this.claimState.claim.call.processingStatus = 'claimed';
+
+                // this.claimState.claim = new Claim(0, '', '', '', '', '', this.callState.call.clientPhone, '', '',
+                //     this.callState.call.link, '', null, '', [{}], [],
+                //     new Address(0, 'Астрахань', ''), new Problem(0, '', ''),
+                //     new Call(this.callState.call.id, this.callState.call.callId, this.callState.call.clientPhone,
+                //         this.callState.call.link, this.callState.call.atsStatus, 'in', '', 'claimed',
+                //         this.callState.call.createdAt));
             }
         }
 

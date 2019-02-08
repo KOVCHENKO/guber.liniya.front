@@ -59,7 +59,7 @@
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                         </td>
-                        <td v-if="claim.responsible_organization == ''">Информация отсутсвует</td>
+                        <td v-if="claim.responsible_organization === ''">Информация отсутсвует</td>
                         <td v-else>{{ claim.responsible_organization[0].name }}</td>
                     </tr>
                     <!-- </span> -->
@@ -165,11 +165,13 @@
                 problem = new Problem(claim.problem.id, claim.problem.description, claim.problem.description);
             }
 
-            this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
-                claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.status,
-                claim.dispatch_status, null, claim.level, claim.parents, claim.comments,
-                new Address(claim.address.id, claim.address.district, claim.address.location), problem,
-                new Call(0, '', '', '', 'success', 'in',  '', '', ''));
+            this.claimState.claim = claim;
+
+            // this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
+            //     claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.status,
+            //     claim.dispatch_status, null, claim.level, claim.parents, claim.comments,
+            //     new Address(claim.address.id, claim.address.district, claim.address.location), problem,
+            //     new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
             // Подтверждающие файлы
             this.claimState.confirmationFiles = claim.files;

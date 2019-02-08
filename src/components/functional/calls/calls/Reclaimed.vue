@@ -56,7 +56,7 @@
                                     <template slot-scope="{ row }">
                                         <tr>
                                             <td>{{ row.created_at }}</td>
-                                            <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
+                                            <td>{{ row.firstname }} {{row.middlename}} {{row.lastname}}</td>
                                             <td>{{ row.phone }}</td>
                                             <td>{{ row.address.district }} / {{ row.address.location }}</td>
                                             <td>
@@ -98,15 +98,11 @@
     import DatatableCustomPaginator from '@/components/util/DatatableCustomPaginator.vue';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {State, Action} from 'vuex-class';
-    import ClaimState from '../../../../store/functional/claim/types';
-    import Claim from '../../../../domain/entities/functional/Claim';
-    import Address from '../../../../domain/entities/functional/Address';
-    import Problem from '../../../../domain/entities/functional/Problem';
-    import ICall from '../../../../domain/entities/functional/interfaces/ICall';
-    import throttle from '../../../../store/util/operations/throttle';
+    import ClaimState from '@/store/functional/claim/types';
+    import ICall from '@/domain/entities/functional/interfaces/ICall';
+    import throttle from '@/store/util/operations/throttle';
     import ClaimInfo from './ClaimInfo.vue';
-    import {statusDialogOfSecondLevel} from '../../../../domain/util/interface/CommonInterface';
-    import Call from '../../../../domain/entities/functional/Call';
+    import {statusDialogOfSecondLevel} from '@/domain/util/interface/CommonInterface';
 
     @Component({
         components: { DatatableCustomPaginator, ClaimInfo },
@@ -142,22 +138,29 @@
             // Сохранить значение ИД завки и передать в новую заявку
             const savedCall: ICall = this.claimState.claim.call;
 
-            this.claimState.claim = new Claim(0, claim.name, claim.description, claim.firstname, claim.middlename,
-                claim.lastname, claim.phone, claim.email, claim.link,
-                claim.status, claim.dispatch_status, claim.id, claim.level, [{}], [],
-                new Address(claim.address.id, claim.address.district, claim.address.location),
-                new Problem(claim.problem.id, claim.problem.name, claim.problem.description),
-                savedCall);
+            this.claimState.claim = claim;
+            this.claimState.claim.call = savedCall;
+
+            // this.claimState.claim = new Claim(0, claim.name, claim.description, claim.firstname, claim.middlename,
+            //     claim.lastname, claim.phone, claim.email, claim.link,
+            //     claim.status, claim.dispatch_status, claim.id, claim.level, [{}], [],
+            //     new Address(claim.address.id, claim.address.district, claim.address.location),
+            //     new Problem(claim.problem.id, claim.problem.name, claim.problem.description),
+            //     savedCall);
 
             $('#reclaimedModal').modal('hide');
         }
 
         public show(row) {
-            this.claimState.claim = new Claim(row.id, row.name, row.description,
-                row.firstname, row.middlename, row.lastname, row.phone, '', row.link, '', '', null, row.level, [{}],
-                row.comments, new Address(0, 'Астрахань', ''),
-                new Problem(row.problem.id, row.problem.name, row.problem.description),
-                new Call(0, '', '', '', 'success', 'in',  '', '', ''));
+
+            this.claimState.claim = row;
+            this.claimState.claim.problem = row.problem;
+
+            // this.claimState.claim = new Claim(row.id, row.name, row.description,
+            //     row.firstname, row.middlename, row.lastname, row.phone, '', row.link, '', '', null, row.level, [{}],
+            //     row.comments, new Address(0, 'Астрахань', ''),
+            //     new Problem(row.problem.id, row.problem.name, row.problem.description),
+            //     new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
             $('#claimInfo').modal('show');
         }

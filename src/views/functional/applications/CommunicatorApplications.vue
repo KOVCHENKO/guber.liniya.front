@@ -123,12 +123,14 @@
         }
 
         public show(claim) {
-            this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname, claim.middlename,
-                claim.lastname, claim.phone, claim.email, claim.link,
-                claim.status, claim.dispatch_status, null, claim.level, claim.parents,
-                claim.comments, new Address(claim.address.id, claim.address.district, claim.address.location),
-                new Problem(claim.problem.id, claim.problem.description, claim.problem.description),
-                new Call(0, '', '', '', 'success', 'in',  '', '', ''));
+            this.claimState.claim = claim;
+
+            // this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname, claim.middlename,
+            //     claim.lastname, claim.phone, claim.email, claim.link,
+            //     claim.status, claim.dispatch_status, null, claim.level, claim.parents,
+            //     claim.comments, new Address(claim.address.id, claim.address.district, claim.address.location),
+            //     new Problem(claim.problem.id, claim.problem.description, claim.problem.description),
+            //     new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
             this.claimState.responsibleOrganizations = claim.responsible_organization;
 

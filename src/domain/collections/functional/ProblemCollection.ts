@@ -1,15 +1,16 @@
 import IProblemCollection from '@/domain/collections/functional/interfaces/IProblemCollection';
 import Problem from '@/domain/entities/functional/Problem';
 import ProblemType from '@/domain/entities/functional/ProblemType';
+import IProblem from '@/domain/entities/functional/interfaces/IProblem';
 
 class ProblemCollection implements IProblemCollection {
     public problems: Problem[];
 
-    constructor(problems) {
+    constructor(problems: IProblem[]) {
         this.problems = problems;
     }
 
-    public add(problem): void {
+    public add(problem: IProblem): void {
         this.problems.push(problem);
     }
 

@@ -61,20 +61,16 @@
 <script lang="ts">
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
-    import DatatableCustomPaginator from '../../../components/util/DatatableCustomPaginator.vue';
-    import CallState from '../../../store/functional/call/types';
+    import DatatableCustomPaginator from '@/components/util/DatatableCustomPaginator.vue';
+    import CallState from '@/store/functional/call/types';
     import ResolveCall from '@/components/functional/calls/calls/ResolveCall.vue';
-    import Problem from '../../../domain/entities/functional/Problem';
-    import Claim from '../../../domain/entities/functional/Claim';
-    import ClaimState from '../../../store/functional/claim/types';
-    import Address from '../../../domain/entities/functional/Address';
-    import {headings} from '../../../domain/util/interface/CommonInterface';
-    import Call from '../../../domain/entities/functional/Call';
-    import CallService from '../../../domain/services/functional/calls/CallService';
+    import {headings} from '@/domain/util/interface/CommonInterface';
+    import ClaimState from '@/store/functional/claim/types';
+    import Call from '@/domain/entities/functional/Call';
+    import CallService from '@/domain/services/functional/calls/CallService';
     import DatePicker from 'vuejs-datepicker';
     import {en, ru} from 'vuejs-datepicker/dist/locale';
-    import moment from 'moment';
-    import IPaginationState from '../../../store/util/pagination/types';
+    import IPaginationState from '@/store/util/pagination/types';
 
 
     @Component({
@@ -115,11 +111,26 @@
             this.callState.call = new Call(call.id, call.call_id, call.phone, call.link, call.ats_status, 'in',
                 '', 'raw', call.created_at);
 
-            this.claimState.claim = new Claim(0, '', '', '', '', '', call.phone, '', call.link, '', '', null, '',
-                [{}], [], new Address(0, 'Астрахань', ''),
-                new Problem(0, '', ''),
-                new Call(call.id, call.call_id, call.phone, call.link, call.ats_status, 'in',
-                    '', 'raw', call.created_at));
+            this.claimState.claim = {
+                id: 0,
+                name: '',
+                description: '',
+                phone: call.phone,
+                link: call.link,
+                dispatchStatus: '',
+                status: '',
+                level: '',
+                pid: 0,
+                call: this.callState.call,
+                parents: [{}],
+                comments: [],
+                created_at: '',
+                problem: {
+                    id: 0,
+                    name: '',
+                    description: '',
+                },
+            };
 
             $('#resolveCall').modal('show');
         }

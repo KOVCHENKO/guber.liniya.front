@@ -1,4 +1,4 @@
-export const makePages = (currentPage, lastPage) => {
+export const makePages = (currentPage: number, lastPage: number) => {
     const arrayPages: any = [];
     const firstPage = 1;
 
