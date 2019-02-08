@@ -28,7 +28,7 @@
     import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
 
     @Component
-    export default class DispatcherClaims extends Vue {
+    export default class SupervisorClaims extends Vue {
 
         @Provide()
         public activeClass: string = 'active';

@@ -1,5 +1,6 @@
+<!--Созданные заявки-->
 <template>
-    <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="executed-tab">
+    <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="current-tab">
         <div class="main-page">
             <table class="table table-hover">
                 <thead>

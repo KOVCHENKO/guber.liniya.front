@@ -14,7 +14,7 @@ import SingleOrganizationProblems from './views/functional/organizations/SingleO
 import SingleOrganizationUsers from './views/functional/organizations/SingleOrganizationUsers.vue';
 import Calls from './views/functional/calls/Calls.vue';
 import DispatcherClaims from './views/functional/applications/dispatcher/DispatcherClaims.vue';
-import CurrentClaims from './views/functional/applications/dispatcher/Current.vue';
+import CurrentClaims from './views/functional/applications/dispatcher/Prepared.vue';
 import ExpiredClaims from './views/functional/applications/dispatcher/Expired.vue';
 import { authMiddleware, roleMiddleware } from '@/domain/util/authorization/RouterMiddleware';
 import { ADMIN, ANALYST, COMMUNICATOR, SPECIALIST, } from '@/domain/util/authorization/RoleChecker';
