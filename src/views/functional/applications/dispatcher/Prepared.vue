@@ -58,7 +58,7 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import DatatableCustomized from '@/components/util/DatatableCustomized.vue';
     import DatatableCustomPaginator from '@/components/util/DatatableCustomPaginator.vue';
-    import UpdateApplication from '@/components/functional/applications/DispatcherApplications/UpdateApplication.vue';
+    import UpdateApplication from '@/views/functional/applications/dispatcher/partials/UpdateApplication.vue';
     import ReassignToAnotherOrganization from '@/components/functional/applications/DispatcherApplications/ReassignToAnotherOrganization.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '@/store/functional/claim/types';

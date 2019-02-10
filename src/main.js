@@ -7,6 +7,8 @@ import './registerServiceWorker'; // ???
 import './globals'; // глобальные настройки
 import i18n from './i18n'; // языковой файл
 import { addAuthorizationHeaderFromLocalStorage } from '@/domain/util/libraries/AxiosConfig';
+import axios from 'axios';
+import { state } from '@/store/util/interface/interface';
 Vue.config.productionTip = false;
 export const vueInstance = new Vue({
     router,
@@ -17,6 +19,25 @@ export const vueInstance = new Vue({
         if (localStorage.getItem('vuex')) {
             addAuthorizationHeaderFromLocalStorage(localStorage.getItem('vuex'));
         }
+        axios.interceptors.request.use((config) => {
+            state.loading = true;
+            // Do something before request is sent
+            return config;
+        }, (error) => {
+            state.loading = false;
+            // Do something with request error
+            return Promise.reject(error);
+        });
+        // Add a response interceptor
+        axios.interceptors.response.use((response) => {
+            state.loading = false;
+            // Do something with response data
+            return response;
+        }, (error) => {
+            state.loading = false;
+            // Do something with response error
+            return Promise.reject(error);
+        });
     },
 }).$mount('#app');
 //# sourceMappingURL=main.js.map

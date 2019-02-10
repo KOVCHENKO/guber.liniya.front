@@ -142,10 +142,9 @@
                       </div>
 					</div>
                 </div>
-                <div class="modal-footer">                    
-                    <button type="button" class="btn btn-secondary" aria-label="Close" @click="closeDialog">{{ $t("common.close") }}</button>
-                    <!--<button type="button" class="btn btn-primary" @click="pushUpdate" :disabled="disabledBasedOnDispatchStatus">{{ $t("common.update") }}</button>-->
-                    <button type="button" class="btn btn-primary" @click="pushUpdate" :disabled="disabledBasedOnDispatchStatus">{{ sendUpdateButton }}</button>
+                <div class="modal-footer">
+                    <base-button :buttonClass="'btn btn-primary'" @click="closeDialog">{{ $t("common.close") }}</base-button>
+                    <base-button :buttonClass="'btn btn-secondary'" @click="pushUpdate">{{ $t("common.update") }}</base-button>
                 </div>
             </div>
         </div>
@@ -162,8 +161,11 @@
     import UserState from '@/store/common/user/types';
     import RoleResolver from '@/domain/services/functional/roles/RoleResolver';
     import {baseRootUrl} from '@/globals';
+    import BaseButton from '@/components/base/BaseButton.vue';
 
-    @Component
+    @Component({
+        components: {BaseButton},
+    })
     export default class UpdateApplication extends Vue implements IWithRoute {
         @Action public updateClaim;
 
@@ -173,6 +175,8 @@
         @Provide() public baseRootUrl = baseRootUrl;
 
         @Provide() public districts: string[] = districts;
+
+        // public loadingOption = loading;
 
         // TODO: 04.02 - xarrper. Нужно?
         public created() {
