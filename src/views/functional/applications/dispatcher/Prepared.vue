@@ -38,10 +38,7 @@
 
             <datatable-custom-paginator
                     v-on:setAnotherPage="getAllClaims({
-                        dispatchStatus: $route.params.dispatch_status,
-                        dispatchStatusFilter: dispatchStatusFilter,
-                        statusFilter: statusFilter,
-                        closeStatusFilter: closeStatusFilter,
+                        dispatchStatus: dispatchStatusFilter,
                      })"
             ></datatable-custom-paginator>
 
@@ -58,7 +55,7 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import DatatableCustomized from '@/components/util/DatatableCustomized.vue';
     import DatatableCustomPaginator from '@/components/util/DatatableCustomPaginator.vue';
-    import UpdateApplication from '@/components/functional/applications/DispatcherApplications/UpdateApplication.vue';
+    import UpdateApplication from '@/views/functional/applications/dispatcher/partials/UpdateApplication.vue';
     import ReassignToAnotherOrganization from '@/components/functional/applications/DispatcherApplications/ReassignToAnotherOrganization.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '@/store/functional/claim/types';
@@ -82,8 +79,6 @@
         // Фильтры - Поиск, Статус приема, Статус обработки, Статус выполнения
         @Provide() public searchField: string = '';
         @Provide() public dispatchStatusFilter: string = PREPARED;
-        @Provide() public statusFilter: string = 'all';
-        @Provide() public closeStatusFilter: string = 'all';
 
         // Поле сортировки
         public sortBy: string = 'created_at';
@@ -115,8 +110,7 @@
 
         public created() {
             this.getAllClaims({
-                dispatchStatus: this.$route.params.dispatch_status,
-                dispatchStatusFilter: this.dispatchStatusFilter,
+                dispatchStatus: PREPARED,
             });
         }
 
@@ -165,10 +159,7 @@
             // Начать поиск
             if (this.searchField === '') {
                 this.getAllClaims({
-                    dispatchStatus: this.$route.params.dispatch_status,
-                    dispatchStatusFilter: PREPARED,
-                    statusFilter: this.statusFilter,
-                    closeStatusFilter: this.closeStatusFilter,
+                    dispatchStatus: PREPARED,
                     sortBy: this.sortBy,
                     sortDirection: this.sortDirection,
                 });
@@ -177,10 +168,7 @@
 
             this.searchClaim({
                 search: this.searchField,
-                dispatchStatus: this.$route.params.dispatch_status,
-                dispatchStatusFilter: PREPARED,
-                statusFilter: this.statusFilter,
-                closeStatusFilter: this.closeStatusFilter,
+                dispatchStatus: PREPARED,
                 sortBy: this.sortBy,
                 sortDirection: this.sortDirection,
             });
