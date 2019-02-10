@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
 
@@ -19,6 +20,7 @@
         <div class="tab-content" id="myTabContent">
             <router-view></router-view>
         </div>
+
     </div>
 
 </template>

@@ -31,13 +31,12 @@
                                 <i class="fas fa-exclamation fa-3x" v-if="claim.status === 'created'" title="новая заявка" style="color: #fffa31;"></i>
                             </div>
                         </th>
-                        <td v-if="claim.firstname === '' && claim.middlename === '' && claim.lastname === ''">Нет данных</td>
-                        <td v-else>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
-                        <td>{{claim.phone}}</td>
+                        <td>{{ fullname(claim) }}</td>
+                        <td>{{ claim.phone }}</td>
                         <td>{{ address(claim) }}</td>
                         <td class="cst-col-188">{{ claim.translatedStatus }}</td>
                         <td>
-                            <div style="cursor: pointer;" @click="show(claim)">
+                            <div class="container-icon" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                             <div class="container-icon">
@@ -77,6 +76,7 @@
     import DatatableCustomPaginator from '../../../components/util/DatatableCustomPaginator.vue';
     import IPaginationState from '../../../store/util/pagination/types';
     import CommentState from '../../../store/functional/comment/types';
+    import AppService from '@/domain/services/common/AppService';
 
     @Component({
         components: {
@@ -139,13 +139,18 @@
             return throttle(this.startSearch, 2000);
         }
 
+        public fullname(claim) {
+            const key = ['firstname', 'middlename', 'lastname'];
+            return AppService.assembleString(claim, key);
+        }
+
         public address(claim) {
-            let address = '';
             if (claim.hasOwnProperty('address')) {
-                address = (claim.address.district) ? claim.address.district : '';
-                address += (claim.address.location) ? ' / ' + claim.address.location : '';
+                const key = ['district', 'location'];
+                return AppService.assembleString(claim.address, key, ', ');
+            } else {
+                return AppService.assembleString({}, []);
             }
-            return address;
         }
 
         public startSearch() {

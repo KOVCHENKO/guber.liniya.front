@@ -38,7 +38,7 @@
                     <td v-if="claim.responsible_organization == ''">Информация отсутсвует</td>
                     <td v-else>{{ claim.responsible_organization[0].name }}</td>
                     <td>
-                        <div style="cursor: pointer;" @click="show(claim)">
+                        <div class="container-icon" @click="show(claim)">
                             <i class="fas fa-pencil-alt"></i>
                         </div>
                     </td>
