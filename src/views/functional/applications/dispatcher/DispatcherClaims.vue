@@ -3,14 +3,14 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
 
             <li class="nav-item">
-                <router-link tag="a" class="nav-link" href="expired_claims" role="tab" aria-controls="home" aria-selected="true" id="expired-tab" :to="{ name: 'expired_claims' }">
-                    Просроченные
+                <router-link tag="a" class="nav-link" href="prepared_claims" role="tab" aria-controls="home" aria-selected="true" id="current-tab" :to="{ name: 'prepared_dispatcher_claims' }">
+                    Текущие
                 </router-link>
             </li>
 
             <li class="nav-item">
-                <router-link tag="a" class="nav-link" href="current_claims" role="tab" aria-controls="home" aria-selected="true" id="current-tab" :to="{ name: 'current_claims' }">
-                    Текущие
+                <router-link tag="a" class="nav-link" href="expired_claims" role="tab" aria-controls="home" aria-selected="true" id="expired-tab" :to="{ name: 'declined_dispatcher_claims' }">
+                    Отказ
                 </router-link>
             </li>
 

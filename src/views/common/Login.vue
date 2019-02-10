@@ -35,7 +35,8 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-6">
                                     <div class="form-group">
-                                        <input type="password" :id="'md-input-password'" v-model="user.password" placeholder="Пароль" class="fc-bordered">
+                                        <input type="password" :id="'md-input-password'" v-model="user.password" @keyup.13="login"
+                                               placeholder="Пароль" class="fc-bordered">
                                     </div>
                                 </div>
                             </div>

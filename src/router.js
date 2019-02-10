@@ -14,8 +14,8 @@ import SingleOrganizationProblems from './views/functional/organizations/SingleO
 import SingleOrganizationUsers from './views/functional/organizations/SingleOrganizationUsers.vue';
 import Calls from './views/functional/calls/Calls.vue';
 import DispatcherClaims from './views/functional/applications/dispatcher/DispatcherClaims.vue';
-import CurrentClaims from './views/functional/applications/dispatcher/Prepared.vue';
-import ExpiredClaims from './views/functional/applications/dispatcher/Expired.vue';
+import PreparedDispatcherClaims from './views/functional/applications/dispatcher/Prepared.vue';
+import DeclinedDispatcherClaims from './views/functional/applications/dispatcher/Declined.vue';
 import { authMiddleware, roleMiddleware } from '@/domain/util/authorization/RouterMiddleware';
 import { ADMIN, ANALYST, COMMUNICATOR, SPECIALIST, } from '@/domain/util/authorization/RoleChecker';
 Vue.use(Router);
@@ -96,12 +96,12 @@ const router = new Router({
                     meta: { requiresAuth: true },
                     children: [
                         {
-                            path: '/expired_claims', name: 'expired_claims',
-                            component: ExpiredClaims,
+                            path: '/declined_dispatcher_claims', name: 'declined_dispatcher_claims',
+                            component: DeclinedDispatcherClaims,
                         },
                         {
-                            path: '/current_claims', name: 'current_claims',
-                            component: CurrentClaims,
+                            path: '/prepared_dispatcher_claims', name: 'prepared_dispatcher_claims',
+                            component: PreparedDispatcherClaims,
                         },
                     ],
                 },
