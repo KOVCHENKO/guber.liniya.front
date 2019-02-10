@@ -14,6 +14,8 @@ import SingleProblemType from './views/functional/problems/SingleProblemType.vue
 import SingleOrganizationProblems from './views/functional/organizations/SingleOrganizationProblems.vue';
 import SingleOrganizationUsers from './views/functional/organizations/SingleOrganizationUsers.vue';
 import Calls from './views/functional/calls/Calls.vue';
+import AnsweredCalls from './views/functional/calls/Answered.vue';
+import MissedCalls from './views/functional/calls/Missed.vue';
 
 import DispatcherClaims from './views/functional/applications/dispatcher/DispatcherClaims.vue';
 import PreparedDispatcherClaims from './views/functional/applications/dispatcher/Prepared.vue';
@@ -103,6 +105,16 @@ const router = new Router({
                 path: '/calls', name: 'calls',
                 component: Calls,
                 meta: { requiresAuth: true },
+                children: [
+                    {
+                        path: 'answered_calls', name: 'answered_calls',
+                        component: AnsweredCalls,
+                    },
+                    {
+                        path: 'missed_calls', name: 'missed_calls',
+                        component: MissedCalls,
+                    },
+                ],
             },
             {
                 path: '/dispatcher_applications/:dispatch_status', name: 'dispatcher_applications',
