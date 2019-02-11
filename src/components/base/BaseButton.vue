@@ -20,7 +20,7 @@
 
         @State('interstate') public interState!: IInterfaceState;
 
-        @Prop() public buttonClass: string;
+        @Prop() public buttonClass!: string;
 
     }
 </script>
