@@ -2,11 +2,12 @@
     <div class="modal fade" id="reclaimedModal" tabindex="-1" role="dialog"
          aria-labelledby="reclaimedModalLabel">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content cst-md-content">
+            <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title cst-md-title" id="reclaimedModalLabel">
-                        Поиск повторных звонков
-                    </h4>
+                    <h5 class="modal-title">Поиск повторных звонков</h5>
+                    <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -19,31 +20,33 @@
 					</ul>
                     <div class="tab-content" id="myTabContent">
 					  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <datatable
-                                    :columns="tableColumnsForClaimsByPhone"
-                                    :data="claimState.previousClaims"
-                            >
-                                <template slot-scope="{ row }">
-                                    <tr>
-                                        <td>{{ row.created_at }}</td>
-                                        <td>{{ row.firstname }} {{ row.middlename }} {{ row.lastname }}</td>
-                                        <td>{{ row.phone }}</td>
-                                        <td>
-                                            <div style="cursor: pointer;" @click="show(row)">
-                                                <i class="far fa-eye"></i>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="cursor: pointer;" @click="choose(row)">
-                                                <i class="fab fa-get-pocket"></i>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </datatable>
+                            <div class="cst-container-common">
+                                <datatable
+                                        :columns="tableColumnsForClaimsByPhone"
+                                        :data="claimState.previousClaims"
+                                >
+                                    <template slot-scope="{ row }">
+                                        <tr>
+                                            <td>{{ row.created_at }}</td>
+                                            <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
+                                            <td>{{ row.phone }}</td>
+                                            <td>
+                                                <div class="container-icon" @click="show(row)">
+                                                    <i class="far fa-eye"></i>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="container-icon" @click="choose(row)">
+                                                    <i class="fab fa-get-pocket"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </datatable>
+                            </div>
                       </div>
 					  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <div class="main-page">
+                            <div class="cst-container-common">
                                 <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
 
                                 <datatable
@@ -57,12 +60,12 @@
                                             <td>{{ row.phone }}</td>
                                             <td>{{ row.address.district }} / {{ row.address.location }}</td>
                                             <td>
-                                                <div style="cursor: pointer;" @click="show(row)">
+                                                <div class="container-icon" @click="show(row)">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </div>
                                             </td>
                                             <td>
-                                                <div style="cursor: pointer;" @click="choose(row)">
+                                                <div class="container-icon" @click="choose(row)">
                                                     <i class="fab fa-get-pocket"></i>
                                                 </div>
                                             </td>
@@ -80,7 +83,7 @@
 					</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="cst-md-btn" data-dismiss="modal">{{ $t("common.close") }}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ $t("common.close") }}</button>
                 </div>
             </div>
         </div>

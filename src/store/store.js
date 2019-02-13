@@ -11,6 +11,7 @@ import { call } from '@/store/functional/call/call';
 import { pagination } from '@/store/util/pagination/pagination';
 import { comment } from '@/store/functional/comment/comment';
 import { applicant } from '@/store/functional/applicant/applicant';
+import { interstate } from '@/store/util/interface/interface';
 Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
@@ -31,6 +32,7 @@ export default new Vuex.Store({
         pagination,
         comment,
         applicant,
+        interstate,
     },
     plugins: [createPersistedState({
             paths: ['cabinet', 'user'],

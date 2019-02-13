@@ -9,6 +9,8 @@ import i18n from './i18n';              // языковой файл
 import * as bootstrap from 'bootstrap'; // typings - bootstrap
 import $ from 'jquery';                 // typings - javascript
 import {addAuthorizationHeaderFromLocalStorage} from '@/domain/util/libraries/AxiosConfig';
+import {loaderInitializer} from '@/domain/util/interface/LoaderInterceptor';
+
 
 
 Vue.config.productionTip = false;
@@ -20,8 +22,13 @@ export const vueInstance = new Vue({
     render: (h) => h(App),
 
     created() {
+        // Добавление в localstorage после обновления
         if (localStorage.getItem('vuex')) {
             addAuthorizationHeaderFromLocalStorage(localStorage.getItem('vuex'));
         }
+
+        // Отработка loader в axios
+        loaderInitializer();
+
     },
 }).$mount('#app');

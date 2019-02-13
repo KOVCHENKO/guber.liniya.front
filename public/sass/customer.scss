@@ -887,3 +887,39 @@ a.wizard__next.pull-right.final-step {
     padding: 15px 21px !important;
     padding-bottom: 16px !important;
 }
+.cst-audio {
+    width: 100%;
+}
+.cst-float-right {
+    float: right;
+}
+.cst-container {
+    padding: 20px 0;
+}
+.cst-clear {
+    clear: both;
+}
+.cst-col-container {
+   padding: 0 20px; 
+}
+.cst-container-common {
+    padding: 20px;
+}
+#specialistApplications {
+    .claim_created {
+        font-weight: bold;
+    }
+    .claim_assigned td:first-child {
+        border-left: 7px solid #9dbcf5;
+    }
+    .claim_executed td:first-child{
+        border-left: 7px solid #20c715;
+    }
+}
+.nav-tabs .nav-link:hover, .nav-tabs .router-link-active {
+    border-color: #e9ecef #e9ecef #dee2e6;
+    border-bottom-color: white !important;
+}
+.table thead tr:first-child {
+    background: #dee2e6;
+}

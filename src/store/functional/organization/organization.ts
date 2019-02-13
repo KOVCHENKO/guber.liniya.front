@@ -98,6 +98,23 @@ export const actions: ActionTree<OrganizationState, RootState> = {
         }
     },
 
+    async getClaimsToChildrenOrganization({rootState, dispatch}, payload) {
+        try {
+            const organizationId = payload.organization_id;
+            const result = await axios.get(baseUrl + 'organizations/all_claims_of_children_organization/'
+                + organizationId + '?dispatchStatusFilter=' + payload.dispatchStatusFilter +
+                '&search=' + payload.search + '&page=' + rootState.pagination.currentPage +
+                '&sortByData=' + payload.sortByData);
+
+            state.claims = result.data.claims;
+            state.claims = ClaimService.addTranslatedClaimStatus(state.claims);
+
+            dispatch('formPagination', { lastPage: result.data.count });
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
     async getAllChildrenOrganization(context, payload) {
         try {
             const organizationId = payload.organization_id;
