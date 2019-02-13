@@ -69,7 +69,7 @@
     import ClaimService from '@/domain/services/functional/claims/ClaimService';
     import IPaginationState from '@/store/util/pagination/types';
     import {PREPARED} from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
-    import {Echo} from '@/bootstrap';
+    // import {Echo} from '@/bootstrap';
 
     @Component({
         components: {
@@ -78,6 +78,14 @@
             DatatableCustomPaginator,
             ReassignToAnotherOrganization,
         },
+        sockets:{
+            connect(){
+                console.log('connect was called');
+            },
+            disconnect(){
+                console.log('disconnect was called');
+            }
+        }
     })
     export default class PreparedClaims extends Vue implements IWithRoute {
         // Фильтры - Поиск, Статус приема, Статус обработки, Статус выполнения
@@ -211,9 +219,17 @@
          * Слушаем события на создание
          */
         public listenToLaravelEcho() {
-            Echo.channel('new-claim-channel').listen('NewClaimEvent', (e) => {
-                console.log('new claim event has been called');
+            this.$socket.emit('emit_method');
+
+
+            // @ts-ignore
+            this.sockets.subscribe('NewClaimEvent', (data) => {
+                // this.msg = data.message;
             });
+
+            // Echo.channel('new-claim-channel').listen('NewClaimEvent', (e) => {
+            //     console.log('new claim event has been called');
+            // });
         }
     }
 

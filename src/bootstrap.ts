@@ -42,9 +42,22 @@ Vue.use(VueMask);
 // @ts-ignore
 window.io = require('socket.io-client');
 
-import EchoLibrary from 'laravel-echo';
+// import EchoLibrary from 'laravel-echo';
 
-export const Echo = new EchoLibrary({
-    broadcaster: 'socket.io',
-    host: 'localhost' + ':6001',
-});
+// export const Echo = new EchoLibrary({
+//     broadcaster: 'socket.io',
+//     host: 'localhost' + ':6001',
+// });
+
+import VueSocketIO from 'vue-socket.io';
+import store from './store/store';      // хранилище vuex
+
+Vue.use(new VueSocketIO({
+    debug: true,
+    connection: 'localhost:6001',
+    vuex: {
+        store,
+        actionPrefix: 'SOCKET_',
+        mutationPrefix: 'SOCKET_',
+    },
+}));
