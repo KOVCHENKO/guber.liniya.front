@@ -5,7 +5,8 @@ import Desktop from './views/common/Desktop.vue';
 import Analytics from './views/functional/analytics/Analytics.vue';
 import CommunicatorApplications from './views/functional/applications/CommunicatorApplications.vue';
 import DispatcherApplications from './views/functional/applications/DispatcherApplications.vue';
-import SpecialistApplications from './views/functional/applications/SpecialistApplications.vue';
+import SpecialistApplications from './views/functional/applications/specialist/SpecialistApplications.vue';
+import ClaimsOfChildrenOrganizations from './views/functional/applications/specialist/ClaimsOfChildrenOrganizations.vue';
 import AllOrganizations from './views/functional/organizations/AllOrganizations.vue';
 import SpecialistOrganizations from './views/functional/organizations/SpecialistOrganizations.vue';
 import AllProblemTypes from './views/functional/problems/AllProblemTypes.vue';
@@ -20,6 +21,10 @@ import MissedCalls from './views/functional/calls/Missed.vue';
 import DispatcherClaims from './views/functional/applications/dispatcher/DispatcherClaims.vue';
 import PreparedDispatcherClaims from './views/functional/applications/dispatcher/Prepared.vue';
 import DeclinedDispatcherClaims from './views/functional/applications/dispatcher/Declined.vue';
+
+import SpecialistAllClaims from './views/functional/applications/specialist/AllClaims.vue';
+import SpecialistClosedClaims from './views/functional/applications/specialist/ClosedClaims.vue';
+import SpecialistSubcontractorsClaims from './views/functional/applications/specialist/SubcontractorsClaims.vue';
 
 import {authMiddleware, roleMiddleware} from '@/domain/util/authorization/RouterMiddleware';
 import {
@@ -61,11 +66,6 @@ const router = new Router({
                 // meta: { requiresAuth: true },
             // },
             {
-                path: '/specialist_applications', name: 'specialist_applications',
-                component: SpecialistApplications,
-                meta: { requiresAuth: true, requiresRole: SPECIALIST },
-            },
-            {
                 path: '/all_organizations', name: 'all_organizations',
                 component: AllOrganizations,
                 meta: { requiresAuth: true, requiresRole: ADMIN },
@@ -73,6 +73,11 @@ const router = new Router({
             {
                 path: '/specialist_organizations', name: 'specialist_organizations',
                 component: SpecialistOrganizations,
+                meta: { requiresAuth: true, requiresRole: SPECIALIST },
+            },
+            {
+                path: '/claims_of_children_organizations', name: 'claims_of_children_organizations',
+                component: ClaimsOfChildrenOrganizations,
                 meta: { requiresAuth: true, requiresRole: SPECIALIST },
             },
             {
@@ -131,6 +136,29 @@ const router = new Router({
                     },
                 ],
             },
+            {
+                path: '/specialist_applications', name: 'specialist_applications',
+                component: SpecialistApplications,
+                meta: { requiresAuth: true, requiresRole: SPECIALIST}, 
+                children: [
+                    {
+                        path: '/specialist_all_claims', name: 'specialist_all_claims',
+                        component: SpecialistAllClaims,
+                        meta: {requiresRole: SPECIALIST},
+                    },
+                    {
+                        path: '/specialist_closed_claims', name: 'specialist_closed_claims',
+                        component: SpecialistClosedClaims,
+                        meta: {requiresRole: SPECIALIST},
+                    },
+                    {
+                        path: '/specialist_subcontractors_claims', name: 'specialist_subcontractors_claims',
+                        component: SpecialistSubcontractorsClaims,
+                        meta: {requiresRole: SPECIALIST},
+                    },
+                ],
+            },
+            
         ],
     },
   ],
