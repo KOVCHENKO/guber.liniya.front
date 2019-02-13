@@ -93,11 +93,11 @@ const router = new Router({
                     meta: { requiresAuth: true },
                     children: [
                         {
-                            path: 'answered_calls', name: 'answered_calls',
+                            path: '/answered_calls', name: 'answered_calls',
                             component: AnsweredCalls,
                         },
                         {
-                            path: 'missed_calls', name: 'missed_calls',
+                            path: '/missed_calls', name: 'missed_calls',
                             component: MissedCalls,
                         },
                     ],

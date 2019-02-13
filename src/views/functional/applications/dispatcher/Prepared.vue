@@ -69,6 +69,7 @@
     import ClaimService from '@/domain/services/functional/claims/ClaimService';
     import IPaginationState from '@/store/util/pagination/types';
     import {PREPARED} from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
+    import {Echo} from '@/bootstrap';
 
     @Component({
         components: {
@@ -114,6 +115,8 @@
         }
 
         public created() {
+            this.listenToLaravelEcho();
+
             this.getAllClaims({
                 dispatchStatus: this.$route.params.dispatch_status,
                 dispatchStatusFilter: this.dispatchStatusFilter,
@@ -202,6 +205,15 @@
             this.sortDirection === 'desc' ? this.sortDirection = 'asc' : this.sortDirection = 'desc';
             this.sortBy = columnName;
             this.startSearch();
+        }
+
+        /**
+         * Слушаем события на создание
+         */
+        public listenToLaravelEcho() {
+            Echo.channel('new-claim-channel').listen('NewClaimEvent', (e) => {
+                console.log('new claim event has been called');
+            });
         }
     }
 
