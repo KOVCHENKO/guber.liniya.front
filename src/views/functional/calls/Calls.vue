@@ -40,6 +40,10 @@
             plusButton.visible = false;
         }
 
+        public created() {
+            this.$router.push({ name: 'missed_calls' });
+        }
+
 
     }
 </script>

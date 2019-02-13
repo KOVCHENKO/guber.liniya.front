@@ -21,6 +21,13 @@ import DispatcherClaims from './views/functional/applications/dispatcher/Dispatc
 import PreparedDispatcherClaims from './views/functional/applications/dispatcher/Prepared.vue';
 import DeclinedDispatcherClaims from './views/functional/applications/dispatcher/Declined.vue';
 
+import SupervisorClaims from '@/views/functional/applications/supervisor/SupervisorClaims.vue';
+import PreparedSupervisorClaims from './views/functional/applications/supervisor/Prepared.vue';
+import EditableSupervisorClaims from './views/functional/applications/supervisor/Editable.vue';
+import ExecutableSupervisorClaims from './views/functional/applications/supervisor/Executable.vue';
+import DeclinedSupervisorClaims from './views/functional/applications/supervisor/Declined.vue';
+
+
 import {authMiddleware, roleMiddleware} from '@/domain/util/authorization/RouterMiddleware';
 import {
     ADMIN,
@@ -107,17 +114,17 @@ const router = new Router({
                 meta: { requiresAuth: true },
                 children: [
                     {
-                        path: 'answered_calls', name: 'answered_calls',
+                        path: '/answered_calls', name: 'answered_calls',
                         component: AnsweredCalls,
                     },
                     {
-                        path: 'missed_calls', name: 'missed_calls',
+                        path: '/missed_calls', name: 'missed_calls',
                         component: MissedCalls,
                     },
                 ],
             },
             {
-                path: '/dispatcher_applications/:dispatch_status', name: 'dispatcher_applications',
+                path: '/dispatcher_applications/', name: 'dispatcher_applications',
                 component: DispatcherClaims,
                 meta: { requiresAuth: true },
                 children: [
@@ -128,6 +135,29 @@ const router = new Router({
                     {
                         path: '/prepared_dispatcher_claims', name: 'prepared_dispatcher_claims',
                         component: PreparedDispatcherClaims,
+                    },
+                ],
+            },
+            {
+                path: '/supervisor_applications/', name: 'supervisor_applications',
+                component: SupervisorClaims,
+                meta: { requiresAuth: true },
+                children: [
+                    {
+                        path: '/prepared_supervisor_claims', name: 'prepared_supervisor_claims',
+                        component: PreparedSupervisorClaims,
+                    },
+                    {
+                        path: '/executable_supervisor_claims', name: 'executable_supervisor_claims',
+                        component: ExecutableSupervisorClaims,
+                    },
+                    {
+                        path: '/editable_supervisor_claims', name: 'editable_supervisor_claims',
+                        component: ExecutableSupervisorClaims,
+                    },
+                    {
+                        path: '/declined_supervisor_claims', name: 'declined_supervisor_claims',
+                        component: DeclinedSupervisorClaims,
                     },
                 ],
             },
