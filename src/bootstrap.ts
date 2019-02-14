@@ -40,11 +40,5 @@ import VueMask from 'v-mask';
 Vue.use(VueMask);
 
 // @ts-ignore
-window.io = require('socket.io-client');
-
-import EchoLibrary from 'laravel-echo';
-
-export const Echo = new EchoLibrary({
-    broadcaster: 'socket.io',
-    host: 'localhost' + ':3000?x-clientid=some_info',
-});
+const io = require('socket.io-client');
+export const socket = io('http://localhost:3000');

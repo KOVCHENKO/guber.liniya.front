@@ -69,7 +69,7 @@
     import ClaimService from '@/domain/services/functional/claims/ClaimService';
     import IPaginationState from '@/store/util/pagination/types';
     import {PREPARED} from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
-    import {Echo} from "@/bootstrap";
+    import {socket} from "@/bootstrap";
     // import {Echo} from '@/bootstrap';
 
     @Component({
@@ -220,10 +220,13 @@
          * Слушаем события на создание
          */
         public listenToLaravelEcho() {
-
-            Echo.channel('new-claim-channel').listen('NewClaimEvent', (e) => {
-                console.log('new claim event has been called');
+            socket.on('new_claim', (data) => {
+                console.log(data);
             });
+
+            // Echo.channel('new-claim-channel').listen('NewClaimEvent', (e) => {
+            //     console.log('new claim event has been called');
+            // });
         }
     }
 
