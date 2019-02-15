@@ -139,7 +139,7 @@ const router = new Router({
             {
                 path: '/specialist_applications', name: 'specialist_applications',
                 component: SpecialistApplications,
-                meta: { requiresAuth: true, requiresRole: SPECIALIST}, 
+                meta: { requiresAuth: true, requiresRole: SPECIALIST},
                 children: [
                     {
                         path: '/specialist_all_claims', name: 'specialist_all_claims',
@@ -158,7 +158,6 @@ const router = new Router({
                     },
                 ],
             },
-            
         ],
     },
   ],

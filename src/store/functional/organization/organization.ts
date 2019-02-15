@@ -132,7 +132,7 @@ export const actions: ActionTree<OrganizationState, RootState> = {
             const organizationId = payload.organization_id;
             const result = await axios.get(baseUrl + 'claims/get_claims_subcontractors/'
                 + organizationId);
-                state.subcontractors = result.data;
+            state.subcontractors = result.data;
         } catch {
             ErrorNotifier.notify();
         }

@@ -40,14 +40,14 @@
     import ClaimService from '@/domain/services/functional/claims/ClaimService';
     import UpdateSubcontractorClaim from '@/components/functional/claims/UpdateSubcontractorClaim.vue';
     import UserState from '../../../../store/common/user/types';
-    
+
     @Component({
         components: {
-            UpdateSubcontractorClaim
+            UpdateSubcontractorClaim,
         },
     })
     export default class SubcontractorsClaims extends Vue {
-      
+
         @Action('getClaimsSubcontractors')
         public getClaimsSubcontractors;
 
@@ -77,7 +77,7 @@
                 lastname: '',
                 phone: '',
                 status: '',
-            }]
+            }],
         };
 
         public created() {

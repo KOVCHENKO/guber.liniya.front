@@ -185,7 +185,7 @@
                 created : 'новая заявка',
                 assigned : 'заявка в работе',
                 executed : 'выполненая заявка',
-            }
+            };
             return claimStatus[status];
         }
 
