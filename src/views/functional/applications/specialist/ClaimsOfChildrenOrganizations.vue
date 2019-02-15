@@ -1,8 +1,6 @@
 <template>
     <div>
-
-        <div class="main-page">
-
+        <div class="main-page" id="specialistApplications">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -11,26 +9,24 @@
                         </th>
                         <th colspan="4" class="cst-col-188 cst-col-select">
                             <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
-                                <option value="all">Статус заявки</option>
+                                <option value="all">Все заявки</option>
                                 <option value="created">Создана</option>
                                 <option value="assigned">Назначена</option>
                                 <option value="executed">Выполнена</option>
-                                <option value="rejected">Отказано</option>
+                                <!-- <option value="rejected">Отказано</option> -->
                             </select>
                         </th>
                     </tr>
                     <tr>
-                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}} <span v-if="column.sort"><i class="fas fa-sort" @click="sortByDataFunc"></i></span></th>
+                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}} 
+                            <span v-if="column.sort"><i class="fas fa-sort" @click="sortByDataFunc"></i></span>
+                            <span v-if="column.icon"><i v-bind:class="[column.icon]"></i></span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(claim, index) in claims" :key="index">
-                        <th>
-                            {{claim.created_at_shortened}}
-                            <div class="container-icon">
-                                <i class="fas fa-exclamation fa-3x" v-if="claim.status === 'created'" title="новая заявка" style="color: #fffa31;"></i>
-                            </div>
-                        </th>
+                    <tr v-for="(claim, index) in claims" :key="index" v-bind:class="['claim_' + claim.status]" :title="getTitle(claim.status)">
+                        <td>{{claim.created_at_shortened}}</td>
                         <td>{{ fullname(claim) }}</td>
                         <td>{{ claim.phone }}</td>
                         <td>{{ address(claim) }}</td>
@@ -39,18 +35,13 @@
                             <div class="container-icon" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
-                            <div class="container-icon">
-                                <i class="fas fa-bookmark fa-2x" v-if="claim.status === 'created'" style="color: dimgrey;"  title="новая заявка"></i>
-                                <i class="fas fa-bookmark fa-2x" v-if="claim.status === 'assigned'" style="color: #9dbcf5;" title="заявка в работе"></i>
-                                <i class="fas fa-bookmark fa-2x" v-if="claim.status === 'executed'" style="color: #fffa31;" title="выполненая заявка"></i>
-                            </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
             <datatable-custom-paginator
-            v-on:setAnotherPage="getAllClaimsOfOrganization({
+            v-on:setAnotherPage="getClaimsToChildrenOrganization({
                 organization_id : userState.user.organization.id,
                 dispatchStatusFilter : dispatchStatusFilter, search : searchField,
                 sortByData: sortByData,
@@ -67,15 +58,15 @@
 
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
-    import OrganizationState from '../../../store/functional/organization/types';
+    import OrganizationState from '../../../../store/functional/organization/types';
     import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
-    import UserState from '../../../store/common/user/types';
+    import UserState from '../../../../store/common/user/types';
     import UpdateStatusClaims from '@/components/functional/claims/UpdateStatusClaims.vue';
-    import throttle from '../../../store/util/operations/throttle';
-    import ClaimService from '../../../domain/services/functional/claims/ClaimService';
-    import DatatableCustomPaginator from '../../../components/util/DatatableCustomPaginator.vue';
-    import IPaginationState from '../../../store/util/pagination/types';
-    import CommentState from '../../../store/functional/comment/types';
+    import throttle from '../../../../store/util/operations/throttle';
+    import ClaimService from '../../../../domain/services/functional/claims/ClaimService';
+    import DatatableCustomPaginator from '../../../../components/util/DatatableCustomPaginator.vue';
+    import IPaginationState from '../../../../store/util/pagination/types';
+    import CommentState from '../../../../store/functional/comment/types';
     import AppService from '@/domain/services/common/AppService';
 
     @Component({
@@ -83,7 +74,7 @@
             UpdateStatusClaims, DatatableCustomPaginator,
         },
     })
-    export default class SpecialistApplications extends Vue {
+    export default class ExecutedClaims extends Vue {
         @Provide()
         public searchField: string = '';
 
@@ -102,20 +93,20 @@
         @State('pagination') public paginationState!: IPaginationState;
         @State('comment') public commentState!: CommentState;
 
-        @Action('getAllClaimsOfOrganization')
-        public getAllClaimsOfOrganization;
+        @Action('getClaimsToChildrenOrganization')
+        public getClaimsToChildrenOrganization;
 
         @Action('getAllChildrenOrganization')
         public getAllChildrenOrganization;
 
         @Provide()
         public tableColumns = [
-            {label: 'Дата', sort: true},
-            {label: 'Заявитель', sort: false},
-            {label: 'Телефон', sort: false},
-            {label: 'Адрес (район / адрес)', sort: false},
-            {label: 'Статус обработки', sort: false},
-            {label: '', sort: false},
+            {label: 'Дата', sort: true, icon: ''},
+            {label: 'Заявитель', sort: false, icon: ''},
+            {label: 'Телефон', sort: false, icon: ''},
+            {label: 'Адрес (район / адрес)', sort: false, icon: ''},
+            {label: 'Статус обработки', sort: false, icon: ''},
+            {label: '', sort: false, icon: 'fas fa-cog'},
         ];
 
         @Provide()
@@ -131,7 +122,7 @@
 
         constructor() {
             super();
-            headings.title = 'Все заявки';
+            headings.title = 'Заявки организаций';
             plusButton.visible = false;
         }
 
@@ -157,7 +148,7 @@
             // Обнулить и поставить страницу №1
             this.paginationState.currentPage = 1;
 
-            this.getAllClaimsOfOrganization({
+            this.getClaimsToChildrenOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter, search : this.searchField,
                 sortByData: this.sortByData,
@@ -165,12 +156,12 @@
         }
 
         public created() {
-            this.getAllClaimsOfOrganization({
+            this.getClaimsToChildrenOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter,
                 search : this.searchField, sortByData: this.sortByData });
 
-            this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });
+            // this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });
         }
 
         public show(row) {
@@ -185,10 +176,20 @@
 
         public sortByDataFunc() {
             this.sortByData = (this.sortByData === 'desc') ? 'asc' : 'desc';
-            this.getAllClaimsOfOrganization({
+            this.getClaimsToChildrenOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter,
                 search : this.searchField, sortByData: this.sortByData });
+        }
+
+        public getTitle(status) {
+            const claimStatus = {
+                created : 'новая заявка',
+                assigned : 'заявка в работе',
+                executed : 'выполненая заявка',
+            };
+
+            return claimStatus[status];
         }
 
     }

@@ -1,11 +1,17 @@
-<!--Созданные заявки-->
 <template>
-    <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="current-tab">
+    <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="executed-tab">
+
 
     </div>
 </template>
 
 <script lang="ts">
 
+    import {Component, Vue} from 'vue-property-decorator';
+
+    @Component
+    export default class ExecutableClaims extends Vue {
+
+    }
 
 </script>

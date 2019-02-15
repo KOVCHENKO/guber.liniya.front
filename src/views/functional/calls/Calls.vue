@@ -28,6 +28,7 @@
 <script lang="ts">
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
+    import {socket} from '@/bootstrap';
 
     @Component
     export default class Calls extends Vue {
@@ -40,6 +41,17 @@
             super();
             headings.title = 'Звонки';
             plusButton.visible = false;
+        }
+
+        public created() {
+            this.$router.push({ name: 'missed_calls' });
+            this.listenToEvents();
+        }
+
+        public listenToEvents() {
+            socket.on('new_call', (data) => {
+                $('#resolveCall').modal('show');
+            });
         }
 
 

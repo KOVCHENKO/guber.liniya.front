@@ -20,9 +20,13 @@ Vue.use(VeeValidate, {
 /* Loading Jquery */
 try {
     // @ts-ignore
+    // tslint:disable-next-line
     window.$ = window.jQuery = require('jquery');
+    // tslint:disable-next-line
     require('bootstrap');
-} catch (e) {}
+} finally {
+    // TODO: warn concerning jquery and bootstrap connection
+}
 
 
 /* Компонент для уведомлений (шаблон <notifications></notifications> находится в TopMenu.vue) */
@@ -40,5 +44,6 @@ import VueMask from 'v-mask';
 Vue.use(VueMask);
 
 // @ts-ignore
+// tslint:disable-next-line
 const io = require('socket.io-client');
 export const socket = io('http://localhost:3000');

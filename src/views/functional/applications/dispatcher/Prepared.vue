@@ -38,10 +38,7 @@
 
             <datatable-custom-paginator
                     v-on:setAnotherPage="getAllClaims({
-                        dispatchStatus: $route.params.dispatch_status,
-                        dispatchStatusFilter: dispatchStatusFilter,
-                        statusFilter: statusFilter,
-                        closeStatusFilter: closeStatusFilter,
+                        dispatchStatus: dispatchStatusFilter,
                      })"
             ></datatable-custom-paginator>
 
@@ -69,8 +66,7 @@
     import ClaimService from '@/domain/services/functional/claims/ClaimService';
     import IPaginationState from '@/store/util/pagination/types';
     import {PREPARED} from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
-    import {socket} from "@/bootstrap";
-    // import {Echo} from '@/bootstrap';
+    import {socket} from '@/bootstrap';
 
     @Component({
         components: {
@@ -79,21 +75,11 @@
             DatatableCustomPaginator,
             ReassignToAnotherOrganization,
         },
-        sockets:{
-            connect(){
-                console.log('connect was called');
-            },
-            disconnect(){
-                console.log('disconnect was called');
-            }
-        }
     })
     export default class PreparedClaims extends Vue implements IWithRoute {
         // Фильтры - Поиск, Статус приема, Статус обработки, Статус выполнения
         @Provide() public searchField: string = '';
         @Provide() public dispatchStatusFilter: string = PREPARED;
-        @Provide() public statusFilter: string = 'all';
-        @Provide() public closeStatusFilter: string = 'all';
 
         // Поле сортировки
         public sortBy: string = 'created_at';
@@ -124,11 +110,10 @@
         }
 
         public created() {
-            this.listenToLaravelEcho();
+            this.listenToEvents();
 
             this.getAllClaims({
-                dispatchStatus: this.$route.params.dispatch_status,
-                dispatchStatusFilter: this.dispatchStatusFilter,
+                dispatchStatus: PREPARED,
             });
         }
 
@@ -177,10 +162,7 @@
             // Начать поиск
             if (this.searchField === '') {
                 this.getAllClaims({
-                    dispatchStatus: this.$route.params.dispatch_status,
-                    dispatchStatusFilter: PREPARED,
-                    statusFilter: this.statusFilter,
-                    closeStatusFilter: this.closeStatusFilter,
+                    dispatchStatus: PREPARED,
                     sortBy: this.sortBy,
                     sortDirection: this.sortDirection,
                 });
@@ -189,10 +171,7 @@
 
             this.searchClaim({
                 search: this.searchField,
-                dispatchStatus: this.$route.params.dispatch_status,
-                dispatchStatusFilter: PREPARED,
-                statusFilter: this.statusFilter,
-                closeStatusFilter: this.closeStatusFilter,
+                dispatchStatus: PREPARED,
                 sortBy: this.sortBy,
                 sortDirection: this.sortDirection,
             });
@@ -219,14 +198,10 @@
         /**
          * Слушаем события на создание
          */
-        public listenToLaravelEcho() {
+        public listenToEvents() {
             socket.on('new_claim', (data) => {
-                console.log(data);
+                // console.log(data);
             });
-
-            // Echo.channel('new-claim-channel').listen('NewClaimEvent', (e) => {
-            //     console.log('new claim event has been called');
-            // });
         }
     }
 

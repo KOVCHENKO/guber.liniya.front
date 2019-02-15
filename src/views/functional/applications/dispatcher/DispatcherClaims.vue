@@ -41,6 +41,10 @@
             plusButton.title = 'Добавить заявку';
         }
 
+        public created() {
+            this.$router.push({ name: 'prepared_dispatcher_claims' });
+        }
+
 
     }
 </script>
