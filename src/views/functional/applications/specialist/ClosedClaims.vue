@@ -11,8 +11,6 @@
     import {Component, Vue} from 'vue-property-decorator';
 
     @Component
-    export default class ClosedClaims extends Vue {
-      
-    }
+    export default class ClosedClaims extends Vue {}
 
 </script>

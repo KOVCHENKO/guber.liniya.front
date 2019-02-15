@@ -915,11 +915,11 @@ a.wizard__next.pull-right.final-step {
     .claim_executed td:first-child{
         border-left: 7px solid #20c715;
     }
+    .table thead tr.filter:first-child {
+        background: #dee2e6;
+    }
 }
 .nav-tabs .nav-link:hover, .nav-tabs .router-link-active {
     border-color: #e9ecef #e9ecef #dee2e6;
     border-bottom-color: white !important;
-}
-.table thead tr:first-child {
-    background: #dee2e6;
 }
