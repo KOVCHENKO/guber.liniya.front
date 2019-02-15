@@ -14,6 +14,7 @@ export const state: OrganizationState = {
     organizations: [{}],
     organizationTree: [{}],
     claims: [{}],
+    subcontractors: [{}],
 };
 
 export const actions: ActionTree<OrganizationState, RootState> = {
@@ -124,6 +125,28 @@ export const actions: ActionTree<OrganizationState, RootState> = {
         } catch {
             ErrorNotifier.notify();
         }
+    },
+
+    async getClaimsSubcontractors(context, payload) {
+        try {
+            const organizationId = payload.organization_id;
+            const result = await axios.get(baseUrl + 'claims/get_claims_subcontractors/'
+                + organizationId);
+            state.subcontractors = result.data;
+        } catch {
+            ErrorNotifier.notify();
+        }
+    },
+
+    async getSubcontractorUpdate(context, payload) {
+        return new Promise((resolve, reject) => {
+            axios.get(baseUrl + 'claims/update_subcontractor/' + payload.id).then(() => {
+                SuccessNotifier.notify('Инфо', 'Заявка закрыта');
+                resolve();
+            }, () => {
+                reject(ErrorNotifier.notify());
+            });
+        });
     },
 
 };

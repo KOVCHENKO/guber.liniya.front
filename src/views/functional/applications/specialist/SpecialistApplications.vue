@@ -16,7 +16,7 @@
 
             <li class="nav-item">
                 <router-link tag="a" class="nav-link" href="subcontractors_claims" role="tab" aria-controls="subcontractors_claims" aria-selected="true" id="subcontractors_claims" :to="{ name: 'specialist_subcontractors_claims' }">
-                    Заявки Соиспонителей
+                    Соисполнитель
                 </router-link>
             </li>
 
@@ -34,6 +34,10 @@
 
     @Component
     export default class SpecialistApplications extends Vue {
+
+        public created() {
+            this.$router.push({ name: 'specialist_all_claims' });
+        }
 
     }
 </script>
