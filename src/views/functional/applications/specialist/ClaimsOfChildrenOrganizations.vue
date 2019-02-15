@@ -3,7 +3,7 @@
         <div class="main-page" id="specialistApplications">
             <table class="table table-hover">
                 <thead>
-                    <tr>
+                    <tr class="filter">
                         <th colspan="4">
                             <input v-model="searchField" @input="throttledSearch" class="form-control input-search" placeholder="Поиск по заявителю, телефону">
                         </th>

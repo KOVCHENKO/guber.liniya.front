@@ -103,6 +103,17 @@ class ClaimService {
             return b;
         });
     }
+    /**
+     * Добавляет статус на русском языке - при этом оставляя простой (на англ.яз из БД) для взаимодействия
+     * @param claims
+     * @returns {any}
+     */
+    static addTranslatedSubcontractorStatus(subcontractor) {
+        switch (subcontractor.status) {
+            case 'opened': return 'Открыто';
+            case 'closed': return 'Закрыто';
+        }
+    }
     static changeTimeFormat(claims) {
         return claims.map((claim) => {
             claim.created_at_shortened = TimeFormatter.formatTime(claim.created_at);

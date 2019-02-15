@@ -915,7 +915,7 @@ a.wizard__next.pull-right.final-step {
     .claim_executed td:first-child{
         border-left: 7px solid #20c715;
     }
-    .table thead tr:first-child {
+    .table thead tr.filter:first-child {
         background: #dee2e6;
     }
 }
