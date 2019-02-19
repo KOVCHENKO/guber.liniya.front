@@ -11,6 +11,9 @@
 //
 // -- This is a parent command --
 import {baseUrlForTestToBackend} from '../../globals';
+import axios from "axios";
+import {baseUrl} from "../../../src/globals";
+import ErrorNotifier from "../../../src/domain/util/notifications/ErrorNotifier";
 
 Cypress.Commands.add("login", (email, password) => {
     cy.visit('/')
@@ -36,14 +39,39 @@ Cypress.Commands.add("loginRequest", (email, password) => {
            password: password,
         }
     }).then((response) => {
-        let vuex = {
-            user: {
-                token: `Bearer ${response.body.token}`
+        console.log(response)
+
+        axios.defaults.headers.common['Authorization'] = response.body.token;
+
+        cy.request({
+            method: 'GET',
+            url: `${baseUrlForTestToBackend}get_user`,
+            headers: {
+                Authorization: `Bearer ${response.body.token}`
             }
-        }
+        }).then((response) => {
+
+            let vuex = {
+                user: {
+                    user: response.body,
+                    token: `Bearer ${response.body.token}`
+                }
+            }
+
+            window.localStorage.setItem('vuex', JSON.stringify(vuex));
 
 
-        window.localStorage.setItem('vuex', JSON.stringify(vuex));
+            console.log(response)
+        })
+
+        // let vuex = {
+        //     user: {
+        //         token: `Bearer ${response.body.token}`
+        //     }
+        // }
+
+
+        // window.localStorage.setItem('vuex', JSON.stringify(vuex));
     })
 })
 

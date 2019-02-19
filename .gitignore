@@ -22,3 +22,8 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+# urls
+/src/globals.ts
+/src/globals.js
+/src/globals.js.map

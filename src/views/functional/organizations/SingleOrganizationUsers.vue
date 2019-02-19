@@ -8,7 +8,7 @@
                 <tr>
                     <td>{{ row.email }}</td>
                     <td>
-                        <div style="cursor: pointer;" @click="resetPassword(row)">
+                        <div class="container-icon" @click="resetPassword(row)">
                             <i class="fas fa-pencil-alt"></i>
                         </div>
                     </td>

@@ -10,6 +10,7 @@ export const state = {
     organizations: [{}],
     organizationTree: [{}],
     claims: [{}],
+    subcontractors: [{}],
 };
 export const actions = {
     getAllOrganizations({ commit }) {
@@ -85,6 +86,21 @@ export const actions = {
             ErrorNotifier.notify();
         }
     },
+    async getClaimsToChildrenOrganization({ rootState, dispatch }, payload) {
+        try {
+            const organizationId = payload.organization_id;
+            const result = await axios.get(baseUrl + 'organizations/all_claims_of_children_organization/'
+                + organizationId + '?dispatchStatusFilter=' + payload.dispatchStatusFilter +
+                '&search=' + payload.search + '&page=' + rootState.pagination.currentPage +
+                '&sortByData=' + payload.sortByData);
+            state.claims = result.data.claims;
+            state.claims = ClaimService.addTranslatedClaimStatus(state.claims);
+            dispatch('formPagination', { lastPage: result.data.count });
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
+    },
     async getAllChildrenOrganization(context, payload) {
         try {
             const organizationId = payload.organization_id;
@@ -95,6 +111,27 @@ export const actions = {
         catch {
             ErrorNotifier.notify();
         }
+    },
+    async getClaimsSubcontractors(context, payload) {
+        try {
+            const organizationId = payload.organization_id;
+            const result = await axios.get(baseUrl + 'claims/get_claims_subcontractors/'
+                + organizationId);
+            state.subcontractors = result.data;
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
+    },
+    async getSubcontractorUpdate(context, payload) {
+        return new Promise((resolve, reject) => {
+            axios.get(baseUrl + 'claims/update_subcontractor/' + payload.id).then(() => {
+                SuccessNotifier.notify('Инфо', 'Заявка закрыта');
+                resolve();
+            }, () => {
+                reject(ErrorNotifier.notify());
+            });
+        });
     },
 };
 export const organization = {

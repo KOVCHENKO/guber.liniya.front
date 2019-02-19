@@ -7,6 +7,7 @@ import './registerServiceWorker'; // ???
 import './globals'; // глобальные настройки
 import i18n from './i18n'; // языковой файл
 import { addAuthorizationHeaderFromLocalStorage } from '@/domain/util/libraries/AxiosConfig';
+import { loaderInitializer } from '@/domain/util/interface/LoaderInterceptor';
 Vue.config.productionTip = false;
 export const vueInstance = new Vue({
     router,
@@ -14,9 +15,12 @@ export const vueInstance = new Vue({
     i18n,
     render: (h) => h(App),
     created() {
+        // Добавление в localstorage после обновления
         if (localStorage.getItem('vuex')) {
             addAuthorizationHeaderFromLocalStorage(localStorage.getItem('vuex'));
         }
+        // Отработка loader в axios
+        loaderInitializer();
     },
 }).$mount('#app');
 //# sourceMappingURL=main.js.map

@@ -2,7 +2,7 @@ import IProblem from '@/domain/entities/functional/interfaces/IProblem';
 
 interface IProblemCollection {
     problems: IProblem[];
-    add(problem);
+    add(problem: IProblem): void;
 }
 
 export default IProblemCollection;

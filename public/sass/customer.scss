@@ -357,7 +357,7 @@ input.input-search[placeholder] {
     position: relative;
     margin: 0;
 }
-.nav {
+.cst-nav {
     padding: 0;
     display: block;
     margin-bottom: 0;
@@ -369,7 +369,7 @@ input.input-search[placeholder] {
     display: block;
     float: none;
 }
-.nav>li {
+.cst-nav>li {
     position: relative;
 }
 .header-nav li a {
@@ -832,4 +832,94 @@ audio {
 }
 .customer-dialog .md-dialog-container {
 	width: 640px !important;
+}
+.wizard {
+	li.active {
+        border-right: none;
+        border-left: none;
+    }
+}
+.cst-list-group {
+    overflow-y: auto;
+    max-height: 150px;
+}
+a.wizard__next.pull-right.final-step {
+    display: none !important;
+}
+.expiredClaim {
+    color: red;
+}
+.cst-scrollbar {
+    max-height: 250px;
+    overflow: auto;
+    margin-top: 25px;
+}
+.fc-bordered {
+    height: auto;
+    line-height: 20px;
+    padding: 16px 21px;
+    border: 0;
+    color: inherit;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    background: rgba(0,0,0,0.03);
+    outline: none !important;
+    -webkit-box-shadow: none;
+    box-shadow: none !important;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: background-color .3s ease, border .3s ease, color .3s ease;
+    -moz-transition: background-color .3s ease, border .3s ease, color .3s ease;
+    -ms-transition: background-color .3s ease, border .3s ease, color .3s ease;
+    -o-transition: background-color .3s ease, border .3s ease, color .3s ease;
+    transition: background-color .3s ease, border .3s ease, color .3s ease;
+    background: transparent !important;
+    border: 0 solid transparent !important;
+    border-bottom: 1px solid #949494 !important;
+    color: #333 !important;
+    padding: 15px 21px !important;
+    padding-bottom: 16px !important;
+}
+.cst-audio {
+    width: 100%;
+}
+.cst-float-right {
+    float: right;
+}
+.cst-container {
+    padding: 20px 0;
+}
+.cst-clear {
+    clear: both;
+}
+.cst-col-container {
+   padding: 0 20px; 
+}
+.cst-container-common {
+    padding: 20px;
+}
+#specialistApplications {
+    .claim_created {
+        font-weight: bold;
+    }
+    .claim_assigned td:first-child {
+        border-left: 7px solid #9dbcf5;
+    }
+    .claim_executed td:first-child{
+        border-left: 7px solid #20c715;
+    }
+    .table thead tr.filter:first-child {
+        background: #dee2e6;
+    }
+}
+.nav-tabs .nav-link:hover, .nav-tabs .router-link-active {
+    border-color: #e9ecef #e9ecef #dee2e6;
+    border-bottom-color: white !important;
 }

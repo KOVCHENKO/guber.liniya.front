@@ -5,7 +5,7 @@ import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 
 export class RoleResolver {
 
-    public static resolveRole(role) {
+    public static resolveRole(role: string) {
         try {
             for (const singleRole of this.roleBunch) {
                 if (singleRole.type === role) {

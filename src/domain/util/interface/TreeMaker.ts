@@ -1,4 +1,4 @@
-const makeTree = (elements, icon) =>  {
+const makeTree = (elements: any, icon: string) =>  {
     for (const singleElement of elements) {
         singleElement.text = singleElement.name;
         singleElement.opened = true;
@@ -31,7 +31,7 @@ const makeTree = (elements, icon) =>  {
     return cleanedTree;
 };
 
-const getSelectedNodes = (elements, selectedIds) => {
+const getSelectedNodes = (elements: any, selectedIds: [{}]) => {
     for (const singleElement of elements) {
         singleElement.selected = false;
 

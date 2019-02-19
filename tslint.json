@@ -13,7 +13,8 @@
       "src/components/util/VueJsDatatable/src/vue-datatable-header.vue",
       "src/components/util/VueJsDatatable/src/vue-datatable-cell.vue",
       "src/components/util/upload/FileUpload.vue",
-      "src/views/common/Search.vue"
+      "src/views/common/Search.vue",
+      "src/components/functional/addresses/AddressPartial.vue"
     ]
   },
   "rules": {
@@ -22,6 +23,7 @@
     "ordered-imports": false,
     "object-literal-sort-keys": false,
     "no-consecutive-blank-lines": false,
-    "no-shadowed-variable": false
+    "no-shadowed-variable": false,
+    "max-line-length": [ true, 150 ]
   }
 }

@@ -68,7 +68,12 @@ export default {
         VueScrollbar: ScrollBar
     },
 
-    props: ['value', 'validation'],
+    props: {
+        validation: String,
+        city: String,
+        street: String,
+        building: String,
+    },
 
     data() {
 
@@ -88,27 +93,6 @@ export default {
             search: {city: '', street: '', building: '', shortcadnum: ''}
         }
     },
-
-    // watch: {
-    //     'current.city': function (city) {
-    //         this.value.city = city.SHORTNAME + '. ' + city.FORMALNAME;
-    //         this.search.city = city.SHORTNAME + '. ' + city.FORMALNAME;
-    //         this.visibility.cityList = false;
-    //     },
-    //     'current.street': function (street) {
-    //         this.value.street = street.FORMALNAME;
-    //         this.search.street = street.FORMALNAME;
-    //         this.visibility.streetList = false;
-    //     },
-    //     'current.building': function (building) {
-    //         this.value.building = building.FORMALNAME;
-    //         this.search.building = building.FORMALNAME;
-    //         this.visibility.buildingList = false;
-    //     },
-    //     'value': function (value) {
-    //         this.search = value;
-    //     },
-    // },
 
     computed: {
         /* Проверка ввода адресной информации */
@@ -174,6 +158,8 @@ export default {
             this.visibility.cityList = false;
             this.current.city = city;
 
+            this.$emit('update:city', city.SHORTNAME + '. ' + city.FORMALNAME);
+
             this.getStreetsList();
         },
 
@@ -203,6 +189,9 @@ export default {
         setStreet(street) {
             this.search.street = street.FORMALNAME;
             this.current.street = street;
+
+            this.$emit('update:street', street.FORMALNAME);
+
             this.getBuildingsList();
         },
 
@@ -233,6 +222,7 @@ export default {
             this.search.building = building.FORMALNAME;
             this.visibility.buildingList = false;
 
+            this.$emit('update:building', building.FORMALNAME);
         },
 
     },

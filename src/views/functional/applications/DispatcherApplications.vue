@@ -55,11 +55,11 @@
                         <td class="cst-col-213" v-if="claim.status !== 'rejected'">{{ claim.translatedStatus }}</td>
                         <td >{{ claim.translatedCloseStatus }}</td>
                         <td>
-                            <div style="cursor: pointer;" @click="show(claim)">
+                            <div class="container-icon" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                         </td>
-                        <td v-if="claim.responsible_organization == ''">Информация отсутсвует</td>
+                        <td v-if="claim.responsible_organization === ''">Информация отсутсвует</td>
                         <td v-else>{{ claim.responsible_organization[0].name }}</td>
                     </tr>
                     <!-- </span> -->
@@ -90,7 +90,7 @@
     import ReassignToAnotherOrganization from '@/components/functional/applications/DispatcherApplications/ReassignToAnotherOrganization.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '../../../store/functional/claim/types';
-    import {headings, plusButton, statusDialog} from '../../../domain/util/interface/CommonInterface';
+    import {headings, plusButton} from '../../../domain/util/interface/CommonInterface';
     import Claim from '../../../domain/entities/functional/Claim';
     import Address from '../../../domain/entities/functional/Address';
     import Problem from '../../../domain/entities/functional/Problem';
@@ -155,7 +155,7 @@
 
         public show(claim) {
             this.makeClaim(claim);
-            statusDialog.show = true;
+            $('#updateApplication').modal('show');
         }
 
         public makeClaim(claim) {
@@ -165,11 +165,13 @@
                 problem = new Problem(claim.problem.id, claim.problem.description, claim.problem.description);
             }
 
-            this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
-                claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.status,
-                claim.dispatch_status, null, claim.level, claim.parents, claim.comments,
-                new Address(claim.address.id, claim.address.district, claim.address.location), problem,
-                new Call(0, '', '', '', 'success', 'in',  '', '', ''));
+            this.claimState.claim = claim;
+
+            // this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
+            //     claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.status,
+            //     claim.dispatch_status, null, claim.level, claim.parents, claim.comments,
+            //     new Address(claim.address.id, claim.address.district, claim.address.location), problem,
+            //     new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
             // Подтверждающие файлы
             this.claimState.confirmationFiles = claim.files;
@@ -255,9 +257,3 @@
         }
     }
 </script>
-
-<style>
-    .expiredClaim {
-        color: red;
-    }
-</style>

@@ -1,6 +1,10 @@
 import { DISPATCHED, EDITED, PREPARED, RAW } from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
 import TimeFormatter from '@/domain/util/formatters/TimeFormatter';
 class ClaimService {
+    /**
+     * Resolves raw claims from server
+     * @param claims
+     */
     static resolveClaimDispatchStatus(claims) {
         return claims.map((b) => {
             switch (b.dispatch_status) {
@@ -28,6 +32,10 @@ class ClaimService {
             case 'Отправлена': return DISPATCHED;
         }
     }
+    /**
+     * Resolves raw claims from server
+     * @param claims
+     */
     static resolveClaimStatus(claims) {
         return claims.map((b) => {
             switch (b.status) {
@@ -95,6 +103,17 @@ class ClaimService {
             return b;
         });
     }
+    /**
+     * Добавляет статус на русском языке - при этом оставляя простой (на англ.яз из БД) для взаимодействия
+     * @param claims
+     * @returns {any}
+     */
+    static addTranslatedSubcontractorStatus(subcontractor) {
+        switch (subcontractor.status) {
+            case 'opened': return 'Открыто';
+            case 'closed': return 'Закрыто';
+        }
+    }
     static changeTimeFormat(claims) {
         return claims.map((claim) => {
             claim.created_at_shortened = TimeFormatter.formatTime(claim.created_at);
@@ -108,9 +127,9 @@ class ClaimService {
         // claims[subIndex].created_at = claim.createdAt;
         claims[subIndex].name = claim.name;
         claims[subIndex].description = claim.description;
-        claims[subIndex].firstname = claim.firstName;
-        claims[subIndex].middlename = claim.middleName;
-        claims[subIndex].lastname = claim.lastName;
+        // claims[subIndex].firstname = claim.firstName;
+        // claims[subIndex].middlename = claim.middleName;
+        // claims[subIndex].lastname = claim.lastName;
         claims[subIndex].address = claim.address;
         claims[subIndex].phone = claim.phone;
         claims[subIndex].dispatch_status = claim.dispatchStatus;

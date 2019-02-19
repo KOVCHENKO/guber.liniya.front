@@ -147,6 +147,9 @@ const messages = {
             repassword: 'Повторить пароль',
             reset_password_modal: 'Сбросить пароль',
         },
+        applicant: {
+            add_applicant: 'Добавить заявителя',
+        },
     },
 };
 const i18n = new VueI18n({

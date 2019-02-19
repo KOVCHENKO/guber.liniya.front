@@ -148,6 +148,9 @@ const messages = {
             repassword: 'Повторить пароль',
             reset_password_modal: 'Сбросить пароль',
         },
+        applicant: {
+            add_applicant: 'Добавить заявителя',
+        },
     },
 };
 

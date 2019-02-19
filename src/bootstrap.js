@@ -28,13 +28,13 @@ try {
 import Notifications from 'vue-notification';
 Vue.use(Notifications);
 
-import VueMaterial from 'vue-material';
-import 'vue-material/dist/vue-material.min.css';
-import 'vue-material/dist/theme/default.css';
-Vue.use(VueMaterial);
-
 import VueRx from 'vue-rx';
 Vue.use(VueRx);
 
-// import VueScrollbar from 'vue2-scrollbar';
-// Vue.component('vue-scrollbar', VueScrollbar);
+import VueGoodWizard from 'vue-good-wizard';
+Vue.use(VueGoodWizard);
+
+// Маска для полей
+import VueMask from 'v-mask';
+Vue.use(VueMask);
+

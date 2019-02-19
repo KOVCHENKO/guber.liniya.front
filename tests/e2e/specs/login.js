@@ -19,5 +19,7 @@ describe('login page test', () => {
         cy.contains('Войти')
             .click()
 
+        cy.url().should('include', '/')
+
     })
 })

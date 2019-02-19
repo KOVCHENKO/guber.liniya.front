@@ -13,6 +13,7 @@ export class ProblemTypeCollection {
             problemType.text = problemType.name;
             problemType.icon = 'fas fa-exclamation-circle';
             problemType.type = 'problemType';
+            // @ts-ignore
             for (const problem of problemType.children) {
                 problem.opened = false;
                 problem.text = problem.name;
@@ -48,6 +49,7 @@ export class ProblemTypeCollection {
             problemType.text = problemType.name;
             problemType.opened = true;
             problemType.disabled = true;
+            // @ts-ignore
             for (const problem of problemType.children) {
                 problem.text = problem.name;
                 problem.opened = true;

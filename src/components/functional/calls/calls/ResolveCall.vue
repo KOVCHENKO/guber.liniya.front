@@ -1,156 +1,103 @@
 <template>
     <div>
-        <!-- Диалоговое окно-->
-        <md-dialog :md-active.sync="statusDialog.show" class="customer-dialog">
-            <md-dialog-title>Создание заявки</md-dialog-title>
-            <!-- <hr class="transparent-line"> -->
-            <!-- Степпер-->
-            <md-steppers :md-active-step.sync="active" md-linear>
-                <md-step id="zero" md-label="Данные звонка" md-description="тип звонка" :md-done.sync="steps.zero">
-                    <!-- Информация о пользователе-->
-                    <hr class="transparent-line">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="claim-content">
-                                <md-content class="claim-text">Тип звонка</md-content>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="claimed" value="claimed" @click="chooseCallType('claimed')" v-model="callType" class="custom-control-input">
-                                <label class="custom-control-label" for="claimed">Заявка</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="reclaimed" value="reclaimed" @click="chooseCallType('reclaimed')" v-model="callType" class="custom-control-input">
-                                <label class="custom-control-label" for="reclaimed">Повторная заявка</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="failed" value="failed" @click="chooseCallType('failed')" v-model="callType" class="custom-control-input">
-                                <label class="custom-control-label" for="failed">Ошибка</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="claim-content">
-                                <md-content class="claim-text">Уровень проблемы</md-content>
-                            </div>
-                            <div class="form-check">
-                                <input v-model="claimLevel" type="checkbox" class="form-check-input" style="margin-top: 10px">
-                                <label class="form-check-label">Общезначимая</label>
-                            </div>
-
-                            <div>
-                                <audio style="margin-top: 5px; width: 100%;" controls>
-                                    <source :src="claimState.claim.link" type="audio/mpeg">
-                                </audio>
-                            </div>
-                        </div>
+        <div class="modal fade" id="resolveCall" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Создание заявки</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <div class="modal-body">
+                        <vue-good-wizard
+                            ref="vueGoodWizard"
+                            :previousStepLabel="'Назад'"
+                            :nextStepLabel="'Вперед'"
+                            :steps="steps"
+                            :onNext="nextClicked" 
+                            :onBack="backClicked">
+                            <div slot="page1">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <h5>Тип звонка</h5>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="claimed" value="claimed" @click="chooseCallType('claimed')"
+                                                v-model="callType" class="custom-control-input">
+                                            <label class="custom-control-label" for="claimed">Заявка</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="reclaimed" value="reclaimed"
+                                                @click="chooseCallType('reclaimed')" v-model="callType"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="reclaimed">Повторная заявка</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="failed" value="failed" @click="chooseCallType('failed')"
+                                                v-model="callType" class="custom-control-input">
+                                            <label class="custom-control-label" for="failed">Ошибка</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <h5>Уровень проблемы</h5>
 
-                    <md-dialog-actions>
-                        <md-button class="md-primary" @click="setDone('zero', 'first')">Продолжить</md-button>
-                    </md-dialog-actions>
-                </md-step>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="generalChekbox" v-model="claimLevel">
+                                            <label class="custom-control-label" for="generalChekbox">Общезначимая</label>
+                                        </div>
 
-                <!-- Шаг первый-->
-                <md-step id="first" md-label="Заявитель" md-description="личные данные" :md-done.sync="steps.first">
-                    <!-- Информация о пользователе-->
-                    <div class="form-padding">
-                        <div class="claim-content row">
-                            <md-content class="claim-text">Данные заявителя</md-content>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <md-field>
-                                    <label for="claimer_lastname">{{$t('claims.claimer_lastname')}}</label>
-                                    <md-input :name="$t('validation.lastname')" id="claimer_lastname" v-model="claimState.claim.lastName"/>
-                                </md-field>
+                                        <div>
+                                            <audio style="margin-top: 5px; width: 100%;" controls>
+                                                <source :src="claimState.claim.link" type="audio/mpeg">
+                                            </audio>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-4">
-                                <md-field>
-                                    <label for="claimer_info">{{$t('claims.claimer_firstname')}}</label>
-                                    <md-input :name="$t('validation.firstname')" id="claimer_info" v-model="claimState.claim.firstName"/>
-                                </md-field>
+                            <div slot="page2">
+                                <h5>Данные заявителя
+                                    <span id="add-applicant-span">
+                                        <button type="button" class="btn btn-primary" @click="newApplicant">Добавить</button>
+                                    </span>
+                                </h5>
+                                <div class="form-padding">
+                                    <applicants-list></applicants-list>
+                                </div>
                             </div>
-                            <div class="col-sm-4">
-                                <md-field>
-                                    <label for="claimer_middlename">{{$t('claims.claimer_middlename')}}</label>
-                                    <md-input :name="$t('validation.middlename')" id="claimer_middlename" v-model="claimState.claim.middleName"/>
-                                </md-field>
+                            <div slot="page3">
+                                <div class="form-padding">
+                                    <problems-partial></problems-partial>
+
+                                    <div class="row">
+                                        <div class="col-sm-12 clearfix">
+
+                                            <label for="claim_description">{{$t('claims.claim_description')}}</label>
+                                            <textarea :name="$t('validation.description')" id="claim_description"
+                                                    v-model="claimState.claim.description"></textarea>
+                                            <span v-if="claimState.claim.description === ''" class="md-error">Необходимо заполнить содержание</span>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-
-                        <!--<fias-address v-model="claimState.claim.address.location" :validation="validation"></fias-address>-->
-
-                        <fias-address v-model="claimState.claim.address.location" :validation="validation"></fias-address>
-                        <!--<div class="row">-->
-                            <!--<div class="col-sm-4">-->
-                                <!--<md-field>-->
-                                    <!--<label>Район</label>-->
-                                    <!--<md-select name="сity" id="claimer_сity" v-model="claimState.claim.address.district">-->
-                                        <!--<md-option v-for="(district, index) in districts" :key="index" :value="district">{{ district }}</md-option>-->
-                                    <!--</md-select>-->
-                                <!--</md-field>-->
-                            <!--</div>-->
-                            <!--<div class="col-sm-8">-->
-                                <!--<md-field>-->
-                                    <!--<label for="claim_address">{{$t('claims.claimer_address')}}</label>-->
-                                    <!--<md-input :name="$t('validation.address')" id="claim_address" v-model="claimState.claim.address.location"/>-->
-                                <!--</md-field>-->
-                            <!--</div>-->
-                        <!--</div>-->
-
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <md-field>
-                                    <label for="claimer_phone">{{$t('claims.claimer_phone')}}</label>
-                                    <md-input :name="$t('validation.phone')" id="claimer_phone" v-model="claimState.claim.phone"/>
-                                </md-field>
-                                <span v-if="claimState.claim.phone === ''" class="md-error">Необходимо ввести телефон</span>
-
-                            </div>
-                            <div class="col-sm-6">
-                                <md-field>
-                                    <label for="claimer_email">{{$t('claims.claimer_email')}}</label>
-                                    <md-input :name="$t('validation.email')" id="claimer_email" v-model="claimState.claim.email"/>
-                                </md-field>
-                            </div>
-                        </div>
-
+                        </vue-good-wizard>
                     </div>
-                    <md-dialog-actions>
-                        <md-button class="md-primary" @click="setDone('first', 'second')">Продолжить</md-button>
-                    </md-dialog-actions>
-                </md-step>
-                <!-- Шаг второй-->
-                <md-step id="second" md-label="Заявка" md-description="подробная информация" :md-done.sync="steps.second">
-                    <!-- Информация о заявке-->
-                    <div class="form-padding">
-                        <problems-partial></problems-partial>
-
-                        <div class="row">
-                            <div class="col-sm-12 clearfix">
-
-                                <md-field>
-                                    <label>{{$t('claims.claim_description')}}</label>
-                                    <md-textarea id="claim_description" name="description" class="textarea-resize-none"
-                                        v-model="claimState.claim.description" style="min-height: 50px;"></md-textarea>
-                                </md-field>
-                                <span v-if="claimState.claim.description === ''" class="md-error">Необходимо заполнить содержание</span>
-
-                            </div>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">{{ $t("common.close") }}</button>
+                        <button type="button" class="btn btn-primary" @click="dispatchClaimCreate" v-if="buttonVisibleModal">{{ $t("common.create") }}</button>
+                        <button type="button" class="btn btn-primary" @click="dispatchClaimCreateMore" v-if="buttonVisibleModal">{{ $t("common.create_more") }}</button>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <md-dialog-actions>
-                        <md-button class="md-primary" @click="closeDialog">{{ $t("common.close") }}</md-button>
-                        <md-button class="md-primary" @click="dispatchClaimCreate">{{ $t("common.create") }}</md-button>
-                        <md-button class="md-primary" @click="dispatchClaimCreateMore">{{ $t("common.create_more") }}</md-button>
-                    </md-dialog-actions>
+        <!--Модальное окно - добавить заявителя-->
+        <add-applicant></add-applicant>
 
-                </md-step>
-            </md-steppers>
-
-        </md-dialog>
-
+        <!--Модальное окно - повторная заявка-->
         <reclaimed></reclaimed>
+
+        <!--Модальное окно - да-нет, подтверждение-->
         <ok-cancel-modal></ok-cancel-modal>
 
     </div>
@@ -159,25 +106,27 @@
 <script lang="ts">
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
-    import ClaimState from '../../../../store/functional/claim/types';
+    import ClaimState from '@/store/functional/claim/types';
     import ProblemsPartial from '@/components/functional/calls/calls/ProblemsPartial.vue';
-    import {default as Address, districts} from '../../../../domain/entities/functional/Address';
-    import {OkCancelModalProperties, plusButton, statusDialog} from '../../../../domain/util/interface/CommonInterface';
-    import IWithRoute from '../../../../domain/util/interface/IWithRoute';
-    import UserState from '../../../../store/common/user/types';
-    import ISteps from '../../../../domain/util/interface/ISteps';
+    import {default as Address, districts} from '@/domain/entities/functional/Address';
+    import {OkCancelModalProperties, plusButton} from '@/domain/util/interface/CommonInterface';
+    import IWithRoute from '@/domain/util/interface/IWithRoute';
+    import UserState from '@/store/common/user/types';
     import Reclaimed from '@/components/functional/calls/calls/Reclaimed.vue';
     import OkCancelModal from '@/components/util/ui/OkCancelModal.vue';
-    import CallState from '../../../../store/functional/call/types';
-    import Claim from '../../../../domain/entities/functional/Claim';
-    import Problem from '../../../../domain/entities/functional/Problem';
-    import Call from '../../../../domain/entities/functional/Call';
-    import FiasAddress from '@/components/functional/addresses/AddressPartial.vue';
+    import CallState from '@/store/functional/call/types';
+    import ApplicantsList from '@/components/functional/calls/calls/partials/ApplicantsList.vue';
+    import AddApplicant from '@/components/functional/calls/calls/partials/AddApplicant.vue';
 
     @Component({
-        components: {ProblemsPartial, Reclaimed, OkCancelModal, FiasAddress},
+        components: {ProblemsPartial, Reclaimed, OkCancelModal, ApplicantsList, AddApplicant},
     })
     export default class CreateApplication extends Vue implements IWithRoute {
+
+        public $refs!: {
+            vueGoodWizard: HTMLFormElement,
+        };
+
         @Action public createClaim;
         @Action public getClaimsOfTheSamePhone;
         @Action public markCallAsFaulty;
@@ -192,19 +141,23 @@
 
         @Provide() public districts: string[] = districts;
         @Provide() public showSingleClaimModal: boolean = false;
-        @Provide() public active: string = 'zero';
 
-        // Validation для адресов фиас
-        @Provide() public validation: string = '';
+        @Provide() public steps = [
+            {
+                label: 'Данные звонка. Тип звонка', // md-description="тип звонка"
+                slot: 'page1',
+            },
+            {
+                label: 'Заявитель. Личные данные', // md-description="личные данные"
+                slot: 'page2',
+            },
+            {
+                label: 'Заявка. Подробная информация', // md-description="подробная информация"
+                slot: 'page3',
+            },
+        ];
 
-        @Provide() public steps: ISteps = {
-            zero: true,
-            first: false,
-            second: false,
-        };
-
-        @Provide() public statusDialog = statusDialog;
-
+        @Provide() public buttonVisibleModal = false;
 
         constructor() {
             super();
@@ -213,24 +166,38 @@
             OkCancelModalProperties.okAction = this.markCallAsFaulty;
         }
 
-        public created() {
-            statusDialog.show = false;
-            plusButton.clickAction = () => statusDialog.show = true;
+        public nextClicked(currentPage) {
+            if (currentPage === 1) {
+                this.buttonVisibleModal = true;
+            }
+            return true;
         }
 
-        public setDone(id, index) {
-            this.steps[id] = true;
+        public backClicked(currentPage) {
+            this.buttonVisibleModal = false;
+            return true;
+        }
 
-            if (index) {
-                this.active = index;
-            }
+        // TODO: 01.02 - xarrper. Нужно?
+        public created() {
+            plusButton.clickAction = () => $('#resolveCall').modal('show');
+        }
+
+        // TODO: 28.01 - xarrper.
+        public mounted() {
+            const self = this;
+            $('#resolveCall').on('shown.bs.modal', () => {
+                this.$refs.vueGoodWizard.handleResize();
+            });
+            $('#resolveCall').on('hidden.bs.modal', () => {
+                self.closeDialog();
+            });
         }
 
         public closeDialog() {
-            this.statusDialog.show = false;
-            this.active = 'active';
-            this.steps.first = true;
-            this.steps.second = false;
+            $('#resolveCall').modal('hide');
+            this.$refs.vueGoodWizard.currentStep = 0;
+            this.buttonVisibleModal = false;
         }
 
         /**
@@ -243,25 +210,29 @@
             // Повторные заявки
             if (processingStatus === 'reclaimed') {
                 this.getClaimsOfTheSamePhone();
-                this.getAllClaims({ dispatchStatus: 'dispatched' });
+                this.getAllClaims({dispatchStatus: 'dispatched'});
                 $('#reclaimedModal').modal('show');
             }
 
             // Со статусом ошибочная
             if (processingStatus === 'failed') {
                 $('#sureWindow').modal('show');
-                this.statusDialog.show = false;
+                this.closeDialog();
             }
 
             // Новая заявка
             if (processingStatus === 'claimed') {
 
-                this.claimState.claim = new Claim(0, '', '', '', '', '', this.callState.call.clientPhone, '', '',
-                    this.callState.call.link, '', null, '', [{}], [],
-                    new Address(0, 'Астрахань', ''), new Problem(0, '', ''),
-                    new Call(this.callState.call.id, this.callState.call.callId, this.callState.call.clientPhone,
-                        this.callState.call.link, this.callState.call.atsStatus, 'in', '', 'claimed',
-                        this.callState.call.createdAt));
+                this.claimState.claim.phone = this.callState.call.clientPhone;
+                this.claimState.claim.call = this.callState.call;
+                this.claimState.claim.call.processingStatus = 'claimed';
+
+                // this.claimState.claim = new Claim(0, '', '', '', '', '', this.callState.call.clientPhone, '', '',
+                //     this.callState.call.link, '', null, '', [{}], [],
+                //     new Address(0, 'Астрахань', ''), new Problem(0, '', ''),
+                //     new Call(this.callState.call.id, this.callState.call.callId, this.callState.call.clientPhone,
+                //         this.callState.call.link, this.callState.call.atsStatus, 'in', '', 'claimed',
+                //         this.callState.call.createdAt));
             }
         }
 
@@ -275,7 +246,7 @@
             // Создать заявку
             this.createClaim().then((response) => {
                 if (response.status === 200) {
-                    this.statusDialog.show = false;
+                    this.closeDialog();
                 }
             });
         }
@@ -291,12 +262,15 @@
             this.createClaim();
         }
 
+        /**
+         * Открыть окно с возностью добавить нового заявителя
+         */
+        public newApplicant() {
+            $('#createApplicantModal').modal('show');
+        }
+
         get claimLevelStringified() {
-            if (this.claimLevel === true) {
-                return 'Общезначимая';
-            } else {
-                return 'Личная';
-            }
+            return (this.claimLevel === true) ? 'Общезначимая' : 'Личная';
         }
 
     }

@@ -6,6 +6,15 @@ interface IProblemType {
     description: string;
     problems?: IProblem[];
     text?: string;
+
+    // Интерфейсные элементы дерева
+    opened?: boolean;
+    disabled?: boolean;
+    icon?: string;
+    type?: string;
+    children?: IProblemType[];
+    selected?: boolean;
+    push(newProblemType: IProblemType): any;
 }
 
 export default IProblemType;

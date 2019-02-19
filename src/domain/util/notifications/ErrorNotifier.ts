@@ -9,7 +9,7 @@ class ErrorNotifier {
         });
     }
 
-    public static notifyWithCustomMessage(message) {
+    public static notifyWithCustomMessage(message: string) {
         Vue.prototype.$notify({
             title: 'Ошибка',
             text: message,

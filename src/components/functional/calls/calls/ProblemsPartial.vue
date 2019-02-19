@@ -1,46 +1,32 @@
-<style scope>
-    .md-select-menu.md-menu-content-bottom-start.md-menu-content-small.md-menu-content.md-theme-default {
-        width: auto !important;
-        max-width: none !important;
-        min-width: 280px;
-    }
-</style>
 <template>
     <div>
         <div class="row" v-if="hiddenBasedOnClaimPid" >
             <div class="col-sm-4">
-                <md-field>
-                    <label>Тип проблемы</label>
-                    <md-select name="type_problem" id="type_problem" v-model="problemTypeId">
-                        <md-option v-for="(problemType, index) in problemTypeState.problemTypes" :key="index" :value="problemType.id">
-                            {{ problemType.name }}
-                        </md-option>
-                    </md-select>
-                </md-field>
+                <label for="type_problem">Тип проблемы</label>
+                <select class="form-control" name="type_problem" id="type_problem" v-model="problemTypeId">
+                    <option v-for="(problemType, index) in problemTypeState.problemTypes" :key="index" :value="problemType.id" @click="chooseProblemTypeById(problemType.id)">
+                        {{ problemType.name }}
+                    </option>
+                </select>
             </div>
 
             <div class="col-sm-4">
-                <md-field>
-                    <label>Проблема</label>
-                    <md-select name="problem" id="problem" v-model="problemId">
-                        <md-option v-for="(problem, index) in problems" :key="index" :value="problem.id">
-                            {{ problem.name }}
-                        </md-option>
-                    </md-select>
-                </md-field>
+                <label for="problem">Проблема</label>
+                <select class="form-control" name="problem" id="problem" v-model="problemId">
+                    <option v-for="(problem, index) in problems" :key="index" :value="problem.id">
+                        {{ problem.name }}
+                    </option>
+                </select>
             </div>
 
             <div class="col-sm-4">
-                <p class="cst-title" style="margin: 0px;">Организации</p>
-                <md-content class="md-scrollbar org-scrollbar">
-                    <ul v-if="dropDownOrganizationsClass" style="margin: 0px;">
-                        <li v-for="organization in problemState.organizations" :key="organization.id"><span style="color: rgba(0,0,0,0.54);"> &mdash; </span>{{ organization.name }}</li>
-                    </ul>
-                </md-content>
+                <label for="problem">Организации</label>
+                <ul class="list-group cst-list-group" v-if="dropDownOrganizationsClass">
+                    <li class="list-group-item" v-for="organization in problemState.organizations" :key="organization.id">{{ organization.name }}</li>
+                </ul>
             </div>
 
         </div>
-
     </div>
 </template>
 

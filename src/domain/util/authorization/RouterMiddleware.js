@@ -1,5 +1,6 @@
 import { tokenCheck } from '@/domain/util/authorization/CheckTokenAvailability';
 import { getRole } from '@/domain/util/authorization/RoleChecker';
+// TODO: Передать нормальные типы пользователей
 /**
  * Проверка на то, залогинен пользователь или нет
  * @param router

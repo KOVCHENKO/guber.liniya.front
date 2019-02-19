@@ -4,8 +4,12 @@ import TimeFormatter from '@/domain/util/formatters/TimeFormatter';
 
 class ClaimService {
 
-    public static resolveClaimDispatchStatus(claims) {
-        return claims.map( (b) => {
+    /**
+     * Resolves raw claims from server
+     * @param claims
+     */
+    public static resolveClaimDispatchStatus(claims: IClaim[]) {
+        return claims.map( (b: any) => {
             switch (b.dispatch_status) {
                 case RAW:  b.dispatch_status = 'Необработанна'; break;
                 case PREPARED:  b.dispatch_status = 'Создана'; break;
@@ -16,7 +20,7 @@ class ClaimService {
         });
     }
 
-    public static reverseClaimDispatchStatus(dispatchStatus) {
+    public static reverseClaimDispatchStatus(dispatchStatus: string) {
         switch (dispatchStatus) {
             case 'Необработанна':  return RAW;
             case 'Создана':  return PREPARED;
@@ -25,8 +29,12 @@ class ClaimService {
         }
     }
 
-    public static resolveClaimStatus(claims) {
-        return claims.map( (b) => {
+    /**
+     * Resolves raw claims from server
+     * @param claims
+     */
+    public static resolveClaimStatus(claims: [{}]) {
+        return claims.map( (b: any) => {
             switch (b.status) {
                 case 'created':  b.status = 'Создана'; break;
                 case 'executed':  b.status = 'Выполнена'; break;
@@ -42,8 +50,8 @@ class ClaimService {
      * @param claims
      * @returns {any}
      */
-    public static addTranslatedClaimStatus(claims) {
-        return claims.map( (b) => {
+    public static addTranslatedClaimStatus(claims: IClaim[]) {
+        return claims.map( (b: any) => {
             switch (b.status) {
                 case 'created':  b.translatedStatus = ''; break;
                 case 'executed':  b.translatedStatus = 'Выполнена'; break;
@@ -59,8 +67,8 @@ class ClaimService {
      * @param claims
      * @returns {any}
      */
-    public static addTranslatedCloseStatus(claims) {
-        return claims.map( (b) => {
+    public static addTranslatedCloseStatus(claims: IClaim[]) {
+        return claims.map( (b: any) => {
             switch (b.close_status) {
                 case 'raw':  b.translatedCloseStatus = ''; break;
                 case 'not_executed':  b.translatedCloseStatus = 'Ничего не сделано'; break;
@@ -71,14 +79,26 @@ class ClaimService {
         });
     }
 
-    public static changeTimeFormat(claims) {
-        return claims.map((claim) => {
+    /**
+     * Добавляет статус на русском языке - при этом оставляя простой (на англ.яз из БД) для взаимодействия
+     * @param claims
+     * @returns {any}
+     */
+    public static addTranslatedSubcontractorStatus(subcontractor: any) {
+        switch (subcontractor.status) {
+            case 'opened':  return 'Открыто';
+            case 'closed':  return 'Закрыто';
+        }
+    }
+
+    public static changeTimeFormat(claims: IClaim[]) {
+        return claims.map((claim: IClaim) => {
             claim.created_at_shortened = TimeFormatter.formatTime(claim.created_at);
             return claim;
         });
     }
 
-    public updateClaimInCollection(claims, claim: IClaim) {
+    public updateClaimInCollection(claims: IClaim[], claim: IClaim) {
         const subIndex = claims.map((e) => {
             return e.id;
         }).indexOf(claim.id);
@@ -86,9 +106,9 @@ class ClaimService {
         // claims[subIndex].created_at = claim.createdAt;
         claims[subIndex].name = claim.name;
         claims[subIndex].description = claim.description;
-        claims[subIndex].firstname = claim.firstName;
-        claims[subIndex].middlename = claim.middleName;
-        claims[subIndex].lastname = claim.lastName;
+        // claims[subIndex].firstname = claim.firstName;
+        // claims[subIndex].middlename = claim.middleName;
+        // claims[subIndex].lastname = claim.lastName;
         claims[subIndex].address = claim.address;
         claims[subIndex].phone = claim.phone;
         claims[subIndex].dispatch_status = claim.dispatchStatus;
@@ -101,7 +121,7 @@ class ClaimService {
      * Разрулить фильтры
      * @param payload
      */
-    public resolveFilters(payload) {
+    public resolveFilters(payload: any) {
         if (payload.dispatchStatus == null) { payload.dispatchStatus = 'all'; }
         if (payload.dispatchStatusFilter == null) { payload.dispatchStatusFilter = ''; }
         if (payload.statusFilter == null) { payload.statusFilter = ''; }

@@ -2,41 +2,51 @@
     <div class="modal fade" id="reclaimedModal" tabindex="-1" role="dialog"
          aria-labelledby="reclaimedModalLabel">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content cst-md-content">
+            <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title cst-md-title" id="reclaimedModalLabel">
-                        Поиск повторных звонков
-                    </h4>
+                    <h5 class="modal-title">Поиск повторных звонков</h5>
+                    <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <md-tabs md-sync-route>
-                        <md-tab id="tab-linked" md-label="По номеру телефона">
-                            <datatable
-                                    :columns="tableColumnsForClaimsByPhone"
-                                    :data="claimState.previousClaims"
-                            >
-                                <template slot-scope="{ row }">
-                                    <tr>
-                                        <td>{{ row.created_at }}</td>
-                                        <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
-                                        <td>{{ row.phone }}</td>
-                                        <td>
-                                            <div style="cursor: pointer;" @click="show(row)">
-                                                <i class="far fa-eye"></i>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style="cursor: pointer;" @click="choose(row)">
-                                                <i class="fab fa-get-pocket"></i>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </datatable>
-                        </md-tab>
-
-                        <md-tab id="tab-comments" md-label="Все заявки">
-                            <div class="main-page">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+					  <li class="nav-item">
+						<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">По номеру телефона</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Все заявки</a>
+					  </li>
+					</ul>
+                    <div class="tab-content" id="myTabContent">
+					  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="cst-container-common">
+                                <datatable
+                                        :columns="tableColumnsForClaimsByPhone"
+                                        :data="claimState.previousClaims"
+                                >
+                                    <template slot-scope="{ row }">
+                                        <tr>
+                                            <td>{{ row.created_at }}</td>
+                                            <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
+                                            <td>{{ row.phone }}</td>
+                                            <td>
+                                                <div class="container-icon" @click="show(row)">
+                                                    <i class="far fa-eye"></i>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="container-icon" @click="choose(row)">
+                                                    <i class="fab fa-get-pocket"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </datatable>
+                            </div>
+                      </div>
+					  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="cst-container-common">
                                 <input v-model="searchField" @input="throttledSearch" class="form-control" placeholder="Поиск по дате, заявителю, телефону">
 
                                 <datatable
@@ -46,16 +56,16 @@
                                     <template slot-scope="{ row }">
                                         <tr>
                                             <td>{{ row.created_at }}</td>
-                                            <td>{{row.firstname}} {{row.middlename}} {{row.lastname}}</td>
+                                            <td>{{ row.firstname }} {{row.middlename}} {{row.lastname}}</td>
                                             <td>{{ row.phone }}</td>
                                             <td>{{ row.address.district }} / {{ row.address.location }}</td>
                                             <td>
-                                                <div style="cursor: pointer;" @click="show(row)">
+                                                <div class="container-icon" @click="show(row)">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </div>
                                             </td>
                                             <td>
-                                                <div style="cursor: pointer;" @click="choose(row)">
+                                                <div class="container-icon" @click="choose(row)">
                                                     <i class="fab fa-get-pocket"></i>
                                                 </div>
                                             </td>
@@ -69,12 +79,11 @@
                                 ></datatable-custom-paginator>
 
                             </div>
-                        </md-tab>
-                    </md-tabs>
-
+                      </div>
+					</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="cst-md-btn" data-dismiss="modal">{{ $t("common.close") }}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ $t("common.close") }}</button>
                 </div>
             </div>
         </div>
@@ -89,15 +98,11 @@
     import DatatableCustomPaginator from '@/components/util/DatatableCustomPaginator.vue';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {State, Action} from 'vuex-class';
-    import ClaimState from '../../../../store/functional/claim/types';
-    import Claim from '../../../../domain/entities/functional/Claim';
-    import Address from '../../../../domain/entities/functional/Address';
-    import Problem from '../../../../domain/entities/functional/Problem';
-    import ICall from '../../../../domain/entities/functional/interfaces/ICall';
-    import throttle from '../../../../store/util/operations/throttle';
+    import ClaimState from '@/store/functional/claim/types';
+    import ICall from '@/domain/entities/functional/interfaces/ICall';
+    import throttle from '@/store/util/operations/throttle';
     import ClaimInfo from './ClaimInfo.vue';
-    import {statusDialogOfSecondLevel} from '../../../../domain/util/interface/CommonInterface';
-    import Call from '../../../../domain/entities/functional/Call';
+    import {statusDialogOfSecondLevel} from '@/domain/util/interface/CommonInterface';
 
     @Component({
         components: { DatatableCustomPaginator, ClaimInfo },
@@ -116,6 +121,7 @@
             {label: 'Заявитель'},
             {label: 'Телефон'},
             {label: ''},
+            {},
         ];
 
         @Provide()
@@ -132,24 +138,31 @@
             // Сохранить значение ИД завки и передать в новую заявку
             const savedCall: ICall = this.claimState.claim.call;
 
-            this.claimState.claim = new Claim(0, claim.name, claim.description, claim.firstname, claim.middlename,
-                claim.lastname, claim.phone, claim.email, claim.link,
-                claim.status, claim.dispatch_status, claim.id, claim.level, [{}], [],
-                new Address(claim.address.id, claim.address.district, claim.address.location),
-                new Problem(claim.problem.id, claim.problem.name, claim.problem.description),
-                savedCall);
+            this.claimState.claim = claim;
+            this.claimState.claim.call = savedCall;
+
+            // this.claimState.claim = new Claim(0, claim.name, claim.description, claim.firstname, claim.middlename,
+            //     claim.lastname, claim.phone, claim.email, claim.link,
+            //     claim.status, claim.dispatch_status, claim.id, claim.level, [{}], [],
+            //     new Address(claim.address.id, claim.address.district, claim.address.location),
+            //     new Problem(claim.problem.id, claim.problem.name, claim.problem.description),
+            //     savedCall);
 
             $('#reclaimedModal').modal('hide');
         }
 
         public show(row) {
-            this.claimState.claim = new Claim(row.id, row.name, row.description,
-                row.firstname, row.middlename, row.lastname, row.phone, '', row.link, '', '', null, row.level, [{}],
-                row.comments, new Address(0, 'Астрахань', ''),
-                new Problem(row.problem.id, row.problem.name, row.problem.description),
-                new Call(0, '', '', '', 'success', 'in',  '', '', ''));
 
-            statusDialogOfSecondLevel.show = true;
+            this.claimState.claim = row;
+            this.claimState.claim.problem = row.problem;
+
+            // this.claimState.claim = new Claim(row.id, row.name, row.description,
+            //     row.firstname, row.middlename, row.lastname, row.phone, '', row.link, '', '', null, row.level, [{}],
+            //     row.comments, new Address(0, 'Астрахань', ''),
+            //     new Problem(row.problem.id, row.problem.name, row.problem.description),
+            //     new Call(0, '', '', '', 'success', 'in',  '', '', ''));
+
+            $('#claimInfo').modal('show');
         }
 
         public startSearch() {
