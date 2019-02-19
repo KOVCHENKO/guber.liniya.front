@@ -33,7 +33,7 @@
 <script lang="ts">
     import {Component, Provide, Vue, Watch} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
-    import IProblem from '../../../../domain/entities/functional/interfaces/IProblem';
+    import IProblem from '@/domain/entities/functional/interfaces/IProblem';
 
     @Component
     export default class ClaimProblems extends Vue {

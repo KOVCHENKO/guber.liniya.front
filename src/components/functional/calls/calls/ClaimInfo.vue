@@ -58,9 +58,9 @@
 
 <script lang="ts">
     import {Component, Provide, Vue} from 'vue-property-decorator';
-    import {statusDialogOfSecondLevel} from '../../../../domain/util/interface/CommonInterface';
+    import {statusDialogOfSecondLevel} from '@/domain/util/interface/CommonInterface';
     import {State} from 'vuex-class';
-    import ClaimState from '../../../../store/functional/claim/types';
+    import ClaimState from '@/store/functional/claim/types';
     import AppService from '@/domain/services/common/AppService';
 
     @Component
