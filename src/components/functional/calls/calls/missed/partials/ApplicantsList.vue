@@ -44,7 +44,7 @@
     import ApplicantState from '@/store/functional/applicant/types';
     import ClaimState from '@/store/functional/claim/types';
     import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
-    import Paginator from '@/components/functional/calls/calls/partials/Paginator.vue';
+    import Paginator from '@/components/functional/calls/calls/missed/partials/Paginator.vue';
     import throttle from '@/store/util/operations/throttle';
 
 

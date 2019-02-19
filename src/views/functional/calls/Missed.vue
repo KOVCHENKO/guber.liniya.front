@@ -63,7 +63,7 @@
     import {Action, State} from 'vuex-class';
     import DatatableCustomPaginator from '@/components/util/DatatableCustomPaginator.vue';
     import CallState from '@/store/functional/call/types';
-    import ResolveCall from '@/components/functional/calls/calls/ResolveCall.vue';
+    import ResolveCall from '@/components/functional/calls/calls/missed/ResolveCall.vue';
     import {headings} from '@/domain/util/interface/CommonInterface';
     import ClaimState from '@/store/functional/claim/types';
     import Call from '@/domain/entities/functional/Call';

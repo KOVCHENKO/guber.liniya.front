@@ -107,16 +107,16 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import ClaimState from '@/store/functional/claim/types';
-    import ProblemsPartial from '@/components/functional/calls/calls/ProblemsPartial.vue';
+    import ProblemsPartial from '@/components/functional/calls/calls/missed/ProblemsPartial.vue';
     import {default as Address, districts} from '@/domain/entities/functional/Address';
     import {OkCancelModalProperties, plusButton} from '@/domain/util/interface/CommonInterface';
     import IWithRoute from '@/domain/util/interface/IWithRoute';
     import UserState from '@/store/common/user/types';
-    import Reclaimed from '@/components/functional/calls/calls/Reclaimed.vue';
+    import Reclaimed from '@/components/functional/calls/calls/missed/Reclaimed.vue';
     import OkCancelModal from '@/components/util/ui/OkCancelModal.vue';
     import CallState from '@/store/functional/call/types';
-    import ApplicantsList from '@/components/functional/calls/calls/partials/ApplicantsList.vue';
-    import AddApplicant from '@/components/functional/calls/calls/partials/AddApplicant.vue';
+    import ApplicantsList from '@/components/functional/calls/calls/missed/partials/ApplicantsList.vue';
+    import AddApplicant from '@/components/functional/calls/calls/missed/partials/AddApplicant.vue';
 
     @Component({
         components: {ProblemsPartial, Reclaimed, OkCancelModal, ApplicantsList, AddApplicant},
