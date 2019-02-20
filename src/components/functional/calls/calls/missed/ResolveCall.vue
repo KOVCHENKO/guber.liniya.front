@@ -188,8 +188,7 @@
             const self = this;
             $('#resolveCall').on('shown.bs.modal', () => {
                 this.$refs.vueGoodWizard.handleResize();
-            });
-            $('#resolveCall').on('hidden.bs.modal', () => {
+            }).on('hidden.bs.modal', () => {
                 self.closeDialog();
             });
         }

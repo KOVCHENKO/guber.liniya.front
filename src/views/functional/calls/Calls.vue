@@ -26,8 +26,10 @@
 </template>
 
 <script lang="ts">
+
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
+
 
     @Component
     export default class Calls extends Vue {
