@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.4.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.1057e5cae9ed6fc4372cd0b649bddcbf.js"
+  "/precache-manifest.6ddcc0ad5a8bd68d0799aa15521a17e3.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "liniya.front"});
