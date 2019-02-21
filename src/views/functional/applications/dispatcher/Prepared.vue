@@ -4,16 +4,18 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th colspan="4">
-                        <input v-model="searchField" @input="throttledSearch" class="form-control input-search" placeholder="Поиск по заявителю, телефону">
-                    </th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">
-                        {{column.label}}
-                        <i v-if="column.sorting" class="fas fa-sort" @click="makeSorting(column.column)"></i>
+                    <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}
+                        <span v-if="column.hasOwnProperty('filter')">
+                                <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
+                                <base-filter :column="column">
+                                    <component v-bind:is="column.component" :dataFilter="dataFilter"></component>
+                                </base-filter>
+                            </span>
+                        <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
+                                <i class="fas cst-sort" @mouseenter="column.hover = !(column.sort) ? 'fa-sort-up' : ''" @mouseleave="column.hover=''"
+                                   v-bind:class="[ column.hover, { 'fa-sort-up' : (column.sort === 'asc'), 'fa-sort-down': (column.sort === 'desc') }]"></i>
+                            </span>
+                        <span v-if="column.hasOwnProperty('icon')"><i v-bind:class="[column.icon]"></i></span>
                     </th>
                 </tr>
                 </thead>
@@ -67,6 +69,8 @@
     import IPaginationState from '@/store/util/pagination/types';
     import {PREPARED} from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
     import BaseFilter from '@/components/base/BaseFilter.vue';
+    import SearchField from '@/components/base/filters/SearchField.vue';
+    import DateField from '@/components/base/filters/DateField.vue';
 
 
     @Component({
@@ -89,13 +93,14 @@
 
         @Provide()
         public tableColumns = [
-            { label: 'Дата', sorting: true, column: 'created_at' },
-            { label: 'Заявитель', sorting: true, column: 'lastname' },
-            { label: 'Телефон', sorting: true, column: 'phone' },
-            { label: 'Адрес (район / адрес)', sorting: false, column: 'address' },
-            { label: '', sorting: false, column: '' },
+            { label: 'Дата', sorting: true, column: 'created_at', filter: false, component: DateField },
+            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false, component: SearchField },
+            { label: 'Телефон', sorting: true, column: 'phone', filter: false, component: SearchField },
+            { label: 'Адрес (район / адрес)', sorting: false, filter: false, column: 'address', component: SearchField },
+            { label: '', sorting: false, column: '', filter: false, component: SearchField },
             { label: 'Организация', sorting: false, column: 'responsible_organizations' },
         ];
+
 
         @State('claim') public claimState!: ClaimState;
         @State('pagination') public paginationState!: IPaginationState;
@@ -155,6 +160,11 @@
             return this.claimState.claims;
         }
 
+        // TODO: dataFilter
+        get dataFilter() {
+            return;
+        }
+
         public startSearch() {
             // Обнулить и поставить страницу №1
             this.paginationState.currentPage = 1;
@@ -193,6 +203,11 @@
             this.sortDirection === 'desc' ? this.sortDirection = 'asc' : this.sortDirection = 'desc';
             this.sortBy = columnName;
             this.startSearch();
+        }
+
+        // TODO: filter
+        public useFilter(row) {
+            return;
         }
     }
 

@@ -17,7 +17,7 @@
     @Component({
         components: {Datepicker},
     })
-    export default class Date extends Vue {
+    export default class DateField extends Vue {
 
         @Provide() public ru: any = ru;
 
