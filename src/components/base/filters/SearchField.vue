@@ -1,5 +1,5 @@
 <template>
-    <input v-model="dataFilter.initials" @input="throttledSearch" class="form-control input-search" placeholder="Начните ввод">
+    <input v-model="dataFilter" @input="throttledSearch" class="form-control input-search" placeholder="Начните ввод">
 </template>
 
 <script lang="ts">

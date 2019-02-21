@@ -3,21 +3,23 @@
         <div class="main-page">
             <table class="table table-hover">
                 <thead>
-                <tr>
-                    <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}
-                        <span v-if="column.hasOwnProperty('filter')">
-                                <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
-                                <base-filter :column="column">
-                                    <component v-bind:is="column.component" :dataFilter="dataFilter"></component>
-                                </base-filter>
+                    <tr>
+                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}
+                            <span v-if="column.hasOwnProperty('filter')">
+                                    <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
+                                    <base-filter :column="column">
+                                        <component v-bind:is="column.component" :dataFilter="column.dataFilter"></component>
+                                    </base-filter>
+                                </span>
+                            <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
+                                    <i class="fas cst-sort" @mouseenter="column.hover = !(column.sort) ? 'fa-sort-up' : ''" @mouseleave="column.hover=''"
+                                       v-bind:class="[ column.hover, { 'fa-sort-up' : (column.sort === 'asc'), 'fa-sort-down': (column.sort === 'desc') }]"></i>
+                                </span>
+                            <span v-if="column.hasOwnProperty('icon')">
+                                <i v-bind:class="[column.icon]"></i>
                             </span>
-                        <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
-                                <i class="fas cst-sort" @mouseenter="column.hover = !(column.sort) ? 'fa-sort-up' : ''" @mouseleave="column.hover=''"
-                                   v-bind:class="[ column.hover, { 'fa-sort-up' : (column.sort === 'asc'), 'fa-sort-down': (column.sort === 'desc') }]"></i>
-                            </span>
-                        <span v-if="column.hasOwnProperty('icon')"><i v-bind:class="[column.icon]"></i></span>
-                    </th>
-                </tr>
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
                 <!-- <span> -->
@@ -93,11 +95,11 @@
 
         @Provide()
         public tableColumns = [
-            { label: 'Дата', sorting: true, column: 'created_at', filter: false, component: DateField },
-            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false, component: SearchField },
-            { label: 'Телефон', sorting: true, column: 'phone', filter: false, component: SearchField },
-            { label: 'Адрес (район / адрес)', sorting: false, filter: false, column: 'address', component: SearchField },
-            { label: '', sorting: false, column: '', filter: false, component: SearchField },
+            { label: 'Дата', sorting: true, column: 'created_at', filter: false, component: DateField, dataFilter: { minDate: 'date', maxDate: 'date' } },
+            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false, component: SearchField, dataFilter: '' },
+            { label: 'Телефон', sorting: true, column: 'phone', filter: false, component: SearchField, dataFilter: '' },
+            { label: 'Адрес (район / адрес)', sorting: false, filter: false, column: 'address', component: SearchField, dataFilter: '' },
+            { label: '', sorting: false, column: '', filter: false, component: SearchField, dataFilter: '' },
             { label: 'Организация', sorting: false, column: 'responsible_organizations' },
         ];
 
@@ -160,9 +162,16 @@
             return this.claimState.claims;
         }
 
-        // TODO: dataFilter
         get dataFilter() {
-            return;
+            return {
+                initials : '',
+                phone : '',
+                address : '',
+                minDate : '',
+                maxDate : '',
+                field : 'date',
+                direction : 'asc',
+            };
         }
 
         public startSearch() {
@@ -205,9 +214,15 @@
             this.startSearch();
         }
 
-        // TODO: filter
         public useFilter(row) {
-            return;
+            const filter = !row.filter;
+            this.tableColumns.map((column) => {
+                if (column.hasOwnProperty('filter')) {
+                    column.filter = false;
+                }
+                return column;
+            });
+            row.filter = filter;
         }
     }
 
