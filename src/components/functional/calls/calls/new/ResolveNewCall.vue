@@ -72,13 +72,13 @@
                         </div>
                         <div slot="page3">
                             <button type="button" class="btn btn-primary" @click="addTask">Добавить</button>
-                            <div class="row" v-for="task in tasksCount.length">
+                            <div class="row" v-for="task in tasksCount">
                                 <div class="col-sm-7">
-                                    <input value="Задача" placeholder="Наименование работ"/>
+                                    <input value="Задача" placeholder="Наименование работ" v-model="task.name"/>
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <select class="form-control" name="organization" id="organization" v-model="organizationId">
+                                    <select class="form-control" name="organization" id="organization" v-model="task.organizationId">
                                         <option v-for="(organization, index) in organizationState.organizations" :key="index" :value="organization.id">
                                             {{ organization.name }}
                                         </option>
@@ -135,7 +135,10 @@
         @State('organization') public organizationState!: OrganizationState;
         @Action public getAllPlainOrganizations;
 
-        @Provide() public tasksCount: any = [0];
+        @Provide() public tasksCount: any = [{
+            name: '',
+            organizationId: 0,
+        }];
 
         public created() {
             this.getAllPlainOrganizations();
@@ -168,7 +171,11 @@
         }
 
         public addTask() {
-            this.tasksCount.push(this.tasksCount.length + 1);
+            // this.tasksCount.push();
+            this.tasksCount.push({
+                name: '',
+                organizationId: 0,
+            });
         }
 
     }
