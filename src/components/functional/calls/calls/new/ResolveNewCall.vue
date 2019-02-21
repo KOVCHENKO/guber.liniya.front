@@ -18,11 +18,6 @@
                             :onBack="backClicked">
                         <div slot="page1">
                             <div class="row">
-                                <div class="col-sm-12">
-                                    <h5>{{ $t('call.call') }}</h5>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-sm-3">
                                     <label for="call_start">{{ $t('call.call_start') }}</label>
                                 </div>
@@ -76,6 +71,7 @@
                             </div>
                         </div>
                         <div slot="page3">
+
                             <p>Соисполнители</p>
                         </div>
                     </vue-good-wizard>
@@ -119,6 +115,13 @@
                 slot: 'page3',
             },
         ];
+
+        public mounted() {
+            const self = this;
+            $('#resolveNewCall').on('shown.bs.modal', () => {
+                this.$refs.vueGoodWizard.handleResize();
+            });
+        }
 
         public nextClicked(currentPage) {
             if (currentPage === 1) {
