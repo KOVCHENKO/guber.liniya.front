@@ -109,10 +109,10 @@
 
         @Provide()
         public tableColumns = [
-            {label: 'Дата', filter: false, component: Date, sort: 'asc', hover: false},
-            {label: 'Заявитель', filter: false, component: Applicant, sort: false, hover: false },
-            {label: 'Телефон', filter: false, component: Phone, sort: false, hover: false},
-            {label: 'Адрес (район / адрес)', filter: false, component: Address, sort: false, hover: false},
+            {label: 'Дата', name: 'date', filter: false, component: Date, sort: 'asc', hover: false},
+            {label: 'Заявитель', name: 'initials', filter: false, component: Applicant, sort: false, hover: false },
+            {label: 'Телефон', name: 'phone', filter: false, component: Phone, sort: false, hover: false},
+            {label: 'Адрес (район / адрес)', name: 'address', filter: false, component: Address, sort: false, hover: false},
             {label: '', icon: 'fas fa-cog'},
         ];
 
@@ -142,7 +142,7 @@
                 organization_id : this.userState.user.organization.id,
                 status : this.status, 
                 initials : '', phone : '', address : '', 
-                minDate : '', maxDate : '',
+                minDate : '', maxDate : '', field : 'date', direction : 'asc'
             }
         }
 
@@ -206,6 +206,7 @@
         public sortClaims(row) {
             row.hover = false;
             let sort = (row.sort == 'asc') ? 'desc' : 'asc';
+            // визуальное отображение
             this.tableColumns.map(function(column) {
                 if (column.hasOwnProperty('sort')) {
                     column.sort = false; 
@@ -213,6 +214,11 @@
                 return column;
             });
             row.sort = sort;
+
+            // запрос на бэк
+            this.dataFilter.direction = sort;
+            this.dataFilter.field = row.name;
+            this.startSearch();
         }
 
     }
