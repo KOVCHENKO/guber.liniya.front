@@ -11,4 +11,10 @@ tsc -w
 specialist_a@mail.ru admin (роль специалист)
 dispatcher@dispatcher.ru admin (роль диспетчер)
 
-примечение: пользователе брать из таблицы users. пароль всех пользователь - admin
+Примечание: Пользователя брать из таблицы users. Пароль всех пользователь - admin
+
+Развертывание:
+1. npm run build
+2. git add dist && git commit -m "Build date"
+4. git push origin :production && git subtree push --prefix dist origin production
+5. git reset --hard origin/production
