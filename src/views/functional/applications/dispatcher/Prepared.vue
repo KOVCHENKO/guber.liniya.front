@@ -66,6 +66,8 @@
     import ClaimService from '@/domain/services/functional/claims/ClaimService';
     import IPaginationState from '@/store/util/pagination/types';
     import {PREPARED} from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
+    import BaseFilter from '@/components/base/BaseFilter.vue';
+
 
     @Component({
         components: {
@@ -73,6 +75,7 @@
             UpdateApplication,
             DatatableCustomPaginator,
             ReassignToAnotherOrganization,
+            BaseFilter,
         },
     })
     export default class PreparedClaims extends Vue implements IWithRoute {

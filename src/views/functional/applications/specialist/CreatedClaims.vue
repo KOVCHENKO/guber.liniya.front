@@ -80,7 +80,7 @@
     export default class CreatedClaims extends Vue {
 
         @Provide()
-        public status: string = '';//'created';
+        public status: string = ''; // 'created';
 
         // TODO: удалить
         @Provide()
@@ -137,13 +137,13 @@
             return throttle(this.startSearch, 2000);
         }
 
-        get dataFilter() { 
+        get dataFilter() {
             return {
                 organization_id : this.userState.user.organization.id,
-                status : this.status, 
-                initials : '', phone : '', address : '', 
+                status : this.status,
+                initials : '', phone : '', address : '',
                 minDate : '', maxDate : '',
-            }
+            };
         }
 
         public fullname(claim) {
@@ -152,7 +152,7 @@
                 return AppService.assembleString(claim.applicant, key);
             } else {
                 return AppService.assembleString({}, []);
-            }            
+            }
         }
 
         public address(claim) {
@@ -166,7 +166,7 @@
 
         public startSearch() {
             // Обнулить и поставить страницу №1
-            this.paginationState.currentPage = 1;            
+            this.paginationState.currentPage = 1;
             this.getAllClaimsOfOrganization2(this.dataFilter);
         }
 
@@ -181,7 +181,7 @@
         }
 
         get claims() {
-           return ClaimService.changeTimeFormat(this.organizationState.claims);
+            return ClaimService.changeTimeFormat(this.organizationState.claims);
         }
 
         // public sortByDataFunc() {
@@ -193,10 +193,10 @@
         // }
 
         public useFilter(row) {
-            let filter = !row.filter;
-            this.tableColumns.map(function(column) {
+            const filter = !row.filter;
+            this.tableColumns.map((column) => {
                 if (column.hasOwnProperty('filter')) {
-                    column.filter = false; 
+                    column.filter = false;
                 }
                 return column;
             });
@@ -205,10 +205,10 @@
 
         public sortClaims(row) {
             row.hover = false;
-            let sort = (row.sort == 'asc') ? 'desc' : 'asc';
-            this.tableColumns.map(function(column) {
+            const sort = (row.sort === 'asc') ? 'desc' : 'asc';
+            this.tableColumns.map((column) => {
                 if (column.hasOwnProperty('sort')) {
-                    column.sort = false; 
+                    column.sort = false;
                 }
                 return column;
             });
@@ -216,4 +216,5 @@
         }
 
     }
+
 </script>
