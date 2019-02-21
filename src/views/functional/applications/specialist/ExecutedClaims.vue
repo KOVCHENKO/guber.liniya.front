@@ -1,6 +1,6 @@
 <template>
-    <div id="specialistApplications">
-        <div class="main-page">
+    <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="executed_claims">
+            <br>
             <table class="table table-hover">
                 <thead>
                     <tr class="filter">
@@ -41,13 +41,11 @@
             </table>
 
             <datatable-custom-paginator
-            v-on:setAnotherPage="getClaimsToChildrenOrganization({
+            v-on:setAnotherPage="getAllClaimsOfOrganization({
                 organization_id : userState.user.organization.id,
                 dispatchStatusFilter : dispatchStatusFilter, search : searchField,
                 sortByData: sortByData,
             })"></datatable-custom-paginator>
-
-        </div>
 
         <update-status-claims :claim="claim" :sortByData="sortByData"></update-status-claims>
 
@@ -93,8 +91,8 @@
         @State('pagination') public paginationState!: IPaginationState;
         @State('comment') public commentState!: CommentState;
 
-        @Action('getClaimsToChildrenOrganization')
-        public getClaimsToChildrenOrganization;
+        @Action('getAllClaimsOfOrganization')
+        public getAllClaimsOfOrganization;
 
         @Action('getAllChildrenOrganization')
         public getAllChildrenOrganization;
@@ -119,10 +117,10 @@
             phone: '',
             status: '',
         };
-
+        // TODO: убрать в родителя
         constructor() {
             super();
-            headings.title = 'Заявки организаций';
+            headings.title = 'Выполненные заявки';
             plusButton.visible = false;
         }
 
@@ -148,7 +146,7 @@
             // Обнулить и поставить страницу №1
             this.paginationState.currentPage = 1;
 
-            this.getClaimsToChildrenOrganization({
+            this.getAllClaimsOfOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter, search : this.searchField,
                 sortByData: this.sortByData,
@@ -156,7 +154,7 @@
         }
 
         public created() {
-            this.getClaimsToChildrenOrganization({
+            this.getAllClaimsOfOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter,
                 search : this.searchField, sortByData: this.sortByData });
@@ -176,7 +174,7 @@
 
         public sortByDataFunc() {
             this.sortByData = (this.sortByData === 'desc') ? 'asc' : 'desc';
-            this.getClaimsToChildrenOrganization({
+            this.getAllClaimsOfOrganization({
                 organization_id : this.userState.user.organization.id,
                 dispatchStatusFilter : this.dispatchStatusFilter,
                 search : this.searchField, sortByData: this.sortByData });

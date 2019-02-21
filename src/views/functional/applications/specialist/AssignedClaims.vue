@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="all_claims">
+    <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="assigned_claims">
             <br>
             <table class="table table-hover">
                 <thead>
@@ -72,7 +72,7 @@
             UpdateStatusClaims, DatatableCustomPaginator,
         },
     })
-    export default class AllClaims extends Vue {
+    export default class AssignedClaims extends Vue {
         @Provide()
         public searchField: string = '';
 
@@ -120,7 +120,7 @@
         // TODO: убрать в родителя
         constructor() {
             super();
-            headings.title = 'Все заявки';
+            headings.title = 'Заявки в работе';
             plusButton.visible = false;
         }
 

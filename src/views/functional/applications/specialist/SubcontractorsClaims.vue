@@ -13,6 +13,7 @@
             </thead>
             <tbody>
                 <tr v-for="(subcontractor, index) in organizationState.subcontractors" :key="index">
+                    <!-- TODO: updated_at = created_at !!! -->
                     <td><span v-if="subcontractor.hasOwnProperty('claim')">{{ formatTime(subcontractor.claim[0].updated_at) }}</span></td>
                     <td>{{ subcontractor.description }}</td>
                     <!--<td><span v-if="subcontractor.hasOwnProperty('claim')">{{ subcontractor.claim[0].responsible_organization[0].name }}</span></td>-->
