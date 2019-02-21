@@ -17,15 +17,9 @@
                         <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}} 
                             <span v-if="column.hasOwnProperty('filter')">
                                 <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
-                                <div class="card cst-card" v-if="column.filter">
-                                    <div class="card-header">
-                                        <div class="cst-float-right"><i class="fas fa-times container-icon" @click="column.filter = false"></i></div>
-                                        <div class="cst-clear"></div>
-                                    </div>
-                                    <div class="card-body">
-                                        <component v-bind:is="column.component" :dataFilter="dataFilter"></component>
-                                    </div>
-                                </div>
+                                <base-filter :column="column">
+                                    <component v-bind:is="column.component" :dataFilter="dataFilter"></component>
+                                </base-filter>
                             </span>
                             <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
                                 <i class="fas cst-sort" @mouseenter="column.hover = !(column.sort) ? 'fa-sort-up' : ''" @mouseleave="column.hover=''" 
@@ -76,10 +70,11 @@
     import Phone from '@/views/functional/applications/specialist/filters/Phone.vue';
     import Address from '@/views/functional/applications/specialist/filters/Address.vue';
     import Date from '@/views/functional/applications/specialist/filters/Date.vue';
+    import BaseFilter from '@/components/base/BaseFilter.vue';
 
     @Component({
         components: {
-            UpdateStatusClaims, DatatableCustomPaginator,
+            UpdateStatusClaims, DatatableCustomPaginator, BaseFilter,
         },
     })
     export default class CreatedClaims extends Vue {
