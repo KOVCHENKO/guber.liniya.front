@@ -3,14 +3,26 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
 
             <li class="nav-item">
-                <router-link tag="a" class="nav-link" href="all_claims" role="tab" aria-controls="all_claims" aria-selected="true" id="all_claims" :to="{ name: 'specialist_all_claims' }">
-                    Все заявки
+                <router-link tag="a" class="nav-link" href="created_claims" role="tab" aria-controls="created_claims" aria-selected="true" id="created_claims" :to="{ name: 'specialist_created_claims' }">
+                    Новые
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link tag="a" class="nav-link" href="assigned_claims" role="tab" aria-controls="assigned_claims" aria-selected="true" id="assigned_claims" :to="{ name: 'specialist_assigned_claims' }">
+                    В работе
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link tag="a" class="nav-link" href="executed_claims" role="tab" aria-controls="executed_claims" aria-selected="true" id="executed_claims" :to="{ name: 'specialist_executed_claims' }">
+                    Выполненые
                 </router-link>
             </li>
 
             <li class="nav-item">
                 <router-link tag="a" class="nav-link" href="closed_claims" role="tab" aria-controls="closed_claims" aria-selected="true" id="closed_claims" :to="{ name: 'specialist_closed_claims' }">
-                    Закрытые (Архивные) заявки
+                    Закрытые
                 </router-link>
             </li>
 
@@ -22,7 +34,7 @@
 
         </ul>
 
-        <div class="tab-content" id="specialistApplications">
+        <div class="tab-content">
             <router-view></router-view>
         </div>
     </div>
@@ -36,7 +48,7 @@
     export default class SpecialistApplications extends Vue {
 
         public created() {
-            this.$router.push({ name: 'specialist_all_claims' });
+            this.$router.push({ name: 'specialist_created_claims' });
         }
 
     }
