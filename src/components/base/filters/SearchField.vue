@@ -1,10 +1,10 @@
 <template>
-    <input v-model="dataFilter" @input="throttledSearch" class="form-control input-search" placeholder="Начните ввод">
+    <input v-model="dataFilterString" @input="throttledSearch" class="form-control input-search" placeholder="Начните ввод">
 </template>
 
 <script lang="ts">
 
-    import {Component, Provide, Vue, Prop} from 'vue-property-decorator';
+    import {Component, Vue, Prop, Emit, Provide} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import throttle from '@/store/util/operations/throttle';
     import IPaginationState from '@/store/util/pagination/types';
@@ -16,16 +16,20 @@
 
         @State('pagination') public paginationState!: IPaginationState;
 
-        @Action('getAllClaimsOfOrganization2')
-        public getAllClaimsOfOrganization2;
+        @Emit('search')
+        public search(dataFilterString) {
+            // emit searching
+        }
+
+        @Provide() public dataFilterString = '';
+
 
         get throttledSearch() {
-            return throttle(this.startSearch, 2000);
+            return throttle(this.startSearch, 1000);
         }
 
         public startSearch() {
-            this.paginationState.currentPage = 1;
-            this.getAllClaimsOfOrganization2(this.dataFilter);
+            this.search({ string: this.dataFilterString, field: this.dataFilter});
         }
 
     }

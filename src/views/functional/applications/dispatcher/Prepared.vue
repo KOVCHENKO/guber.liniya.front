@@ -8,7 +8,7 @@
                             <span v-if="column.hasOwnProperty('filter')">
                                     <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
                                     <base-filter :column="column">
-                                        <component v-bind:is="column.component" :dataFilter="column.dataFilter"></component>
+                                        <component @search="search($event)" v-bind:is="column.component" :dataFilter="column.dataFilter"></component>
                                     </base-filter>
                                 </span>
                             <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
@@ -91,15 +91,23 @@
 
         // Поле сортировки
         public sortBy: string = 'created_at';
-        public sortDirection: string = 'desc';
+        private _sortDirection: string = 'desc';
+
+        public dataFilter = {
+            minDate: '',
+            maxDate: '',
+            lastname: '',
+            phone: '',
+            address: '',
+        };
 
         @Provide()
         public tableColumns = [
-            { label: 'Дата', sorting: true, column: 'created_at', filter: false, component: DateField, dataFilter: { minDate: 'date', maxDate: 'date' } },
-            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false, component: SearchField, dataFilter: '' },
-            { label: 'Телефон', sorting: true, column: 'phone', filter: false, component: SearchField, dataFilter: '' },
-            { label: 'Адрес (район / адрес)', sorting: false, filter: false, column: 'address', component: SearchField, dataFilter: '' },
-            { label: '', sorting: false, column: '', filter: false, component: SearchField, dataFilter: '' },
+            { label: 'Дата', sorting: true, column: 'created_at', filter: false, component: DateField, dataFilter: { minDate: 'minDate', maxDate: 'maxDate' } },
+            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false, component: SearchField, dataFilter: 'lastname' },
+            { label: 'Телефон', sorting: true, column: 'phone', filter: false, component: SearchField, dataFilter: 'phone' },
+            { label: 'Адрес (район / адрес)', sorting: false, filter: false, column: 'address', component: SearchField, dataFilter: 'address' },
+            { label: '', sorting: false, column: '' },
             { label: 'Организация', sorting: false, column: 'responsible_organizations' },
         ];
 
@@ -183,7 +191,7 @@
                 this.getAllClaims({
                     dispatchStatus: PREPARED,
                     sortBy: this.sortBy,
-                    sortDirection: this.sortDirection,
+                    sortDirection: this._sortDirection,
                 });
                 return;
             }
@@ -192,7 +200,7 @@
                 search: this.searchField,
                 dispatchStatus: PREPARED,
                 sortBy: this.sortBy,
-                sortDirection: this.sortDirection,
+                sortDirection: this._sortDirection,
             });
         }
 
@@ -209,7 +217,7 @@
          * @param columnName
          */
         public makeSorting(columnName) {
-            this.sortDirection === 'desc' ? this.sortDirection = 'asc' : this.sortDirection = 'desc';
+            this._sortDirection === 'desc' ? this._sortDirection = 'asc' : this._sortDirection = 'desc';
             this.sortBy = columnName;
             this.startSearch();
         }
@@ -224,6 +232,13 @@
             });
             row.filter = filter;
         }
+
+
+        public search(value: any) {
+            console.log(value);
+            // this.searchClaim();
+        }
+
     }
 
 </script>
