@@ -151,6 +151,12 @@ const messages = {
         applicant: {
             add_applicant: 'Добавить заявителя',
         },
+        call: {
+            call: 'Звонок',
+            call_start: 'Начало звонка',
+            call_phone: 'Телефон',
+            call_supposed_applicant: 'Предполагаемый заявитель',
+        },
     },
 };
 

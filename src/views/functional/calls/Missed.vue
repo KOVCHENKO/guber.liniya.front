@@ -55,6 +55,9 @@
         ></datatable-custom-paginator>
 
         <resolve-call></resolve-call>
+
+        <resolve-new-call></resolve-new-call>
+
     </div>
 </template>
 
@@ -63,7 +66,7 @@
     import {Action, State} from 'vuex-class';
     import DatatableCustomPaginator from '@/components/util/DatatableCustomPaginator.vue';
     import CallState from '@/store/functional/call/types';
-    import ResolveCall from '@/components/functional/calls/calls/ResolveCall.vue';
+    import ResolveCall from '@/components/functional/calls/calls/missed/ResolveCall.vue';
     import {headings} from '@/domain/util/interface/CommonInterface';
     import ClaimState from '@/store/functional/claim/types';
     import Call from '@/domain/entities/functional/Call';
@@ -71,6 +74,7 @@
     import DatePicker from 'vuejs-datepicker';
     import {en, ru} from 'vuejs-datepicker/dist/locale';
     import IPaginationState from '@/store/util/pagination/types';
+    import ResolveNewCall from '@/components/functional/calls/calls/new/ResolveNewCall.vue';
 
 
     @Component({
@@ -78,6 +82,7 @@
             DatatableCustomPaginator,
             ResolveCall,
             DatePicker,
+            ResolveNewCall,
         },
     })
     export default class MissedCalls extends Vue {
@@ -102,6 +107,10 @@
             super();
             headings.title = 'Все звонки';
             this.getCalls();
+        }
+
+        public mounted() {
+            $('#resolveNewCall').modal('show');
         }
 
         /**

@@ -14,9 +14,24 @@ export const state = {
     subcontractors: [{}],
 };
 export const actions = {
+    /**
+     * Получить организации и сформировать дерево
+     * @param commit
+     */
     getAllOrganizations({ commit }) {
         axios.get(baseUrl + 'organizations/all').then((response) => {
             state.organizationTree = makeTree(response.data, 'fas fa-building');
+        }, () => {
+            ErrorNotifier.notify();
+        });
+    },
+    /**
+     * Получить список организаций
+     * @param commit
+     */
+    getAllPlainOrganizations({ commit }) {
+        axios.get(baseUrl + 'organizations/all').then((response) => {
+            state.organizations = response.data;
         }, () => {
             ErrorNotifier.notify();
         });
