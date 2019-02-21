@@ -40,10 +40,10 @@
                                             <p>{{ fullname }}</p>
                                             <div class="row">
                                                 <div class="col-sm-4">
-                                                    <p><span class="color-light-grey">Телефон:</span><br> {{claim.phone}}</p>
+                                                    <p><span class="color-light-grey">Телефон:</span><br> {{phone}}</p>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <p><span class="color-light-grey">E-mail:</span><br> {{claim.email}}</p>
+                                                    <p><span class="color-light-grey">E-mail:</span><br> {{email}}</p>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <p><span class="color-light-grey">Адрес:</span><br> {{address}}</p>
@@ -182,14 +182,36 @@
         @Action public createComment;
 
         get fullname() {
-            const key = ['firstname', 'middlename', 'lastname'];
-            return AppService.assembleString(this.claim, key);
+            if (this.claim.hasOwnProperty('applicant')) {
+                const key = ['firstname', 'middlename', 'lastname'];
+                return AppService.assembleString(this.claim.applicant, key);
+            } else {
+                return AppService.assembleString({}, []);
+            }
         }
 
         get address() {
             if (this.claim.hasOwnProperty('address')) {
-                const key = ['district', 'location'];
+                const key = ['city', 'district', 'street', 'building'];
                 return AppService.assembleString(this.claim.address, key, ', ');
+            } else {
+                return AppService.assembleString({}, []);
+            }
+        }
+
+        get phone() {
+            if (this.claim.hasOwnProperty('applicant')) {
+                const key = ['phone'];
+                return AppService.assembleString(this.claim.applicant, key);
+            } else {
+                return AppService.assembleString({}, []);
+            }
+        }
+
+        get email() {
+            if (this.claim.hasOwnProperty('applicant')) {
+                const key = ['email'];
+                return AppService.assembleString(this.claim.applicant, key);
             } else {
                 return AppService.assembleString({}, []);
             }
@@ -197,19 +219,16 @@
 
         get checkCreateClaim() {
             return (this.claim.status === 'created'
-                && this.claim.hasOwnProperty('pivot')
-                && this.claim.pivot.organization_id === this.userState.user.organization.id);
+                && this.claim.organization_id === this.userState.user.organization.id);
         }
 
         get checkCreateClaimAndReassign() {
-            return (this.claim.hasOwnProperty('pivot')
-                && this.claim.pivot.organization_id !== this.userState.user.organization.id);
+            return (this.claim.organization_id !== this.userState.user.organization.id);
         }
 
         get checkAssignedClaim() {
             return (this.claim.status === 'assigned'
-                && this.claim.hasOwnProperty('pivot')
-                && this.claim.pivot.organization_id === this.userState.user.organization.id);
+                && this.claim.organization_id === this.userState.user.organization.id);
         }
 
         get checkPossibilityExecute() {
@@ -226,8 +245,7 @@
 
         get checkAddingInfoByClaim() {
             return ((this.statusData === 'rejected' || this.claim.status === 'assigned')
-                && this.claim.hasOwnProperty('pivot')
-                && this.claim.pivot.organization_id === this.userState.user.organization.id);
+                && this.claim.organization_id === this.userState.user.organization.id);
         }
 
         // // TODO: получение текущего статуса заявки, когда открывается окно

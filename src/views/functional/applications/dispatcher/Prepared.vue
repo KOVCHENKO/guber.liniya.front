@@ -95,11 +95,16 @@
 
         @Provide()
         public tableColumns = [
-            { label: 'Дата', sorting: true, column: 'created_at', filter: false, component: DateField, dataFilter: { minDate: 'date', maxDate: 'date' } },
-            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false, component: SearchField, dataFilter: '' },
-            { label: 'Телефон', sorting: true, column: 'phone', filter: false, component: SearchField, dataFilter: '' },
-            { label: 'Адрес (район / адрес)', sorting: false, filter: false, column: 'address', component: SearchField, dataFilter: '' },
-            { label: '', sorting: false, column: '', filter: false, component: SearchField, dataFilter: '' },
+            { label: 'Дата', sorting: true, column: 'created_at', filter: false,
+            component: DateField, dataFilter: { minDate: 'date', maxDate: 'date' } },
+            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false,
+            component: SearchField, dataFilter: '' },
+            { label: 'Телефон', sorting: true, column: 'phone', filter: false,
+            component: SearchField, dataFilter: '' },
+            { label: 'Адрес (район / адрес)', sorting: false, filter: false, column: 'address',
+            component: SearchField, dataFilter: '' },
+            { label: '', sorting: false, column: '', filter: false,
+            component: SearchField, dataFilter: '' },
             { label: 'Организация', sorting: false, column: 'responsible_organizations' },
         ];
 

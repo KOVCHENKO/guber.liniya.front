@@ -928,3 +928,11 @@ a.wizard__next.pull-right.final-step {
     background: white;
     border: solid 1px #dee2e6;
 }
+.cst-sort {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.cst-sort:hover {
+    background: none;
+}

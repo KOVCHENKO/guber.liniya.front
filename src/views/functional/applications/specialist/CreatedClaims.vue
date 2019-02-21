@@ -1,13 +1,3 @@
-<style>
-    .cst-sort {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-    }
-    .cst-sort:hover {
-        background: none;
-    }
-</style>
 <template>
     <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="created_claims">
             <br>
@@ -109,10 +99,14 @@
 
         @Provide()
         public tableColumns = [
-            {label: 'Дата', name: 'date', filter: false, component: Date, sort: 'asc', hover: false},
-            {label: 'Заявитель', name: 'initials', filter: false, component: Applicant, sort: false, hover: false },
-            {label: 'Телефон', name: 'phone', filter: false, component: Phone, sort: false, hover: false},
-            {label: 'Адрес (район / адрес)', name: 'address', filter: false, component: Address, sort: false, hover: false},
+            {label: 'Дата', name: 'date', filter: false,
+            component: Date, sort: 'asc', hover: false},
+            {label: 'Заявитель', name: 'initials', filter: false,
+            component: Applicant, sort: false, hover: false },
+            {label: 'Телефон', name: 'phone', filter: false,
+            component: Phone, sort: false, hover: false},
+            {label: 'Адрес (район / адрес)', name: 'address', filter: false,
+            component: Address, sort: false, hover: false},
             {label: '', icon: 'fas fa-cog'},
         ];
 
@@ -125,6 +119,7 @@
             lastname: '',
             phone: '',
             status: '',
+            organization_id: '',
         };
         // TODO: убрать в родителя
         constructor() {
@@ -172,6 +167,7 @@
 
         public created() {
             this.startSearch();
+            this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });
         }
 
         public show(row) {
