@@ -91,7 +91,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">{{ $t("common.close") }}</button>
-                    <button type="button" class="btn btn-primary">{{ $t("common.create") }}</button>
+                    <button type="button" class="btn btn-primary" @click="createClaim">{{ $t("common.create") }}</button>
                 </div>
             </div>
         </div>
@@ -176,6 +176,10 @@
                 name: '',
                 organizationId: 0,
             });
+        }
+
+        public createClaim() {
+            // Отработка метода на создание заявки
         }
 
     }
