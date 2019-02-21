@@ -71,8 +71,21 @@
                             </div>
                         </div>
                         <div slot="page3">
+                            <button type="button" class="btn btn-primary" @click="addTask">Добавить</button>
+                            <div class="row" v-for="task in tasksCount.length">
+                                <div class="col-sm-7">
+                                    <input value="Задача" placeholder="Наименование работ"/>
+                                </div>
 
-                            <p>Соисполнители</p>
+                                <div class="col-sm-4">
+                                    <select class="form-control" name="organization" id="organization" v-model="organizationId">
+                                        <option v-for="(organization, index) in organizationState.organizations" :key="index" :value="organization.id">
+                                            {{ organization.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
                         </div>
                     </vue-good-wizard>
                 </div>
@@ -90,8 +103,9 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import ProblemsPartial from '@/components/functional/calls/calls/missed/ProblemsPartial.vue';
     import ClaimState from '@/store/functional/claim/types';
-    import {State} from 'vuex-class';
+    import {State, Action} from 'vuex-class';
     import BaseButton from '@/components/base/BaseButton.vue';
+    import OrganizationState from '@/store/functional/organization/types';
 
 
     @Component({
@@ -116,8 +130,18 @@
             },
         ];
 
+        // DropDown organizations
+        @Provide() public organizationId: number = 0;
+        @State('organization') public organizationState!: OrganizationState;
+        @Action public getAllPlainOrganizations;
+
+        @Provide() public tasksCount: any = [0];
+
+        public created() {
+            this.getAllPlainOrganizations();
+        }
+
         public mounted() {
-            const self = this;
             $('#resolveNewCall').on('shown.bs.modal', () => {
                 this.$refs.vueGoodWizard.handleResize();
             });
@@ -141,6 +165,10 @@
 
         public showApplicantClaims() {
             console.log('show applicant claims');
+        }
+
+        public addTask() {
+            this.tasksCount.push(this.tasksCount.length + 1);
         }
 
     }
