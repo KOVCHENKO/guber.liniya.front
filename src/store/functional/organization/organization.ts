@@ -119,7 +119,7 @@ export const actions: ActionTree<OrganizationState, RootState> = {
     async getAllClaimsOfOrganization2({rootState, dispatch}, payload) {
         try {
 
-            const filter = ['status', 'initials', 'phone', 'address', 'minDate', 'maxDate', 'page', 'column', 'direction'];
+            const filter = ['status', 'initials', 'phone', 'address', 'minDate', 'maxDate', 'page', 'field', 'direction'];
             payload.page = rootState.pagination.currentPage;
             const paramUrl = AppService.assembleParamUrl(payload, filter);
 
