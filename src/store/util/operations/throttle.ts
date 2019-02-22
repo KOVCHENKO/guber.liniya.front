@@ -3,7 +3,6 @@ export default function throttle(callback: any, limit: any) {
     return () => {
         clearTimeout(lastExecution);
         lastExecution = setTimeout(() => {
-            console.log(callback);
             callback.call();
         }, limit);
     };

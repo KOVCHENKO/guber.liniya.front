@@ -16,13 +16,13 @@
 
         @State('pagination') public paginationState!: IPaginationState;
 
+
+        @Provide() public dataFilterString = '';
+
         @Emit('search')
         public search(dataFilterString) {
             // emit searching
         }
-
-        @Provide() public dataFilterString = '';
-
 
         get throttledSearch() {
             return throttle(this.startSearch, 1000);
