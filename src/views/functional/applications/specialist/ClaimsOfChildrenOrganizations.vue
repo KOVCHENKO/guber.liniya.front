@@ -3,34 +3,28 @@
         <div class="main-page">
             <table class="table table-hover">
                 <thead>
-                    <tr class="filter">
-                        <th colspan="4">
-                            <input v-model="searchField" @input="throttledSearch" class="form-control input-search" placeholder="Поиск по заявителю, телефону">
-                        </th>
-                        <th colspan="4" class="cst-col-188 cst-col-select">
-                            <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
-                                <option value="all">Все заявки</option>
-                                <option value="created">Создана</option>
-                                <option value="assigned">Назначена</option>
-                                <option value="executed">Выполнена</option>
-                                <!-- <option value="rejected">Отказано</option> -->
-                            </select>
-                        </th>
-                    </tr>
                     <tr>
                         <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}} 
-                            <span v-if="column.sort"><i class="fas fa-sort" @click="sortByDataFunc"></i></span>
-                            <span v-if="column.icon"><i v-bind:class="[column.icon]"></i></span>
+                            <span v-if="column.hasOwnProperty('filter')">
+                                <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
+                                <base-filter :column="column">
+                                    <component v-bind:is="column.component" :dataFilter="dataFilter"></component>
+                                </base-filter>
+                            </span>
+                            <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
+                                <i class="fas cst-sort" @mouseenter="column.hover = !(column.sort) ? 'fa-sort-up' : ''" @mouseleave="column.hover=''" 
+                                v-bind:class="[ column.hover, { 'fa-sort-up' : (column.sort == 'asc'), 'fa-sort-down': (column.sort == 'desc') }]"></i>
+                            </span>
+                            <span v-if="column.hasOwnProperty('icon')"><i v-bind:class="[column.icon]"></i></span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(claim, index) in claims" :key="index" v-bind:class="['claim_' + claim.status]" :title="getTitle(claim.status)">
+                    <tr v-for="(claim, index) in claims" :key="index">
                         <td>{{claim.created_at_shortened}}</td>
                         <td>{{ fullname(claim) }}</td>
-                        <td>{{ claim.phone }}</td>
+                        <td><span>{{ phone(claim) }}</span></td> 
                         <td>{{ address(claim) }}</td>
-                        <td class="cst-col-188">{{ claim.translatedStatus }}</td>
                         <td>
                             <div class="container-icon" @click="show(claim)">
                                 <i class="fas fa-pencil-alt"></i>
@@ -40,16 +34,12 @@
                 </tbody>
             </table>
 
-            <datatable-custom-paginator
-            v-on:setAnotherPage="getClaimsToChildrenOrganization({
-                organization_id : userState.user.organization.id,
-                dispatchStatusFilter : dispatchStatusFilter, search : searchField,
-                sortByData: sortByData,
-            })"></datatable-custom-paginator>
+            <datatable-custom-paginator v-on:setAnotherPage="getClaimsToChildrenOrganization(dataFilter)">
+            </datatable-custom-paginator>
 
         </div>
 
-        <update-status-claims :claim="claim" :sortByData="sortByData"></update-status-claims>
+        <update-status-claims :claim="claim" :dataFilter="dataFilter"></update-status-claims>
 
     </div>
 </template>
@@ -68,21 +58,24 @@
     import IPaginationState from '../../../../store/util/pagination/types';
     import CommentState from '../../../../store/functional/comment/types';
     import AppService from '@/domain/services/common/AppService';
+    import Applicant from '@/views/functional/applications/specialist/filters/Applicant.vue';
+    import Phone from '@/views/functional/applications/specialist/filters/Phone.vue';
+    import Address from '@/views/functional/applications/specialist/filters/Address.vue';
+    import Date from '@/views/functional/applications/specialist/filters/Date.vue';
+    import BaseFilter from '@/components/base/BaseFilter.vue';
 
     @Component({
         components: {
-            UpdateStatusClaims, DatatableCustomPaginator,
+            UpdateStatusClaims, DatatableCustomPaginator, BaseFilter,
         },
     })
-    export default class ExecutedClaims extends Vue {
-        @Provide()
-        public searchField: string = '';
+    export default class ClaimsOfChildrenOrganizations extends Vue {
 
         @Provide()
-        public dispatchStatusFilter: string = 'all';
+        public status: string = 'created';
 
         @Provide()
-        public sortByData: string = 'desc';
+        public hoverClass: string = '';
 
         @State('organization')
         public organizationState!: OrganizationState;
@@ -93,20 +86,26 @@
         @State('pagination') public paginationState!: IPaginationState;
         @State('comment') public commentState!: CommentState;
 
+        @Action('getAllClaimsOfOrganization')
+        public getAllClaimsOfOrganization;
+
         @Action('getClaimsToChildrenOrganization')
         public getClaimsToChildrenOrganization;
 
-        @Action('getAllChildrenOrganization')
-        public getAllChildrenOrganization;
+        // @Action('getAllChildrenOrganization')
+        // public getAllChildrenOrganization;
 
         @Provide()
         public tableColumns = [
-            {label: 'Дата', sort: true, icon: ''},
-            {label: 'Заявитель', sort: false, icon: ''},
-            {label: 'Телефон', sort: false, icon: ''},
-            {label: 'Адрес (район / адрес)', sort: false, icon: ''},
-            {label: 'Статус обработки', sort: false, icon: ''},
-            {label: '', sort: false, icon: 'fas fa-cog'},
+            {label: 'Дата', name: 'date', filter: false,
+            component: Date, sort: 'asc', hover: false},
+            {label: 'Заявитель', name: 'initials', filter: false,
+            component: Applicant, sort: false, hover: false },
+            {label: 'Телефон', name: 'phone', filter: false,
+            component: Phone, sort: false, hover: false},
+            {label: 'Адрес (район / адрес)', name: 'address', filter: false,
+            component: Address, sort: false, hover: false},
+            {label: '', icon: 'fas fa-cog'},
         ];
 
         @Provide()
@@ -118,11 +117,15 @@
             lastname: '',
             phone: '',
             status: '',
+            organization_id: '',
+            responsible_organization: [
+                {name : ''},
+            ],
         };
-
+        // TODO: убрать в родителя
         constructor() {
             super();
-            headings.title = 'Заявки организаций';
+            headings.title = 'Новые заявки';
             plusButton.visible = false;
         }
 
@@ -130,37 +133,38 @@
             return throttle(this.startSearch, 2000);
         }
 
+        get dataFilter() {
+            return {
+                organization_id : this.userState.user.organization.id,
+                status : this.status,
+                initials : '', phone : '', address : '',
+                minDate : '', maxDate : '', field : 'date', direction : 'asc',
+            };
+        }
+
         public fullname(claim) {
             const key = ['firstname', 'middlename', 'lastname'];
-            return AppService.assembleString(claim, key);
+            return AppService.assembleStringCheck(claim, key, 'applicant');
         }
 
         public address(claim) {
-            if (claim.hasOwnProperty('address')) {
-                const key = ['district', 'location'];
-                return AppService.assembleString(claim.address, key, ', ');
-            } else {
-                return AppService.assembleString({}, []);
-            }
+            const key = ['city', 'district', 'street', 'building'];
+            return AppService.assembleStringCheck(claim, key, 'address', ', ');
+        }
+
+        public phone(claim) {
+            const key = ['phone'];
+            return AppService.assembleStringCheck(claim, key, 'applicant');
         }
 
         public startSearch() {
             // Обнулить и поставить страницу №1
             this.paginationState.currentPage = 1;
-
-            this.getClaimsToChildrenOrganization({
-                organization_id : this.userState.user.organization.id,
-                dispatchStatusFilter : this.dispatchStatusFilter, search : this.searchField,
-                sortByData: this.sortByData,
-            });
+            this.getClaimsToChildrenOrganization(this.dataFilter);
         }
 
         public created() {
-            this.getClaimsToChildrenOrganization({
-                organization_id : this.userState.user.organization.id,
-                dispatchStatusFilter : this.dispatchStatusFilter,
-                search : this.searchField, sortByData: this.sortByData });
-
+            this.startSearch();
             // this.getAllChildrenOrganization({organization_id : this.userState.user.organization.id });
         }
 
@@ -171,26 +175,38 @@
         }
 
         get claims() {
-           return ClaimService.changeTimeFormat(this.organizationState.claims);
+            return ClaimService.changeTimeFormat(this.organizationState.claims);
         }
 
-        public sortByDataFunc() {
-            this.sortByData = (this.sortByData === 'desc') ? 'asc' : 'desc';
-            this.getClaimsToChildrenOrganization({
-                organization_id : this.userState.user.organization.id,
-                dispatchStatusFilter : this.dispatchStatusFilter,
-                search : this.searchField, sortByData: this.sortByData });
+        public useFilter(row) {
+            const filter = !row.filter;
+            this.tableColumns.map((column) => {
+                if (column.hasOwnProperty('filter')) {
+                    column.filter = false;
+                }
+                return column;
+            });
+            row.filter = filter;
         }
 
-        public getTitle(status) {
-            const claimStatus = {
-                created : 'новая заявка',
-                assigned : 'заявка в работе',
-                executed : 'выполненая заявка',
-            };
+        public sortClaims(row) {
+            row.hover = false;
+            const sort = (row.sort === 'asc') ? 'desc' : 'asc';
+            // визуальное отображение
+            this.tableColumns.map((column) => {
+                if (column.hasOwnProperty('sort')) {
+                    column.sort = false;
+                }
+                return column;
+            });
+            row.sort = sort;
 
-            return claimStatus[status];
+            // запрос на бэк
+            this.dataFilter.direction = sort;
+            this.dataFilter.field = row.name;
+            this.startSearch();
         }
 
     }
+
 </script>

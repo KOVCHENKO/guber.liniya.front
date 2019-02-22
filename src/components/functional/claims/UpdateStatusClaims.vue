@@ -73,7 +73,7 @@
                                         <!--Создана и переназначена другой организации-->
                                         <span v-if="checkCreateClaimAndReassign">
                                             <h6>Заявка назначена другой организации:</h6>
-                                            <p>{{claim.responsible_organization[0].name}}</p>
+                                            <p>{{ nameOrg }}</p>
                                         </span>
 
                                         <!--Назначена / Взята в работу-->
@@ -183,40 +183,33 @@
 
         @Action public createComment;
 
-        get fullname() {
-            if (this.claim.hasOwnProperty('applicant')) {
-                const key = ['firstname', 'middlename', 'lastname'];
-                return AppService.assembleString(this.claim.applicant, key);
+        get nameOrg() {
+            if (this.claim.hasOwnProperty('responsible_organization') &&
+                this.claim.responsible_organization.length > 0) {
+                return this.claim.responsible_organization[0].name;
             } else {
-                return AppService.assembleString({}, []);
+                return 'Нет данных';
             }
+        }
+
+        get fullname() {
+            const key = ['firstname', 'middlename', 'lastname'];
+            return AppService.assembleStringCheck(this.claim, key, 'applicant');
         }
 
         get address() {
-            if (this.claim.hasOwnProperty('address')) {
-                const key = ['city', 'district', 'street', 'building'];
-                return AppService.assembleString(this.claim.address, key, ', ');
-            } else {
-                return AppService.assembleString({}, []);
-            }
+            const key = ['city', 'district', 'street', 'building'];
+            return AppService.assembleStringCheck(this.claim, key, 'address', ', ');
         }
 
         get phone() {
-            if (this.claim.hasOwnProperty('applicant')) {
-                const key = ['phone'];
-                return AppService.assembleString(this.claim.applicant, key);
-            } else {
-                return AppService.assembleString({}, []);
-            }
+            const key = ['phone'];
+            return AppService.assembleStringCheck(this.claim, key, 'applicant');
         }
 
         get email() {
-            if (this.claim.hasOwnProperty('applicant')) {
-                const key = ['email'];
-                return AppService.assembleString(this.claim.applicant, key);
-            } else {
-                return AppService.assembleString({}, []);
-            }
+            const key = ['email'];
+            return AppService.assembleStringCheck(this.claim, key, 'applicant');
         }
 
         get checkCreateClaim() {
@@ -271,11 +264,11 @@
         public updateStatusClaim() {
             // Заявка выполнена. Изменяем статус заявки с assigned на executed. Добавляем комментарий
             if (this.booleanAssigned === true && this.claim.status === 'assigned') {
-                this.changeStatusClaim({id : this.claim.claim_id, status : 'executed' }).then(() => {
+                this.changeStatusClaim({id : this.claim.id, status : 'executed' }).then(() => {
                     this.getAllClaimsOfOrganization2(this.dataFilter);
                     this.closeDialog();
 
-                    this.commentState.comment.claim_id = this.claim.claim_id;
+                    this.commentState.comment.claim_id = this.claim.id;
                     this.commentState.comment.status = this.statusData;
 
                     this.createComment();
@@ -288,7 +281,7 @@
             }
             // Приянть в работу. Изменяем статус заявки на assigned
             if (this.statusData === 'assigned') {
-                this.changeStatusClaim({id : this.claim.claim_id, status : this.statusData }).then(() => {
+                this.changeStatusClaim({id : this.claim.id, status : this.statusData }).then(() => {
                     this.getAllClaimsOfOrganization2(this.dataFilter);
                     this.closeDialog();
                 });
@@ -296,7 +289,7 @@
             }
             // Перенаправить другой организации. Изменяем прикрепленную организацию.
             if (this.statusData === 'redirect') {
-                this.changeOrganization({id : this.claim.claim_id, id_old_organization : this.userState.user.organization.id,
+                this.changeOrganization({id : this.claim.id, id_old_organization : this.userState.user.organization.id,
                         id_new_organization : this.childOrganization }).then(() => {
                     this.getAllClaimsOfOrganization2(this.dataFilter);
                     this.closeDialog();
@@ -305,11 +298,11 @@
             }
             // Отказаться. Изменяем статус заявки на rejected. Добавляем комментарий
             if (this.statusData === 'rejected') {
-                this.changeStatusClaim({id : this.claim.claim_id, status : this.statusData }).then(() => {
+                this.changeStatusClaim({id : this.claim.id, status : this.statusData }).then(() => {
                     this.getAllClaimsOfOrganization2(this.dataFilter);
                     this.closeDialog();
 
-                    this.commentState.comment.claim_id = this.claim.claim_id;
+                    this.commentState.comment.claim_id = this.claim.id;
                     this.commentState.comment.status = this.statusData;
 
                     this.createComment();

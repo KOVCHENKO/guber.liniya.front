@@ -118,13 +118,12 @@ export const actions = {
     },
     async getClaimsToChildrenOrganization({ rootState, dispatch }, payload) {
         try {
-            const organizationId = payload.organization_id;
-            const result = await axios.get(baseUrl + 'organizations/all_claims_of_children_organization/'
-                + organizationId + '?dispatchStatusFilter=' + payload.dispatchStatusFilter +
-                '&search=' + payload.search + '&page=' + rootState.pagination.currentPage +
-                '&sortByData=' + payload.sortByData);
+            const filter = ['status', 'initials', 'phone', 'address', 'minDate', 'maxDate', 'page', 'field', 'direction'];
+            payload.page = rootState.pagination.currentPage;
+            const paramUrl = AppService.assembleParamUrl(payload, filter);
+            const url = 'organizations/all_claims_of_children_organization/' + payload.organization_id + paramUrl;
+            const result = await axios.get(baseUrl + url);
             state.claims = result.data.claims;
-            state.claims = ClaimService.addTranslatedClaimStatus(state.claims);
             dispatch('formPagination', { lastPage: result.data.count });
         }
         catch {

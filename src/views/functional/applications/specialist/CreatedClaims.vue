@@ -23,7 +23,7 @@
                     <tr v-for="(claim, index) in claims" :key="index">
                         <td>{{claim.created_at_shortened}}</td>
                         <td>{{ fullname(claim) }}</td>
-                        <td><span v-if="claim.hasOwnProperty('applicant')">{{ claim.applicant.phone }}</span></td> <!-- TODO : claim.phone -->
+                        <td><span>{{ phone(claim) }}</span></td> <!-- TODO : claim.phone -->
                         <td>{{ address(claim) }}</td>
                         <td>
                             <div class="container-icon" @click="show(claim)">
@@ -141,21 +141,18 @@
         }
 
         public fullname(claim) {
-            if (claim.hasOwnProperty('applicant')) {
-                const key = ['firstname', 'middlename', 'lastname'];
-                return AppService.assembleString(claim.applicant, key);
-            } else {
-                return AppService.assembleString({}, []);
-            }
+            const key = ['firstname', 'middlename', 'lastname'];
+            return AppService.assembleStringCheck(claim, key, 'applicant');
         }
 
         public address(claim) {
-            if (claim.hasOwnProperty('address')) {
-                const key = ['city', 'district', 'street', 'building'];
-                return AppService.assembleString(claim.address, key, ', ');
-            } else {
-                return AppService.assembleString({}, []);
-            }
+            const key = ['city', 'district', 'street', 'building'];
+            return AppService.assembleStringCheck(claim, key, 'address', ', ');
+        }
+
+        public phone(claim) {
+            const key = ['phone'];
+            return AppService.assembleStringCheck(claim, key, 'applicant');
         }
 
         public startSearch() {
