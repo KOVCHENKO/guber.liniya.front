@@ -37,7 +37,7 @@
             <datatable-custom-paginator v-on:setAnotherPage="getAllClaimsOfOrganization2(dataFilter)">
             </datatable-custom-paginator>
 
-        <update-status-claims :claim="claim" :sortByData="sortByData"></update-status-claims>
+        <update-status-claims :claim="claim" :dataFilter="dataFilter"></update-status-claims>
 
     </div>
 </template>
@@ -70,11 +70,7 @@
     export default class CreatedClaims extends Vue {
 
         @Provide()
-        public status: string = ''; // 'created';
-
-        // TODO: удалить
-        @Provide()
-        public sortByData: string = 'desc';
+        public status: string = 'created';
 
         @Provide()
         public hoverClass: string = '';
@@ -120,6 +116,9 @@
             phone: '',
             status: '',
             organization_id: '',
+            responsible_organization: [
+                {name : ''},
+            ],
         };
         // TODO: убрать в родителя
         constructor() {
@@ -179,14 +178,6 @@
         get claims() {
             return ClaimService.changeTimeFormat(this.organizationState.claims);
         }
-
-        // public sortByDataFunc() {
-        //     this.sortByData = (this.sortByData === 'desc') ? 'asc' : 'desc';
-        //     this.getAllClaimsOfOrganization({
-        //         organization_id : this.userState.user.organization.id,
-        //         dispatchStatusFilter : this.dispatchStatusFilter,
-        //         search : this.searchField, sortByData: this.sortByData });
-        // }
 
         public useFilter(row) {
             const filter = !row.filter;

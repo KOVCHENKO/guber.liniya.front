@@ -149,7 +149,7 @@
 
         @Prop() public claim: any;
 
-        @Prop() public sortByData: any;
+        @Prop() public dataFilter: any;
 
         @Action public submitConfirmationFile;
 
@@ -176,6 +176,8 @@
         @Action public changeStatusClaim;
 
         @Action public getAllClaimsOfOrganization;
+
+        @Action public getAllClaimsOfOrganization2;
 
         @Action public changeOrganization;
 
@@ -269,15 +271,11 @@
         public updateStatusClaim() {
             // Заявка выполнена. Изменяем статус заявки с assigned на executed. Добавляем комментарий
             if (this.booleanAssigned === true && this.claim.status === 'assigned') {
-                this.changeStatusClaim({id : this.claim.id, status : 'executed' }).then(() => {
-                    this.getAllClaimsOfOrganization({
-                        organization_id: this.userState.user.organization.id,
-                        dispatchStatusFilter: 'all',
-                        search: '', sortByData: this.sortByData,
-                    });
+                this.changeStatusClaim({id : this.claim.claim_id, status : 'executed' }).then(() => {
+                    this.getAllClaimsOfOrganization2(this.dataFilter);
                     this.closeDialog();
 
-                    this.commentState.comment.claim_id = this.claim.id;
+                    this.commentState.comment.claim_id = this.claim.claim_id;
                     this.commentState.comment.status = this.statusData;
 
                     this.createComment();
@@ -290,40 +288,28 @@
             }
             // Приянть в работу. Изменяем статус заявки на assigned
             if (this.statusData === 'assigned') {
-                this.changeStatusClaim({id : this.claim.id, status : this.statusData }).then(() => {
-                    this.getAllClaimsOfOrganization({
-                        organization_id: this.userState.user.organization.id,
-                        dispatchStatusFilter: 'all',
-                        search: '', sortByData: this.sortByData,
-                    });
+                this.changeStatusClaim({id : this.claim.claim_id, status : this.statusData }).then(() => {
+                    this.getAllClaimsOfOrganization2(this.dataFilter);
                     this.closeDialog();
                 });
                 return;
             }
             // Перенаправить другой организации. Изменяем прикрепленную организацию.
             if (this.statusData === 'redirect') {
-                this.changeOrganization({id : this.claim.id, id_old_organization : this.userState.user.organization.id,
+                this.changeOrganization({id : this.claim.claim_id, id_old_organization : this.userState.user.organization.id,
                         id_new_organization : this.childOrganization }).then(() => {
-                    this.getAllClaimsOfOrganization({
-                        organization_id: this.userState.user.organization.id,
-                        dispatchStatusFilter: 'all',
-                        search: '', sortByData: this.sortByData,
-                    });
+                    this.getAllClaimsOfOrganization2(this.dataFilter);
                     this.closeDialog();
                 });
                 return;
             }
             // Отказаться. Изменяем статус заявки на rejected. Добавляем комментарий
             if (this.statusData === 'rejected') {
-                this.changeStatusClaim({id : this.claim.id, status : this.statusData }).then(() => {
-                    this.getAllClaimsOfOrganization({
-                        organization_id: this.userState.user.organization.id,
-                        dispatchStatusFilter: 'all',
-                        search: '', sortByData: this.sortByData,
-                    });
+                this.changeStatusClaim({id : this.claim.claim_id, status : this.statusData }).then(() => {
+                    this.getAllClaimsOfOrganization2(this.dataFilter);
                     this.closeDialog();
 
-                    this.commentState.comment.claim_id = this.claim.id;
+                    this.commentState.comment.claim_id = this.claim.claim_id;
                     this.commentState.comment.status = this.statusData;
 
                     this.createComment();
