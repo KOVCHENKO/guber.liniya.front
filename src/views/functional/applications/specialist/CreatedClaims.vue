@@ -8,7 +8,8 @@
                             <span v-if="column.hasOwnProperty('filter')">
                                 <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
                                 <base-filter :column="column">
-                                    <component v-bind:is="column.component" :dataFilter="dataFilter"></component>
+                                    <component @search="search($event)" v-bind:is="column.component" :dataFilter.sync="dataFilter" :dataFilterString="column.dataFilterString"></component>
+                                    <!-- <component v-bind:is="column.component" :dataFilter="dataFilter"></component> -->
                                 </base-filter>
                             </span>
                             <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
@@ -56,11 +57,10 @@
     import IPaginationState from '../../../../store/util/pagination/types';
     import CommentState from '../../../../store/functional/comment/types';
     import AppService from '@/domain/services/common/AppService';
-    import Applicant from '@/views/functional/applications/specialist/filters/Applicant.vue';
-    import Phone from '@/views/functional/applications/specialist/filters/Phone.vue';
-    import Address from '@/views/functional/applications/specialist/filters/Address.vue';
     import Date from '@/views/functional/applications/specialist/filters/Date.vue';
     import BaseFilter from '@/components/base/BaseFilter.vue';
+    import SearchField from '@/components/base/filters/SearchFieldNew.vue';
+    import DateField from '@/components/base/filters/DateField.vue';
 
     @Component({
         components: {
@@ -70,7 +70,7 @@
     export default class CreatedClaims extends Vue {
 
         @Provide()
-        public status: string = 'created';
+        public status: string = ''; // created
 
         @Provide()
         public hoverClass: string = '';
@@ -96,13 +96,13 @@
         @Provide()
         public tableColumns = [
             {label: 'Дата', name: 'date', filter: false,
-            component: Date, sort: 'asc', hover: false},
+            component: DateField, sort: 'asc', hover: false, dataFilterString: 'date'},
             {label: 'Заявитель', name: 'initials', filter: false,
-            component: Applicant, sort: false, hover: false },
+            component: SearchField, sort: false, hover: false, dataFilterString: 'initials'},
             {label: 'Телефон', name: 'phone', filter: false,
-            component: Phone, sort: false, hover: false},
+            component: SearchField, sort: false, hover: false, dataFilterString: 'phone'},
             {label: 'Адрес (район / адрес)', name: 'address', filter: false,
-            component: Address, sort: false, hover: false},
+            component: SearchField, sort: false, hover: false, dataFilterString: 'address'},
             {label: '', icon: 'fas fa-cog'},
         ];
 
@@ -203,6 +203,21 @@
             this.dataFilter.direction = sort;
             this.dataFilter.field = row.name;
             this.startSearch();
+        }
+
+        public search(value: any) {
+            this.paginationState.currentPage = 1;
+            this.dataFilter[value.field] = value.string;
+            throttle(this.startSearch, 2000)();
+        }
+
+        public searchByDate(value: any) {
+            this.paginationState.currentPage = 1;
+            this.startSearch();
+        }
+
+        public dataFilterString(column) {
+            return this.dataFilter[column.dataFilter];
         }
 
     }
