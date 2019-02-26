@@ -47,13 +47,6 @@
 
         public created() {
             this.$router.push({ name: 'missed_calls' });
-            this.listenToEvents();
-        }
-
-        public listenToEvents() {
-            socket.on('new_call', (data) => {
-                $('#resolveCall').modal('show');
-            });
         }
 
 

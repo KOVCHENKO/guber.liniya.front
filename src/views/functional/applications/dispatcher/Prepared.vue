@@ -130,7 +130,7 @@
         }
 
         public created() {
-            this.listenToEvents();
+            // this.listenToEvents();
 
             this.getAllClaims({
                 dispatchStatus: PREPARED,
@@ -234,6 +234,7 @@
 
             // search method
         }
+
         /**
          * Слушаем события на создание
          */

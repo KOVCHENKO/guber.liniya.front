@@ -69,6 +69,7 @@
     import HeaderComponent from '@/components/common/Desktop/Header.vue';
     import IPaginationState from '@/store/util/pagination/types';
     import IncomingCallNotification from '@/components/functional/calls/calls/new/IncomingCallNotification.vue';
+    import {socket} from '@/bootstrap';
 
     @Component({
         components: {HeaderComponent, IncomingCallNotification},
@@ -118,7 +119,14 @@
         }
 
         private created() {
-            $('#incomingCallNotificationModal').modal('show');
+            this.listenToEvents();
+        }
+
+        public listenToEvents() {
+            socket.on('incoming_call', (data) => {
+                console.log(data);
+                $('#incomingCallNotificationModal').modal('show');
+            });
         }
 
     }
