@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="main-page" id="specialistApplications">
+    <div id="specialistApplications">
+        <div class="main-page">
             <table class="table table-hover">
                 <thead>
                     <tr class="filter">

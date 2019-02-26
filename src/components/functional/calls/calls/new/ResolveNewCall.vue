@@ -150,6 +150,7 @@
 
         public mounted() {
             $('#resolveNewCall').on('shown.bs.modal', () => {
+                // @ts-ignore
                 this.$refs.vueGoodWizard.handleResize();
             });
         }
@@ -167,11 +168,11 @@
         }
 
         public showApplicantCard() {
-            console.log('show applicant card');
+            // console.log('show applicant card');
         }
 
         public showApplicantClaims() {
-            console.log('show applicant claims');
+            // console.log('show applicant claims');
         }
 
         public addTask() {

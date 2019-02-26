@@ -28,7 +28,9 @@ import EditableSupervisorClaims from './views/functional/applications/supervisor
 import ExecutableSupervisorClaims from './views/functional/applications/supervisor/Executable.vue';
 import DeclinedSupervisorClaims from './views/functional/applications/supervisor/Declined.vue';
 
-import SpecialistAllClaims from './views/functional/applications/specialist/AllClaims.vue';
+import SpecialistCreatedClaims from './views/functional/applications/specialist/CreatedClaims.vue';
+import SpecialistAssignedClaims from './views/functional/applications/specialist/AssignedClaims.vue';
+import SpecialistExecutedClaims from './views/functional/applications/specialist/ExecutedClaims.vue';
 import SpecialistClosedClaims from './views/functional/applications/specialist/ClosedClaims.vue';
 import SpecialistSubcontractorsClaims from './views/functional/applications/specialist/SubcontractorsClaims.vue';
 
@@ -171,8 +173,18 @@ const router = new Router({
                 meta: { requiresAuth: true, requiresRole: SPECIALIST},
                 children: [
                     {
-                        path: '/specialist_all_claims', name: 'specialist_all_claims',
-                        component: SpecialistAllClaims,
+                        path: '/specialist_created_claims', name: 'specialist_created_claims',
+                        component: SpecialistCreatedClaims,
+                        meta: {requiresRole: SPECIALIST},
+                    },
+                    {
+                        path: '/specialist_assigned_claims', name: 'specialist_assigned_claims',
+                        component: SpecialistAssignedClaims,
+                        meta: {requiresRole: SPECIALIST},
+                    },
+                    {
+                        path: '/specialist_executed_claims', name: 'specialist_executed_claims',
+                        component: SpecialistExecutedClaims,
                         meta: {requiresRole: SPECIALIST},
                     },
                     {

@@ -3,19 +3,23 @@
         <div class="main-page">
             <table class="table table-hover">
                 <thead>
-                <tr>
-                    <th colspan="4">
-                        <input v-model="searchField" @input="throttledSearch" class="form-control input-search" placeholder="Поиск по заявителю, телефону">
-                    </th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">
-                        {{column.label}}
-                        <i v-if="column.sorting" class="fas fa-sort" @click="makeSorting(column.column)"></i>
-                    </th>
-                </tr>
+                    <tr>
+                        <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}
+                            <span v-if="column.hasOwnProperty('filter')">
+                                    <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
+                                    <base-filter :column="column">
+                                        <component @search="search($event)" v-bind:is="column.component" :dataFilter.sync="column.dataFilter"></component>
+                                    </base-filter>
+                                </span>
+                            <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
+                                    <i class="fas cst-sort" @mouseenter="column.hover = !(column.sort) ? 'fa-sort-up' : ''" @mouseleave="column.hover=''"
+                                       v-bind:class="[ column.hover, { 'fa-sort-up' : (column.sort === 'asc'), 'fa-sort-down': (column.sort === 'desc') }]"></i>
+                                </span>
+                            <span v-if="column.hasOwnProperty('icon')">
+                                <i v-bind:class="[column.icon]"></i>
+                            </span>
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
                 <!-- <span> -->
@@ -66,6 +70,10 @@
     import ClaimService from '@/domain/services/functional/claims/ClaimService';
     import IPaginationState from '@/store/util/pagination/types';
     import {PREPARED} from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
+    import BaseFilter from '@/components/base/BaseFilter.vue';
+    import SearchField from '@/components/base/filters/SearchField.vue';
+    import DateField from '@/components/base/filters/DateField.vue';
+
 
     @Component({
         components: {
@@ -73,6 +81,7 @@
             UpdateApplication,
             DatatableCustomPaginator,
             ReassignToAnotherOrganization,
+            BaseFilter,
         },
     })
     export default class PreparedClaims extends Vue implements IWithRoute {
@@ -85,14 +94,26 @@
         public sortDirection: string = 'desc';
 
         @Provide()
+        public dataFilter = {
+            minDate: '',
+            maxDate: '',
+            lastname: '',
+            phone: '',
+            address: '',
+        };
+
+        @Provide()
         public tableColumns = [
-            { label: 'Дата', sorting: true, column: 'created_at' },
-            { label: 'Заявитель', sorting: true, column: 'lastname' },
-            { label: 'Телефон', sorting: true, column: 'phone' },
-            { label: 'Адрес (район / адрес)', sorting: false, column: 'address' },
+            { label: 'Дата', sorting: true, column: 'created_at', filter: false, component: DateField,
+                dataFilter: { minDate: 'minDate', maxDate: 'maxDate' },
+            },
+            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false, component: SearchField, dataFilter: 'lastname' },
+            { label: 'Телефон', sorting: true, column: 'phone', filter: false, component: SearchField, dataFilter: 'phone' },
+            { label: 'Адрес (район / адрес)', sorting: false, filter: false, column: 'address', component: SearchField, dataFilter: 'address' },
             { label: '', sorting: false, column: '' },
             { label: 'Организация', sorting: false, column: 'responsible_organizations' },
         ];
+
 
         @State('claim') public claimState!: ClaimState;
         @State('pagination') public paginationState!: IPaginationState;
@@ -152,6 +173,7 @@
             return this.claimState.claims;
         }
 
+
         public startSearch() {
             // Обнулить и поставить страницу №1
             this.paginationState.currentPage = 1;
@@ -191,6 +213,26 @@
             this.sortBy = columnName;
             this.startSearch();
         }
+
+        public useFilter(row) {
+            const filter = !row.filter;
+            this.tableColumns.map((column) => {
+                if (column.hasOwnProperty('filter')) {
+                    column.filter = false;
+                }
+                return column;
+            });
+            row.filter = filter;
+        }
+
+
+        public search(value: any) {
+            this.dataFilter[value.field] = value.string;
+            console.log(this.dataFilter);
+
+            // search method
+        }
+
     }
 
 </script>

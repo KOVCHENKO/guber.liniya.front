@@ -5,6 +5,7 @@ import axios from 'axios';
 import Organization from '@/domain/entities/functional/Organization';
 import { makeTree } from '@/domain/util/interface/TreeMaker';
 import ClaimService from '@/domain/services/functional/claims/ClaimService';
+import AppService from '@/domain/services/common/AppService';
 export const state = {
     organization: new Organization(0, '', '', null),
     organizations: [{}],
@@ -95,6 +96,20 @@ export const actions = {
                 '&sortByData=' + payload.sortByData);
             state.claims = result.data.claims;
             state.claims = ClaimService.addTranslatedClaimStatus(state.claims);
+            dispatch('formPagination', { lastPage: result.data.count });
+        }
+        catch {
+            ErrorNotifier.notify();
+        }
+    },
+    async getAllClaimsOfOrganization2({ rootState, dispatch }, payload) {
+        try {
+            const filter = ['status', 'initials', 'phone', 'address', 'minDate', 'maxDate', 'page', 'field', 'direction'];
+            payload.page = rootState.pagination.currentPage;
+            const paramUrl = AppService.assembleParamUrl(payload, filter);
+            const url = 'organizations/all_claims_of_organization/' + payload.organization_id + paramUrl;
+            const result = await axios.get(baseUrl + url);
+            state.claims = result.data.claims;
             dispatch('formPagination', { lastPage: result.data.count });
         }
         catch {
