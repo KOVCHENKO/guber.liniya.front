@@ -73,7 +73,7 @@
     import BaseFilter from '@/components/base/BaseFilter.vue';
     import SearchField from '@/components/base/filters/SearchField.vue';
     import DateField from '@/components/base/filters/DateField.vue';
-
+    import {socket} from '@/bootstrap';
 
     @Component({
         components: {
@@ -130,6 +130,8 @@
         }
 
         public created() {
+            this.listenToEvents();
+
             this.getAllClaims({
                 dispatchStatus: PREPARED,
             });
@@ -228,11 +230,18 @@
 
         public search(value: any) {
             this.dataFilter[value.field] = value.string;
-            console.log(this.dataFilter);
+            // console.log(this.dataFilter);
 
             // search method
         }
-
+        /**
+         * Слушаем события на создание
+         */
+        public listenToEvents() {
+            socket.on('new_claim', (data) => {
+                // console.log(data);
+            });
+        }
     }
 
 </script>

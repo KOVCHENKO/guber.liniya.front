@@ -29,6 +29,7 @@
 
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
+    import {socket} from '@/bootstrap';
 
 
     @Component
@@ -46,6 +47,13 @@
 
         public created() {
             this.$router.push({ name: 'missed_calls' });
+            this.listenToEvents();
+        }
+
+        public listenToEvents() {
+            socket.on('new_call', (data) => {
+                $('#resolveCall').modal('show');
+            });
         }
 
 

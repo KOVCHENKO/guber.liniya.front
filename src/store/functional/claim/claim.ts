@@ -7,6 +7,7 @@ import ErrorNotifier from '@/domain/util/notifications/ErrorNotifier';
 import SuccessNotifier from '@/domain/util/notifications/SuccessNotifier';
 import ClaimService from '@/domain/services/functional/claims/ClaimService';
 import RoleResolver from '@/domain/services/functional/roles/RoleResolver';
+import {socket} from '@/bootstrap';
 
 export const state: ClaimState = {
     claim: {
@@ -107,6 +108,10 @@ export const actions: ActionTree<ClaimState, RootState> = {
             const result = await axios.post(`${baseUrl}claims/create`, state.claim);
             dispatch('getCalls');
             SuccessNotifier.notify('Заявка', 'Создана новая заявка');
+
+            // emit event
+            socket.emit('claim_has_been_created', { claim: state.claim });
+
             return result;
         } catch {
             ErrorNotifier.notifyWithCustomMessage('Заполните, все необходимые поля: адрес, телефон, содержание заявки');
