@@ -14,6 +14,10 @@ export const state: CallState = {
         from: '2018-01-01',
         to: '2019-01-01',
     },
+
+    incomingCall: {
+      phone: '',
+    },
 };
 
 export const actions: ActionTree<CallState, RootState> = {

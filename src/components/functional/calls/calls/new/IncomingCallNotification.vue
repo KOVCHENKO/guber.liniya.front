@@ -10,8 +10,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Дата:
-                    Телефон:
+                    <div class="row">
+                        Телефон: {{ callState.incomingCall.phone }}
+                    </div>
+                    <div class="row">
+                        Заявитель: {{ applicantState.applicant.lastname}}
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Проигнорировать</button>
@@ -24,9 +28,18 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
+    import {State} from 'vuex-class';
+    import CallState from '@/store/functional/call/types';
+    import ApplicantState from '@/store/functional/applicant/types';
 
     @Component
     export default class IncomingCallNotification extends Vue {
+        @State('call') public callState!: CallState;
+
+        // TODO: Необходимо на основании звонка вычислять, существует ли заявитель по данному номеру телефона или это новый звонящий
+        @State('applicant') public applicantState!: ApplicantState;
+
+
 
     }
 </script>

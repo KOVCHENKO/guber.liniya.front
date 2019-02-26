@@ -10,6 +10,9 @@ export const state = {
         from: '2018-01-01',
         to: '2019-01-01',
     },
+    incomingCall: {
+        phone: '',
+    },
 };
 export const actions = {
     async getCalls({ rootState, dispatch }) {

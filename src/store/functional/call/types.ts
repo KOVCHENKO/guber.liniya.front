@@ -8,4 +8,7 @@ export default interface CallState {
         from: string;
         to: string;
     };
+    incomingCall: {
+        phone: '',
+    };
 }

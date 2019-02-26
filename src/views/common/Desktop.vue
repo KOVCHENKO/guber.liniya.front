@@ -70,6 +70,7 @@
     import IPaginationState from '@/store/util/pagination/types';
     import IncomingCallNotification from '@/components/functional/calls/calls/new/IncomingCallNotification.vue';
     import {socket} from '@/bootstrap';
+    import CallState from '@/store/functional/call/types';
 
     @Component({
         components: {HeaderComponent, IncomingCallNotification},
@@ -77,6 +78,9 @@
     export default class Desktop extends Vue {
         @State('cabinet') public cabinetState!: CabinetState;
         @State('pagination') public paginationState!: IPaginationState;
+
+        // state для входящих звонков (incoming calls)
+        @State('call') public callState!: CallState;
 
         @Action('getCabinets')
         public getCabinets: any;
@@ -122,9 +126,9 @@
             this.listenToEvents();
         }
 
-        public listenToEvents() {
+        private listenToEvents() {
             socket.on('incoming_call', (data) => {
-                console.log(data);
+                this.callState.incomingCall.phone = data.call.phone;
                 $('#incomingCallNotificationModal').modal('show');
             });
         }
