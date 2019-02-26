@@ -56,19 +56,22 @@
                 :title="plusButton.title"
                 @click="plusButton.clickAction" v-if="plusButton.visible"><img src="/img/plus.png" /></div>
 
+        <incoming-call-notification></incoming-call-notification>
+
     </div>
 </template>
 
 <script lang ="ts">
-    import {plusButton, mainToolbar} from '../../domain/util/interface/CommonInterface';
+    import {plusButton, mainToolbar} from '@/domain/util/interface/CommonInterface';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
-    import CabinetState from '../../store/common/cabinet/types';
+    import CabinetState from '@/store/common/cabinet/types';
     import HeaderComponent from '@/components/common/Desktop/Header.vue';
-    import IPaginationState from '../../store/util/pagination/types';
+    import IPaginationState from '@/store/util/pagination/types';
+    import IncomingCallNotification from '@/components/functional/calls/calls/new/IncomingCallNotification.vue';
 
     @Component({
-        components: {HeaderComponent},
+        components: {HeaderComponent, IncomingCallNotification},
     })
     export default class Desktop extends Vue {
         @State('cabinet') public cabinetState!: CabinetState;
@@ -112,6 +115,10 @@
 
         private close() {
             this.isOpen = true;
+        }
+
+        private created() {
+            $('#incomingCallNotificationModal').modal('show');
         }
 
     }

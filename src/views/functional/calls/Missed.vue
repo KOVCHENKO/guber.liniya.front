@@ -110,7 +110,8 @@
         }
 
         public mounted() {
-            $('#resolveNewCall').modal('show');
+            $('#incomingCallNotificationModal').modal('show');
+            // $('#resolveNewCall').modal('show');
         }
 
         /**

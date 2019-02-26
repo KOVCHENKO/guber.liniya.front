@@ -113,6 +113,10 @@
     })
     export default class ResolveNewCall extends Vue {
 
+        public $refs!: {
+            vueGoodWizard: HTMLFormElement,
+        };
+
         @State('claim') public claimState!: ClaimState;
 
         @Provide() public steps = [
