@@ -19,7 +19,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Проигнорировать</button>
-                    <button type="button" class="btn btn-primary">Принять звонок</button>
+                    <button type="button" class="btn btn-primary" @click="acceptCall">Принять звонок</button>
                 </div>
             </div>
         </div>
@@ -31,6 +31,7 @@
     import {State} from 'vuex-class';
     import CallState from '@/store/functional/call/types';
     import ApplicantState from '@/store/functional/applicant/types';
+    import {socket} from '@/bootstrap';
 
     @Component
     export default class IncomingCallNotification extends Vue {
@@ -39,7 +40,22 @@
         // TODO: Необходимо на основании звонка вычислять, существует ли заявитель по данному номеру телефона или это новый звонящий
         @State('applicant') public applicantState!: ApplicantState;
 
+        // Принять звонок:
+        // 1. Emit событие на закрытие окошка у других принимающих
+        // 2. Закрыть окно с уведоилением о новом звонке
+        // 3. Открыть модальное окно с заполнением нового звонка
+        private acceptCall() {
+            socket.emit('accept_call', {
+                // TODO: Передавать информацию для логирования (user_id, user_email, created_at, phone)
+                user_id: '',
+                user_email: '',
+                created_at: '',
+                phone: '',
+            });
 
+            $('#incomingCallNotificationModal').modal('hide');
+            $('#resolveNewCall').modal('show');
+        }
 
     }
 </script>

@@ -131,6 +131,10 @@
                 this.callState.incomingCall.phone = data.call.phone;
                 $('#incomingCallNotificationModal').modal('show');
             });
+
+            socket.on('accepted_call', () => {
+                $('#incomingCallNotificationModal').modal('hide');
+            });
         }
 
     }
