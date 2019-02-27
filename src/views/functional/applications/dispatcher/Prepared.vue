@@ -8,7 +8,7 @@
                             <span v-if="column.hasOwnProperty('filter')">
                                     <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
                                     <base-filter :column="column">
-                                        <component @search="search($event)" v-bind:is="column.component" :dataFilter.sync="column.dataFilter"></component>
+                                        <component @search="assignDataFilter($event)" v-bind:is="column.component" :dataFilter.sync="column.dataFilter"></component>
                                     </base-filter>
                                 </span>
                             <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
@@ -25,7 +25,7 @@
                 <!-- <span> -->
                 <tr :class="[{ expiredClaim: claim.expired }]" class="dispatch-status-background" v-for="(claim, index) in claims" :key="index">
                     <th>{{ claim.created_at_shortened }}</th>
-                    <td>{{ claim.firstname }} {{ claim.middlename }} {{ claim.lastname }}</td>
+                    <td>{{ claim.applicant.lastname }} {{ claim.applicant.firstname }} {{ claim.applicant.middlename }}</td>
                     <td>{{ claim.phone }}</td>
                     <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
                     <td>
@@ -65,7 +65,6 @@
     import ClaimState from '@/store/functional/claim/types';
     import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
     import Problem from '@/domain/entities/functional/Problem';
-    import throttle from '@/store/util/operations/throttle';
     import IWithRoute from '@/domain/util/interface/IWithRoute';
     import ClaimService from '@/domain/services/functional/claims/ClaimService';
     import IPaginationState from '@/store/util/pagination/types';
@@ -86,7 +85,6 @@
     })
     export default class PreparedClaims extends Vue implements IWithRoute {
         // Фильтры - Поиск, Статус приема, Статус обработки, Статус выполнения
-        @Provide() public searchField: string = '';
         @Provide() public dispatchStatusFilter: string = PREPARED;
 
         // Поле сортировки
@@ -94,20 +92,20 @@
         public sortDirection: string = 'desc';
 
         @Provide()
-        public dataFilter = {
-            minDate: '',
-            maxDate: '',
-            lastname: '',
+        private dataFilter = {
+            date: {
+                minDate: '',
+                maxDate: '',
+            },
+            applicant: '',
             phone: '',
             address: '',
         };
 
         @Provide()
-        public tableColumns = [
-            { label: 'Дата', sorting: true, column: 'created_at', filter: false, component: DateField,
-                dataFilter: { minDate: 'minDate', maxDate: 'maxDate' },
-            },
-            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false, component: SearchField, dataFilter: 'lastname' },
+        private tableColumns = [
+            { label: 'Дата', sorting: true, column: 'created_at', filter: false, component: DateField, dataFilter: 'date' },
+            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false, component: SearchField, dataFilter: 'applicant' },
             { label: 'Телефон', sorting: true, column: 'phone', filter: false, component: SearchField, dataFilter: 'phone' },
             { label: 'Адрес (район / адрес)', sorting: false, filter: false, column: 'address', component: SearchField, dataFilter: 'address' },
             { label: '', sorting: false, column: '' },
@@ -115,12 +113,12 @@
         ];
 
 
-        @State('claim') public claimState!: ClaimState;
-        @State('pagination') public paginationState!: IPaginationState;
+        @State('claim') private claimState!: ClaimState;
+        @State('pagination') private paginationState!: IPaginationState;
 
 
-        @Action public getAllClaims;
-        @Action public searchClaim;
+        @Action private getAllClaims;
+        @Action private searchClaim;
 
         constructor() {
             super();
@@ -129,7 +127,7 @@
             plusButton.title = 'Добавить заявку';
         }
 
-        public created() {
+        private created() {
             // this.listenToEvents();
 
             this.getAllClaims({
@@ -137,12 +135,12 @@
             });
         }
 
-        public show(claim) {
+        private show(claim) {
             this.makeClaim(claim);
             $('#updateApplication').modal('show');
         }
 
-        public makeClaim(claim) {
+        private makeClaim(claim) {
             let problem = new Problem(0, '', '');
 
             if (claim.problem !== null) {
@@ -158,8 +156,68 @@
             this.claimState.responsibleOrganizations = claim.responsible_organization;
         }
 
-        get throttledSearch() {
-            return throttle(this.startSearch, 2000);
+        private startSearch() {
+            // Обнулить и поставить страницу №1
+            this.paginationState.currentPage = 1;
+
+            this.searchClaim({
+                search: this.dataFilter,
+                dispatchStatus: PREPARED,
+                sortBy: this.sortBy,
+                sortDirection: this.sortDirection,
+            });
+        }
+
+        /**
+         * Переназначить другой организации
+         */
+        private reassignToAnotherOrganization(claim) {
+            this.makeClaim(claim);
+            $('#reassignToAnotherOrganization').modal('show');
+        }
+
+        /**
+         * Сортировка
+         * @param columnName
+         */
+        private makeSorting(columnName) {
+            this.sortDirection === 'desc' ? this.sortDirection = 'asc' : this.sortDirection = 'desc';
+            this.sortBy = columnName;
+            this.startSearch();
+        }
+
+        /**
+         * Отобразить фильтр для определенного столбца и скрыть остальные
+         * @param row определенный столбец таблицы
+         */
+        private useFilter(row) {
+            const filter = !row.filter;
+            this.tableColumns.map((column) => {
+                if (column.hasOwnProperty('filter')) {
+                    column.filter = false;
+                }
+                return column;
+            });
+            row.filter = filter;
+        }
+
+
+        /**
+         * 1. Применить определенный dataFilter на поле
+         * 2. Начать поиск
+         */
+        private assignDataFilter(value: any) {
+            this.dataFilter[value.field] = value.string;
+            this.startSearch();
+        }
+
+        /**
+         * Слушаем события на создание
+         */
+        private listenToEvents() {
+            socket.on('new_claim', (data) => {
+                // console.log(data);
+            });
         }
 
         /**
@@ -173,75 +231,6 @@
             this.claimState.claims = ClaimService.changeTimeFormat(this.claimState.claims);
 
             return this.claimState.claims;
-        }
-
-
-        public startSearch() {
-            // Обнулить и поставить страницу №1
-            this.paginationState.currentPage = 1;
-
-            // Начать поиск
-            if (this.searchField === '') {
-                this.getAllClaims({
-                    dispatchStatus: PREPARED,
-                    sortBy: this.sortBy,
-                    sortDirection: this.sortDirection,
-                });
-                return;
-            }
-
-            this.searchClaim({
-                search: this.searchField,
-                dispatchStatus: PREPARED,
-                sortBy: this.sortBy,
-                sortDirection: this.sortDirection,
-            });
-        }
-
-        /**
-         * Переназначить другой организации
-         */
-        public reassignToAnotherOrganization(claim) {
-            this.makeClaim(claim);
-            $('#reassignToAnotherOrganization').modal('show');
-        }
-
-        /**
-         * Сортировка
-         * @param columnName
-         */
-        public makeSorting(columnName) {
-            this.sortDirection === 'desc' ? this.sortDirection = 'asc' : this.sortDirection = 'desc';
-            this.sortBy = columnName;
-            this.startSearch();
-        }
-
-        public useFilter(row) {
-            const filter = !row.filter;
-            this.tableColumns.map((column) => {
-                if (column.hasOwnProperty('filter')) {
-                    column.filter = false;
-                }
-                return column;
-            });
-            row.filter = filter;
-        }
-
-
-        public search(value: any) {
-            this.dataFilter[value.field] = value.string;
-            // console.log(this.dataFilter);
-
-            // search method
-        }
-
-        /**
-         * Слушаем события на создание
-         */
-        public listenToEvents() {
-            socket.on('new_claim', (data) => {
-                // console.log(data);
-            });
         }
     }
 

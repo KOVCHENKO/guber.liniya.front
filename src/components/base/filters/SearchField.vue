@@ -5,17 +5,12 @@
 <script lang="ts">
 
     import {Component, Vue, Prop, Emit, Provide} from 'vue-property-decorator';
-    import {Action, State} from 'vuex-class';
     import throttle from '@/store/util/operations/throttle';
-    import IPaginationState from '@/store/util/pagination/types';
 
     @Component
     export default class SearchField extends Vue {
 
         @Prop() public dataFilter: any;
-
-        @State('pagination') public paginationState!: IPaginationState;
-
 
         @Provide() public dataFilterString = '';
 
