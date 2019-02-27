@@ -60,7 +60,7 @@
                         </div>
                     </td>
                     <td v-if="claim.responsible_organization === ''">Информация отсутсвует</td>
-                    <td v-else>{{ claim.responsible_organization[0].name }}</td>
+                    <td v-else>{{ claim.responsibleOrganizationName }}</td>
                 </tr>
                 <!-- </span> -->
                 </tbody>
@@ -208,6 +208,7 @@
             this.claimState.claims = ClaimService.addTranslatedClaimStatus(this.claimState.claims);
             this.claimState.claims = ClaimService.addTranslatedCloseStatus(this.claimState.claims);
             this.claimState.claims = ClaimService.changeTimeFormat(this.claimState.claims);
+            this.claimState.claims = ClaimService.setExecutiveOrganization(this.claimState.claims);
 
             return this.claimState.claims;
         }

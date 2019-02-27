@@ -98,6 +98,25 @@ class ClaimService {
         });
     }
 
+    /**
+     * Добавить исполняющую организацию. Если ее нет, то поставить признак "Отсутствует"
+     * @param claims
+     */
+    public static setExecutiveOrganization(claims: IClaim[]): IClaim[] {
+        return claims.map((claim: IClaim) => {
+
+            // @ts-ignore
+            if (claim.responsible_organization.length !== 0) {
+                // @ts-ignore
+                claim.responsibleOrganizationName = claim.responsible_organization[0].name;
+            } else {
+                claim.responsibleOrganizationName = 'Отсутствует';
+            }
+
+            return claim;
+        });
+    }
+
     public updateClaimInCollection(claims: IClaim[], claim: IClaim) {
         const subIndex = claims.map((e) => {
             return e.id;
@@ -106,9 +125,6 @@ class ClaimService {
         // claims[subIndex].created_at = claim.createdAt;
         claims[subIndex].name = claim.name;
         claims[subIndex].description = claim.description;
-        // claims[subIndex].firstname = claim.firstName;
-        // claims[subIndex].middlename = claim.middleName;
-        // claims[subIndex].lastname = claim.lastName;
         claims[subIndex].address = claim.address;
         claims[subIndex].phone = claim.phone;
         claims[subIndex].dispatch_status = claim.dispatchStatus;
@@ -131,6 +147,7 @@ class ClaimService {
 
         return payload;
     }
+
 
 
 }
