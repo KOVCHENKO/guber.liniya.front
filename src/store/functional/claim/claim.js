@@ -12,7 +12,7 @@ export const state = {
         description: '',
         address: {
             id: 0,
-            city: '',
+            city: '123',
             street: '',
             building: '',
             district: '',

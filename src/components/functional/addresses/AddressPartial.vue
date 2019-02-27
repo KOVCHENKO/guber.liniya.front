@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-5 clearfix">
                 <label for="claim_city">Город</label>
-                <input :name="$t('validation.address')" id="claim_city" v-model="search.city"
+                <input :name="$t('validation.address')" id="claim_city" v-model="city"
                        @keydown="changeCity" @click="showCitiesList" autocomplete="off"/>
 
                 <vue-scrollbar class="menu-scrollbar dropdown-menu dropdown-menu-right" ref="scrollbar"
@@ -22,7 +22,7 @@
             <!-- Улица -->
             <div class="col-sm-5 clearfix">
                 <label for="claim_city">Улица</label>
-                <input :name="$t('validation.address')" id="claim_street" v-model="search.street" ref="street"
+                <input :name="$t('validation.address')" id="claim_street" v-model="street" ref="street"
                        @keydown="changeStreet" @click="showStreetsList" autocomplete="off"/>
 
                 <vue-scrollbar class="menu-scrollbar dropdown-menu dropdown-menu-right" ref="scrollbar"
@@ -38,7 +38,7 @@
             <!-- Дом -->
             <div class="col-sm-2 clearfix">
                 <label for="claim_house">Дом</label>
-                <input :name="$t('validation.address')" id="claim_house" v-model="search.building" ref="building"
+                <input :name="$t('validation.address')" id="claim_house" v-model="building" ref="building"
                        @keydown="changeBuilding" autocomplete="off"/>
 
                 <vue-scrollbar class="menu-scrollbar dropdown-menu dropdown-menu-right" ref="scrollbar"
