@@ -9,7 +9,6 @@
                                 <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
                                 <base-filter :column="column">
                                     <component @search="search($event)" v-bind:is="column.component" :dataFilter.sync="dataFilter" :dataFilterString="column.dataFilterString"></component>
-                                    <!-- <component v-bind:is="column.component" :dataFilter="dataFilter"></component> -->
                                 </base-filter>
                             </span>
                             <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
@@ -35,7 +34,7 @@
                 </tbody>
             </table>
 
-            <datatable-custom-paginator v-on:setAnotherPage="getAllClaimsOfOrganization2(dataFilter)">
+            <datatable-custom-paginator v-on:setAnotherPage="getAllClaimsOfOrganization(dataFilter)">
             </datatable-custom-paginator>
 
         <update-status-claims :claim="claim" :dataFilter="dataFilter"></update-status-claims>
@@ -48,7 +47,6 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import OrganizationState from '../../../../store/functional/organization/types';
-    import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
     import UserState from '../../../../store/common/user/types';
     import UpdateStatusClaims from '@/components/functional/claims/UpdateStatusClaims.vue';
     import throttle from '../../../../store/util/operations/throttle';
@@ -57,7 +55,6 @@
     import IPaginationState from '../../../../store/util/pagination/types';
     import CommentState from '../../../../store/functional/comment/types';
     import AppService from '@/domain/services/common/AppService';
-    import Date from '@/views/functional/applications/specialist/filters/Date.vue';
     import BaseFilter from '@/components/base/BaseFilter.vue';
     import SearchField from '@/components/base/filters/SearchFieldNew.vue';
     import DateField from '@/components/base/filters/DateField.vue';
@@ -70,7 +67,7 @@
     export default class CreatedClaims extends Vue {
 
         @Provide()
-        public status: string = ''; // created
+        public status: string = 'created';
 
         @Provide()
         public hoverClass: string = '';
@@ -86,9 +83,6 @@
 
         @Action('getAllClaimsOfOrganization')
         public getAllClaimsOfOrganization;
-
-        @Action('getAllClaimsOfOrganization2')
-        public getAllClaimsOfOrganization2;
 
         @Action('getAllChildrenOrganization')
         public getAllChildrenOrganization;
@@ -120,16 +114,6 @@
                 {name : ''},
             ],
         };
-        // TODO: убрать в родителя
-        constructor() {
-            super();
-            headings.title = 'Новые заявки';
-            plusButton.visible = false;
-        }
-
-        get throttledSearch() {
-            return throttle(this.startSearch, 2000);
-        }
 
         get dataFilter() {
             return {
@@ -158,7 +142,7 @@
         public startSearch() {
             // Обнулить и поставить страницу №1
             this.paginationState.currentPage = 1;
-            this.getAllClaimsOfOrganization2(this.dataFilter);
+            this.getAllClaimsOfOrganization(this.dataFilter);
         }
 
         public created() {
@@ -206,13 +190,10 @@
         }
 
         public search(value: any) {
-            this.paginationState.currentPage = 1;
-            this.dataFilter[value.field] = value.string;
             throttle(this.startSearch, 2000)();
         }
 
         public searchByDate(value: any) {
-            this.paginationState.currentPage = 1;
             this.startSearch();
         }
 

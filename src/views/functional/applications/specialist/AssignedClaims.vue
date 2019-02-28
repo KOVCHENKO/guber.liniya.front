@@ -8,7 +8,7 @@
                             <span v-if="column.hasOwnProperty('filter')">
                                 <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
                                 <base-filter :column="column">
-                                    <component v-bind:is="column.component" :dataFilter="dataFilter"></component>
+                                    <component @search="search($event)" v-bind:is="column.component" :dataFilter.sync="dataFilter" :dataFilterString="column.dataFilterString"></component>
                                 </base-filter>
                             </span>
                             <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
@@ -23,7 +23,7 @@
                     <tr v-for="(claim, index) in claims" :key="index">
                         <td>{{claim.created_at_shortened}}</td>
                         <td>{{ fullname(claim) }}</td>
-                        <td><span v-if="claim.hasOwnProperty('applicant')">{{ claim.applicant.phone }}</span></td> <!-- TODO : claim.phone -->
+                        <td><span>{{ phone(claim) }}</span></td> <!-- TODO : claim.phone -->
                         <td>{{ address(claim) }}</td>
                         <td>
                             <div class="container-icon" @click="show(claim)">
@@ -34,7 +34,7 @@
                 </tbody>
             </table>
 
-            <datatable-custom-paginator v-on:setAnotherPage="getAllClaimsOfOrganization2(dataFilter)">
+            <datatable-custom-paginator v-on:setAnotherPage="getAllClaimsOfOrganization(dataFilter)">
             </datatable-custom-paginator>
 
         <update-status-claims :claim="claim" :dataFilter="dataFilter"></update-status-claims>
@@ -47,7 +47,6 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import {Action, State} from 'vuex-class';
     import OrganizationState from '../../../../store/functional/organization/types';
-    import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
     import UserState from '../../../../store/common/user/types';
     import UpdateStatusClaims from '@/components/functional/claims/UpdateStatusClaims.vue';
     import throttle from '../../../../store/util/operations/throttle';
@@ -56,11 +55,9 @@
     import IPaginationState from '../../../../store/util/pagination/types';
     import CommentState from '../../../../store/functional/comment/types';
     import AppService from '@/domain/services/common/AppService';
-    import Applicant from '@/views/functional/applications/specialist/filters/Applicant.vue';
-    import Phone from '@/views/functional/applications/specialist/filters/Phone.vue';
-    import Address from '@/views/functional/applications/specialist/filters/Address.vue';
-    import Date from '@/views/functional/applications/specialist/filters/Date.vue';
     import BaseFilter from '@/components/base/BaseFilter.vue';
+    import SearchField from '@/components/base/filters/SearchFieldNew.vue';
+    import DateField from '@/components/base/filters/DateField.vue';
 
     @Component({
         components: {
@@ -87,22 +84,19 @@
         @Action('getAllClaimsOfOrganization')
         public getAllClaimsOfOrganization;
 
-        @Action('getAllClaimsOfOrganization2')
-        public getAllClaimsOfOrganization2;
-
         @Action('getAllChildrenOrganization')
         public getAllChildrenOrganization;
 
         @Provide()
         public tableColumns = [
             {label: 'Дата', name: 'date', filter: false,
-            component: Date, sort: 'asc', hover: false},
+            component: DateField, sort: 'asc', hover: false, dataFilterString: 'date'},
             {label: 'Заявитель', name: 'initials', filter: false,
-            component: Applicant, sort: false, hover: false },
+            component: SearchField, sort: false, hover: false, dataFilterString: 'initials'},
             {label: 'Телефон', name: 'phone', filter: false,
-            component: Phone, sort: false, hover: false},
+            component: SearchField, sort: false, hover: false, dataFilterString: 'phone'},
             {label: 'Адрес (район / адрес)', name: 'address', filter: false,
-            component: Address, sort: false, hover: false},
+            component: SearchField, sort: false, hover: false, dataFilterString: 'address'},
             {label: '', icon: 'fas fa-cog'},
         ];
 
@@ -120,16 +114,6 @@
                 {name : ''},
             ],
         };
-        // TODO: убрать в родителя
-        constructor() {
-            super();
-            headings.title = 'Новые заявки';
-            plusButton.visible = false;
-        }
-
-        get throttledSearch() {
-            return throttle(this.startSearch, 2000);
-        }
 
         get dataFilter() {
             return {
@@ -141,27 +125,24 @@
         }
 
         public fullname(claim) {
-            if (claim.hasOwnProperty('applicant')) {
-                const key = ['firstname', 'middlename', 'lastname'];
-                return AppService.assembleString(claim.applicant, key);
-            } else {
-                return AppService.assembleString({}, []);
-            }
+            const key = ['firstname', 'middlename', 'lastname'];
+            return AppService.assembleStringCheck(claim, key, 'applicant');
         }
 
         public address(claim) {
-            if (claim.hasOwnProperty('address')) {
-                const key = ['city', 'district', 'street', 'building'];
-                return AppService.assembleString(claim.address, key, ', ');
-            } else {
-                return AppService.assembleString({}, []);
-            }
+            const key = ['city', 'district', 'street', 'building'];
+            return AppService.assembleStringCheck(claim, key, 'address', ', ');
+        }
+
+        public phone(claim) {
+            const key = ['phone'];
+            return AppService.assembleStringCheck(claim, key, 'applicant');
         }
 
         public startSearch() {
             // Обнулить и поставить страницу №1
             this.paginationState.currentPage = 1;
-            this.getAllClaimsOfOrganization2(this.dataFilter);
+            this.getAllClaimsOfOrganization(this.dataFilter);
         }
 
         public created() {
@@ -206,6 +187,18 @@
             this.dataFilter.direction = sort;
             this.dataFilter.field = row.name;
             this.startSearch();
+        }
+
+        public search(value: any) {
+            throttle(this.startSearch, 2000)();
+        }
+
+        public searchByDate(value: any) {
+            this.startSearch();
+        }
+
+        public dataFilterString(column) {
+            return this.dataFilter[column.dataFilter];
         }
 
     }

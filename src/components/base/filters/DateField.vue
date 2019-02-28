@@ -28,15 +28,15 @@
 
         @State('pagination') public paginationState!: IPaginationState;
 
-        @Action('getAllClaimsOfOrganization2')
-        public getAllClaimsOfOrganization2;
+        @Action('getAllClaimsOfOrganization')
+        public getAllClaimsOfOrganization;
 
         public startSearch() {
             this.paginationState.currentPage = 1;
 
             this.dataFilter.minDate = (this.minDate) ? moment(this.minDate).format('YYYY-MM-DD hh:mm:ss') : '';
             this.dataFilter.maxDate = (this.maxDate) ? moment(this.maxDate).format('YYYY-MM-DD hh:mm:ss') : '';
-            this.getAllClaimsOfOrganization2(this.dataFilter);
+            this.getAllClaimsOfOrganization(this.dataFilter);
         }
 
     }
