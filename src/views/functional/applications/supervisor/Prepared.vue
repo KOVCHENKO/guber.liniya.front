@@ -1,66 +1,40 @@
-<!--Созданные заявки-->
 <template>
     <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="current-tab">
         <div class="main-page">
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th colspan="4">
-                        <input v-model="searchField" @input="throttledSearch" class="form-control input-search" placeholder="Поиск по заявителю, телефону">
-                    </th>
-                    <th colspan="1" class="cst-col-190 cst-col-select">
-                        <select class="form-control" id="inputGroupSelect01" v-model="dispatchStatusFilter" v-on:change="startSearch">
-                            <option value="all">Статус приема</option>
-                            <!--<option value="raw">Необработанна</option>-->
-                            <option value="edited">Отредактирована</option>
-                            <option value="dispatched">Отправлена</option>
-                            <option value="prepared">Создана</option>
-                        </select>
-                    </th>
-                    <th colspan="1" class="cst-col-188 cst-col-select">
-                        <select class="form-control" id="inputGroupSelect02" v-model="statusFilter" v-on:change="startSearch">
-                            <option value="all">Статус обработки</option>
-                            <option value="assigned">Назначена</option>
-                            <option value="executed">Выполнена</option>
-                            <option value="rejected">Отказано</option>
-                        </select>
-                    </th>
-                    <th colspan="1" class="cst-col-213 cst-col-select">
-                        <select class="form-control" id="inputGroupSelect03" v-model="closeStatusFilter" v-on:change="startSearch">
-                            <option value="all">Статус закрытия</option>
-                            <option value="not_executed">Ничего не сделано</option>
-                            <option value="executed_partially">Выполнена частично</option>
-                            <option value="executed_totally">Выполнена полностью</option>
-                        </select>
-                    </th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">
-                        {{column.label}}
-                        <i v-if="column.sorting" class="fas fa-sort" @click="makeSorting(column.column)"></i>
+                    <th scope="col" v-for="(column, index) in tableColumns" :key="index" class="cst-col">{{column.label}}
+                        <span v-if="column.hasOwnProperty('filter')">
+                                    <span><i class="fas fa-filter container-icon" @click="useFilter(column)"></i></span>
+                                    <base-filter :column="column">
+                                        <component @search="assignDataFilter($event)" v-bind:is="column.component" :dataFilter.sync="column.dataFilter"></component>
+                                    </base-filter>
+                                </span>
+                        <span v-if="column.hasOwnProperty('sort')" @click="sortClaims(column)">
+                                    <i class="fas cst-sort" @mouseenter="column.hover = !(column.sort) ? 'fa-sort-up' : ''" @mouseleave="column.hover=''"
+                                       v-bind:class="[ column.hover, { 'fa-sort-up' : (column.sort === 'asc'), 'fa-sort-down': (column.sort === 'desc') }]"></i>
+                                </span>
+                        <span v-if="column.hasOwnProperty('icon')">
+                                <i v-bind:class="[column.icon]"></i>
+                            </span>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <!-- <span> -->
-                <tr :class="[{ expiredClaim: claim.expired }, setClass(claim.dispatch_status)]" class="dispatch-status-background" v-for="(claim, index) in claims" :key="index">
-                    <th>{{claim.created_at_shortened}}</th>
-                    <td>{{claim.firstname}} {{claim.middlename}} {{claim.lastname}}</td>
-                    <td>{{claim.phone}}</td>
+                <tr :class="[{ expiredClaim: claim.expired }]" class="dispatch-status-background" v-for="(claim, index) in claims" :key="index">
+                    <th>{{ claim.created_at_shortened }}</th>
+                    <td>{{ claim.applicant.lastname }} {{ claim.applicant.firstname }} {{ claim.applicant.middlename }}</td>
+                    <td>{{ claim.phone }}</td>
                     <td>{{ claim.address.district }} / {{ claim.address.location }}</td>
-                    <td class="cst-col-190">{{ claim.dispatch_status }}</td>
-                    <td class="cst-col-188" style="color:red" v-if="claim.status === 'rejected'" @click="reassignToAnotherOrganization(claim)">{{ claim.translatedStatus }}</td>
-                    <td class="cst-col-213" v-if="claim.status !== 'rejected'">{{ claim.translatedStatus }}</td>
-                    <td >{{ claim.translatedCloseStatus }}</td>
                     <td>
                         <div style="cursor: pointer;" @click="show(claim)">
                             <i class="fas fa-pencil-alt"></i>
                         </div>
                     </td>
                     <td v-if="claim.responsible_organization === ''">Информация отсутсвует</td>
-                    <td v-else>{{ claim.responsible_organization[0].name }}</td>
+                    <td v-else>{{ claim.responsibleOrganizationName }}</td>
                 </tr>
                 <!-- </span> -->
                 </tbody>
@@ -68,10 +42,7 @@
 
             <datatable-custom-paginator
                     v-on:setAnotherPage="getAllClaims({
-                        dispatchStatus: $route.params.dispatch_status,
-                        dispatchStatusFilter: dispatchStatusFilter,
-                        statusFilter: statusFilter,
-                        closeStatusFilter: closeStatusFilter,
+                        dispatchStatus: dispatchStatusFilter,
                      })"
             ></datatable-custom-paginator>
 
@@ -88,19 +59,20 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import DatatableCustomized from '@/components/util/DatatableCustomized.vue';
     import DatatableCustomPaginator from '@/components/util/DatatableCustomPaginator.vue';
-    import UpdateApplication from '@/components/functional/applications/DispatcherApplications/UpdateApplication.vue';
+    import UpdateApplication from '@/views/functional/applications/dispatcher/partials/UpdateApplication.vue';
     import ReassignToAnotherOrganization from '@/components/functional/applications/DispatcherApplications/ReassignToAnotherOrganization.vue';
     import {Action, State} from 'vuex-class';
     import ClaimState from '@/store/functional/claim/types';
     import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
-    import Claim from '@/domain/entities/functional/Claim';
-    import Address from '@/domain/entities/functional/Address';
     import Problem from '@/domain/entities/functional/Problem';
-    import throttle from '@/store/util/operations/throttle';
     import IWithRoute from '@/domain/util/interface/IWithRoute';
-    import Call from '@/domain/entities/functional/Call';
     import ClaimService from '@/domain/services/functional/claims/ClaimService';
     import IPaginationState from '@/store/util/pagination/types';
+    import {PREPARED} from '@/domain/services/functional/roles/interfaces/dispatchStatusTypes';
+    import BaseFilter from '@/components/base/BaseFilter.vue';
+    import SearchField from '@/components/base/filters/SearchField.vue';
+    import DateField from '@/components/base/filters/DateField.vue';
+    import {socket} from '@/bootstrap';
 
     @Component({
         components: {
@@ -108,38 +80,45 @@
             UpdateApplication,
             DatatableCustomPaginator,
             ReassignToAnotherOrganization,
+            BaseFilter,
         },
     })
-    export default class DispatcherApplications extends Vue implements IWithRoute {
+    export default class PreparedClaims extends Vue implements IWithRoute {
         // Фильтры - Поиск, Статус приема, Статус обработки, Статус выполнения
-        @Provide() public searchField: string = '';
-        @Provide() public dispatchStatusFilter: string = 'all';
-        @Provide() public statusFilter: string = 'all';
-        @Provide() public closeStatusFilter: string = 'all';
+        @Provide() public dispatchStatusFilter: string = PREPARED;
 
         // Поле сортировки
         public sortBy: string = 'created_at';
         public sortDirection: string = 'desc';
 
         @Provide()
-        public tableColumns = [
-            { label: 'Дата', sorting: true, column: 'created_at' },
-            { label: 'Заявитель', sorting: true, column: 'lastname' },
-            { label: 'Телефон', sorting: true, column: 'phone' },
-            { label: 'Адрес (район / адрес)', sorting: false, column: 'address' },
-            { label: 'Статус приема', sorting: false, column: 'dispatch_status' },
-            { label: 'Статус обработки', sorting: false, column: 'status' },
-            { label: 'Статус закрытия', sorting: false, column: 'close_status' },
+        private dataFilter = {
+            date: {
+                minDate: '',
+                maxDate: '',
+            },
+            applicant: '',
+            phone: '',
+            address: '',
+        };
+
+        @Provide()
+        private tableColumns = [
+            { label: 'Дата', sorting: true, column: 'created_at', filter: false, component: DateField, dataFilter: 'date' },
+            { label: 'Заявитель', sorting: true, column: 'lastname', filter: false, component: SearchField, dataFilter: 'applicant' },
+            { label: 'Телефон', sorting: true, column: 'phone', filter: false, component: SearchField, dataFilter: 'phone' },
+            { label: 'Адрес (район / адрес)', sorting: false, filter: false, column: 'address', component: SearchField, dataFilter: 'address' },
             { label: '', sorting: false, column: '' },
             { label: 'Организация', sorting: false, column: 'responsible_organizations' },
         ];
 
-        @State('claim') public claimState!: ClaimState;
-        @State('pagination') public paginationState!: IPaginationState;
+
+        @State('claim') private claimState!: ClaimState;
+        @State('pagination') private paginationState!: IPaginationState;
 
 
-        @Action public getAllClaims;
-        @Action public searchClaim;
+        @Action private getAllClaims;
+        @Action private searchClaim;
 
         constructor() {
             super();
@@ -148,19 +127,20 @@
             plusButton.title = 'Добавить заявку';
         }
 
-        public created() {
+        private created() {
+            // this.listenToEvents();
+
             this.getAllClaims({
-                dispatchStatus: this.$route.params.dispatch_status,
-                dispatchStatusFilter: this.dispatchStatusFilter,
+                dispatchStatus: PREPARED,
             });
         }
 
-        public show(claim) {
+        private show(claim) {
             this.makeClaim(claim);
             $('#updateApplication').modal('show');
         }
 
-        public makeClaim(claim) {
+        private makeClaim(claim) {
             let problem = new Problem(0, '', '');
 
             if (claim.problem !== null) {
@@ -169,34 +149,78 @@
 
             this.claimState.claim = claim;
 
-            // this.claimState.claim = new Claim(claim.id, 'no_name', claim.description, claim.firstname,
-            //     claim.middlename, claim.lastname, claim.phone, claim.email, claim.link, claim.status,
-            //     claim.dispatch_status, null, claim.level, claim.parents, claim.comments,
-            //     new Address(claim.address.id, claim.address.district, claim.address.location), problem,
-            //     new Call(0, '', '', '', 'success', 'in',  '', '', ''));
-
             // Подтверждающие файлы
             this.claimState.confirmationFiles = claim.files;
 
             // Ответственные организации
             this.claimState.responsibleOrganizations = claim.responsible_organization;
+
+            // Заявитель
+            this.claimState.claim.applicant = claim.applicant;
         }
 
-        public setClass(dispatchStatus) {
-            if (dispatchStatus === 'Необработанна') {
-                return 'dis-status-yellow-background';
-            } else if (dispatchStatus === 'Отредактирована') {
-                return 'dis-status-gray-background';
-            } else if (dispatchStatus === 'Отправлена') {
-                return 'dis-status-green-background';
-            } else if (dispatchStatus === 'Создана') {
-                return 'dis-status-red-background';
-            }
-            return '';
+        private startSearch() {
+            // Обнулить и поставить страницу №1
+            this.paginationState.currentPage = 1;
+
+            this.searchClaim({
+                search: this.dataFilter,
+                dispatchStatus: PREPARED,
+                sortBy: this.sortBy,
+                sortDirection: this.sortDirection,
+            });
         }
 
-        get throttledSearch() {
-            return throttle(this.startSearch, 2000);
+        /**
+         * Переназначить другой организации
+         */
+        private reassignToAnotherOrganization(claim) {
+            this.makeClaim(claim);
+            $('#reassignToAnotherOrganization').modal('show');
+        }
+
+        /**
+         * Сортировка
+         * @param columnName
+         */
+        private makeSorting(columnName) {
+            this.sortDirection === 'desc' ? this.sortDirection = 'asc' : this.sortDirection = 'desc';
+            this.sortBy = columnName;
+            this.startSearch();
+        }
+
+        /**
+         * Отобразить фильтр для определенного столбца и скрыть остальные
+         * @param row определенный столбец таблицы
+         */
+        private useFilter(row) {
+            const filter = !row.filter;
+            this.tableColumns.map((column) => {
+                if (column.hasOwnProperty('filter')) {
+                    column.filter = false;
+                }
+                return column;
+            });
+            row.filter = filter;
+        }
+
+
+        /**
+         * 1. Применить определенный dataFilter на поле
+         * 2. Начать поиск
+         */
+        private assignDataFilter(value: any) {
+            this.dataFilter[value.field] = value.string;
+            this.startSearch();
+        }
+
+        /**
+         * Слушаем события на создание
+         */
+        private listenToEvents() {
+            socket.on('new_claim', (data) => {
+                // console.log(data);
+            });
         }
 
         /**
@@ -208,54 +232,9 @@
             this.claimState.claims = ClaimService.addTranslatedClaimStatus(this.claimState.claims);
             this.claimState.claims = ClaimService.addTranslatedCloseStatus(this.claimState.claims);
             this.claimState.claims = ClaimService.changeTimeFormat(this.claimState.claims);
+            this.claimState.claims = ClaimService.setExecutiveOrganization(this.claimState.claims);
 
             return this.claimState.claims;
-        }
-
-        public startSearch() {
-            // Обнулить и поставить страницу №1
-            this.paginationState.currentPage = 1;
-
-            // Начать поиск
-            if (this.searchField === '') {
-                this.getAllClaims({
-                    dispatchStatus: this.$route.params.dispatch_status,
-                    dispatchStatusFilter: this.dispatchStatusFilter,
-                    statusFilter: this.statusFilter,
-                    closeStatusFilter: this.closeStatusFilter,
-                    sortBy: this.sortBy,
-                    sortDirection: this.sortDirection,
-                });
-                return;
-            }
-
-            this.searchClaim({
-                search: this.searchField,
-                dispatchStatus: this.$route.params.dispatch_status,
-                dispatchStatusFilter: this.dispatchStatusFilter,
-                statusFilter: this.statusFilter,
-                closeStatusFilter: this.closeStatusFilter,
-                sortBy: this.sortBy,
-                sortDirection: this.sortDirection,
-            });
-        }
-
-        /**
-         * Переназначить другой организации
-         */
-        public reassignToAnotherOrganization(claim) {
-            this.makeClaim(claim);
-            $('#reassignToAnotherOrganization').modal('show');
-        }
-
-        /**
-         * Сортировка
-         * @param columnName
-         */
-        public makeSorting(columnName) {
-            this.sortDirection === 'desc' ? this.sortDirection = 'asc' : this.sortDirection = 'desc';
-            this.sortBy = columnName;
-            this.startSearch();
         }
     }
 

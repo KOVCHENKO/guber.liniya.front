@@ -110,6 +110,7 @@
         }
 
         public mounted() {
+            // TODO: Посмотреть, при необходимости убрать
             // $('#incomingCallNotificationModal').modal('show');
             // $('#resolveNewCall').modal('show');
         }
