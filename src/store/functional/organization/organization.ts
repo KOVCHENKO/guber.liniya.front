@@ -120,7 +120,7 @@ export const actions: ActionTree<OrganizationState, RootState> = {
     async getClaimsToChildrenOrganization({rootState, dispatch}, payload) {
         try {
 
-            const filter = ['status', 'initials', 'phone', 'address', 'minDate', 'maxDate', 'page', 'field', 'direction'];
+            const filter = ['status', 'initials', 'phone', 'address', 'minDate', 'maxDate', 'page', 'field', 'direction', 'org'];
             payload.page = rootState.pagination.currentPage;
             const paramUrl = AppService.assembleParamUrl(payload, filter);
 

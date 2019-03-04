@@ -22,6 +22,7 @@
                 <tbody>
                     <tr v-for="(claim, index) in claims" :key="index">
                         <td>{{claim.created_at_shortened}}</td>
+                        <td>{{ nameOrg(claim) }}</td>
                         <td>{{ fullname(claim) }}</td>
                         <td><span>{{ phone(claim) }}</span></td> 
                         <td>{{ address(claim) }}</td>
@@ -94,6 +95,8 @@
         public tableColumns = [
             {label: 'Дата', name: 'date', filter: false,
             component: DateField, sort: 'asc', hover: false, dataFilterString: 'date'},
+            {label: 'Организация', name: 'org', filter: false,
+            component: SearchField, sort: false, hover: false, dataFilterString: 'org'},
             {label: 'Заявитель', name: 'initials', filter: false,
             component: SearchField, sort: false, hover: false, dataFilterString: 'initials'},
             {label: 'Телефон', name: 'phone', filter: false,
@@ -120,7 +123,7 @@
 
         constructor() {
             super();
-            headings.title = 'Новые заявки';
+            headings.title = 'Заявки организаций';
             plusButton.visible = false;
         }
 
@@ -146,6 +149,15 @@
         public phone(claim) {
             const key = ['phone'];
             return AppService.assembleStringCheck(claim, key, 'applicant');
+        }
+
+        public nameOrg(claim) {
+            if (claim.hasOwnProperty('responsible_organization') &&
+                claim.responsible_organization.length > 0) {
+                return claim.responsible_organization[0].name;
+            } else {
+                return 'Нет данных';
+            }
         }
 
         public startSearch() {
