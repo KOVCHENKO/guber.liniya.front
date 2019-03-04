@@ -43,9 +43,16 @@
 <script lang="ts">
 
     import {Component, Vue} from 'vue-property-decorator';
+    import {headings, plusButton} from '@/domain/util/interface/CommonInterface';
 
     @Component
     export default class SpecialistApplications extends Vue {
+
+        constructor() {
+            super();
+            headings.title = 'Заявки';
+            plusButton.visible = false;
+        }
 
         public created() {
             this.$router.push({ name: 'specialist_created_claims' });

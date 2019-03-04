@@ -40,10 +40,10 @@
                                             <p>{{ fullname }}</p>
                                             <div class="row">
                                                 <div class="col-sm-4">
-                                                    <p><span class="color-light-grey">Телефон:</span><br> {{claim.phone}}</p>
+                                                    <p><span class="color-light-grey">Телефон:</span><br> {{phone}}</p>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <p><span class="color-light-grey">E-mail:</span><br> {{claim.email}}</p>
+                                                    <p><span class="color-light-grey">E-mail:</span><br> {{email}}</p>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <p><span class="color-light-grey">Адрес:</span><br> {{address}}</p>
@@ -73,7 +73,7 @@
                                         <!--Создана и переназначена другой организации-->
                                         <span v-if="checkCreateClaimAndReassign">
                                             <h6>Заявка назначена другой организации:</h6>
-                                            <p>{{claim.responsible_organization[0].name}}</p>
+                                            <p>{{ nameOrg }}</p>
                                         </span>
 
                                         <!--Назначена / Взята в работу-->
@@ -149,7 +149,7 @@
 
         @Prop() public claim: any;
 
-        @Prop() public sortByData: any;
+        @Prop() public dataFilter: any;
 
         @Action public submitConfirmationFile;
 
@@ -181,35 +181,47 @@
 
         @Action public createComment;
 
+        get nameOrg() {
+            if (this.claim.hasOwnProperty('responsible_organization') &&
+                this.claim.responsible_organization.length > 0) {
+                return this.claim.responsible_organization[0].name;
+            } else {
+                return 'Нет данных';
+            }
+        }
+
         get fullname() {
             const key = ['firstname', 'middlename', 'lastname'];
-            return AppService.assembleString(this.claim, key);
+            return AppService.assembleStringCheck(this.claim, key, 'applicant');
         }
 
         get address() {
-            if (this.claim.hasOwnProperty('address')) {
-                const key = ['district', 'location'];
-                return AppService.assembleString(this.claim.address, key, ', ');
-            } else {
-                return AppService.assembleString({}, []);
-            }
+            const key = ['city', 'district', 'street', 'building'];
+            return AppService.assembleStringCheck(this.claim, key, 'address', ', ');
+        }
+
+        get phone() {
+            const key = ['phone'];
+            return AppService.assembleStringCheck(this.claim, key, 'applicant');
+        }
+
+        get email() {
+            const key = ['email'];
+            return AppService.assembleStringCheck(this.claim, key, 'applicant');
         }
 
         get checkCreateClaim() {
             return (this.claim.status === 'created'
-                && this.claim.hasOwnProperty('pivot')
-                && this.claim.pivot.organization_id === this.userState.user.organization.id);
+                && this.claim.organization_id === this.userState.user.organization.id);
         }
 
         get checkCreateClaimAndReassign() {
-            return (this.claim.hasOwnProperty('pivot')
-                && this.claim.pivot.organization_id !== this.userState.user.organization.id);
+            return (this.claim.organization_id !== this.userState.user.organization.id);
         }
 
         get checkAssignedClaim() {
             return (this.claim.status === 'assigned'
-                && this.claim.hasOwnProperty('pivot')
-                && this.claim.pivot.organization_id === this.userState.user.organization.id);
+                && this.claim.organization_id === this.userState.user.organization.id);
         }
 
         get checkPossibilityExecute() {
@@ -226,8 +238,7 @@
 
         get checkAddingInfoByClaim() {
             return ((this.statusData === 'rejected' || this.claim.status === 'assigned')
-                && this.claim.hasOwnProperty('pivot')
-                && this.claim.pivot.organization_id === this.userState.user.organization.id);
+                && this.claim.organization_id === this.userState.user.organization.id);
         }
 
         // // TODO: получение текущего статуса заявки, когда открывается окно
@@ -252,11 +263,7 @@
             // Заявка выполнена. Изменяем статус заявки с assigned на executed. Добавляем комментарий
             if (this.booleanAssigned === true && this.claim.status === 'assigned') {
                 this.changeStatusClaim({id : this.claim.id, status : 'executed' }).then(() => {
-                    this.getAllClaimsOfOrganization({
-                        organization_id: this.userState.user.organization.id,
-                        dispatchStatusFilter: 'all',
-                        search: '', sortByData: this.sortByData,
-                    });
+                    this.getAllClaimsOfOrganization(this.dataFilter);
                     this.closeDialog();
 
                     this.commentState.comment.claim_id = this.claim.id;
@@ -273,11 +280,7 @@
             // Приянть в работу. Изменяем статус заявки на assigned
             if (this.statusData === 'assigned') {
                 this.changeStatusClaim({id : this.claim.id, status : this.statusData }).then(() => {
-                    this.getAllClaimsOfOrganization({
-                        organization_id: this.userState.user.organization.id,
-                        dispatchStatusFilter: 'all',
-                        search: '', sortByData: this.sortByData,
-                    });
+                    this.getAllClaimsOfOrganization(this.dataFilter);
                     this.closeDialog();
                 });
                 return;
@@ -286,11 +289,7 @@
             if (this.statusData === 'redirect') {
                 this.changeOrganization({id : this.claim.id, id_old_organization : this.userState.user.organization.id,
                         id_new_organization : this.childOrganization }).then(() => {
-                    this.getAllClaimsOfOrganization({
-                        organization_id: this.userState.user.organization.id,
-                        dispatchStatusFilter: 'all',
-                        search: '', sortByData: this.sortByData,
-                    });
+                    this.getAllClaimsOfOrganization(this.dataFilter);
                     this.closeDialog();
                 });
                 return;
@@ -298,11 +297,7 @@
             // Отказаться. Изменяем статус заявки на rejected. Добавляем комментарий
             if (this.statusData === 'rejected') {
                 this.changeStatusClaim({id : this.claim.id, status : this.statusData }).then(() => {
-                    this.getAllClaimsOfOrganization({
-                        organization_id: this.userState.user.organization.id,
-                        dispatchStatusFilter: 'all',
-                        search: '', sortByData: this.sortByData,
-                    });
+                    this.getAllClaimsOfOrganization(this.dataFilter);
                     this.closeDialog();
 
                     this.commentState.comment.claim_id = this.claim.id;

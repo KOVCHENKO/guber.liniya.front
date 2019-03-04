@@ -2,6 +2,17 @@ class AppService {
     static checkEmptyValue(value) {
         return (value != null && value !== '');
     }
+    static checkProperty(object, property) {
+        return (object.hasOwnProperty(property) && object[property] !== null);
+    }
+    static assembleStringCheck(object, key, property, bind = ' ') {
+        if (this.checkProperty(object, property)) {
+            return this.assembleString(object[property], key, bind);
+        }
+        else {
+            return AppService.assembleString({}, [], bind);
+        }
+    }
     static assembleString(array, key, bind = ' ') {
         let line = '';
         const self = this;
