@@ -1,23 +1,23 @@
 <template>
     <!-- Модальное окно на входящий звонок -->
     <div class="modal fade" id="incomingCallNotificationModal" tabindex="-1" role="dialog" aria-labelledby="incomingCallNotificationModalLabel" aria-hidden="true" data-backdrop="false">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog notificationModal" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="incomingCallNotificationModalLabel">Входящий звонок</h5>
+                <div class="notificationModalHead">
+                    <div>Входящий звонок</div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
+                <div class="notificationModalBody">                    
+                    <div>
                         Телефон: {{ callState.incomingCall.phone }}
                     </div>
-                    <div class="row">
+                    <div>
                         Заявитель: {{ applicantState.applicant.lastname}}
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="notificationModalFooter">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Проигнорировать</button>
                     <button type="button" class="btn btn-primary" @click="acceptCall">Принять звонок</button>
                 </div>
