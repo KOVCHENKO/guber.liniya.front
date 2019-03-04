@@ -41,7 +41,7 @@
                                     <input id="call_supposed_applicant" value="Иванов Иван Иванович" disabled/>
                                 </div>
                                 <div class="col-sm-3">
-                                    <span id="new_call_applicant_claims">
+                                    <span id="new_call_applicant_claims" class="cst-spanButton">
                                         <span @click="showApplicantCard">Карточка</span> /
                                         <span @click="showApplicantClaims">Заявки</span>
                                     </span>
@@ -49,8 +49,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button type="button" class="btn btn-primary">Новый</button>
-                                    <button type="button" class="btn btn-primary">Список</button>
+                                    <button type="button" class="btn btn-primary cst-margin">Новый</button>
+                                    <button type="button" class="btn btn-primary cst-margin">Список</button>
                                 </div>
                             </div>
                         </div>
@@ -70,14 +70,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div slot="page3">
-                            <button type="button" class="btn btn-primary" @click="addTask">Добавить</button>
-                            <div class="row" v-for="task in tasksCount">
+                        <div slot="page3" class="form-padding">
+                            <div class="cst-container-button">
+                                <button type="button" class="btn btn-primary" @click="addTask">Добавить</button>
+                            </div>
+                            <div class="cst-clear"></div>
+                            <div class="row" v-for="(task, index) in tasksCount" :key="index">
                                 <div class="col-sm-7">
-                                    <input value="Задача" placeholder="Наименование работ" v-model="task.name"/>
+                                    <input class="form-control" value="Задача" placeholder="Наименование работ" v-model="task.name"/>
                                 </div>
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <select class="form-control" name="organization" id="organization" v-model="task.organizationId">
                                         <option v-for="(organization, index) in organizationState.organizations" :key="index" :value="organization.id">
                                             {{ organization.name }}
@@ -189,9 +192,3 @@
 
     }
 </script>
-
-<style>
-    #new_call_applicant_claims {
-        margin-left: 30px;
-    }
-</style>
