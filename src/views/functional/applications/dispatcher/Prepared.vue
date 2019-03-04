@@ -1,6 +1,6 @@
 <template>
     <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="current-tab">
-        <div class="main-page">
+        <br>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -45,8 +45,6 @@
                         dispatchStatus: dispatchStatusFilter,
                      })"
             ></datatable-custom-paginator>
-
-        </div>
 
         <update-application></update-application>
         <reassign-to-another-organization></reassign-to-another-organization>

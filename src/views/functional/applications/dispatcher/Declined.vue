@@ -1,6 +1,6 @@
 <template>
     <div class="tab-pane fade show active" id="current" role="tabpanel" aria-labelledby="executed-tab">
-        <div class="main-page">
+        <br>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -73,8 +73,6 @@
                         closeStatusFilter: closeStatusFilter,
                      })"
             ></datatable-custom-paginator>
-
-        </div>
 
         <update-application></update-application>
         <reassign-to-another-organization></reassign-to-another-organization>
