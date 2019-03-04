@@ -891,7 +891,10 @@ a.wizard__next.pull-right.final-step {
     width: 100%;
 }
 .cst-float-right {
-    float: right;
+    position: absolute;
+    right: 11px;
+    top: 0px;
+    z-index: 1;
 }
 .cst-container {
     padding: 20px 0;
@@ -925,8 +928,12 @@ a.wizard__next.pull-right.final-step {
 }
 .cst-card {
     position: absolute;
-    background: white;
     border: solid 1px #dee2e6;
+    padding: 10px;
+    background: rgba(235,241,247,.93);
+    input, select {
+        margin-top: 15px;
+    }
 }
 .cst-sort {
     width: 20px;
@@ -935,4 +942,16 @@ a.wizard__next.pull-right.final-step {
 }
 .cst-sort:hover {
     background: none;
+}
+.cst-datepicker {
+    input {
+        text-indent: 10px;
+    }
+    .cst-div-datepicker {
+        display: inline-block; 
+        width: 120px;
+        input {
+            width: 120px !important;
+        }
+    }
 }

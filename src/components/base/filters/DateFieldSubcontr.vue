@@ -1,7 +1,7 @@
 <template>
-    <div>
-        С: <datepicker :language="ru" v-model="minDate" @closed="startSearch"></datepicker>
-        По: <datepicker :language="ru" v-model="maxDate" @closed="startSearch"></datepicker>
+    <div class="cst-datepicker">
+        <datepicker class="cst-div-datepicker" style="margin-right: 10px;" placeholder="C" :language="ru" v-model="minDate" @closed="startSearch"></datepicker>
+        <datepicker class="cst-div-datepicker" placeholder="По" :language="ru" v-model="maxDate" @closed="startSearch"></datepicker>
     </div>
 </template>
 
