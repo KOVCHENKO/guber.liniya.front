@@ -1,6 +1,6 @@
 <template>
     <!-- Модальное окно на входящий звонок -->
-    <div class="modal fade" id="incomingCallNotificationModal" tabindex="-1" role="dialog" aria-labelledby="incomingCallNotificationModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal fade cst-notificationModal" id="incomingCallNotificationModal" tabindex="-1" role="dialog" aria-labelledby="incomingCallNotificationModalLabel" aria-hidden="true" data-backdrop="false">
         <div class="modal-dialog notificationModal" role="document">
             <div class="modal-content">
                 <div class="notificationModalHead">
